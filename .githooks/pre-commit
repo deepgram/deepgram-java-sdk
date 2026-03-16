@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Running pre-commit checks..."
+
+# Check if gradlew is available and executable
+if [ ! -x "./gradlew" ]; then
+    echo "Error: gradlew not found or not executable"
+    exit 1
+fi
+
+make check
+
+echo "All pre-commit checks passed!"

@@ -1,0 +1,10 @@
+{
+  "cliVersion": "4.4.1",
+  "generatorName": "fernapi/fern-java-sdk",
+  "generatorVersion": "4.0.3",
+  "generatorConfig": {
+    "client": {
+      "class-name": "DeepgramClient"
+    }
+  }
+}

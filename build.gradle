@@ -1,0 +1,73 @@
+plugins {
+    id 'java-library'
+    id 'com.diffplug.spotless' version '6.25.0'
+}
+
+group = 'com.deepgram'
+version = '0.1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // HTTP client
+    api 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    // JSON serialization
+    api 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    api 'com.fasterxml.jackson.core:jackson-core:2.18.2'
+    api 'com.fasterxml.jackson.core:jackson-annotations:2.18.2'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.2'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
+
+    // Annotations
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+
+    // Test dependencies
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
+    testImplementation 'org.assertj:assertj-core:3.25.3'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+    }
+}
+
+// Unit tests (exclude integration tests)
+tasks.register('unitTest', Test) {
+    useJUnitPlatform()
+    exclude '**/IntegrationTest*'
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+    }
+}
+
+// Integration tests only
+tasks.register('integrationTest', Test) {
+    useJUnitPlatform()
+    include '**/IntegrationTest*'
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+    }
+}
+
+spotless {
+    java {
+        target 'src/**/*.java'
+        googleJavaFormat('1.19.2')
+        removeUnusedImports()
+    }
+}

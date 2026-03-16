@@ -1,0 +1,41 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/**/*.java"
+      - "build.gradle"
+      - "settings.gradle"
+      - ".github/workflows/check-lint.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Spotless Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Run Spotless check
+        run: ./gradlew spotlessCheck
