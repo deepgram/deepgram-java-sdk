@@ -3,6 +3,7 @@ package resources.listen.v1.media.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -187,7 +188,7 @@ public final class ListenV1RequestUrl {
    * @return Arbitrary key-value pairs that are attached to the API response for usage in downstream
    *     processing
    */
-  @JsonProperty("extra")
+  @JsonIgnore
   public Optional<List<String>> getExtra() {
     return extra;
   }
@@ -195,7 +196,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Label your requests for the purpose of identification during usage reporting
    */
-  @JsonProperty("tag")
+  @JsonIgnore
   public Optional<List<String>> getTag() {
     return tag;
   }
@@ -204,7 +205,7 @@ public final class ListenV1RequestUrl {
    * @return Custom topics you want the model to detect within your input audio or text if present
    *     Submit up to <code>100</code>.
    */
-  @JsonProperty("custom_topic")
+  @JsonIgnore
   public Optional<List<String>> getCustomTopic() {
     return customTopic;
   }
@@ -212,7 +213,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Custom intents you want the model to detect within your input audio if present
    */
-  @JsonProperty("custom_intent")
+  @JsonIgnore
   public Optional<List<String>> getCustomIntent() {
     return customIntent;
   }
@@ -221,7 +222,7 @@ public final class ListenV1RequestUrl {
    * @return Key term prompting can boost or suppress specialized terminology and brands. Only
    *     compatible with Nova-3
    */
-  @JsonProperty("keyterm")
+  @JsonIgnore
   public Optional<List<String>> getKeyterm() {
     return keyterm;
   }
@@ -229,7 +230,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Keywords can boost or suppress specialized terminology and brands
    */
-  @JsonProperty("keywords")
+  @JsonIgnore
   public Optional<List<String>> getKeywords() {
     return keywords;
   }
@@ -237,7 +238,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Search for terms or phrases in submitted audio and replaces them
    */
-  @JsonProperty("replace")
+  @JsonIgnore
   public Optional<List<String>> getReplace() {
     return replace;
   }
@@ -245,7 +246,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Search for terms or phrases in submitted audio
    */
-  @JsonProperty("search")
+  @JsonIgnore
   public Optional<List<String>> getSearch() {
     return search;
   }
@@ -253,7 +254,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return URL to which we'll make the callback request
    */
-  @JsonProperty("callback")
+  @JsonIgnore
   public Optional<String> getCallback() {
     return callback;
   }
@@ -261,7 +262,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return HTTP method by which the callback request will be made
    */
-  @JsonProperty("callback_method")
+  @JsonIgnore
   public Optional<MediaTranscribeRequestCallbackMethod> getCallbackMethod() {
     return callbackMethod;
   }
@@ -269,7 +270,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Recognizes the sentiment throughout a transcript or text
    */
-  @JsonProperty("sentiment")
+  @JsonIgnore
   public Optional<Boolean> getSentiment() {
     return sentiment;
   }
@@ -278,7 +279,7 @@ public final class ListenV1RequestUrl {
    * @return Summarize content. For Listen API, supports string version option. For Read API,
    *     accepts boolean only.
    */
-  @JsonProperty("summarize")
+  @JsonIgnore
   public Optional<MediaTranscribeRequestSummarize> getSummarize() {
     return summarize;
   }
@@ -286,7 +287,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Detect topics throughout a transcript or text
    */
-  @JsonProperty("topics")
+  @JsonIgnore
   public Optional<Boolean> getTopics() {
     return topics;
   }
@@ -297,7 +298,7 @@ public final class ListenV1RequestUrl {
    *     <code>custom_topic</code> param. When <code>extended</code>, the model will return its own
    *     detected topics in addition to those submitted using the <code>custom_topic</code> param
    */
-  @JsonProperty("custom_topic_mode")
+  @JsonIgnore
   public Optional<MediaTranscribeRequestCustomTopicMode> getCustomTopicMode() {
     return customTopicMode;
   }
@@ -305,7 +306,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Recognizes speaker intent throughout a transcript or text
    */
-  @JsonProperty("intents")
+  @JsonIgnore
   public Optional<Boolean> getIntents() {
     return intents;
   }
@@ -316,7 +317,7 @@ public final class ListenV1RequestUrl {
    *     <code>custom_intent</code> param. When <code>extended</code>, the model will return its own
    *     detected intents in the <code>custom_intent</code> param.
    */
-  @JsonProperty("custom_intent_mode")
+  @JsonIgnore
   public Optional<MediaTranscribeRequestCustomIntentMode> getCustomIntentMode() {
     return customIntentMode;
   }
@@ -324,7 +325,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Identifies and extracts key entities from content in submitted audio
    */
-  @JsonProperty("detect_entities")
+  @JsonIgnore
   public Optional<Boolean> getDetectEntities() {
     return detectEntities;
   }
@@ -332,7 +333,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Identifies the dominant language spoken in submitted audio
    */
-  @JsonProperty("detect_language")
+  @JsonIgnore
   public Optional<Boolean> getDetectLanguage() {
     return detectLanguage;
   }
@@ -341,7 +342,7 @@ public final class ListenV1RequestUrl {
    * @return Recognize speaker changes. Each word in the transcript will be assigned a speaker
    *     number starting at 0
    */
-  @JsonProperty("diarize")
+  @JsonIgnore
   public Optional<Boolean> getDiarize() {
     return diarize;
   }
@@ -349,7 +350,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Dictation mode for controlling formatting with dictated speech
    */
-  @JsonProperty("dictation")
+  @JsonIgnore
   public Optional<Boolean> getDictation() {
     return dictation;
   }
@@ -357,7 +358,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Specify the expected encoding of your submitted audio
    */
-  @JsonProperty("encoding")
+  @JsonIgnore
   public Optional<MediaTranscribeRequestEncoding> getEncoding() {
     return encoding;
   }
@@ -366,7 +367,7 @@ public final class ListenV1RequestUrl {
    * @return Filler Words can help transcribe interruptions in your audio, like &quot;uh&quot; and
    *     &quot;um&quot;
    */
-  @JsonProperty("filler_words")
+  @JsonIgnore
   public Optional<Boolean> getFillerWords() {
     return fillerWords;
   }
@@ -376,7 +377,7 @@ public final class ListenV1RequestUrl {
    *     the primary spoken language. Depending on the Model and API endpoint you choose only
    *     certain languages are available
    */
-  @JsonProperty("language")
+  @JsonIgnore
   public Optional<String> getLanguage() {
     return language;
   }
@@ -384,7 +385,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Spoken measurements will be converted to their corresponding abbreviations
    */
-  @JsonProperty("measurements")
+  @JsonIgnore
   public Optional<Boolean> getMeasurements() {
     return measurements;
   }
@@ -392,7 +393,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return AI model used to process submitted audio
    */
-  @JsonProperty("model")
+  @JsonIgnore
   public Optional<MediaTranscribeRequestModel> getModel() {
     return model;
   }
@@ -400,7 +401,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Transcribe each audio channel independently
    */
-  @JsonProperty("multichannel")
+  @JsonIgnore
   public Optional<Boolean> getMultichannel() {
     return multichannel;
   }
@@ -408,7 +409,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Numerals converts numbers from written format to numerical format
    */
-  @JsonProperty("numerals")
+  @JsonIgnore
   public Optional<Boolean> getNumerals() {
     return numerals;
   }
@@ -416,7 +417,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Splits audio into paragraphs to improve transcript readability
    */
-  @JsonProperty("paragraphs")
+  @JsonIgnore
   public Optional<Boolean> getParagraphs() {
     return paragraphs;
   }
@@ -425,7 +426,7 @@ public final class ListenV1RequestUrl {
    * @return Profanity Filter looks for recognized profanity and converts it to the nearest
    *     recognized non-profane word or removes it from the transcript completely
    */
-  @JsonProperty("profanity_filter")
+  @JsonIgnore
   public Optional<Boolean> getProfanityFilter() {
     return profanityFilter;
   }
@@ -433,7 +434,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Add punctuation and capitalization to the transcript
    */
-  @JsonProperty("punctuate")
+  @JsonIgnore
   public Optional<Boolean> getPunctuate() {
     return punctuate;
   }
@@ -441,7 +442,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Redaction removes sensitive information from your transcripts
    */
-  @JsonProperty("redact")
+  @JsonIgnore
   public Optional<String> getRedact() {
     return redact;
   }
@@ -450,7 +451,7 @@ public final class ListenV1RequestUrl {
    * @return Apply formatting to transcript output. When set to true, additional formatting will be
    *     applied to transcripts to improve readability
    */
-  @JsonProperty("smart_format")
+  @JsonIgnore
   public Optional<Boolean> getSmartFormat() {
     return smartFormat;
   }
@@ -458,7 +459,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Segments speech into meaningful semantic units
    */
-  @JsonProperty("utterances")
+  @JsonIgnore
   public Optional<Boolean> getUtterances() {
     return utterances;
   }
@@ -466,7 +467,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Seconds to wait before detecting a pause between words in submitted audio
    */
-  @JsonProperty("utt_split")
+  @JsonIgnore
   public Optional<Double> getUttSplit() {
     return uttSplit;
   }
@@ -474,7 +475,7 @@ public final class ListenV1RequestUrl {
   /**
    * @return Version of an AI model to use
    */
-  @JsonProperty("version")
+  @JsonIgnore
   public Optional<MediaTranscribeRequestVersion> getVersion() {
     return version;
   }
@@ -483,7 +484,7 @@ public final class ListenV1RequestUrl {
    * @return Opts out requests from the Deepgram Model Improvement Program. Refer to our Docs for
    *     pricing impacts before setting this to true. https://dpgr.am/deepgram-mip
    */
-  @JsonProperty("mip_opt_out")
+  @JsonIgnore
   public Optional<Boolean> getMipOptOut() {
     return mipOptOut;
   }

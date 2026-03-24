@@ -3,9 +3,9 @@ package resources.manage.v1.projects.usage.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -207,7 +207,7 @@ public final class UsageGetRequest {
   /**
    * @return Start date of the requested date range. Format accepted is YYYY-MM-DD
    */
-  @JsonProperty("start")
+  @JsonIgnore
   public Optional<String> getStart() {
     return start;
   }
@@ -215,7 +215,7 @@ public final class UsageGetRequest {
   /**
    * @return End date of the requested date range. Format accepted is YYYY-MM-DD
    */
-  @JsonProperty("end")
+  @JsonIgnore
   public Optional<String> getEnd() {
     return end;
   }
@@ -223,7 +223,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where a specific accessor was used
    */
-  @JsonProperty("accessor")
+  @JsonIgnore
   public Optional<String> getAccessor() {
     return accessor;
   }
@@ -231,7 +231,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where alternatives were used
    */
-  @JsonProperty("alternatives")
+  @JsonIgnore
   public Optional<Boolean> getAlternatives() {
     return alternatives;
   }
@@ -239,7 +239,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where callback method was used
    */
-  @JsonProperty("callback_method")
+  @JsonIgnore
   public Optional<Boolean> getCallbackMethod() {
     return callbackMethod;
   }
@@ -247,7 +247,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where callback was used
    */
-  @JsonProperty("callback")
+  @JsonIgnore
   public Optional<Boolean> getCallback() {
     return callback;
   }
@@ -255,7 +255,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where channels were used
    */
-  @JsonProperty("channels")
+  @JsonIgnore
   public Optional<Boolean> getChannels() {
     return channels;
   }
@@ -263,7 +263,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where custom intent mode was used
    */
-  @JsonProperty("custom_intent_mode")
+  @JsonIgnore
   public Optional<Boolean> getCustomIntentMode() {
     return customIntentMode;
   }
@@ -271,7 +271,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where custom intent was used
    */
-  @JsonProperty("custom_intent")
+  @JsonIgnore
   public Optional<Boolean> getCustomIntent() {
     return customIntent;
   }
@@ -279,7 +279,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where custom topic mode was used
    */
-  @JsonProperty("custom_topic_mode")
+  @JsonIgnore
   public Optional<Boolean> getCustomTopicMode() {
     return customTopicMode;
   }
@@ -287,7 +287,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where custom topic was used
    */
-  @JsonProperty("custom_topic")
+  @JsonIgnore
   public Optional<Boolean> getCustomTopic() {
     return customTopic;
   }
@@ -295,7 +295,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where a specific deployment was used
    */
-  @JsonProperty("deployment")
+  @JsonIgnore
   public Optional<UsageGetRequestDeployment> getDeployment() {
     return deployment;
   }
@@ -303,7 +303,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where detect entities was used
    */
-  @JsonProperty("detect_entities")
+  @JsonIgnore
   public Optional<Boolean> getDetectEntities() {
     return detectEntities;
   }
@@ -311,7 +311,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where detect language was used
    */
-  @JsonProperty("detect_language")
+  @JsonIgnore
   public Optional<Boolean> getDetectLanguage() {
     return detectLanguage;
   }
@@ -319,7 +319,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where diarize was used
    */
-  @JsonProperty("diarize")
+  @JsonIgnore
   public Optional<Boolean> getDiarize() {
     return diarize;
   }
@@ -327,7 +327,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where dictation was used
    */
-  @JsonProperty("dictation")
+  @JsonIgnore
   public Optional<Boolean> getDictation() {
     return dictation;
   }
@@ -335,7 +335,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where encoding was used
    */
-  @JsonProperty("encoding")
+  @JsonIgnore
   public Optional<Boolean> getEncoding() {
     return encoding;
   }
@@ -343,7 +343,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where a specific endpoint was used
    */
-  @JsonProperty("endpoint")
+  @JsonIgnore
   public Optional<UsageGetRequestEndpoint> getEndpoint() {
     return endpoint;
   }
@@ -351,7 +351,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where extra was used
    */
-  @JsonProperty("extra")
+  @JsonIgnore
   public Optional<Boolean> getExtra() {
     return extra;
   }
@@ -359,7 +359,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where filler words was used
    */
-  @JsonProperty("filler_words")
+  @JsonIgnore
   public Optional<Boolean> getFillerWords() {
     return fillerWords;
   }
@@ -367,7 +367,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where intents was used
    */
-  @JsonProperty("intents")
+  @JsonIgnore
   public Optional<Boolean> getIntents() {
     return intents;
   }
@@ -375,7 +375,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where keyterm was used
    */
-  @JsonProperty("keyterm")
+  @JsonIgnore
   public Optional<Boolean> getKeyterm() {
     return keyterm;
   }
@@ -383,7 +383,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where keywords was used
    */
-  @JsonProperty("keywords")
+  @JsonIgnore
   public Optional<Boolean> getKeywords() {
     return keywords;
   }
@@ -391,7 +391,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where language was used
    */
-  @JsonProperty("language")
+  @JsonIgnore
   public Optional<Boolean> getLanguage() {
     return language;
   }
@@ -399,7 +399,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where measurements were used
    */
-  @JsonProperty("measurements")
+  @JsonIgnore
   public Optional<Boolean> getMeasurements() {
     return measurements;
   }
@@ -407,7 +407,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where a specific method was used
    */
-  @JsonProperty("method")
+  @JsonIgnore
   public Optional<UsageGetRequestMethod> getMethod() {
     return method;
   }
@@ -415,7 +415,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where a specific model uuid was used
    */
-  @JsonProperty("model")
+  @JsonIgnore
   public Optional<String> getModel() {
     return model;
   }
@@ -423,7 +423,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where multichannel was used
    */
-  @JsonProperty("multichannel")
+  @JsonIgnore
   public Optional<Boolean> getMultichannel() {
     return multichannel;
   }
@@ -431,7 +431,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where numerals were used
    */
-  @JsonProperty("numerals")
+  @JsonIgnore
   public Optional<Boolean> getNumerals() {
     return numerals;
   }
@@ -439,7 +439,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where paragraphs were used
    */
-  @JsonProperty("paragraphs")
+  @JsonIgnore
   public Optional<Boolean> getParagraphs() {
     return paragraphs;
   }
@@ -447,7 +447,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where profanity filter was used
    */
-  @JsonProperty("profanity_filter")
+  @JsonIgnore
   public Optional<Boolean> getProfanityFilter() {
     return profanityFilter;
   }
@@ -455,7 +455,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where punctuate was used
    */
-  @JsonProperty("punctuate")
+  @JsonIgnore
   public Optional<Boolean> getPunctuate() {
     return punctuate;
   }
@@ -463,7 +463,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where redact was used
    */
-  @JsonProperty("redact")
+  @JsonIgnore
   public Optional<Boolean> getRedact() {
     return redact;
   }
@@ -471,7 +471,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where replace was used
    */
-  @JsonProperty("replace")
+  @JsonIgnore
   public Optional<Boolean> getReplace() {
     return replace;
   }
@@ -479,7 +479,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where sample rate was used
    */
-  @JsonProperty("sample_rate")
+  @JsonIgnore
   public Optional<Boolean> getSampleRate() {
     return sampleRate;
   }
@@ -487,7 +487,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where search was used
    */
-  @JsonProperty("search")
+  @JsonIgnore
   public Optional<Boolean> getSearch() {
     return search;
   }
@@ -495,7 +495,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where sentiment was used
    */
-  @JsonProperty("sentiment")
+  @JsonIgnore
   public Optional<Boolean> getSentiment() {
     return sentiment;
   }
@@ -503,7 +503,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where smart format was used
    */
-  @JsonProperty("smart_format")
+  @JsonIgnore
   public Optional<Boolean> getSmartFormat() {
     return smartFormat;
   }
@@ -511,7 +511,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where summarize was used
    */
-  @JsonProperty("summarize")
+  @JsonIgnore
   public Optional<Boolean> getSummarize() {
     return summarize;
   }
@@ -519,7 +519,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where a specific tag was used
    */
-  @JsonProperty("tag")
+  @JsonIgnore
   public Optional<String> getTag() {
     return tag;
   }
@@ -527,7 +527,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where topics was used
    */
-  @JsonProperty("topics")
+  @JsonIgnore
   public Optional<Boolean> getTopics() {
     return topics;
   }
@@ -535,7 +535,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where utt split was used
    */
-  @JsonProperty("utt_split")
+  @JsonIgnore
   public Optional<Boolean> getUttSplit() {
     return uttSplit;
   }
@@ -543,7 +543,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where utterances was used
    */
-  @JsonProperty("utterances")
+  @JsonIgnore
   public Optional<Boolean> getUtterances() {
     return utterances;
   }
@@ -551,7 +551,7 @@ public final class UsageGetRequest {
   /**
    * @return Filter for requests where version was used
    */
-  @JsonProperty("version")
+  @JsonIgnore
   public Optional<Boolean> getVersion() {
     return version;
   }

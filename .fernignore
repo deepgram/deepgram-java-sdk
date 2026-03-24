@@ -1,0 +1,25 @@
+# Custom client wrappers (extend generated DeepgramApiClient with Bearer auth, session ID)
+src/main/java/DeepgramClient.java
+src/main/java/AsyncDeepgramClient.java
+src/main/java/DeepgramClientBuilder.java
+src/main/java/AsyncDeepgramClientBuilder.java
+
+# Custom project files
+.editorconfig
+.githooks/
+.github/
+.gitignore
+build.gradle
+CHANGELOG.md
+CONTRIBUTING.md
+examples/
+gradle/
+gradlew
+gradlew.bat
+LICENSE
+Makefile
+pom.xml
+README.md
+settings.gradle
+src/test/
+target/

@@ -3,6 +3,7 @@ package resources.read.v1.text.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -88,7 +89,7 @@ public final class TextAnalyzeRequest {
   /**
    * @return Label your requests for the purpose of identification during usage reporting
    */
-  @JsonProperty("tag")
+  @JsonIgnore
   public Optional<List<String>> getTag() {
     return tag;
   }
@@ -97,7 +98,7 @@ public final class TextAnalyzeRequest {
    * @return Custom topics you want the model to detect within your input audio or text if present
    *     Submit up to <code>100</code>.
    */
-  @JsonProperty("custom_topic")
+  @JsonIgnore
   public Optional<List<String>> getCustomTopic() {
     return customTopic;
   }
@@ -105,7 +106,7 @@ public final class TextAnalyzeRequest {
   /**
    * @return Custom intents you want the model to detect within your input audio if present
    */
-  @JsonProperty("custom_intent")
+  @JsonIgnore
   public Optional<List<String>> getCustomIntent() {
     return customIntent;
   }
@@ -113,7 +114,7 @@ public final class TextAnalyzeRequest {
   /**
    * @return URL to which we'll make the callback request
    */
-  @JsonProperty("callback")
+  @JsonIgnore
   public Optional<String> getCallback() {
     return callback;
   }
@@ -121,7 +122,7 @@ public final class TextAnalyzeRequest {
   /**
    * @return HTTP method by which the callback request will be made
    */
-  @JsonProperty("callback_method")
+  @JsonIgnore
   public Optional<TextAnalyzeRequestCallbackMethod> getCallbackMethod() {
     return callbackMethod;
   }
@@ -129,7 +130,7 @@ public final class TextAnalyzeRequest {
   /**
    * @return Recognizes the sentiment throughout a transcript or text
    */
-  @JsonProperty("sentiment")
+  @JsonIgnore
   public Optional<Boolean> getSentiment() {
     return sentiment;
   }
@@ -138,7 +139,7 @@ public final class TextAnalyzeRequest {
    * @return Summarize content. For Listen API, supports string version option. For Read API,
    *     accepts boolean only.
    */
-  @JsonProperty("summarize")
+  @JsonIgnore
   public Optional<TextAnalyzeRequestSummarize> getSummarize() {
     return summarize;
   }
@@ -146,7 +147,7 @@ public final class TextAnalyzeRequest {
   /**
    * @return Detect topics throughout a transcript or text
    */
-  @JsonProperty("topics")
+  @JsonIgnore
   public Optional<Boolean> getTopics() {
     return topics;
   }
@@ -157,7 +158,7 @@ public final class TextAnalyzeRequest {
    *     <code>custom_topic</code> param. When <code>extended</code>, the model will return its own
    *     detected topics in addition to those submitted using the <code>custom_topic</code> param
    */
-  @JsonProperty("custom_topic_mode")
+  @JsonIgnore
   public Optional<TextAnalyzeRequestCustomTopicMode> getCustomTopicMode() {
     return customTopicMode;
   }
@@ -165,7 +166,7 @@ public final class TextAnalyzeRequest {
   /**
    * @return Recognizes speaker intent throughout a transcript or text
    */
-  @JsonProperty("intents")
+  @JsonIgnore
   public Optional<Boolean> getIntents() {
     return intents;
   }
@@ -176,7 +177,7 @@ public final class TextAnalyzeRequest {
    *     <code>custom_intent</code> param. When <code>extended</code>, the model will return its own
    *     detected intents in the <code>custom_intent</code> param.
    */
-  @JsonProperty("custom_intent_mode")
+  @JsonIgnore
   public Optional<TextAnalyzeRequestCustomIntentMode> getCustomIntentMode() {
     return customIntentMode;
   }
@@ -186,7 +187,7 @@ public final class TextAnalyzeRequest {
    *     the primary spoken language. Depending on the Model and API endpoint you choose only
    *     certain languages are available
    */
-  @JsonProperty("language")
+  @JsonIgnore
   public Optional<String> getLanguage() {
     return language;
   }

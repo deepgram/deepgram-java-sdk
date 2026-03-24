@@ -3,6 +3,7 @@ package resources.selfhosted.v1.distributioncredentials.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,7 +44,7 @@ public final class CreateProjectDistributionCredentialsV1Request {
   /**
    * @return List of permission scopes for the credentials
    */
-  @JsonProperty("scopes")
+  @JsonIgnore
   public Optional<List<DistributionCredentialsCreateRequestScopesItem>> getScopes() {
     return scopes;
   }
@@ -51,7 +52,7 @@ public final class CreateProjectDistributionCredentialsV1Request {
   /**
    * @return The provider of the distribution service
    */
-  @JsonProperty("provider")
+  @JsonIgnore
   public Optional<String> getProvider() {
     return provider;
   }

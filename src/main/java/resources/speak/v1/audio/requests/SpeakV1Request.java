@@ -3,6 +3,7 @@ package resources.speak.v1.audio.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -75,7 +76,7 @@ public final class SpeakV1Request {
   /**
    * @return Label your requests for the purpose of identification during usage reporting
    */
-  @JsonProperty("tag")
+  @JsonIgnore
   public Optional<List<String>> getTag() {
     return tag;
   }
@@ -83,7 +84,7 @@ public final class SpeakV1Request {
   /**
    * @return URL to which we'll make the callback request
    */
-  @JsonProperty("callback")
+  @JsonIgnore
   public Optional<String> getCallback() {
     return callback;
   }
@@ -91,7 +92,7 @@ public final class SpeakV1Request {
   /**
    * @return HTTP method by which the callback request will be made
    */
-  @JsonProperty("callback_method")
+  @JsonIgnore
   public Optional<AudioGenerateRequestCallbackMethod> getCallbackMethod() {
     return callbackMethod;
   }
@@ -100,7 +101,7 @@ public final class SpeakV1Request {
    * @return Opts out requests from the Deepgram Model Improvement Program. Refer to our Docs for
    *     pricing impacts before setting this to true. https://dpgr.am/deepgram-mip
    */
-  @JsonProperty("mip_opt_out")
+  @JsonIgnore
   public Optional<Boolean> getMipOptOut() {
     return mipOptOut;
   }
@@ -109,7 +110,7 @@ public final class SpeakV1Request {
    * @return The bitrate of the audio in bits per second. Choose from predefined ranges or specific
    *     values based on the encoding type.
    */
-  @JsonProperty("bit_rate")
+  @JsonIgnore
   public Optional<Double> getBitRate() {
     return bitRate;
   }
@@ -118,7 +119,7 @@ public final class SpeakV1Request {
    * @return Container specifies the file format wrapper for the output audio. The available options
    *     depend on the encoding type.
    */
-  @JsonProperty("container")
+  @JsonIgnore
   public Optional<AudioGenerateRequestContainer> getContainer() {
     return container;
   }
@@ -126,7 +127,7 @@ public final class SpeakV1Request {
   /**
    * @return Encoding allows you to specify the expected encoding of your audio output
    */
-  @JsonProperty("encoding")
+  @JsonIgnore
   public Optional<AudioGenerateRequestEncoding> getEncoding() {
     return encoding;
   }
@@ -134,7 +135,7 @@ public final class SpeakV1Request {
   /**
    * @return AI model used to process submitted text
    */
-  @JsonProperty("model")
+  @JsonIgnore
   public Optional<AudioGenerateRequestModel> getModel() {
     return model;
   }
@@ -144,7 +145,7 @@ public final class SpeakV1Request {
    *     different sample rates are supported. For some encodings, the sample rate is not
    *     configurable
    */
-  @JsonProperty("sample_rate")
+  @JsonIgnore
   public Optional<Double> getSampleRate() {
     return sampleRate;
   }

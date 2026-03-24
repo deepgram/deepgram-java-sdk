@@ -3,9 +3,9 @@ package resources.manage.v1.projects.billing.breakdown.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -61,7 +61,7 @@ public final class BreakdownListRequest {
    * @return Group billing breakdown by one or more dimensions (accessor, deployment, line_item,
    *     tags)
    */
-  @JsonProperty("grouping")
+  @JsonIgnore
   public Optional<List<BreakdownListRequestGroupingItem>> getGrouping() {
     return grouping;
   }
@@ -69,7 +69,7 @@ public final class BreakdownListRequest {
   /**
    * @return Start date of the requested date range. Format accepted is YYYY-MM-DD
    */
-  @JsonProperty("start")
+  @JsonIgnore
   public Optional<String> getStart() {
     return start;
   }
@@ -77,7 +77,7 @@ public final class BreakdownListRequest {
   /**
    * @return End date of the requested date range. Format accepted is YYYY-MM-DD
    */
-  @JsonProperty("end")
+  @JsonIgnore
   public Optional<String> getEnd() {
     return end;
   }
@@ -85,7 +85,7 @@ public final class BreakdownListRequest {
   /**
    * @return Filter for requests where a specific accessor was used
    */
-  @JsonProperty("accessor")
+  @JsonIgnore
   public Optional<String> getAccessor() {
     return accessor;
   }
@@ -93,7 +93,7 @@ public final class BreakdownListRequest {
   /**
    * @return Filter for requests where a specific deployment was used
    */
-  @JsonProperty("deployment")
+  @JsonIgnore
   public Optional<BreakdownListRequestDeployment> getDeployment() {
     return deployment;
   }
@@ -101,7 +101,7 @@ public final class BreakdownListRequest {
   /**
    * @return Filter for requests where a specific tag was used
    */
-  @JsonProperty("tag")
+  @JsonIgnore
   public Optional<String> getTag() {
     return tag;
   }
@@ -109,7 +109,7 @@ public final class BreakdownListRequest {
   /**
    * @return Filter requests by line item (e.g. streaming::nova-3)
    */
-  @JsonProperty("line_item")
+  @JsonIgnore
   public Optional<String> getLineItem() {
     return lineItem;
   }

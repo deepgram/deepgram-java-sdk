@@ -3,9 +3,9 @@ package resources.manage.v1.projects.billing.fields.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -34,7 +34,7 @@ public final class FieldsListRequest {
   /**
    * @return Start date of the requested date range. Format accepted is YYYY-MM-DD
    */
-  @JsonProperty("start")
+  @JsonIgnore
   public Optional<String> getStart() {
     return start;
   }
@@ -42,7 +42,7 @@ public final class FieldsListRequest {
   /**
    * @return End date of the requested date range. Format accepted is YYYY-MM-DD
    */
-  @JsonProperty("end")
+  @JsonIgnore
   public Optional<String> getEnd() {
     return end;
   }
