@@ -1,7 +1,7 @@
 {
   "packages": {
     ".": {
-      "release-type": "maven",
+      "release-type": "simple",
       "package-name": "deepgram-java-sdk",
       "tag-separator": "",
       "include-component-in-tag": false,
