@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.0.0 (2026-03-26)
+
+
+### Features
+
+* configure release-please and Maven Central publishing ([f0320c1](https://github.com/deepgram/deepgram-java-sdk/commit/f0320c1cbe9c79fbd52220db1c3850c3ac03eb44))
+* initial SDK with full API coverage ([60fe23a](https://github.com/deepgram/deepgram-java-sdk/commit/60fe23ae4b23bb937cb2de878280a3c310bc8098))
+
 ## [0.1.0] - Unreleased
 
 ### Features
