@@ -5,14 +5,12 @@
 
 ### ⚠ BREAKING CHANGES
 
-* enable bump-minor-pre-major for 0.x versioning
+* initial SDK with full API coverage ([60fe23a](https://github.com/deepgram/deepgram-java-sdk/commit/60fe23ae4b23bb937cb2de878280a3c310bc8098))
 
 ### Features
 
 * configure release-please and Maven Central publishing ([f0320c1](https://github.com/deepgram/deepgram-java-sdk/commit/f0320c1cbe9c79fbd52220db1c3850c3ac03eb44))
 * enable bump-minor-pre-major for 0.x versioning ([d54dcdd](https://github.com/deepgram/deepgram-java-sdk/commit/d54dcdd18c9395eb4a40007c0b5db885424764a4))
-* initial SDK with full API coverage ([60fe23a](https://github.com/deepgram/deepgram-java-sdk/commit/60fe23ae4b23bb937cb2de878280a3c310bc8098))
-
 
 ### Bug Fixes
 
