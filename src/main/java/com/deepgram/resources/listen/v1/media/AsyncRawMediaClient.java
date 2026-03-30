@@ -4,7 +4,6 @@
 package com.deepgram.resources.listen.v1.media;
 
 import com.deepgram.core.ClientOptions;
-import com.deepgram.core.DeepgramApiApiException;
 import com.deepgram.core.DeepgramApiException;
 import com.deepgram.core.DeepgramApiHttpResponse;
 import com.deepgram.core.InputStreamRequestBody;
@@ -243,7 +242,7 @@ public class AsyncRawMediaClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {
@@ -475,7 +474,7 @@ public class AsyncRawMediaClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {

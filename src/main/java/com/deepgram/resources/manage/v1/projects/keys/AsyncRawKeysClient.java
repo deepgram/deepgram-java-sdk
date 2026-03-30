@@ -4,7 +4,6 @@
 package com.deepgram.resources.manage.v1.projects.keys;
 
 import com.deepgram.core.ClientOptions;
-import com.deepgram.core.DeepgramApiApiException;
 import com.deepgram.core.DeepgramApiException;
 import com.deepgram.core.DeepgramApiHttpResponse;
 import com.deepgram.core.MediaTypes;
@@ -114,7 +113,7 @@ public class AsyncRawKeysClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {
@@ -193,7 +192,7 @@ public class AsyncRawKeysClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {
@@ -264,7 +263,7 @@ public class AsyncRawKeysClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {
@@ -337,7 +336,7 @@ public class AsyncRawKeysClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {

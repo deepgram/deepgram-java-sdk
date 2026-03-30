@@ -4,7 +4,6 @@
 package com.deepgram.resources.auth.v1.tokens;
 
 import com.deepgram.core.ClientOptions;
-import com.deepgram.core.DeepgramApiApiException;
 import com.deepgram.core.DeepgramApiException;
 import com.deepgram.core.DeepgramApiHttpResponse;
 import com.deepgram.core.MediaTypes;
@@ -97,7 +96,7 @@ public class RawTokensClient {
                 // unable to map error response, throwing generic error
             }
             Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-            throw new DeepgramApiApiException(
+            throw new DeepgramApiException(
                     "Error with status code " + response.code(), response.code(), errorBody, response);
         } catch (IOException e) {
             throw new DeepgramApiException("Network error executing HTTP request", e);

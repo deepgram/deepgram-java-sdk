@@ -4,11 +4,13 @@
   "generatorVersion": "4.0.4",
   "generatorConfig": {
     "package-prefix": "com.deepgram",
+    "base-api-exception-class-name": "DeepgramApiException",
+    "enable-forward-compatible-enums": true,
     "client": {
       "class-name": "DeepgramClient"
     },
     "enable-wire-tests": true
   },
-  "originGitCommit": "78fd4d4c60752a78daaa68b3d58da0554c9ce481",
-  "sdkVersion": "0.1.0"
+  "originGitCommit": "aa80de0e6348f76fb3fbb9cb17fdbe613222dd13",
+  "sdkVersion": "0.1.1"
 }

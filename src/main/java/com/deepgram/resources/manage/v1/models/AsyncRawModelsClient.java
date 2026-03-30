@@ -4,7 +4,6 @@
 package com.deepgram.resources.manage.v1.models;
 
 import com.deepgram.core.ClientOptions;
-import com.deepgram.core.DeepgramApiApiException;
 import com.deepgram.core.DeepgramApiException;
 import com.deepgram.core.DeepgramApiHttpResponse;
 import com.deepgram.core.ObjectMappers;
@@ -104,7 +103,7 @@ public class AsyncRawModelsClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {
@@ -173,7 +172,7 @@ public class AsyncRawModelsClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramApiException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {
