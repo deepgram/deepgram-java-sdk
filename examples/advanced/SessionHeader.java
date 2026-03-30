@@ -1,7 +1,4 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import com.deepgram.types.ListenV1AcceptedResponse;
@@ -9,10 +6,13 @@ import com.deepgram.types.ListenV1Response;
 import com.deepgram.types.ListenV1ResponseResults;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 /**
- * Demonstrates setting custom session and tracking headers via the client builder.
- * These headers are sent with every request for correlation and debugging.
+ * Demonstrates setting custom session and tracking headers via the client builder. These headers are sent with every
+ * request for correlation and debugging.
  *
  * <p>Usage: java SessionHeader
  */
@@ -50,8 +50,7 @@ public class SessionHeader {
                     .build();
 
             System.out.println("Making request with custom headers...");
-            MediaTranscribeResponse result =
-                    client.listen().v1().media().transcribeUrl(request);
+            MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(request);
 
             // Display results
             result.visit(new MediaTranscribeResponse.Visitor<Void>() {
@@ -59,7 +58,8 @@ public class SessionHeader {
                 public Void visit(ListenV1Response response) {
                     ListenV1ResponseResults results = response.getResults();
                     if (results != null && !results.getChannels().isEmpty()) {
-                        ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                        ListenV1ResponseResultsChannelsItem channel =
+                                results.getChannels().get(0);
                         List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                                 channel.getAlternatives().orElse(Collections.emptyList());
                         if (!alternatives.isEmpty()) {

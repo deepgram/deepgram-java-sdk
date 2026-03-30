@@ -1,17 +1,17 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import com.deepgram.types.ListenV1Response;
 import com.deepgram.types.ListenV1ResponseResults;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Demonstrates using custom request options to override settings per-request,
- * such as timeouts, custom headers, and query parameters.
+ * Demonstrates using custom request options to override settings per-request, such as timeouts, custom headers, and
+ * query parameters.
  *
  * <p>Usage: java RequestOptions
  */
@@ -25,17 +25,15 @@ public class RequestOptions {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Custom Request Options");
         System.out.println();
 
         try {
             // Build custom request options
-            core.RequestOptions requestOptions = core.RequestOptions.builder()
-                    .timeout(60, TimeUnit.SECONDS)                  // 60-second timeout
+            com.deepgram.core.RequestOptions requestOptions = com.deepgram.core.RequestOptions.builder()
+                    .timeout(60, TimeUnit.SECONDS) // 60-second timeout
                     .addHeader("X-Custom-Header", "example-value") // Custom header
                     .build();
 
@@ -51,8 +49,7 @@ public class RequestOptions {
                     .build();
 
             // Make the request with custom options
-            MediaTranscribeResponse result =
-                    client.listen().v1().media().transcribeUrl(request, requestOptions);
+            MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(request, requestOptions);
 
             // Display results
             result.visit(new MediaTranscribeResponse.Visitor<Void>() {
@@ -60,7 +57,8 @@ public class RequestOptions {
                 public Void visit(ListenV1Response response) {
                     ListenV1ResponseResults results = response.getResults();
                     if (results != null && !results.getChannels().isEmpty()) {
-                        ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                        ListenV1ResponseResultsChannelsItem channel =
+                                results.getChannels().get(0);
                         List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                                 channel.getAlternatives().orElse(Collections.emptyList());
                         if (!alternatives.isEmpty()) {
@@ -76,7 +74,7 @@ public class RequestOptions {
                 }
 
                 @Override
-                public Void visit(types.ListenV1AcceptedResponse accepted) {
+                public Void visit(com.deepgram.types.ListenV1AcceptedResponse accepted) {
                     System.out.println("Request accepted: " + accepted.getRequestId());
                     return null;
                 }
@@ -88,7 +86,7 @@ public class RequestOptions {
             // Example: Per-request API key override
             System.out.println();
             System.out.println("Note: You can also override the API key per-request:");
-            System.out.println("  core.RequestOptions.builder()");
+            System.out.println("  com.deepgram.core.RequestOptions.builder()");
             System.out.println("      .apiKey(\"different-api-key\")");
             System.out.println("      .build();");
 

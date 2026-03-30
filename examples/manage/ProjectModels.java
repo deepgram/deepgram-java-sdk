@@ -1,11 +1,11 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.types.ListModelsV1Response;
 import com.deepgram.types.ListModelsV1ResponseSttModels;
 import com.deepgram.types.ListModelsV1ResponseTtsModels;
 import com.deepgram.types.ListProjectsV1Response;
 import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * List available speech-to-text and text-to-speech models for a specific project.
@@ -22,16 +22,15 @@ public class ProjectModels {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Project-Specific Models");
         System.out.println();
 
         try {
             // Get the first project
-            ListProjectsV1Response projectsResponse = client.manage().v1().projects().list();
+            ListProjectsV1Response projectsResponse =
+                    client.manage().v1().projects().list();
             List<ListProjectsV1ResponseProjectsItem> projects =
                     projectsResponse.getProjects().orElse(Collections.emptyList());
 
@@ -63,8 +62,7 @@ public class ProjectModels {
 
                     System.out.printf("  %s%n", name);
                     if (!languages.isEmpty()) {
-                        System.out.printf("    Languages: %s%n",
-                                String.join(", ", languages));
+                        System.out.printf("    Languages: %s%n", String.join(", ", languages));
                     }
                 }
             }
@@ -87,8 +85,7 @@ public class ProjectModels {
             }
 
             System.out.println();
-            System.out.printf("Total: %d STT models, %d TTS models%n",
-                    sttModels.size(), ttsModels.size());
+            System.out.printf("Total: %d STT models, %d TTS models%n", sttModels.size(), ttsModels.size());
 
         } catch (Exception e) {
             System.err.println("Error listing models: " + e.getMessage());

@@ -1,4 +1,3 @@
-import com.deepgram.DeepgramClient;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
@@ -16,9 +15,8 @@ import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1Provider;
 
 /**
- * Demonstrates building different provider combination configurations for comparison.
- * Shows how to configure OpenAI, Anthropic, and Google as think providers,
- * each paired with Deepgram as the speak provider.
+ * Demonstrates building different provider combination configurations for comparison. Shows how to configure OpenAI,
+ * Anthropic, and Google as think providers, each paired with Deepgram as the speak provider.
  *
  * <p>Usage: java ProviderCombinations
  */
@@ -78,9 +76,8 @@ public class ProviderCombinations {
 
         // Combination 3: Google Gemini + Deepgram
         System.out.println("=== Combination 3: Google + Deepgram ===");
-        Google googleProvider = Google.builder()
-                .model(GoogleThinkProviderModel.GEMINI25FLASH)
-                .build();
+        Google googleProvider =
+                Google.builder().model(GoogleThinkProviderModel.GEMINI25FLASH).build();
         ThinkSettingsV1 googleThink = ThinkSettingsV1.builder()
                 .provider(ThinkSettingsV1Provider.google(googleProvider))
                 .prompt("You are a helpful assistant powered by Google Gemini.")

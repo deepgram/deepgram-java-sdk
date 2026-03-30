@@ -1,13 +1,13 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.core.Environment;
 import com.deepgram.types.ListProjectsV1Response;
 import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Demonstrates configuring a regional or EU endpoint for data residency.
- * Uses Environment.custom() to point all API traffic to a specific region.
+ * Demonstrates configuring a regional or EU endpoint for data residency. Uses Environment.custom() to point all API
+ * traffic to a specific region.
  *
  * <p>Usage: java CustomEndpoint
  */
@@ -40,10 +40,8 @@ public class CustomEndpoint {
                 .build();
 
         // Create client with the regional environment
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .environment(regionalEnv)
-                .build();
+        DeepgramClient client =
+                DeepgramClient.builder().apiKey(apiKey).environment(regionalEnv).build();
 
         try {
             // Verify the connection

@@ -1,19 +1,18 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 import com.deepgram.types.ListenV1Response;
 import com.deepgram.types.ListenV1ResponseResults;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
-import com.deepgram.types.ListProjectsV1Response;
-import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Comprehensive demo of the Deepgram Java SDK.
- * Demonstrates multiple API features in a single program: authentication,
+ * Comprehensive demo of the Deepgram Java SDK. Demonstrates multiple API features in a single program: authentication,
  * project listing, and speech-to-text transcription.
  *
  * <p>Usage: java Main
@@ -33,9 +32,7 @@ public class Main {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         // Step 1: Verify authentication by listing projects
         handleListProjects(client);
@@ -92,12 +89,12 @@ public class Main {
                 public Void visit(ListenV1Response response) {
                     ListenV1ResponseResults results = response.getResults();
                     if (results != null && !results.getChannels().isEmpty()) {
-                        ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                        ListenV1ResponseResultsChannelsItem channel =
+                                results.getChannels().get(0);
                         List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                                 channel.getAlternatives().orElse(Collections.emptyList());
                         if (!alternatives.isEmpty()) {
-                            ListenV1ResponseResultsChannelsItemAlternativesItem alt =
-                                    alternatives.get(0);
+                            ListenV1ResponseResultsChannelsItemAlternativesItem alt = alternatives.get(0);
 
                             alt.getTranscript().ifPresent(transcript -> {
                                 System.out.println();
@@ -107,15 +104,16 @@ public class Main {
                                 System.out.println("  " + "-".repeat(38));
                             });
 
-                            alt.getConfidence().ifPresent(confidence ->
-                                    System.out.printf("  Confidence: %.2f%%%n", confidence * 100));
+                            alt.getConfidence()
+                                    .ifPresent(confidence ->
+                                            System.out.printf("  Confidence: %.2f%%%n", confidence * 100));
                         }
                     }
                     return null;
                 }
 
                 @Override
-                public Void visit(types.ListenV1AcceptedResponse accepted) {
+                public Void visit(com.deepgram.types.ListenV1AcceptedResponse accepted) {
                     System.out.println("  Request accepted: " + accepted.getRequestId());
                     return null;
                 }

@@ -1,9 +1,9 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.types.ListModelsV1Response;
 import com.deepgram.types.ListModelsV1ResponseSttModels;
 import com.deepgram.types.ListModelsV1ResponseTtsModels;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * List all available Deepgram models (speech-to-text and text-to-speech).
@@ -20,9 +20,7 @@ public class ListModels {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Listing available Deepgram models...");
         System.out.println();
@@ -31,8 +29,7 @@ public class ListModels {
             ListModelsV1Response response = client.manage().v1().models().list();
 
             // Display STT models
-            List<ListModelsV1ResponseSttModels> sttModels =
-                    response.getStt().orElse(Collections.emptyList());
+            List<ListModelsV1ResponseSttModels> sttModels = response.getStt().orElse(Collections.emptyList());
             System.out.println("Speech-to-Text Models (" + sttModels.size() + "):");
             System.out.println("-".repeat(70));
             for (ListModelsV1ResponseSttModels model : sttModels) {
@@ -46,8 +43,7 @@ public class ListModels {
             System.out.println();
 
             // Display TTS models
-            List<ListModelsV1ResponseTtsModels> ttsModels =
-                    response.getTts().orElse(Collections.emptyList());
+            List<ListModelsV1ResponseTtsModels> ttsModels = response.getTts().orElse(Collections.emptyList());
             System.out.println("Text-to-Speech Models (" + ttsModels.size() + "):");
             System.out.println("-".repeat(70));
             for (ListModelsV1ResponseTtsModels model : ttsModels) {

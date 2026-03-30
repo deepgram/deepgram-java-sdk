@@ -1,16 +1,16 @@
 import com.deepgram.DeepgramClient;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import com.deepgram.types.ListenV1Response;
 import com.deepgram.types.ListenV1ResponseResults;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Transcribe a local audio file using Deepgram's speech-to-text REST API.
@@ -48,14 +48,11 @@ public class TranscribeFile {
             System.out.printf("File size: %d bytes%n%n", audioData.length);
 
             // Create client
-            DeepgramClient client = DeepgramClient.builder()
-                    .apiKey(apiKey)
-                    .build();
+            DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
             // Transcribe from file data
-            MediaTranscribeRequestOctetStream request = MediaTranscribeRequestOctetStream.builder()
-                    .body(audioData)
-                    .build();
+            MediaTranscribeRequestOctetStream request =
+                    MediaTranscribeRequestOctetStream.builder().body(audioData).build();
 
             MediaTranscribeResponse result = client.listen().v1().media().transcribeFile(request);
 
@@ -65,12 +62,12 @@ public class TranscribeFile {
                 public Void visit(ListenV1Response response) {
                     ListenV1ResponseResults results = response.getResults();
                     if (results != null && !results.getChannels().isEmpty()) {
-                        ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                        ListenV1ResponseResultsChannelsItem channel =
+                                results.getChannels().get(0);
                         List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                                 channel.getAlternatives().orElse(Collections.emptyList());
                         if (!alternatives.isEmpty()) {
-                            ListenV1ResponseResultsChannelsItemAlternativesItem alt =
-                                    alternatives.get(0);
+                            ListenV1ResponseResultsChannelsItemAlternativesItem alt = alternatives.get(0);
 
                             alt.getTranscript().ifPresent(transcript -> {
                                 System.out.println("Transcription:");
@@ -79,8 +76,9 @@ public class TranscribeFile {
                                 System.out.println("-".repeat(50));
                             });
 
-                            alt.getConfidence().ifPresent(confidence ->
-                                    System.out.printf("%nConfidence: %.2f%%%n", confidence * 100));
+                            alt.getConfidence()
+                                    .ifPresent(confidence ->
+                                            System.out.printf("%nConfidence: %.2f%%%n", confidence * 100));
                         }
                     } else {
                         System.out.println("No transcription results found");
@@ -89,7 +87,7 @@ public class TranscribeFile {
                 }
 
                 @Override
-                public Void visit(types.ListenV1AcceptedResponse accepted) {
+                public Void visit(com.deepgram.types.ListenV1AcceptedResponse accepted) {
                     System.out.println("Request accepted: " + accepted.getRequestId());
                     return null;
                 }

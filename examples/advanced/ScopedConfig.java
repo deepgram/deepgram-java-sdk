@@ -1,7 +1,4 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import com.deepgram.types.ListenV1AcceptedResponse;
@@ -9,10 +6,13 @@ import com.deepgram.types.ListenV1Response;
 import com.deepgram.types.ListenV1ResponseResults;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Demonstrates per-request configuration overrides using RequestOptions.
- * Different requests can have different timeouts, headers, and even API keys.
+ * Demonstrates per-request configuration overrides using RequestOptions. Different requests can have different
+ * timeouts, headers, and even API keys.
  *
  * <p>Usage: java ScopedConfig
  */
@@ -29,9 +29,7 @@ public class ScopedConfig {
         }
 
         // Create client with default settings
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Scoped Configuration (Per-Request Overrides)");
         System.out.println();
@@ -44,35 +42,32 @@ public class ScopedConfig {
                     .smartFormat(true)
                     .build();
 
-            MediaTranscribeResponse result1 =
-                    client.listen().v1().media().transcribeUrl(request);
+            MediaTranscribeResponse result1 = client.listen().v1().media().transcribeUrl(request);
             printTranscript("Default", result1);
 
             System.out.println();
 
             // Request 2: Extended timeout for long audio
             System.out.println("=== Request 2: Extended timeout (120s) ===");
-            core.RequestOptions longTimeoutOptions = core.RequestOptions.builder()
+            com.deepgram.core.RequestOptions longTimeoutOptions = com.deepgram.core.RequestOptions.builder()
                     .timeout(120, TimeUnit.SECONDS)
                     .addHeader("X-Request-Context", "long-audio-processing")
                     .build();
 
-            MediaTranscribeResponse result2 =
-                    client.listen().v1().media().transcribeUrl(request, longTimeoutOptions);
+            MediaTranscribeResponse result2 = client.listen().v1().media().transcribeUrl(request, longTimeoutOptions);
             printTranscript("Extended timeout", result2);
 
             System.out.println();
 
             // Request 3: Custom tag header for tracking
             System.out.println("=== Request 3: Tagged request ===");
-            core.RequestOptions taggedOptions = core.RequestOptions.builder()
+            com.deepgram.core.RequestOptions taggedOptions = com.deepgram.core.RequestOptions.builder()
                     .timeout(30, TimeUnit.SECONDS)
                     .addHeader("X-Batch-Id", "batch-2024-001")
                     .addHeader("X-Priority", "high")
                     .build();
 
-            MediaTranscribeResponse result3 =
-                    client.listen().v1().media().transcribeUrl(request, taggedOptions);
+            MediaTranscribeResponse result3 = client.listen().v1().media().transcribeUrl(request, taggedOptions);
             printTranscript("Tagged", result3);
 
             System.out.println();
@@ -91,15 +86,15 @@ public class ScopedConfig {
             public Void visit(ListenV1Response resp) {
                 ListenV1ResponseResults results = resp.getResults();
                 if (results != null && !results.getChannels().isEmpty()) {
-                    ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                    ListenV1ResponseResultsChannelsItem channel =
+                            results.getChannels().get(0);
                     List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                             channel.getAlternatives().orElse(Collections.emptyList());
                     if (!alternatives.isEmpty()) {
                         alternatives.get(0).getTranscript().ifPresent(transcript -> {
-                            System.out.printf("[%s] Transcript: %s%n", label,
-                                    transcript.length() > 80
-                                            ? transcript.substring(0, 80) + "..."
-                                            : transcript);
+                            System.out.printf(
+                                    "[%s] Transcript: %s%n",
+                                    label, transcript.length() > 80 ? transcript.substring(0, 80) + "..." : transcript);
                         });
                     }
                 }

@@ -1,10 +1,4 @@
 import com.deepgram.DeepgramClient;
-import java.io.InputStream;
-import java.net.URI;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import okio.ByteString;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
@@ -15,14 +9,18 @@ import com.deepgram.types.OpenAiThinkProvider;
 import com.deepgram.types.OpenAiThinkProviderModel;
 import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1Provider;
+import java.io.InputStream;
+import java.net.URI;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import okio.ByteString;
 
 /**
- * Voice agent example using the Agent V1 WebSocket.
- * Demonstrates connecting to a conversational AI agent, configuring settings,
- * sending audio, and handling conversation events.
+ * Voice agent example using the Agent V1 WebSocket. Demonstrates connecting to a conversational AI agent, configuring
+ * settings, sending audio, and handling conversation events.
  *
- * <p>This example downloads a sample audio file and streams it to the agent,
- * then listens for the agent's response.
+ * <p>This example downloads a sample audio file and streams it to the agent, then listens for the agent's response.
  *
  * <p>Usage: java VoiceAgent [path-to-audio-file]
  */
@@ -42,9 +40,7 @@ public class VoiceAgent {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         // Get the Agent WebSocket client
         V1WebSocketClient wsClient = client.agent().v1().v1WebSocket();
@@ -140,8 +136,8 @@ public class VoiceAgent {
             });
 
             wsClient.onDisconnected(reason -> {
-                System.out.println("\nConnection closed (code: " + reason.getCode()
-                        + ", reason: " + reason.getReason() + ")");
+                System.out.println(
+                        "\nConnection closed (code: " + reason.getCode() + ", reason: " + reason.getReason() + ")");
                 closeLatch.countDown();
             });
 
@@ -163,8 +159,8 @@ public class VoiceAgent {
     }
 
     /**
-     * Streams audio data to the agent. Uses a local file if provided as an argument,
-     * otherwise downloads a sample audio file.
+     * Streams audio data to the agent. Uses a local file if provided as an argument, otherwise downloads a sample audio
+     * file.
      */
     private static void streamAudioToAgent(V1WebSocketClient wsClient, String[] args) {
         try {

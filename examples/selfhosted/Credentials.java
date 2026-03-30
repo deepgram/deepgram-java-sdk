@@ -1,14 +1,14 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.types.ListProjectDistributionCredentialsV1Response;
 import com.deepgram.types.ListProjectDistributionCredentialsV1ResponseDistributionCredentialsItem;
 import com.deepgram.types.ListProjectsV1Response;
 import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Manage self-hosted distribution credentials for on-premises Deepgram deployments.
- * Lists existing credentials for a project.
+ * Manage self-hosted distribution credentials for on-premises Deepgram deployments. Lists existing credentials for a
+ * project.
  *
  * <p>Usage: java Credentials
  */
@@ -22,16 +22,15 @@ public class Credentials {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Self-Hosted Distribution Credentials");
         System.out.println();
 
         try {
             // First, get the project ID
-            ListProjectsV1Response projectsResponse = client.manage().v1().projects().list();
+            ListProjectsV1Response projectsResponse =
+                    client.manage().v1().projects().list();
             List<ListProjectsV1ResponseProjectsItem> projects =
                     projectsResponse.getProjects().orElse(Collections.emptyList());
 

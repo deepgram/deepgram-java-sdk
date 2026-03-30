@@ -1,7 +1,4 @@
 import com.deepgram.DeepgramClient;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.resources.manage.v1.projects.billing.breakdown.requests.BreakdownListRequest;
 import com.deepgram.resources.manage.v1.projects.billing.breakdown.types.BreakdownListRequestGroupingItem;
 import com.deepgram.types.BillingBreakdownV1Response;
@@ -9,6 +6,9 @@ import com.deepgram.types.BillingBreakdownV1ResponseResultsItem;
 import com.deepgram.types.BillingBreakdownV1ResponseResultsItemGrouping;
 import com.deepgram.types.ListProjectsV1Response;
 import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * View detailed billing breakdown by line item and tags for a Deepgram project.
@@ -25,16 +25,15 @@ public class BillingDetailed {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Detailed Billing Breakdown");
         System.out.println();
 
         try {
             // Get the first project
-            ListProjectsV1Response projectsResponse = client.manage().v1().projects().list();
+            ListProjectsV1Response projectsResponse =
+                    client.manage().v1().projects().list();
             List<ListProjectsV1ResponseProjectsItem> projects =
                     projectsResponse.getProjects().orElse(Collections.emptyList());
 
@@ -55,8 +54,7 @@ public class BillingDetailed {
                     .build();
 
             BillingBreakdownV1Response lineItemBreakdown =
-                    client.manage().v1().projects().billing().breakdown().list(
-                            projectId, lineItemRequest);
+                    client.manage().v1().projects().billing().breakdown().list(projectId, lineItemRequest);
 
             printBillingResults(lineItemBreakdown);
 
@@ -70,8 +68,7 @@ public class BillingDetailed {
                     .build();
 
             BillingBreakdownV1Response tagBreakdown =
-                    client.manage().v1().projects().billing().breakdown().list(
-                            projectId, tagRequest);
+                    client.manage().v1().projects().billing().breakdown().list(projectId, tagRequest);
 
             printBillingResults(tagBreakdown);
 

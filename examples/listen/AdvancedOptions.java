@@ -1,6 +1,4 @@
 import com.deepgram.DeepgramClient;
-import java.util.Collections;
-import java.util.List;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
@@ -9,10 +7,12 @@ import com.deepgram.types.ListenV1ResponseResults;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Transcribe audio with advanced options: smart formatting, punctuation,
- * diarization, model selection, and language specification.
+ * Transcribe audio with advanced options: smart formatting, punctuation, diarization, model selection, and language
+ * specification.
  *
  * <p>Usage: java AdvancedOptions
  */
@@ -26,9 +26,7 @@ public class AdvancedOptions {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Transcribing with advanced options...");
         System.out.println();
@@ -56,7 +54,8 @@ public class AdvancedOptions {
                         return null;
                     }
 
-                    ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                    ListenV1ResponseResultsChannelsItem channel =
+                            results.getChannels().get(0);
                     List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                             channel.getAlternatives().orElse(Collections.emptyList());
                     if (alternatives.isEmpty()) {
@@ -64,8 +63,7 @@ public class AdvancedOptions {
                         return null;
                     }
 
-                    ListenV1ResponseResultsChannelsItemAlternativesItem alt =
-                            alternatives.get(0);
+                    ListenV1ResponseResultsChannelsItemAlternativesItem alt = alternatives.get(0);
 
                     // Display transcript
                     alt.getTranscript().ifPresent(transcript -> {
@@ -76,8 +74,8 @@ public class AdvancedOptions {
                     });
 
                     // Display confidence
-                    alt.getConfidence().ifPresent(confidence ->
-                            System.out.printf("%nConfidence: %.2f%%%n", confidence * 100));
+                    alt.getConfidence()
+                            .ifPresent(confidence -> System.out.printf("%nConfidence: %.2f%%%n", confidence * 100));
 
                     // Display word-level details
                     List<ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem> words =
@@ -88,17 +86,15 @@ public class AdvancedOptions {
 
                         int limit = Math.min(words.size(), 10);
                         for (int i = 0; i < limit; i++) {
-                            ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem word =
-                                    words.get(i);
+                            ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem word = words.get(i);
                             StringBuilder sb = new StringBuilder("  ");
-                            word.getWord().ifPresent(w ->
-                                    sb.append(String.format("%-15s", w)));
+                            word.getWord().ifPresent(w -> sb.append(String.format("%-15s", w)));
                             if (word.getStart().isPresent() && word.getEnd().isPresent()) {
-                                sb.append(String.format(" [%.2fs - %.2fs]",
+                                sb.append(String.format(
+                                        " [%.2fs - %.2fs]",
                                         word.getStart().get(), word.getEnd().get()));
                             }
-                            word.getConfidence().ifPresent(c ->
-                                    sb.append(String.format(" (%.0f%%)", c * 100)));
+                            word.getConfidence().ifPresent(c -> sb.append(String.format(" (%.0f%%)", c * 100)));
                             System.out.println(sb);
                         }
                         if (words.size() > 10) {
@@ -109,7 +105,7 @@ public class AdvancedOptions {
                 }
 
                 @Override
-                public Void visit(types.ListenV1AcceptedResponse accepted) {
+                public Void visit(com.deepgram.types.ListenV1AcceptedResponse accepted) {
                     System.out.println("Request accepted: " + accepted.getRequestId());
                     return null;
                 }
