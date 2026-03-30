@@ -3,7 +3,7 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.deepgram.core.DeepgramApiApiException;
+import com.deepgram.core.DeepgramHttpException;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
@@ -172,9 +172,9 @@ public class IntegrationTest {
                     ListenV1RequestUrl.builder().url(TEST_AUDIO_URL).build();
 
             assertThatThrownBy(() -> invalidClient.listen().v1().media().transcribeUrl(request))
-                    .isInstanceOf(DeepgramApiApiException.class)
+                    .isInstanceOf(DeepgramHttpException.class)
                     .satisfies(thrown -> {
-                        DeepgramApiApiException apiException = (DeepgramApiApiException) thrown;
+                        DeepgramHttpException apiException = (DeepgramHttpException) thrown;
                         System.out.println("Got API error: status=" + apiException.statusCode());
                         assertThat(apiException.statusCode())
                                 .as("expected 401 or 403 for invalid API key")
