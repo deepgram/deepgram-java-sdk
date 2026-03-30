@@ -3,10 +3,10 @@
  */
 package com.deepgram.errors;
 
-import com.deepgram.core.DeepgramApiApiException;
+import com.deepgram.core.DeepgramHttpException;
 import okhttp3.Response;
 
-public final class BadRequestError extends DeepgramApiApiException {
+public final class BadRequestError extends DeepgramHttpException {
     /**
      * The body of the response that triggered the exception.
      */

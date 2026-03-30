@@ -1,5 +1,5 @@
 import com.deepgram.DeepgramClient;
-import com.deepgram.core.DeepgramApiApiException;
+import com.deepgram.core.DeepgramHttpException;
 import com.deepgram.errors.BadRequestError;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
@@ -40,7 +40,7 @@ public class ErrorHandling {
             System.out.println("  Status: " + e.statusCode());
             System.out.println("  Body:   " + e.body());
             System.out.println("  Message: " + e.getMessage());
-        } catch (DeepgramApiApiException e) {
+        } catch (DeepgramHttpException e) {
             System.out.println("  Caught API error");
             System.out.println("  Status: " + e.statusCode());
             System.out.println("  Body:   " + e.body());
@@ -61,7 +61,7 @@ public class ErrorHandling {
             badClient.manage().v1().projects().list();
             System.out.println("Unexpected success");
 
-        } catch (DeepgramApiApiException e) {
+        } catch (DeepgramHttpException e) {
             System.out.println("  Caught API error");
             System.out.println("  Status: " + e.statusCode());
             System.out.println("  Body:   " + e.body());
@@ -84,7 +84,7 @@ public class ErrorHandling {
             System.out.println("  Request succeeded");
             System.out.println("  Response: " + result);
 
-        } catch (DeepgramApiApiException e) {
+        } catch (DeepgramHttpException e) {
             System.err.println("  API error: " + e.statusCode() + " - " + e.body());
         } catch (Exception e) {
             System.err.println("  Unexpected error: " + e.getMessage());
