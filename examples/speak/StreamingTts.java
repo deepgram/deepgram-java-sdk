@@ -1,15 +1,16 @@
+import com.deepgram.DeepgramClient;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import resources.speak.v1.types.SpeakV1Close;
-import resources.speak.v1.types.SpeakV1CloseType;
-import resources.speak.v1.types.SpeakV1Flush;
-import resources.speak.v1.types.SpeakV1FlushType;
-import resources.speak.v1.types.SpeakV1Text;
-import resources.speak.v1.websocket.V1WebSocketClient;
+import com.deepgram.resources.speak.v1.types.SpeakV1Close;
+import com.deepgram.resources.speak.v1.types.SpeakV1CloseType;
+import com.deepgram.resources.speak.v1.types.SpeakV1Flush;
+import com.deepgram.resources.speak.v1.types.SpeakV1FlushType;
+import com.deepgram.resources.speak.v1.types.SpeakV1Text;
+import com.deepgram.resources.speak.v1.websocket.V1WebSocketClient;
 
 /**
  * Streaming text-to-speech using the Speak V1 WebSocket.

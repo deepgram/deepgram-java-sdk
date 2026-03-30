@@ -1,8 +1,9 @@
-import resources.read.v1.text.requests.TextAnalyzeRequest;
-import types.ReadV1Request;
-import types.ReadV1RequestText;
-import types.ReadV1Response;
-import types.ReadV1ResponseResults;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
+import com.deepgram.types.ReadV1Request;
+import com.deepgram.types.ReadV1RequestText;
+import com.deepgram.types.ReadV1Response;
+import com.deepgram.types.ReadV1ResponseResults;
 
 /**
  * Analyze text content using Deepgram's text intelligence API.

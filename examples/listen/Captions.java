@@ -1,16 +1,17 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
-import types.ListenV1Response;
-import types.ListenV1ResponseResults;
-import types.ListenV1ResponseResultsChannelsItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem;
-import types.ListenV1ResponseResultsUtterancesItem;
-import types.ListenV1AcceptedResponse;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListenV1Response;
+import com.deepgram.types.ListenV1ResponseResults;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem;
+import com.deepgram.types.ListenV1ResponseResultsUtterancesItem;
+import com.deepgram.types.ListenV1AcceptedResponse;
 
 /**
  * Demonstrates transcription with paragraphs and utterances enabled,

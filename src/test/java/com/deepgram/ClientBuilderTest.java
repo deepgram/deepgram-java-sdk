@@ -1,7 +1,9 @@
+package com.deepgram;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import core.Environment;
+import com.deepgram.core.Environment;
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

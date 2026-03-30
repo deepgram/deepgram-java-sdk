@@ -1,10 +1,11 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import types.ListModelsV1Response;
-import types.ListModelsV1ResponseSttModels;
-import types.ListModelsV1ResponseTtsModels;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.ListModelsV1Response;
+import com.deepgram.types.ListModelsV1ResponseSttModels;
+import com.deepgram.types.ListModelsV1ResponseTtsModels;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * List available speech-to-text and text-to-speech models for a specific project.

@@ -1,7 +1,8 @@
-import core.DeepgramApiApiException;
-import errors.BadRequestError;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.DeepgramClient;
+import com.deepgram.core.DeepgramApiApiException;
+import com.deepgram.errors.BadRequestError;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 
 /**
  * Demonstrates error handling patterns with the Deepgram Java SDK.

@@ -1,3 +1,5 @@
+package com.deepgram;
+
 /**
  * Custom Deepgram client extending the generated DeepgramApiClient.
  *
@@ -26,7 +28,7 @@
  *     .build();
  * }</pre>
  */
-import core.ClientOptions;
+import com.deepgram.core.ClientOptions;
 
 public class DeepgramClient extends DeepgramApiClient {
   public DeepgramClient(ClientOptions clientOptions) {

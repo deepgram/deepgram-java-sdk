@@ -1,3 +1,5 @@
+package com.deepgram;
+
 /**
  * Custom client builder extending the generated DeepgramApiClientBuilder.
  *
@@ -10,9 +12,9 @@
  *       provided, a UUID is auto-generated.
  * </ul>
  */
-import core.ClientOptions;
-import core.Environment;
-import core.LogConfig;
+import com.deepgram.core.ClientOptions;
+import com.deepgram.core.Environment;
+import com.deepgram.core.LogConfig;
 import java.util.UUID;
 import okhttp3.OkHttpClient;
 

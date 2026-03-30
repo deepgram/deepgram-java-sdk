@@ -1,10 +1,11 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import types.CreateKeyV1Response;
-import types.ListProjectKeysV1Response;
-import types.ListProjectKeysV1ResponseApiKeysItem;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.CreateKeyV1Response;
+import com.deepgram.types.ListProjectKeysV1Response;
+import com.deepgram.types.ListProjectKeysV1ResponseApiKeysItem;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * Manage API keys for a project: list existing keys and create a new one.

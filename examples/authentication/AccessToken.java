@@ -1,4 +1,5 @@
-import types.GrantV1Response;
+import com.deepgram.DeepgramClient;
+import com.deepgram.types.GrantV1Response;
 
 /**
  * Demonstrates generating a temporary access token (JWT) from an API key.

@@ -1,8 +1,9 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import core.Environment;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.core.Environment;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * Demonstrates configuring a custom endpoint or proxy using Environment.custom().

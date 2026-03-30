@@ -1,13 +1,14 @@
+import com.deepgram.DeepgramClient;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import resources.manage.v1.projects.billing.breakdown.requests.BreakdownListRequest;
-import resources.manage.v1.projects.billing.breakdown.types.BreakdownListRequestGroupingItem;
-import types.BillingBreakdownV1Response;
-import types.BillingBreakdownV1ResponseResultsItem;
-import types.BillingBreakdownV1ResponseResultsItemGrouping;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.resources.manage.v1.projects.billing.breakdown.requests.BreakdownListRequest;
+import com.deepgram.resources.manage.v1.projects.billing.breakdown.types.BreakdownListRequestGroupingItem;
+import com.deepgram.types.BillingBreakdownV1Response;
+import com.deepgram.types.BillingBreakdownV1ResponseResultsItem;
+import com.deepgram.types.BillingBreakdownV1ResponseResultsItemGrouping;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * View detailed billing breakdown by line item and tags for a Deepgram project.

@@ -1,21 +1,22 @@
+import com.deepgram.DeepgramClient;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import resources.agent.v1.types.AgentV1Settings;
-import resources.agent.v1.types.AgentV1SettingsAgent;
-import resources.agent.v1.types.AgentV1SettingsAgentContext;
-import resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
-import resources.agent.v1.types.AgentV1SettingsAgentContextThink;
-import resources.agent.v1.types.AgentV1SettingsAudio;
-import resources.agent.v1.websocket.V1WebSocketClient;
-import types.Anthropic;
-import types.AnthropicThinkProviderModel;
-import types.Deepgram;
-import types.DeepgramSpeakProviderModel;
-import types.SpeakSettingsV1;
-import types.SpeakSettingsV1Provider;
-import types.ThinkSettingsV1;
-import types.ThinkSettingsV1Provider;
+import com.deepgram.resources.agent.v1.types.AgentV1Settings;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
+import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.Anthropic;
+import com.deepgram.types.AnthropicThinkProviderModel;
+import com.deepgram.types.Deepgram;
+import com.deepgram.types.DeepgramSpeakProviderModel;
+import com.deepgram.types.SpeakSettingsV1;
+import com.deepgram.types.SpeakSettingsV1Provider;
+import com.deepgram.types.ThinkSettingsV1;
+import com.deepgram.types.ThinkSettingsV1Provider;
 
 /**
  * Demonstrates configuring an agent with different LLM (think) and TTS (speak) providers.

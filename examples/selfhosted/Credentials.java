@@ -1,9 +1,10 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectDistributionCredentialsV1Response;
-import types.ListProjectDistributionCredentialsV1ResponseDistributionCredentialsItem;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.ListProjectDistributionCredentialsV1Response;
+import com.deepgram.types.ListProjectDistributionCredentialsV1ResponseDistributionCredentialsItem;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * Manage self-hosted distribution credentials for on-premises Deepgram deployments.

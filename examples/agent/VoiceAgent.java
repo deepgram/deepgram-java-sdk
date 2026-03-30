@@ -1,19 +1,20 @@
+import com.deepgram.DeepgramClient;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import okio.ByteString;
-import resources.agent.v1.types.AgentV1Settings;
-import resources.agent.v1.types.AgentV1SettingsAgent;
-import resources.agent.v1.types.AgentV1SettingsAgentContext;
-import resources.agent.v1.types.AgentV1SettingsAgentContextThink;
-import resources.agent.v1.types.AgentV1SettingsAudio;
-import resources.agent.v1.websocket.V1WebSocketClient;
-import types.OpenAiThinkProvider;
-import types.OpenAiThinkProviderModel;
-import types.ThinkSettingsV1;
-import types.ThinkSettingsV1Provider;
+import com.deepgram.resources.agent.v1.types.AgentV1Settings;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
+import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.OpenAiThinkProvider;
+import com.deepgram.types.OpenAiThinkProviderModel;
+import com.deepgram.types.ThinkSettingsV1;
+import com.deepgram.types.ThinkSettingsV1Provider;
 
 /**
  * Voice agent example using the Agent V1 WebSocket.

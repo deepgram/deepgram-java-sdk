@@ -1,9 +1,10 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectMembersV1Response;
-import types.ListProjectMembersV1ResponseMembersItem;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.ListProjectMembersV1Response;
+import com.deepgram.types.ListProjectMembersV1ResponseMembersItem;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * List and manage project members.

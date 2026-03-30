@@ -1,11 +1,12 @@
+import com.deepgram.DeepgramClient;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import resources.listen.v2.types.ListenV2CloseStream;
-import resources.listen.v2.types.ListenV2CloseStreamType;
-import resources.listen.v2.types.ListenV2TurnInfoEvent;
-import resources.listen.v2.websocket.V2ConnectOptions;
-import resources.listen.v2.websocket.V2WebSocketClient;
+import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2CloseStreamType;
+import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
+import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
+import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 
 /**
  * Real-time live transcription using the Listen V2 WebSocket.

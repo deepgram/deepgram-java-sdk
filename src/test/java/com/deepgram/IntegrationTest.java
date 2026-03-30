@@ -1,7 +1,23 @@
+package com.deepgram;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import core.DeepgramApiApiException;
+import com.deepgram.core.DeepgramApiApiException;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
+import com.deepgram.resources.speak.v1.audio.requests.SpeakV1Request;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.ListenV1AcceptedResponse;
+import com.deepgram.types.ListenV1Response;
+import com.deepgram.types.ListenV1ResponseResults;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
+import com.deepgram.types.ReadV1Request;
+import com.deepgram.types.ReadV1RequestText;
+import com.deepgram.types.ReadV1Response;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,19 +27,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
-import resources.read.v1.text.requests.TextAnalyzeRequest;
-import resources.speak.v1.audio.requests.SpeakV1Request;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
-import types.ListenV1Response;
-import types.ListenV1ResponseResults;
-import types.ListenV1ResponseResultsChannelsItem;
-import types.ReadV1Request;
-import types.ReadV1RequestText;
-import types.ReadV1Response;
 
 /**
  * Integration tests for the Deepgram Java SDK. These tests require a valid DEEPGRAM_API_KEY
@@ -72,7 +75,7 @@ public class IntegrationTest {
                 }
 
                 @Override
-                public ListenV1Response visit(types.ListenV1AcceptedResponse value) {
+                public ListenV1Response visit(ListenV1AcceptedResponse value) {
                   return null;
                 }
               });
@@ -122,7 +125,7 @@ public class IntegrationTest {
                 }
 
                 @Override
-                public ListenV1Response visit(types.ListenV1AcceptedResponse value) {
+                public ListenV1Response visit(ListenV1AcceptedResponse value) {
                   return null;
                 }
               });

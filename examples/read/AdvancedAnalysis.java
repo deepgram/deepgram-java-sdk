@@ -1,11 +1,12 @@
+import com.deepgram.DeepgramClient;
 import java.util.Arrays;
-import resources.read.v1.text.requests.TextAnalyzeRequest;
-import resources.read.v1.text.types.TextAnalyzeRequestCustomIntentMode;
-import resources.read.v1.text.types.TextAnalyzeRequestCustomTopicMode;
-import types.ReadV1Request;
-import types.ReadV1RequestText;
-import types.ReadV1Response;
-import types.ReadV1ResponseResults;
+import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
+import com.deepgram.resources.read.v1.text.types.TextAnalyzeRequestCustomIntentMode;
+import com.deepgram.resources.read.v1.text.types.TextAnalyzeRequestCustomTopicMode;
+import com.deepgram.types.ReadV1Request;
+import com.deepgram.types.ReadV1RequestText;
+import com.deepgram.types.ReadV1Response;
+import com.deepgram.types.ReadV1ResponseResults;
 
 /**
  * Advanced text intelligence analysis with custom topics and intents.

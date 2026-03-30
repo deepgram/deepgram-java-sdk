@@ -1,8 +1,14 @@
 # Custom client wrappers (extend generated DeepgramApiClient with Bearer auth, session ID)
+# Flat paths (local generation strips package-prefix)
 src/main/java/DeepgramClient.java
 src/main/java/AsyncDeepgramClient.java
 src/main/java/DeepgramClientBuilder.java
 src/main/java/AsyncDeepgramClientBuilder.java
+# Full package paths (Maven/PR generation)
+src/main/java/com/deepgram/DeepgramClient.java
+src/main/java/com/deepgram/AsyncDeepgramClient.java
+src/main/java/com/deepgram/DeepgramClientBuilder.java
+src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 
 # Custom project files
 .editorconfig

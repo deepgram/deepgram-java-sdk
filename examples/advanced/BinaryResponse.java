@@ -1,8 +1,9 @@
+import com.deepgram.DeepgramClient;
 import java.util.List;
 import java.util.Map;
-import core.DeepgramApiHttpResponse;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.core.DeepgramApiHttpResponse;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 
 /**
  * Demonstrates accessing raw HTTP response headers alongside the parsed body.

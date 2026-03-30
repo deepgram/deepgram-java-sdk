@@ -1,9 +1,10 @@
+import com.deepgram.DeepgramClient;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import resources.speak.v1.audio.requests.SpeakV1Request;
+import com.deepgram.resources.speak.v1.audio.requests.SpeakV1Request;
 
 /**
  * Convert text to speech using Deepgram's TTS REST API and save the audio to a file.

@@ -1,4 +1,4 @@
-package core;
+package com.deepgram.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

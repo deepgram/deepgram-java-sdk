@@ -1,8 +1,9 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import types.ListModelsV1Response;
-import types.ListModelsV1ResponseSttModels;
-import types.ListModelsV1ResponseTtsModels;
+import com.deepgram.types.ListModelsV1Response;
+import com.deepgram.types.ListModelsV1ResponseSttModels;
+import com.deepgram.types.ListModelsV1ResponseTtsModels;
 
 /**
  * List all available Deepgram models (speech-to-text and text-to-speech).

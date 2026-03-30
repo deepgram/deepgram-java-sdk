@@ -1,8 +1,9 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
-import types.UsageV1Response;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.UsageV1Response;
 
 /**
  * Retrieve usage information for a Deepgram project.

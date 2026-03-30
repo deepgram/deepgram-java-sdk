@@ -1,18 +1,19 @@
-import resources.agent.v1.types.AgentV1SettingsAgentContext;
-import resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
-import resources.agent.v1.types.AgentV1SettingsAgentContextThink;
-import types.Anthropic;
-import types.AnthropicThinkProviderModel;
-import types.Deepgram;
-import types.DeepgramSpeakProviderModel;
-import types.Google;
-import types.GoogleThinkProviderModel;
-import types.OpenAiThinkProvider;
-import types.OpenAiThinkProviderModel;
-import types.SpeakSettingsV1;
-import types.SpeakSettingsV1Provider;
-import types.ThinkSettingsV1;
-import types.ThinkSettingsV1Provider;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
+import com.deepgram.types.Anthropic;
+import com.deepgram.types.AnthropicThinkProviderModel;
+import com.deepgram.types.Deepgram;
+import com.deepgram.types.DeepgramSpeakProviderModel;
+import com.deepgram.types.Google;
+import com.deepgram.types.GoogleThinkProviderModel;
+import com.deepgram.types.OpenAiThinkProvider;
+import com.deepgram.types.OpenAiThinkProviderModel;
+import com.deepgram.types.SpeakSettingsV1;
+import com.deepgram.types.SpeakSettingsV1Provider;
+import com.deepgram.types.ThinkSettingsV1;
+import com.deepgram.types.ThinkSettingsV1Provider;
 
 /**
  * Demonstrates building different provider combination configurations for comparison.

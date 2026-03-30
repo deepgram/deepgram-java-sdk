@@ -1,9 +1,10 @@
+import com.deepgram.DeepgramClient;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectBalancesV1Response;
-import types.ListProjectBalancesV1ResponseBalancesItem;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.ListProjectBalancesV1Response;
+import com.deepgram.types.ListProjectBalancesV1ResponseBalancesItem;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * View billing balances for a Deepgram project.

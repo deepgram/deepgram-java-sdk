@@ -1,15 +1,16 @@
+import com.deepgram.DeepgramClient;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
-import types.ListenV1Response;
-import types.ListenV1ResponseResults;
-import types.ListenV1ResponseResultsChannelsItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItem;
+import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListenV1Response;
+import com.deepgram.types.ListenV1ResponseResults;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 
 /**
  * Transcribe a local audio file using Deepgram's speech-to-text REST API.
