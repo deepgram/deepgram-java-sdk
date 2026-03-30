@@ -1,26 +1,24 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListenV1AcceptedResponse;
+import com.deepgram.types.ListenV1Response;
+import com.deepgram.types.ListenV1ResponseResults;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 import java.util.Collections;
 import java.util.List;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeRequestModel;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
-import types.ListenV1AcceptedResponse;
-import types.ListenV1Response;
-import types.ListenV1ResponseResults;
-import types.ListenV1ResponseResultsChannelsItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 
 /**
- * Reusable handler utilities for Deepgram API responses.
- * Demonstrates how to structure helper methods for common tasks
+ * Reusable handler utilities for Deepgram API responses. Demonstrates how to structure helper methods for common tasks
  * like transcription with formatted output.
  *
  * <p>Usage: java Handlers
  */
 public class Handlers {
 
-    /**
-     * Transcribe audio from a URL and print the result.
-     */
+    /** Transcribe audio from a URL and print the result. */
     public static void transcribeAndPrint(DeepgramClient client, String audioUrl) {
         System.out.printf("Transcribing: %s%n", audioUrl);
 
@@ -53,9 +51,7 @@ public class Handlers {
         }
     }
 
-    /**
-     * Extract and print the transcription from a ListenV1Response.
-     */
+    /** Extract and print the transcription from a ListenV1Response. */
     public static void printTranscription(ListenV1Response response) {
         ListenV1ResponseResults results = response.getResults();
         if (results == null || results.getChannels().isEmpty()) {
@@ -83,9 +79,7 @@ public class Handlers {
         });
     }
 
-    /**
-     * Demo entry point showing how to use the handler utilities.
-     */
+    /** Demo entry point showing how to use the handler utilities. */
     public static void main(String[] args) {
         // Get API key from environment
         String apiKey = System.getenv("DEEPGRAM_API_KEY");
@@ -95,9 +89,7 @@ public class Handlers {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Handlers Demo");
         System.out.println("=".repeat(50));
@@ -105,8 +97,7 @@ public class Handlers {
 
         // Transcribe multiple audio files using the handler
         String[] audioUrls = {
-            "https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav",
-            "https://dpgr.am/spacewalk.wav"
+            "https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav", "https://dpgr.am/spacewalk.wav"
         };
 
         for (String url : audioUrls) {

@@ -1,12 +1,13 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.core.Environment;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 import java.util.Collections;
 import java.util.List;
-import core.Environment;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
 
 /**
- * Demonstrates configuring a custom endpoint or proxy using Environment.custom().
- * Useful when routing through a proxy server or using a self-hosted deployment.
+ * Demonstrates configuring a custom endpoint or proxy using Environment.custom(). Useful when routing through a proxy
+ * server or using a self-hosted deployment.
  *
  * <p>Usage: java Proxy
  */
@@ -37,10 +38,8 @@ public class Proxy {
                 .build();
 
         // Create client with the custom environment
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .environment(customEnv)
-                .build();
+        DeepgramClient client =
+                DeepgramClient.builder().apiKey(apiKey).environment(customEnv).build();
 
         try {
             // Verify connectivity through the proxy

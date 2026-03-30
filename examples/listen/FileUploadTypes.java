@@ -1,20 +1,21 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListenV1AcceptedResponse;
+import com.deepgram.types.ListenV1Response;
+import com.deepgram.types.ListenV1ResponseResults;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
-import resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
-import resources.listen.v1.media.types.MediaTranscribeRequestModel;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
-import types.ListenV1AcceptedResponse;
-import types.ListenV1Response;
-import types.ListenV1ResponseResults;
-import types.ListenV1ResponseResultsChannelsItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 
 /**
- * Demonstrates transcribing audio from downloaded bytes (file upload).
- * Downloads an audio file into memory and sends the raw bytes to Deepgram.
+ * Demonstrates transcribing audio from downloaded bytes (file upload). Downloads an audio file into memory and sends
+ * the raw bytes to Deepgram.
  *
  * <p>Usage: java FileUploadTypes
  */
@@ -34,9 +35,7 @@ public class FileUploadTypes {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             // Download the audio file into a byte array
@@ -71,7 +70,7 @@ public class FileUploadTypes {
 
     private static byte[] downloadAudio(String url) throws Exception {
         try (InputStream in = URI.create(url).toURL().openStream();
-             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[8192];
             int bytesRead;
             while ((bytesRead = in.read(buffer)) != -1) {
@@ -87,7 +86,8 @@ public class FileUploadTypes {
             public Void visit(ListenV1Response resp) {
                 ListenV1ResponseResults results = resp.getResults();
                 if (results != null && !results.getChannels().isEmpty()) {
-                    ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                    ListenV1ResponseResultsChannelsItem channel =
+                            results.getChannels().get(0);
                     List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                             channel.getAlternatives().orElse(Collections.emptyList());
                     if (!alternatives.isEmpty()) {

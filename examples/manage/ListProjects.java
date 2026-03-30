@@ -1,7 +1,8 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * List all projects associated with the authenticated API key.
@@ -18,9 +19,7 @@ public class ListProjects {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Listing projects...");
         System.out.println();

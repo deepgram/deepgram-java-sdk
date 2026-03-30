@@ -1,12 +1,13 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.core.DeepgramApiHttpResponse;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import java.util.List;
 import java.util.Map;
-import core.DeepgramApiHttpResponse;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
 
 /**
- * Demonstrates accessing raw HTTP response headers alongside the parsed body.
- * Uses the withRawResponse() method to get both headers and body from the API.
+ * Demonstrates accessing raw HTTP response headers alongside the parsed body. Uses the withRawResponse() method to get
+ * both headers and body from the API.
  *
  * <p>Usage: java BinaryResponse
  */
@@ -23,9 +24,7 @@ public class BinaryResponse {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             // Build request

@@ -1,12 +1,13 @@
-import resources.read.v1.text.requests.TextAnalyzeRequest;
-import types.ReadV1Request;
-import types.ReadV1RequestText;
-import types.ReadV1Response;
-import types.ReadV1ResponseResults;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
+import com.deepgram.types.ReadV1Request;
+import com.deepgram.types.ReadV1RequestText;
+import com.deepgram.types.ReadV1Response;
+import com.deepgram.types.ReadV1ResponseResults;
 
 /**
- * Analyze text content using Deepgram's text intelligence API.
- * Demonstrates sentiment analysis, topic detection, summarization, and intent detection.
+ * Analyze text content using Deepgram's text intelligence API. Demonstrates sentiment analysis, topic detection,
+ * summarization, and intent detection.
  *
  * <p>Usage: java AnalyzeText
  */
@@ -23,14 +24,13 @@ public class AnalyzeText {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             // Create the request body with inline text
             ReadV1RequestText textBody = ReadV1RequestText.builder()
-                    .text("Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.")
+                    .text(
+                            "Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.")
                     .build();
 
             // Build the analyze request with options

@@ -1,15 +1,16 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2CloseStreamType;
+import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
+import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
+import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import resources.listen.v2.types.ListenV2CloseStream;
-import resources.listen.v2.types.ListenV2CloseStreamType;
-import resources.listen.v2.types.ListenV2TurnInfoEvent;
-import resources.listen.v2.websocket.V2ConnectOptions;
-import resources.listen.v2.websocket.V2WebSocketClient;
 
 /**
- * Real-time live transcription using the Listen V2 WebSocket.
- * V2 provides turn-based transcription with enhanced features.
+ * Real-time live transcription using the Listen V2 WebSocket. V2 provides turn-based transcription with enhanced
+ * features.
  *
  * <p>Usage: java LiveStreamingV2
  */
@@ -26,9 +27,7 @@ public class LiveStreamingV2 {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         // Get the V2 WebSocket client
         V2WebSocketClient wsClient = client.listen().v2().v2WebSocket();
@@ -50,8 +49,7 @@ public class LiveStreamingV2 {
                 ListenV2TurnInfoEvent event = turnInfo.getEvent();
                 double turnIndex = turnInfo.getTurnIndex();
 
-                System.out.printf("[%s] turn=%.0f transcript=\"%s\"%n",
-                        event, turnIndex, transcript);
+                System.out.printf("[%s] turn=%.0f transcript=\"%s\"%n", event, turnIndex, transcript);
             });
 
             wsClient.onError(error -> {
@@ -59,8 +57,8 @@ public class LiveStreamingV2 {
             });
 
             wsClient.onDisconnected(reason -> {
-                System.out.println("\nConnection closed (code: " + reason.getCode()
-                        + ", reason: " + reason.getReason() + ")");
+                System.out.println(
+                        "\nConnection closed (code: " + reason.getCode() + ", reason: " + reason.getReason() + ")");
                 closeLatch.countDown();
             });
 
@@ -78,10 +76,9 @@ public class LiveStreamingV2 {
             // wsClient.sendMedia(audioChunk);
 
             // Close the stream
-            wsClient.sendCloseStream(
-                    ListenV2CloseStream.builder()
-                            .type(ListenV2CloseStreamType.CLOSE_STREAM)
-                            .build());
+            wsClient.sendCloseStream(ListenV2CloseStream.builder()
+                    .type(ListenV2CloseStreamType.CLOSE_STREAM)
+                    .build());
 
             // Wait for disconnection
             closeLatch.await(15, TimeUnit.SECONDS);

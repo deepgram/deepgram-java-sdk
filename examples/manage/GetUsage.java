@@ -1,8 +1,9 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.UsageV1Response;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
-import types.UsageV1Response;
 
 /**
  * Retrieve usage information for a Deepgram project.
@@ -19,16 +20,15 @@ public class GetUsage {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Project Usage");
         System.out.println();
 
         try {
             // First, get the project ID
-            ListProjectsV1Response projectsResponse = client.manage().v1().projects().list();
+            ListProjectsV1Response projectsResponse =
+                    client.manage().v1().projects().list();
             List<ListProjectsV1ResponseProjectsItem> projects =
                     projectsResponse.getProjects().orElse(Collections.emptyList());
 
@@ -48,12 +48,9 @@ public class GetUsage {
             System.out.println("Usage Summary:");
             System.out.println("-".repeat(60));
 
-            usageResponse.getStart().ifPresent(start ->
-                    System.out.println("  Start:      " + start));
-            usageResponse.getEnd().ifPresent(end ->
-                    System.out.println("  End:        " + end));
-            usageResponse.getResolution().ifPresent(resolution ->
-                    System.out.println("  Resolution: " + resolution));
+            usageResponse.getStart().ifPresent(start -> System.out.println("  Start:      " + start));
+            usageResponse.getEnd().ifPresent(end -> System.out.println("  End:        " + end));
+            usageResponse.getResolution().ifPresent(resolution -> System.out.println("  Resolution: " + resolution));
 
             System.out.println();
             System.out.println("Full response: " + usageResponse);

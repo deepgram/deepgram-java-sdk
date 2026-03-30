@@ -1,23 +1,23 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
+import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
+import com.deepgram.resources.agent.v1.types.AgentV1Settings;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
+import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.OpenAiThinkProvider;
+import com.deepgram.types.OpenAiThinkProviderModel;
+import com.deepgram.types.ThinkSettingsV1;
+import com.deepgram.types.ThinkSettingsV1Provider;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import resources.agent.v1.types.AgentV1InjectAgentMessage;
-import resources.agent.v1.types.AgentV1InjectUserMessage;
-import resources.agent.v1.types.AgentV1Settings;
-import resources.agent.v1.types.AgentV1SettingsAgent;
-import resources.agent.v1.types.AgentV1SettingsAgentContext;
-import resources.agent.v1.types.AgentV1SettingsAgentContextThink;
-import resources.agent.v1.types.AgentV1SettingsAudio;
-import resources.agent.v1.websocket.V1WebSocketClient;
-import types.OpenAiThinkProvider;
-import types.OpenAiThinkProviderModel;
-import types.ThinkSettingsV1;
-import types.ThinkSettingsV1Provider;
 
 /**
- * Demonstrates injecting messages into an agent conversation.
- * You can inject both user messages (as if the user said something)
- * and agent messages (as if the agent said something).
+ * Demonstrates injecting messages into an agent conversation. You can inject both user messages (as if the user said
+ * something) and agent messages (as if the agent said something).
  *
  * <p>Usage: java InjectMessage
  */
@@ -34,9 +34,7 @@ public class InjectMessage {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         // Get the Agent WebSocket client
         V1WebSocketClient wsClient = client.agent().v1().v1WebSocket();
@@ -121,8 +119,8 @@ public class InjectMessage {
             });
 
             wsClient.onDisconnected(reason -> {
-                System.out.println("\nConnection closed (code: " + reason.getCode()
-                        + ", reason: " + reason.getReason() + ")");
+                System.out.println(
+                        "\nConnection closed (code: " + reason.getCode() + ", reason: " + reason.getReason() + ")");
                 closeLatch.countDown();
             });
 
@@ -141,9 +139,7 @@ public class InjectMessage {
         }
     }
 
-    /**
-     * Inject user and agent messages into the conversation.
-     */
+    /** Inject user and agent messages into the conversation. */
     private static void injectMessages(V1WebSocketClient wsClient, CountDownLatch closeLatch) {
         try {
             // Wait for greeting to be processed
@@ -152,10 +148,9 @@ public class InjectMessage {
             // Inject a user message (as if the user spoke)
             System.out.println();
             System.out.println("--- Injecting user message ---");
-            wsClient.sendInjectUserMessage(
-                    AgentV1InjectUserMessage.builder()
-                            .content("What is the capital of France?")
-                            .build());
+            wsClient.sendInjectUserMessage(AgentV1InjectUserMessage.builder()
+                    .content("What is the capital of France?")
+                    .build());
 
             // Wait for the agent to respond
             Thread.sleep(8000);
@@ -163,10 +158,9 @@ public class InjectMessage {
             // Inject an agent message (force the agent to say something)
             System.out.println();
             System.out.println("--- Injecting agent message ---");
-            wsClient.sendInjectAgentMessage(
-                    AgentV1InjectAgentMessage.builder()
-                            .message("By the way, I can also help you with math and science questions!")
-                            .build());
+            wsClient.sendInjectAgentMessage(AgentV1InjectAgentMessage.builder()
+                    .message("By the way, I can also help you with math and science questions!")
+                    .build());
 
             // Wait for the response to be processed
             Thread.sleep(5000);

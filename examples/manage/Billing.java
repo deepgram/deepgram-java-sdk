@@ -1,9 +1,10 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.types.ListProjectBalancesV1Response;
+import com.deepgram.types.ListProjectBalancesV1ResponseBalancesItem;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectBalancesV1Response;
-import types.ListProjectBalancesV1ResponseBalancesItem;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
 
 /**
  * View billing balances for a Deepgram project.
@@ -20,16 +21,15 @@ public class Billing {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Billing Information");
         System.out.println();
 
         try {
             // First, get the project ID
-            ListProjectsV1Response projectsResponse = client.manage().v1().projects().list();
+            ListProjectsV1Response projectsResponse =
+                    client.manage().v1().projects().list();
             List<ListProjectsV1ResponseProjectsItem> projects =
                     projectsResponse.getProjects().orElse(Collections.emptyList());
 

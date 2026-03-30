@@ -1,9 +1,10 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.speak.v1.audio.requests.SpeakV1Request;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import resources.speak.v1.audio.requests.SpeakV1Request;
 
 /**
  * Convert text to speech using Deepgram's TTS REST API and save the audio to a file.
@@ -33,15 +34,11 @@ public class TextToSpeech {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             // Build the TTS request
-            SpeakV1Request request = SpeakV1Request.builder()
-                    .text(text)
-                    .build();
+            SpeakV1Request request = SpeakV1Request.builder().text(text).build();
 
             // Generate audio
             InputStream audioStream = client.speak().v1().audio().generate(request);

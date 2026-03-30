@@ -1,15 +1,16 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
+import com.deepgram.resources.read.v1.text.types.TextAnalyzeRequestCustomIntentMode;
+import com.deepgram.resources.read.v1.text.types.TextAnalyzeRequestCustomTopicMode;
+import com.deepgram.types.ReadV1Request;
+import com.deepgram.types.ReadV1RequestText;
+import com.deepgram.types.ReadV1Response;
+import com.deepgram.types.ReadV1ResponseResults;
 import java.util.Arrays;
-import resources.read.v1.text.requests.TextAnalyzeRequest;
-import resources.read.v1.text.types.TextAnalyzeRequestCustomIntentMode;
-import resources.read.v1.text.types.TextAnalyzeRequestCustomTopicMode;
-import types.ReadV1Request;
-import types.ReadV1RequestText;
-import types.ReadV1Response;
-import types.ReadV1ResponseResults;
 
 /**
- * Advanced text intelligence analysis with custom topics and intents.
- * Demonstrates how to guide Deepgram's analysis using domain-specific categories.
+ * Advanced text intelligence analysis with custom topics and intents. Demonstrates how to guide Deepgram's analysis
+ * using domain-specific categories.
  *
  * <p>Usage: java AdvancedAnalysis
  */
@@ -26,9 +27,7 @@ public class AdvancedAnalysis {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             String sampleText = "I've been a loyal customer for five years, but lately the service "
@@ -44,9 +43,8 @@ public class AdvancedAnalysis {
             System.out.println();
 
             // Create the request body
-            ReadV1RequestText textBody = ReadV1RequestText.builder()
-                    .text(sampleText)
-                    .build();
+            ReadV1RequestText textBody =
+                    ReadV1RequestText.builder().text(sampleText).build();
 
             // Build request with custom topics and intents
             TextAnalyzeRequest request = TextAnalyzeRequest.builder()
@@ -60,16 +58,10 @@ public class AdvancedAnalysis {
                             "Product Quality",
                             "Customer Support",
                             "Pricing and Refunds",
-                            "Competitor Comparison"
-                    ))
+                            "Competitor Comparison"))
                     .customTopicMode(TextAnalyzeRequestCustomTopicMode.EXTENDED)
                     .customIntent(Arrays.asList(
-                            "Request Refund",
-                            "Complaint",
-                            "Threat to Leave",
-                            "Request Discount",
-                            "Escalation Request"
-                    ))
+                            "Request Refund", "Complaint", "Threat to Leave", "Request Discount", "Escalation Request"))
                     .customIntentMode(TextAnalyzeRequestCustomIntentMode.EXTENDED)
                     .build();
 

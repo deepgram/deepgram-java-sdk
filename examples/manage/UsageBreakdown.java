@@ -1,12 +1,13 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.manage.v1.projects.usage.breakdown.requests.BreakdownGetRequest;
+import com.deepgram.resources.manage.v1.projects.usage.breakdown.types.BreakdownGetRequestGrouping;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
+import com.deepgram.types.UsageBreakdownV1Response;
+import com.deepgram.types.UsageBreakdownV1ResponseResultsItem;
+import com.deepgram.types.UsageBreakdownV1ResponseResultsItemGrouping;
 import java.util.Collections;
 import java.util.List;
-import resources.manage.v1.projects.usage.breakdown.requests.BreakdownGetRequest;
-import resources.manage.v1.projects.usage.breakdown.types.BreakdownGetRequestGrouping;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
-import types.UsageBreakdownV1Response;
-import types.UsageBreakdownV1ResponseResultsItem;
-import types.UsageBreakdownV1ResponseResultsItemGrouping;
 
 /**
  * View usage breakdown grouped by model and tag for a Deepgram project.
@@ -23,16 +24,15 @@ public class UsageBreakdown {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Usage Breakdown");
         System.out.println();
 
         try {
             // Get the first project
-            ListProjectsV1Response projectsResponse = client.manage().v1().projects().list();
+            ListProjectsV1Response projectsResponse =
+                    client.manage().v1().projects().list();
             List<ListProjectsV1ResponseProjectsItem> projects =
                     projectsResponse.getProjects().orElse(Collections.emptyList());
 

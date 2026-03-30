@@ -1,17 +1,17 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.types.ListenV1CloseStream;
+import com.deepgram.resources.listen.v1.types.ListenV1CloseStreamType;
+import com.deepgram.resources.listen.v1.types.ListenV1ResultsChannelAlternativesItem;
+import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.ListenV1Model;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import resources.listen.v1.types.ListenV1CloseStream;
-import resources.listen.v1.types.ListenV1CloseStreamType;
-import resources.listen.v1.types.ListenV1ResultsChannelAlternativesItem;
-import resources.listen.v1.websocket.V1ConnectOptions;
-import resources.listen.v1.websocket.V1WebSocketClient;
-import types.ListenV1Model;
 
 /**
- * Real-time live transcription using the Listen V1 WebSocket.
- * Connects to Deepgram, registers event handlers, and demonstrates the
- * WebSocket-based streaming transcription API.
+ * Real-time live transcription using the Listen V1 WebSocket. Connects to Deepgram, registers event handlers, and
+ * demonstrates the WebSocket-based streaming transcription API.
  *
  * <p>Usage: java LiveStreaming
  */
@@ -28,9 +28,7 @@ public class LiveStreaming {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         // Get the WebSocket client from the SDK
         V1WebSocketClient wsClient = client.listen().v1().v1WebSocket();
@@ -75,8 +73,8 @@ public class LiveStreaming {
             });
 
             wsClient.onDisconnected(reason -> {
-                System.out.println("\nConnection closed (code: " + reason.getCode()
-                        + ", reason: " + reason.getReason() + ")");
+                System.out.println(
+                        "\nConnection closed (code: " + reason.getCode() + ", reason: " + reason.getReason() + ")");
                 closeLatch.countDown();
             });
 
@@ -94,10 +92,9 @@ public class LiveStreaming {
             // wsClient.sendMedia(audioChunk);
 
             // Close the stream
-            wsClient.sendCloseStream(
-                    ListenV1CloseStream.builder()
-                            .type(ListenV1CloseStreamType.CLOSE_STREAM)
-                            .build());
+            wsClient.sendCloseStream(ListenV1CloseStream.builder()
+                    .type(ListenV1CloseStreamType.CLOSE_STREAM)
+                    .build());
 
             // Wait for disconnection
             closeLatch.await(15, TimeUnit.SECONDS);

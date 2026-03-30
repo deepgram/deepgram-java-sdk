@@ -1,11 +1,12 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.types.ListProjectsV1Response;
+import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 import java.util.Collections;
 import java.util.List;
-import types.ListProjectsV1Response;
-import types.ListProjectsV1ResponseProjectsItem;
 
 /**
- * Demonstrates authenticating with an API key and making a simple API call.
- * The API key is read from the DEEPGRAM_API_KEY environment variable.
+ * Demonstrates authenticating with an API key and making a simple API call. The API key is read from the
+ * DEEPGRAM_API_KEY environment variable.
  *
  * <p>Usage: java ApiKey
  */
@@ -22,9 +23,7 @@ public class ApiKey {
         System.out.println();
 
         // Create client using API key
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             // Verify authentication by listing projects

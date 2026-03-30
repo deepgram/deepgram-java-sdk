@@ -1,12 +1,12 @@
-import core.DeepgramApiApiException;
-import errors.BadRequestError;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.DeepgramClient;
+import com.deepgram.core.DeepgramApiApiException;
+import com.deepgram.errors.BadRequestError;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 
 /**
- * Demonstrates error handling patterns with the Deepgram Java SDK.
- * Shows how to catch and handle different error types including
- * API errors, bad requests, and network issues.
+ * Demonstrates error handling patterns with the Deepgram Java SDK. Shows how to catch and handle different error types
+ * including API errors, bad requests, and network issues.
  *
  * <p>Usage: java ErrorHandling
  */
@@ -20,9 +20,7 @@ public class ErrorHandling {
         }
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         System.out.println("Error Handling Examples");
         System.out.println();
@@ -31,9 +29,8 @@ public class ErrorHandling {
         System.out.println("1. Bad Request Error (invalid audio URL):");
         System.out.println("-".repeat(50));
         try {
-            ListenV1RequestUrl request = ListenV1RequestUrl.builder()
-                    .url("not-a-valid-url")
-                    .build();
+            ListenV1RequestUrl request =
+                    ListenV1RequestUrl.builder().url("not-a-valid-url").build();
 
             MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(request);
             System.out.println("Unexpected success: " + result);
@@ -58,9 +55,8 @@ public class ErrorHandling {
         System.out.println("2. Authentication Error (invalid API key):");
         System.out.println("-".repeat(50));
         try {
-            DeepgramClient badClient = DeepgramClient.builder()
-                    .apiKey("invalid-api-key")
-                    .build();
+            DeepgramClient badClient =
+                    DeepgramClient.builder().apiKey("invalid-api-key").build();
 
             badClient.manage().v1().projects().list();
             System.out.println("Unexpected success");

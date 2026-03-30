@@ -1,12 +1,13 @@
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeRequestCallbackMethod;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
-import types.ListenV1AcceptedResponse;
-import types.ListenV1Response;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestCallbackMethod;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListenV1AcceptedResponse;
+import com.deepgram.types.ListenV1Response;
 
 /**
- * Submit an audio URL for asynchronous transcription with a callback URL.
- * Deepgram will POST the results to your callback URL when processing completes.
+ * Submit an audio URL for asynchronous transcription with a callback URL. Deepgram will POST the results to your
+ * callback URL when processing completes.
  *
  * <p>Usage: java TranscribeCallback [callback-url] [audio-url]
  */
@@ -37,9 +38,7 @@ public class TranscribeCallback {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             // Submit transcription request with callback

@@ -1,19 +1,20 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.speak.v1.types.SpeakV1Close;
+import com.deepgram.resources.speak.v1.types.SpeakV1CloseType;
+import com.deepgram.resources.speak.v1.types.SpeakV1Flush;
+import com.deepgram.resources.speak.v1.types.SpeakV1FlushType;
+import com.deepgram.resources.speak.v1.types.SpeakV1Text;
+import com.deepgram.resources.speak.v1.websocket.V1WebSocketClient;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import resources.speak.v1.types.SpeakV1Close;
-import resources.speak.v1.types.SpeakV1CloseType;
-import resources.speak.v1.types.SpeakV1Flush;
-import resources.speak.v1.types.SpeakV1FlushType;
-import resources.speak.v1.types.SpeakV1Text;
-import resources.speak.v1.websocket.V1WebSocketClient;
 
 /**
- * Streaming text-to-speech using the Speak V1 WebSocket.
- * Sends text chunks and receives audio data in real time, saving to a file.
+ * Streaming text-to-speech using the Speak V1 WebSocket. Sends text chunks and receives audio data in real time, saving
+ * to a file.
  *
  * <p>Usage: java StreamingTts [output-file]
  */
@@ -36,9 +37,7 @@ public class StreamingTts {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         // Get the Speak WebSocket client
         V1WebSocketClient wsClient = client.speak().v1().v1WebSocket();
@@ -89,8 +88,8 @@ public class StreamingTts {
                 } catch (Exception e) {
                     // ignore
                 }
-                System.out.println("\nConnection closed (code: " + reason.getCode()
-                        + ", reason: " + reason.getReason() + ")");
+                System.out.println(
+                        "\nConnection closed (code: " + reason.getCode() + ", reason: " + reason.getReason() + ")");
                 closeLatch.countDown();
             });
 
@@ -107,17 +106,12 @@ public class StreamingTts {
 
             for (String sentence : sentences) {
                 System.out.println("Sending: \"" + sentence + "\"");
-                wsClient.sendText(
-                        SpeakV1Text.builder()
-                                .text(sentence)
-                                .build());
+                wsClient.sendText(SpeakV1Text.builder().text(sentence).build());
             }
 
             // Flush to ensure all text is processed
             wsClient.sendFlush(
-                    SpeakV1Flush.builder()
-                            .type(SpeakV1FlushType.FLUSH)
-                            .build());
+                    SpeakV1Flush.builder().type(SpeakV1FlushType.FLUSH).build());
 
             // Give time for audio to arrive
             Thread.sleep(5000);
@@ -125,9 +119,7 @@ public class StreamingTts {
             // Close the connection
             System.out.println("\nClosing connection...");
             wsClient.sendClose(
-                    SpeakV1Close.builder()
-                            .type(SpeakV1CloseType.CLOSE)
-                            .build());
+                    SpeakV1Close.builder().type(SpeakV1CloseType.CLOSE).build());
 
             closeLatch.await(10, TimeUnit.SECONDS);
 

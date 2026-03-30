@@ -24,6 +24,10 @@
           "type": "json",
           "path": ".fern/metadata.json",
           "jsonpath": "$.sdkVersion"
+        },
+        {
+          "type": "generic",
+          "path": "src/main/java/com/deepgram/core/ClientOptions.java"
         }
       ]
     }

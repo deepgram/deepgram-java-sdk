@@ -45,7 +45,7 @@ Add the dependency to your `pom.xml`:
 The SDK supports API Key authentication with automatic environment variable loading:
 
 ```java
-import DeepgramClient;
+import com.deepgram.DeepgramClient;
 
 // Using environment variable (DEEPGRAM_API_KEY)
 DeepgramClient client = DeepgramClient.builder().build();
@@ -88,25 +88,38 @@ DeepgramClient client = DeepgramClient.builder()
 Transcribe pre-recorded audio from files or URLs.
 
 ```java
-import DeepgramClient;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListenV1AcceptedResponse;
+import com.deepgram.types.ListenV1Response;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
 // Transcribe from URL
 MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(
     ListenV1RequestUrl.builder()
-        .url("https://static.deepgram.com/examples/Bueller-Life-moves-702702070.wav")
+        .url("https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav")
         .build()
 );
 
-// Access transcription
-String transcript = result.getResults()
-    .getChannels().get(0)
-    .getAlternatives().get(0)
-    .getTranscript();
-System.out.println(transcript);
+// Access transcription (MediaTranscribeResponse is a union type)
+result.visit(new MediaTranscribeResponse.Visitor<Void>() {
+    @Override
+    public Void visit(ListenV1Response response) {
+        response.getResults().getChannels().get(0)
+            .getAlternatives().ifPresent(alts -> {
+                alts.get(0).getTranscript().ifPresent(System.out::println);
+            });
+        return null;
+    }
+
+    @Override
+    public Void visit(ListenV1AcceptedResponse accepted) {
+        System.out.println("Request accepted (callback mode)");
+        return null;
+    }
+});
 ```
 
 #### Transcribe from File
@@ -116,8 +129,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 byte[] audioData = Files.readAllBytes(Path.of("audio.wav"));
-
-// File upload body is byte[]
 MediaTranscribeResponse result = client.listen().v1().media().transcribeFile(audioData);
 ```
 
@@ -126,8 +137,8 @@ MediaTranscribeResponse result = client.listen().v1().media().transcribeFile(aud
 Convert text to natural-sounding speech.
 
 ```java
-import DeepgramClient;
-import resources.speak.v1.audio.requests.SpeakV1Request;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.speak.v1.audio.requests.SpeakV1Request;
 import java.io.InputStream;
 
 DeepgramClient client = DeepgramClient.builder().build();
@@ -147,15 +158,22 @@ InputStream audioStream = client.speak().v1().audio().generate(
 Analyze text for sentiment, topics, summaries, and intents.
 
 ```java
-import DeepgramClient;
-import types.ReadV1Request;
-import types.ReadV1Response;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
+import com.deepgram.types.ReadV1Request;
+import com.deepgram.types.ReadV1RequestText;
+import com.deepgram.types.ReadV1Response;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
 ReadV1Response result = client.read().v1().text().analyze(
-    ReadV1Request.builder()
-        .text("Deepgram's speech recognition is incredibly accurate and fast.")
+    TextAnalyzeRequest.builder()
+        .body(ReadV1Request.of(
+            ReadV1RequestText.builder()
+                .text("Deepgram's speech recognition is incredibly accurate and fast.")
+                .build()))
+        .sentiment(true)
+        .language("en")
         .build()
 );
 ```
@@ -165,7 +183,7 @@ ReadV1Response result = client.read().v1().text().analyze(
 Manage projects, API keys, members, usage, and billing.
 
 ```java
-import DeepgramClient;
+import com.deepgram.DeepgramClient;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
@@ -184,7 +202,7 @@ var usage = client.manage().v1().projects().usage().get("project-id");
 Manage voice agent configurations and models.
 
 ```java
-import DeepgramClient;
+import com.deepgram.DeepgramClient;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
@@ -201,10 +219,10 @@ The SDK includes built-in WebSocket clients for real-time streaming.
 Stream audio for real-time speech-to-text.
 
 ```java
-import DeepgramClient;
-import resources.listen.v1.websocket.V1WebSocketClient;
-import resources.listen.v1.websocket.V1ConnectOptions;
-import types.ListenV1Model;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
+import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.types.ListenV1Model;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
@@ -242,8 +260,8 @@ ws.close();
 Stream text for real-time audio generation.
 
 ```java
-import DeepgramClient;
-import resources.speak.v1.websocket.V1WebSocketClient;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.speak.v1.websocket.V1WebSocketClient;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
@@ -275,8 +293,8 @@ ttsWs.close();
 Connect to Deepgram's voice agent for real-time conversational AI.
 
 ```java
-import DeepgramClient;
-import resources.agent.v1.websocket.V1WebSocketClient;
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
@@ -321,6 +339,8 @@ DeepgramClient client = DeepgramClient.builder()
 
 ### Custom HTTP Client
 
+> **Note:** When providing a custom `OkHttpClient`, the SDK's built-in retry interceptor is not added automatically. Add your own retry logic if needed.
+
 ```java
 import okhttp3.OkHttpClient;
 import java.util.concurrent.TimeUnit;
@@ -341,7 +361,7 @@ DeepgramClient client = DeepgramClient.builder()
 For on-premises deployments or custom endpoints:
 
 ```java
-import core.Environment;
+import com.deepgram.core.Environment;
 
 DeepgramClient client = DeepgramClient.builder()
     .apiKey("YOUR_DEEPGRAM_API_KEY")
@@ -378,9 +398,9 @@ DeepgramClient client = DeepgramClient.builder()
 The SDK provides a fully asynchronous client for non-blocking operations:
 
 ```java
-import AsyncDeepgramClient;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.AsyncDeepgramClient;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import java.util.concurrent.CompletableFuture;
 
 AsyncDeepgramClient asyncClient = AsyncDeepgramClient.builder().build();
@@ -388,7 +408,7 @@ AsyncDeepgramClient asyncClient = AsyncDeepgramClient.builder().build();
 // Async transcription
 CompletableFuture<MediaTranscribeResponse> future = asyncClient.listen().v1().media()
     .transcribeUrl(ListenV1RequestUrl.builder()
-        .url("https://static.deepgram.com/examples/Bueller-Life-moves-702702070.wav")
+        .url("https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav")
         .build());
 
 future.thenAccept(result -> {
@@ -401,7 +421,7 @@ future.thenAccept(result -> {
 The SDK provides structured error handling:
 
 ```java
-import errors.BadRequestError;
+import com.deepgram.errors.BadRequestError;
 
 try {
     var result = client.listen().v1().media().transcribeUrl(
@@ -418,19 +438,19 @@ try {
 
 ### Raw Response Access
 
-All client methods support raw response access for advanced use cases:
+All client methods support raw response access via the raw client:
 
 ```java
-import core.RawResponse;
+import com.deepgram.core.DeepgramApiHttpResponse;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 
 // Access raw HTTP response
-var rawResponse = client.listen().v1().media()
-    .withRawResponse()
-    .transcribeUrl(request);
+DeepgramApiHttpResponse<MediaTranscribeResponse> rawResponse =
+    client.listen().v1().media().withRawResponse().transcribeUrl(request);
 
 int statusCode = rawResponse.statusCode();
 var headers = rawResponse.headers();
-var body = rawResponse.body();
+MediaTranscribeResponse body = rawResponse.body();
 ```
 
 ## Complete SDK Reference

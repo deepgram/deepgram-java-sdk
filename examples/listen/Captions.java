@@ -1,20 +1,20 @@
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.types.ListenV1AcceptedResponse;
+import com.deepgram.types.ListenV1Response;
+import com.deepgram.types.ListenV1ResponseResults;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem;
+import com.deepgram.types.ListenV1ResponseResultsUtterancesItem;
 import java.util.Collections;
 import java.util.List;
-import resources.listen.v1.media.requests.ListenV1RequestUrl;
-import resources.listen.v1.media.types.MediaTranscribeResponse;
-import types.ListenV1Response;
-import types.ListenV1ResponseResults;
-import types.ListenV1ResponseResultsChannelsItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem;
-import types.ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem;
-import types.ListenV1ResponseResultsUtterancesItem;
-import types.ListenV1AcceptedResponse;
 
 /**
- * Demonstrates transcription with paragraphs and utterances enabled,
- * producing caption-friendly output with speaker labels and timing.
+ * Demonstrates transcription with paragraphs and utterances enabled, producing caption-friendly output with speaker
+ * labels and timing.
  *
  * <p>Usage: java Captions
  */
@@ -34,9 +34,7 @@ public class Captions {
         System.out.println();
 
         // Create client
-        DeepgramClient client = DeepgramClient.builder()
-                .apiKey(apiKey)
-                .build();
+        DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
 
         try {
             // Build request with paragraphs and utterances enabled
@@ -48,8 +46,7 @@ public class Captions {
                     .diarize(true)
                     .build();
 
-            MediaTranscribeResponse result =
-                    client.listen().v1().media().transcribeUrl(request);
+            MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(request);
 
             // Process the response
             result.visit(new MediaTranscribeResponse.Visitor<Void>() {
@@ -63,7 +60,8 @@ public class Captions {
 
                     // Display paragraphs
                     if (!results.getChannels().isEmpty()) {
-                        ListenV1ResponseResultsChannelsItem channel = results.getChannels().get(0);
+                        ListenV1ResponseResultsChannelsItem channel =
+                                results.getChannels().get(0);
                         List<ListenV1ResponseResultsChannelsItemAlternativesItem> alternatives =
                                 channel.getAlternatives().orElse(Collections.emptyList());
 
@@ -74,18 +72,20 @@ public class Captions {
                             alt.getParagraphs().ifPresent(paragraphs -> {
                                 System.out.println("=== Paragraphs ===");
                                 System.out.println("-".repeat(60));
-                                List<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem> paras =
-                                        paragraphs.getParagraphs().orElse(Collections.emptyList());
+                                List<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem>
+                                        paras = paragraphs.getParagraphs().orElse(Collections.emptyList());
                                 for (int i = 0; i < paras.size(); i++) {
-                                    ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem para = paras.get(i);
+                                    ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem para =
+                                            paras.get(i);
                                     float speaker = para.getSpeaker().orElse(0f);
                                     System.out.printf("Speaker %.0f:%n", speaker);
 
-                                    List<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem> sentences =
-                                            para.getSentences().orElse(Collections.emptyList());
-                                    for (ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem sentence : sentences) {
-                                        sentence.getText().ifPresent(text ->
-                                                System.out.println("  " + text));
+                                    List<
+                                                    ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem>
+                                            sentences = para.getSentences().orElse(Collections.emptyList());
+                                    for (ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem
+                                            sentence : sentences) {
+                                        sentence.getText().ifPresent(text -> System.out.println("  " + text));
                                     }
                                     System.out.println();
                                 }
@@ -104,8 +104,7 @@ public class Captions {
                             float start = utterance.getStart().orElse(0f);
                             float end = utterance.getEnd().orElse(0f);
                             String transcript = utterance.getTranscript().orElse("");
-                            System.out.printf("[%.2f - %.2f] Speaker %.0f: %s%n",
-                                    start, end, speaker, transcript);
+                            System.out.printf("[%.2f - %.2f] Speaker %.0f: %s%n", start, end, speaker, transcript);
                         }
                     }
 
