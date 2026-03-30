@@ -1,10 +1,14 @@
 {
-  "cliVersion": "4.4.1",
+  "cliVersion": "4.46.0",
   "generatorName": "fernapi/fern-java-sdk",
   "generatorVersion": "4.0.4",
   "generatorConfig": {
+    "package-prefix": "com.deepgram",
     "client": {
       "class-name": "DeepgramClient"
-    }
-  }
+    },
+    "enable-wire-tests": true
+  },
+  "originGitCommit": "78fd4d4c60752a78daaa68b3d58da0554c9ce481",
+  "sdkVersion": "0.1.1"
 }
