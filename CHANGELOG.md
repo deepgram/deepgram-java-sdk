@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.2.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.1.0...v0.2.0) (2026-03-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* fern regeneration with exception rename and forward-compatible enums ([#20](https://github.com/deepgram/deepgram-java-sdk/issues/20))
+* fern regeneration with com.deepgram package prefix ([#17](https://github.com/deepgram/deepgram-java-sdk/issues/17))
+
+### Features
+
+* fern regeneration with com.deepgram package prefix ([#17](https://github.com/deepgram/deepgram-java-sdk/issues/17)) ([a665131](https://github.com/deepgram/deepgram-java-sdk/commit/a66513101681105d4b87fe7c5a405b874c1d3fdd))
+* fern regeneration with exception rename and forward-compatible enums ([#20](https://github.com/deepgram/deepgram-java-sdk/issues/20)) ([8d65065](https://github.com/deepgram/deepgram-java-sdk/commit/8d65065243aab845f9de02e66428613b70bea2d8))
+
+
+### Bug Fixes
+
+* add release-please version annotations and fix ClientOptions SDK name ([#21](https://github.com/deepgram/deepgram-java-sdk/issues/21)) ([0f56e52](https://github.com/deepgram/deepgram-java-sdk/commit/0f56e52300b2c79f68c9ac045f1f04eb104cbe19))
+* switch pom.xml to generic updater for release-please compatibility ([#22](https://github.com/deepgram/deepgram-java-sdk/issues/22)) ([8bff3b9](https://github.com/deepgram/deepgram-java-sdk/commit/8bff3b917c8f8fbcc74d4f2b9b588a2c73ac9e89))
+
 ## 0.1.0 (2026-03-27)
 
 
