@@ -12,9 +12,8 @@
       "draft": false,
       "extra-files": [
         {
-          "type": "xml",
-          "path": "pom.xml",
-          "xpath": "//project/version"
+          "type": "generic",
+          "path": "pom.xml"
         },
         {
           "type": "generic",
