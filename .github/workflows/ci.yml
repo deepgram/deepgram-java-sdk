@@ -91,5 +91,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run Spotless check
+      - name: Lint custom files
         run: ./gradlew spotlessCheck
+
+      - name: Build
+        run: ./gradlew build -x test

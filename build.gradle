@@ -1,6 +1,15 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
     id 'com.diffplug.spotless' version '6.25.0'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
 
 group = 'com.deepgram'
@@ -20,11 +29,11 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.12.0'
 
     // JSON serialization
-    api 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
-    api 'com.fasterxml.jackson.core:jackson-core:2.18.2'
-    api 'com.fasterxml.jackson.core:jackson-annotations:2.18.2'
-    api 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.2'
-    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
+    api 'com.fasterxml.jackson.core:jackson-databind:2.18.6'
+    api 'com.fasterxml.jackson.core:jackson-core:2.18.6'
+    api 'com.fasterxml.jackson.core:jackson-annotations:2.18.6'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.6'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.6'
 
     // Annotations
     compileOnly 'org.jetbrains:annotations:24.1.0'
@@ -64,10 +73,54 @@ tasks.register('integrationTest', Test) {
     }
 }
 
+// Examples source set
+sourceSets {
+    examples {
+        java {
+            srcDir 'examples'
+            // Exclude examples with known issues (see ISSUES section below)
+            exclude 'agent/**'                  // Blocked: missing AgentV1UpdateThink type
+            exclude 'manage/ListModels.java'    // Duplicate class name with agent/ListModels
+            exclude 'manage/MemberPermissions.java' // getScopes() not in generated API
+            exclude 'manage/UsageBreakdown.java'    // getModels() return type mismatch
+        }
+        compileClasspath += sourceSets.main.output + configurations.runtimeClasspath
+        runtimeClasspath += sourceSets.main.output + configurations.runtimeClasspath
+    }
+}
+
+// Compile all examples
+tasks.register('compileExamples') {
+    dependsOn 'examplesClasses'
+    description = 'Compile all example files'
+    group = 'examples'
+}
+
+// Run a specific example: ./gradlew runExample -PmainClass=TranscribeUrl
+tasks.register('runExample', JavaExec) {
+    description = 'Run an example. Usage: ./gradlew runExample -PmainClass=TranscribeUrl'
+    group = 'examples'
+    classpath = sourceSets.examples.runtimeClasspath
+    mainClass = project.hasProperty('mainClass') ? project.property('mainClass') : ''
+}
+
 spotless {
     java {
-        target 'src/**/*.java'
-        googleJavaFormat('1.19.2')
+        // Only lint custom (non-generated) files — Fern output uses JavaPoet formatting
+        // which no standard formatter reproduces exactly
+        target(
+            'src/main/java/com/deepgram/DeepgramClient.java',
+            'src/main/java/com/deepgram/AsyncDeepgramClient.java',
+            'src/main/java/com/deepgram/DeepgramClientBuilder.java',
+            'src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java',
+            'src/test/java/com/deepgram/ClientBuilderTest.java',
+            'src/test/java/com/deepgram/IntegrationTest.java',
+            'src/test/java/com/deepgram/core/EnvironmentTest.java',
+            'src/test/java/com/deepgram/core/RetryInterceptorTest.java',
+            'examples/**/*.java',
+        )
+        palantirJavaFormat('2.46.0').formatJavadoc(true)
         removeUnusedImports()
     }
 }
+

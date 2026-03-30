@@ -1,16 +1,16 @@
-.PHONY: lint format build test check test-all test-integration
+.PHONY: lint format build test check test-all test-integration compile-examples
 
-# Lint: check code formatting with Spotless
+# Lint: check formatting of custom (non-generated) files
 lint:
 	./gradlew spotlessCheck
 
-# Format: apply code formatting with Spotless
+# Format: apply formatting to custom (non-generated) files
 format:
 	./gradlew spotlessApply
 
-# Build: compile without tests or lint
+# Build: compile without tests
 build:
-	./gradlew build -x test -x spotlessCheck
+	./gradlew build -x test
 
 # Unit tests: exclude integration tests
 test:
@@ -26,3 +26,7 @@ test-all: check
 # Integration tests only (requires DEEPGRAM_API_KEY)
 test-integration:
 	./gradlew integrationTest
+
+# Compile all examples
+compile-examples:
+	./gradlew compileExamples
