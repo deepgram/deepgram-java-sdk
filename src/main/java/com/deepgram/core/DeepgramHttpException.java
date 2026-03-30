@@ -12,7 +12,7 @@ import okhttp3.Response;
 /**
  * This exception type will be thrown for any non-2XX API responses.
  */
-public class DeepgramApiApiException extends DeepgramApiException {
+public class DeepgramHttpException extends DeepgramApiException {
     /**
      * The error code of the response that triggered the exception.
      */
@@ -25,14 +25,14 @@ public class DeepgramApiApiException extends DeepgramApiException {
 
     private final Map<String, List<String>> headers;
 
-    public DeepgramApiApiException(String message, int statusCode, Object body) {
+    public DeepgramHttpException(String message, int statusCode, Object body) {
         super(message);
         this.statusCode = statusCode;
         this.body = body;
         this.headers = new HashMap<>();
     }
 
-    public DeepgramApiApiException(String message, int statusCode, Object body, Response rawResponse) {
+    public DeepgramHttpException(String message, int statusCode, Object body, Response rawResponse) {
         super(message);
         this.statusCode = statusCode;
         this.body = body;
@@ -67,7 +67,7 @@ public class DeepgramApiApiException extends DeepgramApiException {
 
     @Override
     public String toString() {
-        return "DeepgramApiApiException{" + "message: " + getMessage() + ", statusCode: " + statusCode + ", body: "
+        return "DeepgramHttpException{" + "message: " + getMessage() + ", statusCode: " + statusCode + ", body: "
                 + ObjectMappers.stringify(body) + "}";
     }
 }

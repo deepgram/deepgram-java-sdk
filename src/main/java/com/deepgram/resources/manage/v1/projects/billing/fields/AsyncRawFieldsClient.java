@@ -4,9 +4,9 @@
 package com.deepgram.resources.manage.v1.projects.billing.fields;
 
 import com.deepgram.core.ClientOptions;
-import com.deepgram.core.DeepgramApiApiException;
 import com.deepgram.core.DeepgramApiException;
 import com.deepgram.core.DeepgramApiHttpResponse;
+import com.deepgram.core.DeepgramHttpException;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.RequestOptions;
@@ -112,7 +112,7 @@ public class AsyncRawFieldsClient {
                         // unable to map error response, throwing generic error
                     }
                     Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
-                    future.completeExceptionally(new DeepgramApiApiException(
+                    future.completeExceptionally(new DeepgramHttpException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
                 } catch (IOException e) {
