@@ -19,29 +19,29 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = Deepgram.Builder.class)
-public final class Deepgram {
+@JsonDeserialize(builder = AgentV1UpdateThinkThinkContextLengthProviderGoogle.Builder.class)
+public final class AgentV1UpdateThinkThinkContextLengthProviderGoogle {
     private final Optional<String> version;
 
-    private final AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel model;
+    private final AgentV1UpdateThinkThinkContextLengthProviderGoogleModel model;
 
-    private final Optional<Double> speed;
+    private final Optional<Double> temperature;
 
     private final Map<String, Object> additionalProperties;
 
-    private Deepgram(
+    private AgentV1UpdateThinkThinkContextLengthProviderGoogle(
             Optional<String> version,
-            AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel model,
-            Optional<Double> speed,
+            AgentV1UpdateThinkThinkContextLengthProviderGoogleModel model,
+            Optional<Double> temperature,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.model = model;
-        this.speed = speed;
+        this.temperature = temperature;
         this.additionalProperties = additionalProperties;
     }
 
     /**
-     * @return The REST API version for the Deepgram text-to-speech API
+     * @return The REST API version for the Google generative language API
      */
     @JsonProperty("version")
     public Optional<String> getVersion() {
@@ -49,25 +49,26 @@ public final class Deepgram {
     }
 
     /**
-     * @return Deepgram TTS model
+     * @return Google model to use
      */
     @JsonProperty("model")
-    public AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel getModel() {
+    public AgentV1UpdateThinkThinkContextLengthProviderGoogleModel getModel() {
         return model;
     }
 
     /**
-     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.
+     * @return Google temperature (0-2)
      */
-    @JsonProperty("speed")
-    public Optional<Double> getSpeed() {
-        return speed;
+    @JsonProperty("temperature")
+    public Optional<Double> getTemperature() {
+        return temperature;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof Deepgram && equalTo((Deepgram) other);
+        return other instanceof AgentV1UpdateThinkThinkContextLengthProviderGoogle
+                && equalTo((AgentV1UpdateThinkThinkContextLengthProviderGoogle) other);
     }
 
     @JsonAnyGetter
@@ -75,13 +76,13 @@ public final class Deepgram {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(Deepgram other) {
-        return version.equals(other.version) && model.equals(other.model) && speed.equals(other.speed);
+    private boolean equalTo(AgentV1UpdateThinkThinkContextLengthProviderGoogle other) {
+        return version.equals(other.version) && model.equals(other.model) && temperature.equals(other.temperature);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model, this.speed);
+        return Objects.hash(this.version, this.model, this.temperature);
     }
 
     @java.lang.Override
@@ -95,40 +96,40 @@ public final class Deepgram {
 
     public interface ModelStage {
         /**
-         * <p>Deepgram TTS model</p>
+         * <p>Google model to use</p>
          */
-        _FinalStage model(@NotNull AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel model);
+        _FinalStage model(@NotNull AgentV1UpdateThinkThinkContextLengthProviderGoogleModel model);
 
-        Builder from(Deepgram other);
+        Builder from(AgentV1UpdateThinkThinkContextLengthProviderGoogle other);
     }
 
     public interface _FinalStage {
-        Deepgram build();
+        AgentV1UpdateThinkThinkContextLengthProviderGoogle build();
 
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
-         * <p>The REST API version for the Deepgram text-to-speech API</p>
+         * <p>The REST API version for the Google generative language API</p>
          */
         _FinalStage version(Optional<String> version);
 
         _FinalStage version(String version);
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * <p>Google temperature (0-2)</p>
          */
-        _FinalStage speed(Optional<Double> speed);
+        _FinalStage temperature(Optional<Double> temperature);
 
-        _FinalStage speed(Double speed);
+        _FinalStage temperature(Double temperature);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel model;
+        private AgentV1UpdateThinkThinkContextLengthProviderGoogleModel model;
 
-        private Optional<Double> speed = Optional.empty();
+        private Optional<Double> temperature = Optional.empty();
 
         private Optional<String> version = Optional.empty();
 
@@ -138,47 +139,47 @@ public final class Deepgram {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(Deepgram other) {
+        public Builder from(AgentV1UpdateThinkThinkContextLengthProviderGoogle other) {
             version(other.getVersion());
             model(other.getModel());
-            speed(other.getSpeed());
+            temperature(other.getTemperature());
             return this;
         }
 
         /**
-         * <p>Deepgram TTS model</p>
-         * <p>Deepgram TTS model</p>
+         * <p>Google model to use</p>
+         * <p>Google model to use</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel model) {
+        public _FinalStage model(@NotNull AgentV1UpdateThinkThinkContextLengthProviderGoogleModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * <p>Google temperature (0-2)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage speed(Double speed) {
-            this.speed = Optional.ofNullable(speed);
+        public _FinalStage temperature(Double temperature) {
+            this.temperature = Optional.ofNullable(temperature);
             return this;
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * <p>Google temperature (0-2)</p>
          */
         @java.lang.Override
-        @JsonSetter(value = "speed", nulls = Nulls.SKIP)
-        public _FinalStage speed(Optional<Double> speed) {
-            this.speed = speed;
+        @JsonSetter(value = "temperature", nulls = Nulls.SKIP)
+        public _FinalStage temperature(Optional<Double> temperature) {
+            this.temperature = temperature;
             return this;
         }
 
         /**
-         * <p>The REST API version for the Deepgram text-to-speech API</p>
+         * <p>The REST API version for the Google generative language API</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -188,7 +189,7 @@ public final class Deepgram {
         }
 
         /**
-         * <p>The REST API version for the Deepgram text-to-speech API</p>
+         * <p>The REST API version for the Google generative language API</p>
          */
         @java.lang.Override
         @JsonSetter(value = "version", nulls = Nulls.SKIP)
@@ -198,8 +199,9 @@ public final class Deepgram {
         }
 
         @java.lang.Override
-        public Deepgram build() {
-            return new Deepgram(version, model, speed, additionalProperties);
+        public AgentV1UpdateThinkThinkContextLengthProviderGoogle build() {
+            return new AgentV1UpdateThinkThinkContextLengthProviderGoogle(
+                    version, model, temperature, additionalProperties);
         }
 
         @java.lang.Override

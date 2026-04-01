@@ -11,6 +11,6 @@
     },
     "enable-wire-tests": true
   },
-  "originGitCommit": "e994b5ab79ae6fe3560daff055acdf80d315b48e",
-  "sdkVersion": "0.2.0"
+  "originGitCommit": "58b7d8009af585b1b1cfa34072f5cef89d93ec2a",
+  "sdkVersion": "0.2.1"
 }
