@@ -10,22 +10,38 @@ src/main/java/com/deepgram/AsyncDeepgramClient.java
 src/main/java/com/deepgram/DeepgramClientBuilder.java
 src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 
-# Custom project files
+# Core files with release-please version markers
+# Contains User-Agent, X-Fern-SDK-Name, and X-Fern-SDK-Version headers
+# with // x-release-please-version comments for automated version bumps.
+# Fern regen overwrites these with incorrect SDK names and strips the markers.
+src/main/java/com/deepgram/core/ClientOptions.java
+
+# Build and project configuration
+build.gradle
+settings.gradle
+gradle/
+gradlew
+gradlew.bat
+pom.xml
+Makefile
+
+# Documentation
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE
+
+# Tests (manually maintained)
+src/test/
+
+# Examples (manually maintained)
+examples/
+
+# CI/CD and editor config
 .editorconfig
 .githooks/
 .github/
 .gitignore
-build.gradle
-CHANGELOG.md
-CONTRIBUTING.md
-examples/
-gradle/
-gradlew
-gradlew.bat
-LICENSE
-Makefile
-pom.xml
-README.md
-settings.gradle
-src/test/
+
+# Build output
 target/
