@@ -10,6 +10,9 @@ src/main/java/com/deepgram/AsyncDeepgramClient.java
 src/main/java/com/deepgram/DeepgramClientBuilder.java
 src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 
+# Core files with release-please version markers
+src/main/java/com/deepgram/core/ClientOptions.java
+
 # Custom project files
 .editorconfig
 .githooks/
