@@ -24,8 +24,10 @@ import com.deepgram.resources.agent.v1.types.AgentV1SendFunctionCallResponse;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsApplied;
 import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdatePrompt;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1UpdateThink;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.agent.v1.types.AgentV1Warning;
 import com.deepgram.resources.agent.v1.types.AgentV1Welcome;
@@ -75,6 +77,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<AgentV1PromptUpdated> promptUpdatedHandler;
 
     private volatile Consumer<AgentV1SpeakUpdated> speakUpdatedHandler;
+
+    private volatile Consumer<AgentV1ThinkUpdated> thinkUpdatedHandler;
 
     private volatile Consumer<AgentV1InjectionRefused> injectionRefusedHandler;
 
@@ -276,6 +280,15 @@ public class V1WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends an AgentV1UpdateThink message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendUpdateThink(AgentV1UpdateThink message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Sends an AgentV1Media message to the server asynchronously.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
@@ -315,6 +328,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onSpeakUpdated(Consumer<AgentV1SpeakUpdated> handler) {
         this.speakUpdatedHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1ThinkUpdated messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onThinkUpdated(Consumer<AgentV1ThinkUpdated> handler) {
+        this.thinkUpdatedHandler = handler;
     }
 
     /**
@@ -530,6 +551,14 @@ public class V1WebSocketClient implements AutoCloseable {
                         AgentV1SpeakUpdated event = objectMapper.treeToValue(node, AgentV1SpeakUpdated.class);
                         if (event != null) {
                             speakUpdatedHandler.accept(event);
+                        }
+                    }
+                    break;
+                case "ThinkUpdated":
+                    if (thinkUpdatedHandler != null) {
+                        AgentV1ThinkUpdated event = objectMapper.treeToValue(node, AgentV1ThinkUpdated.class);
+                        if (event != null) {
+                            thinkUpdatedHandler.accept(event);
                         }
                     }
                     break;

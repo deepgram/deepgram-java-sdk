@@ -25,14 +25,18 @@ public final class AgentV1UpdateSpeakSpeakOneItemProviderDeepgram {
 
     private final AgentV1UpdateSpeakSpeakOneItemProviderDeepgramModel model;
 
+    private final Optional<Double> speed;
+
     private final Map<String, Object> additionalProperties;
 
     private AgentV1UpdateSpeakSpeakOneItemProviderDeepgram(
             Optional<String> version,
             AgentV1UpdateSpeakSpeakOneItemProviderDeepgramModel model,
+            Optional<Double> speed,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.model = model;
+        this.speed = speed;
         this.additionalProperties = additionalProperties;
     }
 
@@ -52,6 +56,14 @@ public final class AgentV1UpdateSpeakSpeakOneItemProviderDeepgram {
         return model;
     }
 
+    /**
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.
+     */
+    @JsonProperty("speed")
+    public Optional<Double> getSpeed() {
+        return speed;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -65,12 +77,12 @@ public final class AgentV1UpdateSpeakSpeakOneItemProviderDeepgram {
     }
 
     private boolean equalTo(AgentV1UpdateSpeakSpeakOneItemProviderDeepgram other) {
-        return version.equals(other.version) && model.equals(other.model);
+        return version.equals(other.version) && model.equals(other.model) && speed.equals(other.speed);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model);
+        return Objects.hash(this.version, this.model, this.speed);
     }
 
     @java.lang.Override
@@ -104,11 +116,20 @@ public final class AgentV1UpdateSpeakSpeakOneItemProviderDeepgram {
         _FinalStage version(Optional<String> version);
 
         _FinalStage version(String version);
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         */
+        _FinalStage speed(Optional<Double> speed);
+
+        _FinalStage speed(Double speed);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
         private AgentV1UpdateSpeakSpeakOneItemProviderDeepgramModel model;
+
+        private Optional<Double> speed = Optional.empty();
 
         private Optional<String> version = Optional.empty();
 
@@ -121,6 +142,7 @@ public final class AgentV1UpdateSpeakSpeakOneItemProviderDeepgram {
         public Builder from(AgentV1UpdateSpeakSpeakOneItemProviderDeepgram other) {
             version(other.getVersion());
             model(other.getModel());
+            speed(other.getSpeed());
             return this;
         }
 
@@ -133,6 +155,26 @@ public final class AgentV1UpdateSpeakSpeakOneItemProviderDeepgram {
         @JsonSetter("model")
         public _FinalStage model(@NotNull AgentV1UpdateSpeakSpeakOneItemProviderDeepgramModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage speed(Double speed) {
+            this.speed = Optional.ofNullable(speed);
+            return this;
+        }
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "speed", nulls = Nulls.SKIP)
+        public _FinalStage speed(Optional<Double> speed) {
+            this.speed = speed;
             return this;
         }
 
@@ -158,7 +200,7 @@ public final class AgentV1UpdateSpeakSpeakOneItemProviderDeepgram {
 
         @java.lang.Override
         public AgentV1UpdateSpeakSpeakOneItemProviderDeepgram build() {
-            return new AgentV1UpdateSpeakSpeakOneItemProviderDeepgram(version, model, additionalProperties);
+            return new AgentV1UpdateSpeakSpeakOneItemProviderDeepgram(version, model, speed, additionalProperties);
         }
 
         @java.lang.Override
