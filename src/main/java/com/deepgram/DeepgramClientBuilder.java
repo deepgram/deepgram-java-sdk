@@ -15,6 +15,8 @@ package com.deepgram;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.Environment;
 import com.deepgram.core.LogConfig;
+import com.deepgram.core.transport.DeepgramTransportFactory;
+import com.deepgram.core.transport.TransportWebSocketFactory;
 import java.util.UUID;
 import okhttp3.OkHttpClient;
 
@@ -24,6 +26,18 @@ public class DeepgramClientBuilder extends DeepgramApiClientBuilder {
     private String sessionId;
 
     private String apiKeyValue = System.getenv("DEEPGRAM_API_KEY");
+
+    private DeepgramTransportFactory transportFactory;
+
+    /**
+     * Sets a custom transport factory for all WebSocket connections. When set, WebSocket clients will use this factory
+     * instead of the default OkHttp WebSocket. Use this to route Deepgram API calls through alternative transports such
+     * as SageMaker HTTP/2 streaming.
+     */
+    public DeepgramClientBuilder transportFactory(DeepgramTransportFactory transportFactory) {
+        this.transportFactory = transportFactory;
+        return this;
+    }
 
     /**
      * Sets an access token (JWT) for Bearer authentication. If provided, this takes precedence over apiKey and sets the
@@ -101,6 +115,9 @@ public class DeepgramClientBuilder extends DeepgramApiClientBuilder {
     protected void setAdditional(ClientOptions.Builder builder) {
         String sid = (sessionId != null) ? sessionId : UUID.randomUUID().toString();
         builder.addHeader("x-deepgram-session-id", sid);
+        if (transportFactory != null) {
+            builder.webSocketFactory(new TransportWebSocketFactory(transportFactory));
+        }
     }
 
     @Override
