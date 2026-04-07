@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.2.0...v0.2.1) (2026-04-07)
+
+
+### Features
+
+* add pluggable transport interface for SageMaker and custom transports ([#29](https://github.com/deepgram/deepgram-java-sdk/issues/29)) ([acecad6](https://github.com/deepgram/deepgram-java-sdk/commit/acecad639f4477c3b14d62e72472a39736662f04))
+
+
+### Bug Fixes
+
+* add `ClientOptions.java` to `.fernignore` to preserve release-please markers ([#25](https://github.com/deepgram/deepgram-java-sdk/issues/25)) ([69859cf](https://github.com/deepgram/deepgram-java-sdk/commit/69859cf39a8ef9ce7e1e76ff30f8a58111968dec))
+
 ## [0.2.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.1.0...v0.2.0) (2026-03-30)
 
 
