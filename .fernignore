@@ -16,6 +16,9 @@ src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 # Fern regen overwrites these with incorrect SDK names and strips the markers.
 src/main/java/com/deepgram/core/ClientOptions.java
 
+# Transport abstraction (pluggable transport for SageMaker, etc.)
+src/main/java/com/deepgram/core/transport/
+
 # Build and project configuration
 build.gradle
 settings.gradle

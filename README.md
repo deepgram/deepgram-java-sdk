@@ -317,6 +317,69 @@ agentWs.send(audioBytes);
 agentWs.close();
 ```
 
+## Custom Transports
+
+The SDK supports pluggable transports for routing WebSocket connections through alternative infrastructure. Any class implementing `DeepgramTransportFactory` can replace the default OkHttp WebSocket connection.
+
+This is primarily used for **AWS SageMaker** deployments where Deepgram models run on your own SageMaker endpoints.
+
+### SageMaker
+
+Use the separate [`deepgram-sagemaker`](https://github.com/deepgram/deepgram-java-sdk-transport-sagemaker) package to route audio through a SageMaker endpoint:
+
+```groovy
+dependencies {
+    implementation 'com.deepgram:deepgram-java-sdk:0.2.0'
+    implementation 'com.deepgram:deepgram-sagemaker:0.1.0'
+}
+```
+
+```java
+import com.deepgram.sagemaker.SageMakerConfig;
+import com.deepgram.sagemaker.SageMakerTransportFactory;
+
+var factory = new SageMakerTransportFactory(
+    SageMakerConfig.builder()
+        .endpointName("my-deepgram-endpoint")
+        .region("us-west-2")
+        .build()
+);
+
+DeepgramClient client = DeepgramClient.builder()
+    .apiKey("unused")  // SageMaker uses AWS credentials, not Deepgram API keys
+    .transportFactory(factory)
+    .build();
+
+// Use the SDK exactly as normal — the transport is transparent
+var ws = client.listen().v1().websocket();
+ws.onResults(results -> { /* ... */ });
+ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build());
+ws.sendMedia(audioBytes);
+```
+
+See the [SageMaker example](examples/sagemaker/LiveStreamingSageMaker.java) for a complete walkthrough.
+
+### Custom Transport Implementation
+
+To implement your own transport (e.g. for proxies, test doubles, or other infrastructure):
+
+```java
+import com.deepgram.core.transport.DeepgramTransport;
+import com.deepgram.core.transport.DeepgramTransportFactory;
+
+DeepgramTransportFactory myFactory = (url, headers) -> {
+    // Return your DeepgramTransport implementation
+    return new MyCustomTransport(url, headers);
+};
+
+DeepgramClient client = DeepgramClient.builder()
+    .apiKey("your-key")
+    .transportFactory(myFactory)
+    .build();
+```
+
+The `DeepgramTransport` interface provides bidirectional messaging: `sendText()`, `sendBinary()`, and callback registration for incoming messages, errors, and close events.
+
 ## Configuration
 
 ### Custom Timeouts
