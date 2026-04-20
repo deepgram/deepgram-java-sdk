@@ -43,6 +43,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
     testImplementation 'org.assertj:assertj-core:3.25.3'
+    testImplementation 'com.deepgram:deepgram-sagemaker:0.1.2'
+
 }
 
 test {
@@ -78,8 +80,7 @@ sourceSets {
     examples {
         java {
             srcDir 'examples'
-            // Exclude examples with known issues (see ISSUES section below)
-            exclude 'agent/**'                  // Blocked: missing AgentV1UpdateThink type
+            // Exclude examples that still need API updates.
             exclude 'manage/ListModels.java'    // Duplicate class name with agent/ListModels
             exclude 'manage/MemberPermissions.java' // getScopes() not in generated API
             exclude 'manage/UsageBreakdown.java'    // getModels() return type mismatch
@@ -87,6 +88,11 @@ sourceSets {
         compileClasspath += sourceSets.main.output + configurations.runtimeClasspath
         runtimeClasspath += sourceSets.main.output + configurations.runtimeClasspath
     }
+}
+
+dependencies {
+    // Optional dependencies needed by example source set
+    examplesImplementation 'com.deepgram:deepgram-sagemaker:0.1.2'
 }
 
 // Compile all examples
@@ -123,4 +129,3 @@ spotless {
         removeUnusedImports()
     }
 }
-
