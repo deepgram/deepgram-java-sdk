@@ -46,6 +46,11 @@ examples/
 .github/
 .gitignore
 
+# Agent files
+AGENTS.md
+CLAUDE.md
+.claude/
+
 # Build output
 target/
 
