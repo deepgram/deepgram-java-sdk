@@ -1,19 +1,19 @@
 import com.deepgram.DeepgramClient;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeakEndpoint;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeakEndpointProvider;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItem;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItemProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
+import com.deepgram.resources.agent.v1.types.Deepgram;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.Anthropic;
-import com.deepgram.types.AnthropicThinkProviderModel;
-import com.deepgram.types.Deepgram;
-import com.deepgram.types.DeepgramSpeakProviderModel;
-import com.deepgram.types.SpeakSettingsV1;
-import com.deepgram.types.SpeakSettingsV1Provider;
-import com.deepgram.types.ThinkSettingsV1;
-import com.deepgram.types.ThinkSettingsV1Provider;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -57,34 +57,30 @@ public class CustomProviders {
 
                 try {
                     // Configure Anthropic as the think provider
-                    Anthropic anthropicProvider = Anthropic.builder()
-                            .model(AnthropicThinkProviderModel.CLAUDE_SONNET420250514)
-                            .build();
-
-                    ThinkSettingsV1 thinkSettings = ThinkSettingsV1.builder()
-                            .provider(ThinkSettingsV1Provider.anthropic(anthropicProvider))
-                            .prompt("You are a helpful assistant. Keep responses concise.")
-                            .build();
+                    Anthropic anthropicProvider = Anthropic.of(Map.of("model", "claude-sonnet-4-20250514"));
 
                     // Configure Deepgram as the speak provider
                     Deepgram deepgramSpeakProvider = Deepgram.builder()
-                            .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
+                            .model(AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel.AURA2ASTERIA_EN)
                             .build();
 
-                    SpeakSettingsV1 speakSettings = SpeakSettingsV1.builder()
-                            .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeakProvider))
-                            .build();
+                    AgentV1SettingsAgentSpeak speakSettings =
+                            AgentV1SettingsAgentSpeak.of(AgentV1SettingsAgentSpeakEndpoint.builder()
+                                    .provider(AgentV1SettingsAgentSpeakEndpointProvider.deepgram(deepgramSpeakProvider))
+                                    .build());
 
-                    // Build agent settings with both providers
-                    AgentV1SettingsAgentContext agentContext = AgentV1SettingsAgentContext.builder()
-                            .think(AgentV1SettingsAgentContextThink.of(thinkSettings))
-                            .speak(AgentV1SettingsAgentContextSpeak.of(speakSettings))
+                    AgentV1SettingsAgent agentConfig = AgentV1SettingsAgent.builder()
+                            .think(AgentV1SettingsAgentThink.of(List.of(AgentV1SettingsAgentThinkOneItem.builder()
+                                    .provider(AgentV1SettingsAgentThinkOneItemProvider.of(anthropicProvider))
+                                    .prompt("You are a helpful assistant. Keep responses concise.")
+                                    .build())))
+                            .speak(speakSettings)
                             .greeting("Hello! I'm powered by Anthropic Claude with Deepgram voices.")
                             .build();
 
                     AgentV1Settings settings = AgentV1Settings.builder()
                             .audio(AgentV1SettingsAudio.builder().build())
-                            .agent(AgentV1SettingsAgent.of(agentContext))
+                            .agent(agentConfig)
                             .build();
 
                     wsClient.sendSettings(settings);

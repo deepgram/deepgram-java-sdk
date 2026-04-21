@@ -48,10 +48,10 @@ The SDK supports API Key authentication with automatic environment variable load
 import com.deepgram.DeepgramClient;
 
 // Using environment variable (DEEPGRAM_API_KEY)
-DeepgramClient client = DeepgramClient.builder().build();
+DeepgramClient envClient = DeepgramClient.builder().build();
 
 // Using API key directly
-DeepgramClient client = DeepgramClient.builder()
+DeepgramClient explicitClient = DeepgramClient.builder()
     .apiKey("YOUR_DEEPGRAM_API_KEY")
     .build();
 ```
@@ -220,13 +220,20 @@ Stream audio for real-time speech-to-text.
 
 ```java
 import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v1.types.ListenV1CloseStream;
+import com.deepgram.resources.listen.v1.types.ListenV1CloseStreamType;
 import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
 import com.deepgram.types.ListenV1Model;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
+import okio.ByteString;
 
 DeepgramClient client = DeepgramClient.builder().build();
+byte[] audioBytes = Files.readAllBytes(Path.of("audio.wav"));
 
-V1WebSocketClient ws = client.listen().v1().websocket();
+V1WebSocketClient ws = client.listen().v1().v1WebSocket();
 
 // Register event handlers
 ws.onResults(results -> {
@@ -247,9 +254,14 @@ ws.onError(error -> {
 // Connect with options (model is required)
 ws.connect(V1ConnectOptions.builder()
     .model(ListenV1Model.NOVA3)
-    .build());
+    .build())
+    .get(10, TimeUnit.SECONDS);
 
-ws.send(audioBytes);
+ws.sendMedia(ByteString.of(audioBytes));
+ws.sendCloseStream(ListenV1CloseStream.builder()
+    .type(ListenV1CloseStreamType.CLOSE_STREAM)
+    .build())
+    .get(5, TimeUnit.SECONDS);
 
 // Close when done
 ws.close();
@@ -261,15 +273,25 @@ Stream text for real-time audio generation.
 
 ```java
 import com.deepgram.DeepgramClient;
+import com.deepgram.resources.speak.v1.types.SpeakV1Close;
+import com.deepgram.resources.speak.v1.types.SpeakV1CloseType;
+import com.deepgram.resources.speak.v1.types.SpeakV1Flush;
+import com.deepgram.resources.speak.v1.types.SpeakV1FlushType;
+import com.deepgram.resources.speak.v1.types.SpeakV1Text;
 import com.deepgram.resources.speak.v1.websocket.V1WebSocketClient;
+import java.io.ByteArrayOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
 DeepgramClient client = DeepgramClient.builder().build();
+ByteArrayOutputStream audioBuffer = new ByteArrayOutputStream();
 
-var ttsWs = client.speak().v1().websocket();
+V1WebSocketClient ttsWs = client.speak().v1().v1WebSocket();
 
 // Register event handlers
-ttsWs.onAudioData(audioData -> {
-    // Process audio chunks as they arrive
+ttsWs.onSpeakV1Audio(audioData -> {
+    audioBuffer.writeBytes(audioData.toByteArray());
 });
 
 ttsWs.onMetadata(metadata -> {
@@ -281,8 +303,23 @@ ttsWs.onError(error -> {
 });
 
 // Connect and send text
-ttsWs.connect();
-ttsWs.send("Hello, this is streamed text-to-speech.");
+ttsWs.connect().get(10, TimeUnit.SECONDS);
+ttsWs.sendText(SpeakV1Text.builder()
+    .text("Hello, this is streamed text-to-speech.")
+    .build())
+    .get(5, TimeUnit.SECONDS);
+ttsWs.sendFlush(SpeakV1Flush.builder()
+    .type(SpeakV1FlushType.FLUSH)
+    .build())
+    .get(5, TimeUnit.SECONDS);
+
+Thread.sleep(2000);
+Files.write(Path.of("output.wav"), audioBuffer.toByteArray());
+
+ttsWs.sendClose(SpeakV1Close.builder()
+    .type(SpeakV1CloseType.CLOSE)
+    .build())
+    .get(5, TimeUnit.SECONDS);
 
 // Close when done
 ttsWs.close();
@@ -294,24 +331,58 @@ Connect to Deepgram's voice agent for real-time conversational AI.
 
 ```java
 import com.deepgram.DeepgramClient;
+import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
+import com.deepgram.resources.agent.v1.types.AgentV1Settings;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItem;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItemProvider;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.OpenAiThinkProvider;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 DeepgramClient client = DeepgramClient.builder().build();
 
-var agentWs = client.agent().v1().websocket();
+V1WebSocketClient agentWs = client.agent().v1().v1WebSocket();
 
 // Register event handlers
 agentWs.onWelcome(welcome -> {
     System.out.println("Agent connected");
+
+    agentWs.sendSettings(AgentV1Settings.builder()
+        .audio(AgentV1SettingsAudio.builder().build())
+        .agent(AgentV1SettingsAgent.builder()
+                .think(AgentV1SettingsAgentThink.of(List.of(
+                    AgentV1SettingsAgentThinkOneItem.builder()
+                        .provider(AgentV1SettingsAgentThinkOneItemProvider.of(
+                            OpenAiThinkProvider.of(Map.of("model", "gpt-4o-mini"))))
+                        .prompt("You are a helpful voice assistant. Keep responses brief.")
+                        .build())))
+                .greeting("Hello! How can I help you today?")
+                .build())
+        .build());
+});
+
+agentWs.onSettingsApplied(applied -> {
+    agentWs.sendInjectUserMessage(AgentV1InjectUserMessage.builder()
+        .content("What is the capital of France?")
+        .build());
+});
+
+agentWs.onConversationText(text -> {
+    System.out.printf("[%s] %s%n", text.getRole(), text.getContent());
 });
 
 agentWs.onError(error -> {
     System.err.println("Error: " + error.getMessage());
 });
 
-// Connect and interact
-agentWs.connect();
-agentWs.send(audioBytes);
+// Connect and wait for the agent to respond
+agentWs.connect().get(10, TimeUnit.SECONDS);
+Thread.sleep(5000);
 
 // Close when done
 agentWs.close();
@@ -330,13 +401,22 @@ Use the separate [`deepgram-sagemaker`](https://github.com/deepgram/deepgram-jav
 ```groovy
 dependencies {
     implementation 'com.deepgram:deepgram-java-sdk:0.2.1' // x-release-please-version
-    implementation 'com.deepgram:deepgram-sagemaker:0.1.0'
+    implementation 'com.deepgram:deepgram-sagemaker:0.1.2'
 }
 ```
 
 ```java
+import com.deepgram.DeepgramClient;
 import com.deepgram.sagemaker.SageMakerConfig;
 import com.deepgram.sagemaker.SageMakerTransportFactory;
+import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.types.ListenV1Model;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
+import okio.ByteString;
+
+byte[] audioBytes = Files.readAllBytes(Path.of("audio.wav"));
 
 var factory = new SageMakerTransportFactory(
     SageMakerConfig.builder()
@@ -351,10 +431,11 @@ DeepgramClient client = DeepgramClient.builder()
     .build();
 
 // Use the SDK exactly as normal — the transport is transparent
-var ws = client.listen().v1().websocket();
+var ws = client.listen().v1().v1WebSocket();
 ws.onResults(results -> { /* ... */ });
-ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build());
-ws.sendMedia(audioBytes);
+ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
+    .get(10, TimeUnit.SECONDS);
+ws.sendMedia(ByteString.of(audioBytes));
 ```
 
 See the [SageMaker example](examples/sagemaker/LiveStreamingSageMaker.java) for a complete walkthrough.
@@ -511,7 +592,6 @@ import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 DeepgramApiHttpResponse<MediaTranscribeResponse> rawResponse =
     client.listen().v1().media().withRawResponse().transcribeUrl(request);
 
-int statusCode = rawResponse.statusCode();
 var headers = rawResponse.headers();
 MediaTranscribeResponse body = rawResponse.body();
 ```
@@ -524,13 +604,13 @@ The SDK provides comprehensive access to Deepgram's APIs:
 ```java
 client.listen().v1().media().transcribeUrl(request)    // Transcribe audio from URL
 client.listen().v1().media().transcribeFile(body)      // Transcribe audio from file bytes
-client.listen().v1().websocket()                       // Real-time streaming transcription
+client.listen().v1().v1WebSocket()                     // Real-time streaming transcription
 ```
 
 ### Speak (Text-to-Speech)
 ```java
 client.speak().v1().audio().generate(request)          // Generate speech from text
-client.speak().v1().websocket()                        // Real-time streaming TTS
+client.speak().v1().v1WebSocket()                      // Real-time streaming TTS
 ```
 
 ### Read (Text Intelligence)
@@ -541,7 +621,7 @@ client.read().v1().text().analyze(request)             // Analyze text content
 ### Agent (Voice Agent)
 ```java
 client.agent().v1().settings().think().models().list() // List available agent models
-client.agent().v1().websocket()                        // Real-time agent WebSocket
+client.agent().v1().v1WebSocket()                      // Real-time agent WebSocket
 ```
 
 ### Manage (Project Management)

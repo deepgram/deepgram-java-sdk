@@ -36,8 +36,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Compile
-        run: ./gradlew compileJava
+      - name: Compile SDK and examples
+        run: ./gradlew compileJava compileExamples
 
   unit-tests:
     name: Unit Tests

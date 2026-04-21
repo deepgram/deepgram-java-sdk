@@ -1,16 +1,16 @@
 import com.deepgram.DeepgramClient;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItem;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItemProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.OpenAiThinkProvider;
-import com.deepgram.types.OpenAiThinkProviderModel;
-import com.deepgram.types.ThinkSettingsV1;
-import com.deepgram.types.ThinkSettingsV1Provider;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -59,20 +59,15 @@ public class VoiceAgent {
                 // Send agent settings after receiving welcome
                 try {
                     // Configure the LLM think provider (OpenAI)
-                    OpenAiThinkProvider openAiProvider = OpenAiThinkProvider.builder()
-                            .model(OpenAiThinkProviderModel.GPT4O_MINI)
-                            .build();
+                    OpenAiThinkProvider openAiProvider = OpenAiThinkProvider.of(Map.of("model", "gpt-4o-mini"));
 
-                    ThinkSettingsV1 thinkSettings = ThinkSettingsV1.builder()
-                            .provider(ThinkSettingsV1Provider.openAi(openAiProvider))
-                            .prompt("You are a helpful voice assistant. Keep your responses brief.")
-                            .build();
-
-                    AgentV1SettingsAgentContext agentContext = AgentV1SettingsAgentContext.builder()
-                            .think(AgentV1SettingsAgentContextThink.of(thinkSettings))
+                    AgentV1SettingsAgent agentConfig = AgentV1SettingsAgent.builder()
+                            .think(AgentV1SettingsAgentThink.of(List.of(AgentV1SettingsAgentThinkOneItem.builder()
+                                    .provider(AgentV1SettingsAgentThinkOneItemProvider.of(openAiProvider))
+                                    .prompt("You are a helpful voice assistant. Keep your responses brief.")
+                                    .build())))
                             .greeting("Hello! How can I help you today?")
                             .build();
-                    AgentV1SettingsAgent agentConfig = AgentV1SettingsAgent.of(agentContext);
 
                     AgentV1Settings settings = AgentV1Settings.builder()
                             .audio(AgentV1SettingsAudio.builder().build())
