@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ListenV1Results.Builder.class)
 public final class ListenV1Results {
-    private final List<Double> channelIndex;
+    private final List<Integer> channelIndex;
 
     private final double duration;
 
@@ -44,7 +44,7 @@ public final class ListenV1Results {
     private final Map<String, Object> additionalProperties;
 
     private ListenV1Results(
-            List<Double> channelIndex,
+            List<Integer> channelIndex,
             double duration,
             double start,
             Optional<Boolean> isFinal,
@@ -78,7 +78,7 @@ public final class ListenV1Results {
      * @return The index of the channel
      */
     @JsonProperty("channel_index")
-    public List<Double> getChannelIndex() {
+    public List<Integer> getChannelIndex() {
         return channelIndex;
     }
 
@@ -220,11 +220,11 @@ public final class ListenV1Results {
         /**
          * <p>The index of the channel</p>
          */
-        _FinalStage channelIndex(List<Double> channelIndex);
+        _FinalStage channelIndex(List<Integer> channelIndex);
 
-        _FinalStage addChannelIndex(Double channelIndex);
+        _FinalStage addChannelIndex(Integer channelIndex);
 
-        _FinalStage addAllChannelIndex(List<Double> channelIndex);
+        _FinalStage addAllChannelIndex(List<Integer> channelIndex);
 
         /**
          * <p>Whether the transcription is final</p>
@@ -273,7 +273,7 @@ public final class ListenV1Results {
 
         private Optional<Boolean> isFinal = Optional.empty();
 
-        private List<Double> channelIndex = new ArrayList<>();
+        private List<Integer> channelIndex = new ArrayList<>();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -417,7 +417,7 @@ public final class ListenV1Results {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage addAllChannelIndex(List<Double> channelIndex) {
+        public _FinalStage addAllChannelIndex(List<Integer> channelIndex) {
             if (channelIndex != null) {
                 this.channelIndex.addAll(channelIndex);
             }
@@ -429,7 +429,7 @@ public final class ListenV1Results {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage addChannelIndex(Double channelIndex) {
+        public _FinalStage addChannelIndex(Integer channelIndex) {
             this.channelIndex.add(channelIndex);
             return this;
         }
@@ -439,7 +439,7 @@ public final class ListenV1Results {
          */
         @java.lang.Override
         @JsonSetter(value = "channel_index", nulls = Nulls.SKIP)
-        public _FinalStage channelIndex(List<Double> channelIndex) {
+        public _FinalStage channelIndex(List<Integer> channelIndex) {
             this.channelIndex.clear();
             if (channelIndex != null) {
                 this.channelIndex.addAll(channelIndex);

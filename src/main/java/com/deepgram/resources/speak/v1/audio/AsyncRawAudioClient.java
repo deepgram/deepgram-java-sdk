@@ -59,10 +59,8 @@ public class AsyncRawAudioClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "callback_method", request.getCallbackMethod().get(), false);
         }
-        if (request.getMipOptOut().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "mip_opt_out", request.getMipOptOut().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "mip_opt_out", request.getMipOptOut().orElse(false), false);
         if (request.getBitRate().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "bit_rate", request.getBitRate().get(), false);

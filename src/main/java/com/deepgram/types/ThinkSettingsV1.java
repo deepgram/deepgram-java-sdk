@@ -13,24 +13,70 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ThinkSettingsV1.Builder.class)
 public final class ThinkSettingsV1 {
-    private final Optional<Object> contextLength;
+    private final ThinkSettingsV1Provider provider;
+
+    private final Optional<ThinkSettingsV1Endpoint> endpoint;
+
+    private final Optional<List<ThinkSettingsV1FunctionsItem>> functions;
+
+    private final Optional<String> prompt;
+
+    private final Optional<ThinkSettingsV1ContextLength> contextLength;
 
     private final Map<String, Object> additionalProperties;
 
-    private ThinkSettingsV1(Optional<Object> contextLength, Map<String, Object> additionalProperties) {
+    private ThinkSettingsV1(
+            ThinkSettingsV1Provider provider,
+            Optional<ThinkSettingsV1Endpoint> endpoint,
+            Optional<List<ThinkSettingsV1FunctionsItem>> functions,
+            Optional<String> prompt,
+            Optional<ThinkSettingsV1ContextLength> contextLength,
+            Map<String, Object> additionalProperties) {
+        this.provider = provider;
+        this.endpoint = endpoint;
+        this.functions = functions;
+        this.prompt = prompt;
         this.contextLength = contextLength;
         this.additionalProperties = additionalProperties;
     }
 
+    @JsonProperty("provider")
+    public ThinkSettingsV1Provider getProvider() {
+        return provider;
+    }
+
+    /**
+     * @return Optional for non-Deepgram LLM providers. When present, must include url field and headers object
+     */
+    @JsonProperty("endpoint")
+    public Optional<ThinkSettingsV1Endpoint> getEndpoint() {
+        return endpoint;
+    }
+
+    @JsonProperty("functions")
+    public Optional<List<ThinkSettingsV1FunctionsItem>> getFunctions() {
+        return functions;
+    }
+
+    @JsonProperty("prompt")
+    public Optional<String> getPrompt() {
+        return prompt;
+    }
+
+    /**
+     * @return Specifies the number of characters retained in context between user messages, agent responses, and function calls. This setting is only configurable when a custom think endpoint is used
+     */
     @JsonProperty("context_length")
-    public Optional<Object> getContextLength() {
+    public Optional<ThinkSettingsV1ContextLength> getContextLength() {
         return contextLength;
     }
 
@@ -46,12 +92,16 @@ public final class ThinkSettingsV1 {
     }
 
     private boolean equalTo(ThinkSettingsV1 other) {
-        return contextLength.equals(other.contextLength);
+        return provider.equals(other.provider)
+                && endpoint.equals(other.endpoint)
+                && functions.equals(other.functions)
+                && prompt.equals(other.prompt)
+                && contextLength.equals(other.contextLength);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.contextLength);
+        return Objects.hash(this.provider, this.endpoint, this.functions, this.prompt, this.contextLength);
     }
 
     @java.lang.Override
@@ -59,44 +109,158 @@ public final class ThinkSettingsV1 {
         return ObjectMappers.stringify(this);
     }
 
-    public static Builder builder() {
+    public static ProviderStage builder() {
         return new Builder();
     }
 
+    public interface ProviderStage {
+        _FinalStage provider(@NotNull ThinkSettingsV1Provider provider);
+
+        Builder from(ThinkSettingsV1 other);
+    }
+
+    public interface _FinalStage {
+        ThinkSettingsV1 build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Optional for non-Deepgram LLM providers. When present, must include url field and headers object</p>
+         */
+        _FinalStage endpoint(Optional<ThinkSettingsV1Endpoint> endpoint);
+
+        _FinalStage endpoint(ThinkSettingsV1Endpoint endpoint);
+
+        _FinalStage functions(Optional<List<ThinkSettingsV1FunctionsItem>> functions);
+
+        _FinalStage functions(List<ThinkSettingsV1FunctionsItem> functions);
+
+        _FinalStage prompt(Optional<String> prompt);
+
+        _FinalStage prompt(String prompt);
+
+        /**
+         * <p>Specifies the number of characters retained in context between user messages, agent responses, and function calls. This setting is only configurable when a custom think endpoint is used</p>
+         */
+        _FinalStage contextLength(Optional<ThinkSettingsV1ContextLength> contextLength);
+
+        _FinalStage contextLength(ThinkSettingsV1ContextLength contextLength);
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder {
-        private Optional<Object> contextLength = Optional.empty();
+    public static final class Builder implements ProviderStage, _FinalStage {
+        private ThinkSettingsV1Provider provider;
+
+        private Optional<ThinkSettingsV1ContextLength> contextLength = Optional.empty();
+
+        private Optional<String> prompt = Optional.empty();
+
+        private Optional<List<ThinkSettingsV1FunctionsItem>> functions = Optional.empty();
+
+        private Optional<ThinkSettingsV1Endpoint> endpoint = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
+        @java.lang.Override
         public Builder from(ThinkSettingsV1 other) {
+            provider(other.getProvider());
+            endpoint(other.getEndpoint());
+            functions(other.getFunctions());
+            prompt(other.getPrompt());
             contextLength(other.getContextLength());
             return this;
         }
 
-        @JsonSetter(value = "context_length", nulls = Nulls.SKIP)
-        public Builder contextLength(Optional<Object> contextLength) {
-            this.contextLength = contextLength;
+        @java.lang.Override
+        @JsonSetter("provider")
+        public _FinalStage provider(@NotNull ThinkSettingsV1Provider provider) {
+            this.provider = Objects.requireNonNull(provider, "provider must not be null");
             return this;
         }
 
-        public Builder contextLength(Object contextLength) {
+        /**
+         * <p>Specifies the number of characters retained in context between user messages, agent responses, and function calls. This setting is only configurable when a custom think endpoint is used</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage contextLength(ThinkSettingsV1ContextLength contextLength) {
             this.contextLength = Optional.ofNullable(contextLength);
             return this;
         }
 
-        public ThinkSettingsV1 build() {
-            return new ThinkSettingsV1(contextLength, additionalProperties);
+        /**
+         * <p>Specifies the number of characters retained in context between user messages, agent responses, and function calls. This setting is only configurable when a custom think endpoint is used</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "context_length", nulls = Nulls.SKIP)
+        public _FinalStage contextLength(Optional<ThinkSettingsV1ContextLength> contextLength) {
+            this.contextLength = contextLength;
+            return this;
         }
 
+        @java.lang.Override
+        public _FinalStage prompt(String prompt) {
+            this.prompt = Optional.ofNullable(prompt);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "prompt", nulls = Nulls.SKIP)
+        public _FinalStage prompt(Optional<String> prompt) {
+            this.prompt = prompt;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage functions(List<ThinkSettingsV1FunctionsItem> functions) {
+            this.functions = Optional.ofNullable(functions);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "functions", nulls = Nulls.SKIP)
+        public _FinalStage functions(Optional<List<ThinkSettingsV1FunctionsItem>> functions) {
+            this.functions = functions;
+            return this;
+        }
+
+        /**
+         * <p>Optional for non-Deepgram LLM providers. When present, must include url field and headers object</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage endpoint(ThinkSettingsV1Endpoint endpoint) {
+            this.endpoint = Optional.ofNullable(endpoint);
+            return this;
+        }
+
+        /**
+         * <p>Optional for non-Deepgram LLM providers. When present, must include url field and headers object</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "endpoint", nulls = Nulls.SKIP)
+        public _FinalStage endpoint(Optional<ThinkSettingsV1Endpoint> endpoint) {
+            this.endpoint = endpoint;
+            return this;
+        }
+
+        @java.lang.Override
+        public ThinkSettingsV1 build() {
+            return new ThinkSettingsV1(provider, endpoint, functions, prompt, contextLength, additionalProperties);
+        }
+
+        @java.lang.Override
         public Builder additionalProperty(String key, Object value) {
             this.additionalProperties.put(key, value);
             return this;
         }
 
+        @java.lang.Override
         public Builder additionalProperties(Map<String, Object> additionalProperties) {
             this.additionalProperties.putAll(additionalProperties);
             return this;

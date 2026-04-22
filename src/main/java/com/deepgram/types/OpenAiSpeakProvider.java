@@ -3,40 +3,212 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-public final class OpenAiSpeakProvider implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = OpenAiSpeakProvider.Builder.class)
+public final class OpenAiSpeakProvider {
+    private final Optional<String> version;
 
-    private OpenAiSpeakProvider(Object value) {
-        this.value = value;
+    private final OpenAiSpeakProviderModel model;
+
+    private final OpenAiSpeakProviderVoice voice;
+
+    private final Map<String, Object> additionalProperties;
+
+    private OpenAiSpeakProvider(
+            Optional<String> version,
+            OpenAiSpeakProviderModel model,
+            OpenAiSpeakProviderVoice voice,
+            Map<String, Object> additionalProperties) {
+        this.version = version;
+        this.model = model;
+        this.voice = voice;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("type")
+    public String getType() {
+        return "open_ai";
+    }
+
+    /**
+     * @return The REST API version for the OpenAI text-to-speech API
+     */
+    @JsonProperty("version")
+    public Optional<String> getVersion() {
+        return version;
+    }
+
+    /**
+     * @return OpenAI TTS model
+     */
+    @JsonProperty("model")
+    public OpenAiSpeakProviderModel getModel() {
+        return model;
+    }
+
+    /**
+     * @return OpenAI voice
+     */
+    @JsonProperty("voice")
+    public OpenAiSpeakProviderVoice getVoice() {
+        return voice;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other
-                || (other instanceof OpenAiSpeakProvider && this.value.equals(((OpenAiSpeakProvider) other).value));
+        if (this == other) return true;
+        return other instanceof OpenAiSpeakProvider && equalTo((OpenAiSpeakProvider) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(OpenAiSpeakProvider other) {
+        return version.equals(other.version) && model.equals(other.model) && voice.equals(other.voice);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.version, this.model, this.voice);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static OpenAiSpeakProvider of(Object value) {
-        return new OpenAiSpeakProvider(value);
+    public static ModelStage builder() {
+        return new Builder();
+    }
+
+    public interface ModelStage {
+        /**
+         * <p>OpenAI TTS model</p>
+         */
+        VoiceStage model(@NotNull OpenAiSpeakProviderModel model);
+
+        Builder from(OpenAiSpeakProvider other);
+    }
+
+    public interface VoiceStage {
+        /**
+         * <p>OpenAI voice</p>
+         */
+        _FinalStage voice(@NotNull OpenAiSpeakProviderVoice voice);
+    }
+
+    public interface _FinalStage {
+        OpenAiSpeakProvider build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>The REST API version for the OpenAI text-to-speech API</p>
+         */
+        _FinalStage version(Optional<String> version);
+
+        _FinalStage version(String version);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder implements ModelStage, VoiceStage, _FinalStage {
+        private OpenAiSpeakProviderModel model;
+
+        private OpenAiSpeakProviderVoice voice;
+
+        private Optional<String> version = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        @java.lang.Override
+        public Builder from(OpenAiSpeakProvider other) {
+            version(other.getVersion());
+            model(other.getModel());
+            voice(other.getVoice());
+            return this;
+        }
+
+        /**
+         * <p>OpenAI TTS model</p>
+         * <p>OpenAI TTS model</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("model")
+        public VoiceStage model(@NotNull OpenAiSpeakProviderModel model) {
+            this.model = Objects.requireNonNull(model, "model must not be null");
+            return this;
+        }
+
+        /**
+         * <p>OpenAI voice</p>
+         * <p>OpenAI voice</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("voice")
+        public _FinalStage voice(@NotNull OpenAiSpeakProviderVoice voice) {
+            this.voice = Objects.requireNonNull(voice, "voice must not be null");
+            return this;
+        }
+
+        /**
+         * <p>The REST API version for the OpenAI text-to-speech API</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage version(String version) {
+            this.version = Optional.ofNullable(version);
+            return this;
+        }
+
+        /**
+         * <p>The REST API version for the OpenAI text-to-speech API</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "version", nulls = Nulls.SKIP)
+        public _FinalStage version(Optional<String> version) {
+            this.version = version;
+            return this;
+        }
+
+        @java.lang.Override
+        public OpenAiSpeakProvider build() {
+            return new OpenAiSpeakProvider(version, model, voice, additionalProperties);
+        }
+
+        @java.lang.Override
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

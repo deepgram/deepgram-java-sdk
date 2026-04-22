@@ -10,6 +10,7 @@ import com.deepgram.types.ListenV2EotThreshold;
 import com.deepgram.types.ListenV2EotTimeoutMs;
 import com.deepgram.types.ListenV2Keyterm;
 import com.deepgram.types.ListenV2MipOptOut;
+import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2SampleRate;
 import com.deepgram.types.ListenV2Tag;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -29,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = V2ConnectOptions.Builder.class)
 public final class V2ConnectOptions {
-    private final String model;
+    private final ListenV2Model model;
 
     private final Optional<ListenV2Encoding> encoding;
 
@@ -50,7 +51,7 @@ public final class V2ConnectOptions {
     private final Map<String, Object> additionalProperties;
 
     private V2ConnectOptions(
-            String model,
+            ListenV2Model model,
             Optional<ListenV2Encoding> encoding,
             Optional<ListenV2SampleRate> sampleRate,
             Optional<ListenV2EagerEotThreshold> eagerEotThreshold,
@@ -73,7 +74,7 @@ public final class V2ConnectOptions {
     }
 
     @JsonProperty("model")
-    public String getModel() {
+    public ListenV2Model getModel() {
         return model;
     }
 
@@ -164,7 +165,7 @@ public final class V2ConnectOptions {
     }
 
     public interface ModelStage {
-        _FinalStage model(@NotNull String model);
+        _FinalStage model(@NotNull ListenV2Model model);
 
         Builder from(V2ConnectOptions other);
     }
@@ -211,7 +212,7 @@ public final class V2ConnectOptions {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private String model;
+        private ListenV2Model model;
 
         private Optional<ListenV2Tag> tag = Optional.empty();
 
@@ -250,7 +251,7 @@ public final class V2ConnectOptions {
 
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull String model) {
+        public _FinalStage model(@NotNull ListenV2Model model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }

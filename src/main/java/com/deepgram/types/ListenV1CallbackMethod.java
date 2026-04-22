@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class ListenV1CallbackMethod {
-    public static final ListenV1CallbackMethod DELETE = new ListenV1CallbackMethod(Value.DELETE, "DELETE");
-
     public static final ListenV1CallbackMethod GET = new ListenV1CallbackMethod(Value.GET, "GET");
 
     public static final ListenV1CallbackMethod PUT = new ListenV1CallbackMethod(Value.PUT, "PUT");
+
+    public static final ListenV1CallbackMethod DELETE = new ListenV1CallbackMethod(Value.DELETE, "DELETE");
 
     public static final ListenV1CallbackMethod POST = new ListenV1CallbackMethod(Value.POST, "POST");
 
@@ -48,12 +48,12 @@ public final class ListenV1CallbackMethod {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case DELETE:
-                return visitor.visitDelete();
             case GET:
                 return visitor.visitGet();
             case PUT:
                 return visitor.visitPut();
+            case DELETE:
+                return visitor.visitDelete();
             case POST:
                 return visitor.visitPost();
             case UNKNOWN:
@@ -65,12 +65,12 @@ public final class ListenV1CallbackMethod {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static ListenV1CallbackMethod valueOf(String value) {
         switch (value) {
-            case "DELETE":
-                return DELETE;
             case "GET":
                 return GET;
             case "PUT":
                 return PUT;
+            case "DELETE":
+                return DELETE;
             case "POST":
                 return POST;
             default:

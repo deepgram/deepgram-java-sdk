@@ -68,34 +68,26 @@ public class RawTextClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "callback_method", request.getCallbackMethod().get(), false);
         }
-        if (request.getSentiment().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "sentiment", request.getSentiment().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "sentiment", request.getSentiment().orElse(false), false);
         if (request.getSummarize().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "summarize", request.getSummarize().get(), false);
         }
-        if (request.getTopics().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "topics", request.getTopics().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "topics", request.getTopics().orElse(false), false);
         if (request.getCustomTopicMode().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "custom_topic_mode", request.getCustomTopicMode().get(), false);
         }
-        if (request.getIntents().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "intents", request.getIntents().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "intents", request.getIntents().orElse(false), false);
         if (request.getCustomIntentMode().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "custom_intent_mode", request.getCustomIntentMode().get(), false);
         }
-        if (request.getLanguage().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "language", request.getLanguage().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "language", request.getLanguage().orElse("en"), false);
         if (request.getTag().isPresent()) {
             QueryStringMapper.addQueryParameter(httpUrl, "tag", request.getTag().get(), true);
         }

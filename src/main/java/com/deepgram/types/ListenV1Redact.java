@@ -11,14 +11,14 @@ public final class ListenV1Redact {
 
     public static final ListenV1Redact SSN = new ListenV1Redact(Value.SSN, "ssn");
 
-    public static final ListenV1Redact TRUE = new ListenV1Redact(Value.TRUE, "true");
-
     public static final ListenV1Redact NUMBERS = new ListenV1Redact(Value.NUMBERS, "numbers");
 
     public static final ListenV1Redact AGGRESSIVE_NUMBERS =
             new ListenV1Redact(Value.AGGRESSIVE_NUMBERS, "aggressive_numbers");
 
     public static final ListenV1Redact PCI = new ListenV1Redact(Value.PCI, "pci");
+
+    public static final ListenV1Redact TRUE = new ListenV1Redact(Value.TRUE, "true");
 
     private final Value value;
 
@@ -56,14 +56,14 @@ public final class ListenV1Redact {
                 return visitor.visitFalse();
             case SSN:
                 return visitor.visitSsn();
-            case TRUE:
-                return visitor.visitTrue();
             case NUMBERS:
                 return visitor.visitNumbers();
             case AGGRESSIVE_NUMBERS:
                 return visitor.visitAggressiveNumbers();
             case PCI:
                 return visitor.visitPci();
+            case TRUE:
+                return visitor.visitTrue();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -77,14 +77,14 @@ public final class ListenV1Redact {
                 return FALSE;
             case "ssn":
                 return SSN;
-            case "true":
-                return TRUE;
             case "numbers":
                 return NUMBERS;
             case "aggressive_numbers":
                 return AGGRESSIVE_NUMBERS;
             case "pci":
                 return PCI;
+            case "true":
+                return TRUE;
             default:
                 return new ListenV1Redact(Value.UNKNOWN, value);
         }

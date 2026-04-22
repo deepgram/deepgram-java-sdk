@@ -4,6 +4,7 @@
 package com.deepgram.resources.agent.v1.types;
 
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.types.SpeakSettingsV1;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -34,9 +35,9 @@ public final class AgentV1UpdateSpeakSpeak {
     @SuppressWarnings("unchecked")
     public <T> T visit(Visitor<T> visitor) {
         if (this.type == 0) {
-            return visitor.visit((AgentV1UpdateSpeakSpeakEndpoint) this.value);
+            return visitor.visit((SpeakSettingsV1) this.value);
         } else if (this.type == 1) {
-            return visitor.visit((List<AgentV1UpdateSpeakSpeakOneItem>) this.value);
+            return visitor.visit((List<SpeakSettingsV1>) this.value);
         }
         throw new IllegalStateException("Failed to visit value. This should never happen.");
     }
@@ -61,18 +62,18 @@ public final class AgentV1UpdateSpeakSpeak {
         return this.value.toString();
     }
 
-    public static AgentV1UpdateSpeakSpeak of(AgentV1UpdateSpeakSpeakEndpoint value) {
+    public static AgentV1UpdateSpeakSpeak of(SpeakSettingsV1 value) {
         return new AgentV1UpdateSpeakSpeak(value, 0);
     }
 
-    public static AgentV1UpdateSpeakSpeak of(List<AgentV1UpdateSpeakSpeakOneItem> value) {
+    public static AgentV1UpdateSpeakSpeak of(List<SpeakSettingsV1> value) {
         return new AgentV1UpdateSpeakSpeak(value, 1);
     }
 
     public interface Visitor<T> {
-        T visit(AgentV1UpdateSpeakSpeakEndpoint value);
+        T visit(SpeakSettingsV1 value);
 
-        T visit(List<AgentV1UpdateSpeakSpeakOneItem> value);
+        T visit(List<SpeakSettingsV1> value);
     }
 
     static final class Deserializer extends StdDeserializer<AgentV1UpdateSpeakSpeak> {
@@ -84,12 +85,11 @@ public final class AgentV1UpdateSpeakSpeak {
         public AgentV1UpdateSpeakSpeak deserialize(JsonParser p, DeserializationContext context) throws IOException {
             Object value = p.readValueAs(Object.class);
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentV1UpdateSpeakSpeakEndpoint.class));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, SpeakSettingsV1.class));
             } catch (RuntimeException e) {
             }
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, new TypeReference<List<AgentV1UpdateSpeakSpeakOneItem>>() {}));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, new TypeReference<List<SpeakSettingsV1>>() {}));
             } catch (RuntimeException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");

@@ -11,9 +11,9 @@ public final class UsageGetRequestEndpoint {
 
     public static final UsageGetRequestEndpoint READ = new UsageGetRequestEndpoint(Value.READ, "read");
 
-    public static final UsageGetRequestEndpoint LISTEN = new UsageGetRequestEndpoint(Value.LISTEN, "listen");
-
     public static final UsageGetRequestEndpoint SPEAK = new UsageGetRequestEndpoint(Value.SPEAK, "speak");
+
+    public static final UsageGetRequestEndpoint LISTEN = new UsageGetRequestEndpoint(Value.LISTEN, "listen");
 
     private final Value value;
 
@@ -52,10 +52,10 @@ public final class UsageGetRequestEndpoint {
                 return visitor.visitAgent();
             case READ:
                 return visitor.visitRead();
-            case LISTEN:
-                return visitor.visitListen();
             case SPEAK:
                 return visitor.visitSpeak();
+            case LISTEN:
+                return visitor.visitListen();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -69,10 +69,10 @@ public final class UsageGetRequestEndpoint {
                 return AGENT;
             case "read":
                 return READ;
-            case "listen":
-                return LISTEN;
             case "speak":
                 return SPEAK;
+            case "listen":
+                return LISTEN;
             default:
                 return new UsageGetRequestEndpoint(Value.UNKNOWN, value);
         }

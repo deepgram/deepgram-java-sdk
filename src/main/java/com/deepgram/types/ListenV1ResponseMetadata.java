@@ -35,7 +35,7 @@ public final class ListenV1ResponseMetadata {
 
     private final double duration;
 
-    private final double channels;
+    private final int channels;
 
     private final List<String> models;
 
@@ -59,7 +59,7 @@ public final class ListenV1ResponseMetadata {
             String sha256,
             OffsetDateTime created,
             double duration,
-            double channels,
+            int channels,
             List<String> models,
             Map<String, Object> modelInfo,
             Optional<ListenV1ResponseMetadataSummaryInfo> summaryInfo,
@@ -110,7 +110,7 @@ public final class ListenV1ResponseMetadata {
     }
 
     @JsonProperty("channels")
-    public double getChannels() {
+    public int getChannels() {
         return channels;
     }
 
@@ -222,7 +222,7 @@ public final class ListenV1ResponseMetadata {
     }
 
     public interface ChannelsStage {
-        _FinalStage channels(double channels);
+        _FinalStage channels(int channels);
     }
 
     public interface _FinalStage {
@@ -280,7 +280,7 @@ public final class ListenV1ResponseMetadata {
 
         private double duration;
 
-        private double channels;
+        private int channels;
 
         private Optional<List<String>> tags = Optional.empty();
 
@@ -351,7 +351,7 @@ public final class ListenV1ResponseMetadata {
 
         @java.lang.Override
         @JsonSetter("channels")
-        public _FinalStage channels(double channels) {
+        public _FinalStage channels(int channels) {
             this.channels = channels;
             return this;
         }

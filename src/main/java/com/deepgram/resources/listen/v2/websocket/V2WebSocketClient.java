@@ -9,6 +9,9 @@ import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2Configure;
+import com.deepgram.resources.listen.v2.types.ListenV2ConfigureFailure;
+import com.deepgram.resources.listen.v2.types.ListenV2ConfigureSuccess;
 import com.deepgram.resources.listen.v2.types.ListenV2Connected;
 import com.deepgram.resources.listen.v2.types.ListenV2FatalError;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
@@ -56,6 +59,10 @@ public class V2WebSocketClient implements AutoCloseable {
     private volatile Consumer<ListenV2Connected> connectedHandler;
 
     private volatile Consumer<ListenV2TurnInfo> turnInfoHandler;
+
+    private volatile Consumer<ListenV2ConfigureSuccess> configureSuccessHandler;
+
+    private volatile Consumer<ListenV2ConfigureFailure> configureFailureHandler;
 
     private volatile Consumer<ListenV2FatalError> errorHandler;
 
@@ -230,6 +237,15 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends a ListenV2Configure message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendConfigure(ListenV2Configure message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Registers a handler for ListenV2Connected messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -243,6 +259,22 @@ public class V2WebSocketClient implements AutoCloseable {
      */
     public void onTurnInfo(Consumer<ListenV2TurnInfo> handler) {
         this.turnInfoHandler = handler;
+    }
+
+    /**
+     * Registers a handler for ListenV2ConfigureSuccess messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureSuccess(Consumer<ListenV2ConfigureSuccess> handler) {
+        this.configureSuccessHandler = handler;
+    }
+
+    /**
+     * Registers a handler for ListenV2ConfigureFailure messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureFailure(Consumer<ListenV2ConfigureFailure> handler) {
+        this.configureFailureHandler = handler;
     }
 
     /**
@@ -361,6 +393,22 @@ public class V2WebSocketClient implements AutoCloseable {
                         ListenV2TurnInfo event = objectMapper.treeToValue(node, ListenV2TurnInfo.class);
                         if (event != null) {
                             turnInfoHandler.accept(event);
+                        }
+                    }
+                    break;
+                case "ConfigureSuccess":
+                    if (configureSuccessHandler != null) {
+                        ListenV2ConfigureSuccess event = objectMapper.treeToValue(node, ListenV2ConfigureSuccess.class);
+                        if (event != null) {
+                            configureSuccessHandler.accept(event);
+                        }
+                    }
+                    break;
+                case "ConfigureFailure":
+                    if (configureFailureHandler != null) {
+                        ListenV2ConfigureFailure event = objectMapper.treeToValue(node, ListenV2ConfigureFailure.class);
+                        if (event != null) {
+                            configureFailureHandler.accept(event);
                         }
                     }
                     break;

@@ -7,110 +7,45 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class SpeakV1Model {
-    public static final SpeakV1Model AURA_ANGUS_EN = new SpeakV1Model(Value.AURA_ANGUS_EN, "aura-angus-en");
-
-    public static final SpeakV1Model AURA2JUPITER_EN = new SpeakV1Model(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
-
-    public static final SpeakV1Model AURA2CORA_EN = new SpeakV1Model(Value.AURA2CORA_EN, "aura-2-cora-en");
-
-    public static final SpeakV1Model AURA_STELLA_EN = new SpeakV1Model(Value.AURA_STELLA_EN, "aura-stella-en");
-
-    public static final SpeakV1Model AURA2HELENA_EN = new SpeakV1Model(Value.AURA2HELENA_EN, "aura-2-helena-en");
-
-    public static final SpeakV1Model AURA2AQUILA_ES = new SpeakV1Model(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
-
-    public static final SpeakV1Model AURA2ATLAS_EN = new SpeakV1Model(Value.AURA2ATLAS_EN, "aura-2-atlas-en");
-
-    public static final SpeakV1Model AURA2ORION_EN = new SpeakV1Model(Value.AURA2ORION_EN, "aura-2-orion-en");
-
-    public static final SpeakV1Model AURA2DRACO_EN = new SpeakV1Model(Value.AURA2DRACO_EN, "aura-2-draco-en");
-
-    public static final SpeakV1Model AURA2HYPERION_EN = new SpeakV1Model(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
-
-    public static final SpeakV1Model AURA2JANUS_EN = new SpeakV1Model(Value.AURA2JANUS_EN, "aura-2-janus-en");
-
-    public static final SpeakV1Model AURA_HELIOS_EN = new SpeakV1Model(Value.AURA_HELIOS_EN, "aura-helios-en");
-
-    public static final SpeakV1Model AURA2PLUTO_EN = new SpeakV1Model(Value.AURA2PLUTO_EN, "aura-2-pluto-en");
-
-    public static final SpeakV1Model AURA2ARCAS_EN = new SpeakV1Model(Value.AURA2ARCAS_EN, "aura-2-arcas-en");
-
-    public static final SpeakV1Model AURA2NESTOR_ES = new SpeakV1Model(Value.AURA2NESTOR_ES, "aura-2-nestor-es");
-
-    public static final SpeakV1Model AURA2NEPTUNE_EN = new SpeakV1Model(Value.AURA2NEPTUNE_EN, "aura-2-neptune-en");
-
-    public static final SpeakV1Model AURA2MINERVA_EN = new SpeakV1Model(Value.AURA2MINERVA_EN, "aura-2-minerva-en");
-
-    public static final SpeakV1Model AURA2ALVARO_ES = new SpeakV1Model(Value.AURA2ALVARO_ES, "aura-2-alvaro-es");
-
-    public static final SpeakV1Model AURA_ATHENA_EN = new SpeakV1Model(Value.AURA_ATHENA_EN, "aura-athena-en");
-
-    public static final SpeakV1Model AURA_PERSEUS_EN = new SpeakV1Model(Value.AURA_PERSEUS_EN, "aura-perseus-en");
-
-    public static final SpeakV1Model AURA2ODYSSEUS_EN = new SpeakV1Model(Value.AURA2ODYSSEUS_EN, "aura-2-odysseus-en");
-
-    public static final SpeakV1Model AURA2PANDORA_EN = new SpeakV1Model(Value.AURA2PANDORA_EN, "aura-2-pandora-en");
-
-    public static final SpeakV1Model AURA2ZEUS_EN = new SpeakV1Model(Value.AURA2ZEUS_EN, "aura-2-zeus-en");
-
-    public static final SpeakV1Model AURA2ELECTRA_EN = new SpeakV1Model(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
-
-    public static final SpeakV1Model AURA2ORPHEUS_EN = new SpeakV1Model(Value.AURA2ORPHEUS_EN, "aura-2-orpheus-en");
-
-    public static final SpeakV1Model AURA2THALIA_EN = new SpeakV1Model(Value.AURA2THALIA_EN, "aura-2-thalia-en");
-
-    public static final SpeakV1Model AURA2CELESTE_ES = new SpeakV1Model(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
-
-    public static final SpeakV1Model AURA_ASTERIA_EN = new SpeakV1Model(Value.AURA_ASTERIA_EN, "aura-asteria-en");
-
-    public static final SpeakV1Model AURA2ESTRELLA_ES = new SpeakV1Model(Value.AURA2ESTRELLA_ES, "aura-2-estrella-es");
+    public static final SpeakV1Model AURA2SIRIO_ES = new SpeakV1Model(Value.AURA2SIRIO_ES, "aura-2-sirio-es");
 
     public static final SpeakV1Model AURA2HERA_EN = new SpeakV1Model(Value.AURA2HERA_EN, "aura-2-hera-en");
 
-    public static final SpeakV1Model AURA2MARS_EN = new SpeakV1Model(Value.AURA2MARS_EN, "aura-2-mars-en");
-
-    public static final SpeakV1Model AURA2SIRIO_ES = new SpeakV1Model(Value.AURA2SIRIO_ES, "aura-2-sirio-es");
-
     public static final SpeakV1Model AURA2ASTERIA_EN = new SpeakV1Model(Value.AURA2ASTERIA_EN, "aura-2-asteria-en");
-
-    public static final SpeakV1Model AURA2HERMES_EN = new SpeakV1Model(Value.AURA2HERMES_EN, "aura-2-hermes-en");
-
-    public static final SpeakV1Model AURA2VESTA_EN = new SpeakV1Model(Value.AURA2VESTA_EN, "aura-2-vesta-en");
-
-    public static final SpeakV1Model AURA2CARINA_ES = new SpeakV1Model(Value.AURA2CARINA_ES, "aura-2-carina-es");
-
-    public static final SpeakV1Model AURA2CALLISTA_EN = new SpeakV1Model(Value.AURA2CALLISTA_EN, "aura-2-callista-en");
 
     public static final SpeakV1Model AURA2HARMONIA_EN = new SpeakV1Model(Value.AURA2HARMONIA_EN, "aura-2-harmonia-en");
 
-    public static final SpeakV1Model AURA2SELENA_ES = new SpeakV1Model(Value.AURA2SELENA_ES, "aura-2-selena-es");
-
-    public static final SpeakV1Model AURA2AURORA_EN = new SpeakV1Model(Value.AURA2AURORA_EN, "aura-2-aurora-en");
+    public static final SpeakV1Model AURA2CARINA_ES = new SpeakV1Model(Value.AURA2CARINA_ES, "aura-2-carina-es");
 
     public static final SpeakV1Model AURA_ZEUS_EN = new SpeakV1Model(Value.AURA_ZEUS_EN, "aura-zeus-en");
 
+    public static final SpeakV1Model AURA2HERMES_EN = new SpeakV1Model(Value.AURA2HERMES_EN, "aura-2-hermes-en");
+
+    public static final SpeakV1Model AURA2SELENA_ES = new SpeakV1Model(Value.AURA2SELENA_ES, "aura-2-selena-es");
+
+    public static final SpeakV1Model AURA2NEPTUNE_EN = new SpeakV1Model(Value.AURA2NEPTUNE_EN, "aura-2-neptune-en");
+
+    public static final SpeakV1Model AURA2CALLISTA_EN = new SpeakV1Model(Value.AURA2CALLISTA_EN, "aura-2-callista-en");
+
+    public static final SpeakV1Model AURA2AURORA_EN = new SpeakV1Model(Value.AURA2AURORA_EN, "aura-2-aurora-en");
+
     public static final SpeakV1Model AURA2OPHELIA_EN = new SpeakV1Model(Value.AURA2OPHELIA_EN, "aura-2-ophelia-en");
 
-    public static final SpeakV1Model AURA2AMALTHEA_EN = new SpeakV1Model(Value.AURA2AMALTHEA_EN, "aura-2-amalthea-en");
+    public static final SpeakV1Model AURA2APOLLO_EN = new SpeakV1Model(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
+
+    public static final SpeakV1Model AURA_LUNA_EN = new SpeakV1Model(Value.AURA_LUNA_EN, "aura-luna-en");
 
     public static final SpeakV1Model AURA_ORPHEUS_EN = new SpeakV1Model(Value.AURA_ORPHEUS_EN, "aura-orpheus-en");
 
     public static final SpeakV1Model AURA2DELIA_EN = new SpeakV1Model(Value.AURA2DELIA_EN, "aura-2-delia-en");
 
-    public static final SpeakV1Model AURA_LUNA_EN = new SpeakV1Model(Value.AURA_LUNA_EN, "aura-luna-en");
+    public static final SpeakV1Model AURA2MARS_EN = new SpeakV1Model(Value.AURA2MARS_EN, "aura-2-mars-en");
 
-    public static final SpeakV1Model AURA2APOLLO_EN = new SpeakV1Model(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
-
-    public static final SpeakV1Model AURA2SELENE_EN = new SpeakV1Model(Value.AURA2SELENE_EN, "aura-2-selene-en");
-
-    public static final SpeakV1Model AURA2THEIA_EN = new SpeakV1Model(Value.AURA2THEIA_EN, "aura-2-theia-en");
+    public static final SpeakV1Model AURA2AMALTHEA_EN = new SpeakV1Model(Value.AURA2AMALTHEA_EN, "aura-2-amalthea-en");
 
     public static final SpeakV1Model AURA_HERA_EN = new SpeakV1Model(Value.AURA_HERA_EN, "aura-hera-en");
 
-    public static final SpeakV1Model AURA2CORDELIA_EN = new SpeakV1Model(Value.AURA2CORDELIA_EN, "aura-2-cordelia-en");
-
-    public static final SpeakV1Model AURA2ANDROMEDA_EN =
-            new SpeakV1Model(Value.AURA2ANDROMEDA_EN, "aura-2-andromeda-en");
+    public static final SpeakV1Model AURA2SELENE_EN = new SpeakV1Model(Value.AURA2SELENE_EN, "aura-2-selene-en");
 
     public static final SpeakV1Model AURA2ARIES_EN = new SpeakV1Model(Value.AURA2ARIES_EN, "aura-2-aries-en");
 
@@ -118,21 +53,86 @@ public final class SpeakV1Model {
 
     public static final SpeakV1Model AURA2LUNA_EN = new SpeakV1Model(Value.AURA2LUNA_EN, "aura-2-luna-en");
 
-    public static final SpeakV1Model AURA2DIANA_ES = new SpeakV1Model(Value.AURA2DIANA_ES, "aura-2-diana-es");
-
     public static final SpeakV1Model AURA2JAVIER_ES = new SpeakV1Model(Value.AURA2JAVIER_ES, "aura-2-javier-es");
+
+    public static final SpeakV1Model AURA2PHOEBE_EN = new SpeakV1Model(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
+
+    public static final SpeakV1Model AURA2DIANA_ES = new SpeakV1Model(Value.AURA2DIANA_ES, "aura-2-diana-es");
 
     public static final SpeakV1Model AURA_ORION_EN = new SpeakV1Model(Value.AURA_ORION_EN, "aura-orion-en");
 
-    public static final SpeakV1Model AURA_ARCAS_EN = new SpeakV1Model(Value.AURA_ARCAS_EN, "aura-arcas-en");
-
-    public static final SpeakV1Model AURA2IRIS_EN = new SpeakV1Model(Value.AURA2IRIS_EN, "aura-2-iris-en");
+    public static final SpeakV1Model AURA2ANDROMEDA_EN =
+            new SpeakV1Model(Value.AURA2ANDROMEDA_EN, "aura-2-andromeda-en");
 
     public static final SpeakV1Model AURA2ATHENA_EN = new SpeakV1Model(Value.AURA2ATHENA_EN, "aura-2-athena-en");
 
     public static final SpeakV1Model AURA2SATURN_EN = new SpeakV1Model(Value.AURA2SATURN_EN, "aura-2-saturn-en");
 
-    public static final SpeakV1Model AURA2PHOEBE_EN = new SpeakV1Model(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
+    public static final SpeakV1Model AURA_ARCAS_EN = new SpeakV1Model(Value.AURA_ARCAS_EN, "aura-arcas-en");
+
+    public static final SpeakV1Model AURA2THEIA_EN = new SpeakV1Model(Value.AURA2THEIA_EN, "aura-2-theia-en");
+
+    public static final SpeakV1Model AURA2IRIS_EN = new SpeakV1Model(Value.AURA2IRIS_EN, "aura-2-iris-en");
+
+    public static final SpeakV1Model AURA_ANGUS_EN = new SpeakV1Model(Value.AURA_ANGUS_EN, "aura-angus-en");
+
+    public static final SpeakV1Model AURA2JUPITER_EN = new SpeakV1Model(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
+
+    public static final SpeakV1Model AURA2AQUILA_ES = new SpeakV1Model(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
+
+    public static final SpeakV1Model AURA2CORA_EN = new SpeakV1Model(Value.AURA2CORA_EN, "aura-2-cora-en");
+
+    public static final SpeakV1Model AURA2CORDELIA_EN = new SpeakV1Model(Value.AURA2CORDELIA_EN, "aura-2-cordelia-en");
+
+    public static final SpeakV1Model AURA2ATLAS_EN = new SpeakV1Model(Value.AURA2ATLAS_EN, "aura-2-atlas-en");
+
+    public static final SpeakV1Model AURA2HELENA_EN = new SpeakV1Model(Value.AURA2HELENA_EN, "aura-2-helena-en");
+
+    public static final SpeakV1Model AURA_STELLA_EN = new SpeakV1Model(Value.AURA_STELLA_EN, "aura-stella-en");
+
+    public static final SpeakV1Model AURA2DRACO_EN = new SpeakV1Model(Value.AURA2DRACO_EN, "aura-2-draco-en");
+
+    public static final SpeakV1Model AURA2HYPERION_EN = new SpeakV1Model(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
+
+    public static final SpeakV1Model AURA2CELESTE_ES = new SpeakV1Model(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
+
+    public static final SpeakV1Model AURA_HELIOS_EN = new SpeakV1Model(Value.AURA_HELIOS_EN, "aura-helios-en");
+
+    public static final SpeakV1Model AURA2PLUTO_EN = new SpeakV1Model(Value.AURA2PLUTO_EN, "aura-2-pluto-en");
+
+    public static final SpeakV1Model AURA2JANUS_EN = new SpeakV1Model(Value.AURA2JANUS_EN, "aura-2-janus-en");
+
+    public static final SpeakV1Model AURA2NESTOR_ES = new SpeakV1Model(Value.AURA2NESTOR_ES, "aura-2-nestor-es");
+
+    public static final SpeakV1Model AURA2ARCAS_EN = new SpeakV1Model(Value.AURA2ARCAS_EN, "aura-2-arcas-en");
+
+    public static final SpeakV1Model AURA2ORION_EN = new SpeakV1Model(Value.AURA2ORION_EN, "aura-2-orion-en");
+
+    public static final SpeakV1Model AURA_ATHENA_EN = new SpeakV1Model(Value.AURA_ATHENA_EN, "aura-athena-en");
+
+    public static final SpeakV1Model AURA2ODYSSEUS_EN = new SpeakV1Model(Value.AURA2ODYSSEUS_EN, "aura-2-odysseus-en");
+
+    public static final SpeakV1Model AURA2PANDORA_EN = new SpeakV1Model(Value.AURA2PANDORA_EN, "aura-2-pandora-en");
+
+    public static final SpeakV1Model AURA2MINERVA_EN = new SpeakV1Model(Value.AURA2MINERVA_EN, "aura-2-minerva-en");
+
+    public static final SpeakV1Model AURA2ALVARO_ES = new SpeakV1Model(Value.AURA2ALVARO_ES, "aura-2-alvaro-es");
+
+    public static final SpeakV1Model AURA_PERSEUS_EN = new SpeakV1Model(Value.AURA_PERSEUS_EN, "aura-perseus-en");
+
+    public static final SpeakV1Model AURA2VESTA_EN = new SpeakV1Model(Value.AURA2VESTA_EN, "aura-2-vesta-en");
+
+    public static final SpeakV1Model AURA_ASTERIA_EN = new SpeakV1Model(Value.AURA_ASTERIA_EN, "aura-asteria-en");
+
+    public static final SpeakV1Model AURA2ZEUS_EN = new SpeakV1Model(Value.AURA2ZEUS_EN, "aura-2-zeus-en");
+
+    public static final SpeakV1Model AURA2ELECTRA_EN = new SpeakV1Model(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
+
+    public static final SpeakV1Model AURA2ORPHEUS_EN = new SpeakV1Model(Value.AURA2ORPHEUS_EN, "aura-2-orpheus-en");
+
+    public static final SpeakV1Model AURA2ESTRELLA_ES = new SpeakV1Model(Value.AURA2ESTRELLA_ES, "aura-2-estrella-es");
+
+    public static final SpeakV1Model AURA2THALIA_EN = new SpeakV1Model(Value.AURA2THALIA_EN, "aura-2-thalia-en");
 
     private final Value value;
 
@@ -165,132 +165,132 @@ public final class SpeakV1Model {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case AURA_ANGUS_EN:
-                return visitor.visitAuraAngusEn();
-            case AURA2JUPITER_EN:
-                return visitor.visitAura2JupiterEn();
-            case AURA2CORA_EN:
-                return visitor.visitAura2CoraEn();
-            case AURA_STELLA_EN:
-                return visitor.visitAuraStellaEn();
-            case AURA2HELENA_EN:
-                return visitor.visitAura2HelenaEn();
-            case AURA2AQUILA_ES:
-                return visitor.visitAura2AquilaEs();
-            case AURA2ATLAS_EN:
-                return visitor.visitAura2AtlasEn();
-            case AURA2ORION_EN:
-                return visitor.visitAura2OrionEn();
-            case AURA2DRACO_EN:
-                return visitor.visitAura2DracoEn();
-            case AURA2HYPERION_EN:
-                return visitor.visitAura2HyperionEn();
-            case AURA2JANUS_EN:
-                return visitor.visitAura2JanusEn();
-            case AURA_HELIOS_EN:
-                return visitor.visitAuraHeliosEn();
-            case AURA2PLUTO_EN:
-                return visitor.visitAura2PlutoEn();
-            case AURA2ARCAS_EN:
-                return visitor.visitAura2ArcasEn();
-            case AURA2NESTOR_ES:
-                return visitor.visitAura2NestorEs();
-            case AURA2NEPTUNE_EN:
-                return visitor.visitAura2NeptuneEn();
-            case AURA2MINERVA_EN:
-                return visitor.visitAura2MinervaEn();
-            case AURA2ALVARO_ES:
-                return visitor.visitAura2AlvaroEs();
-            case AURA_ATHENA_EN:
-                return visitor.visitAuraAthenaEn();
-            case AURA_PERSEUS_EN:
-                return visitor.visitAuraPerseusEn();
-            case AURA2ODYSSEUS_EN:
-                return visitor.visitAura2OdysseusEn();
-            case AURA2PANDORA_EN:
-                return visitor.visitAura2PandoraEn();
-            case AURA2ZEUS_EN:
-                return visitor.visitAura2ZeusEn();
-            case AURA2ELECTRA_EN:
-                return visitor.visitAura2ElectraEn();
-            case AURA2ORPHEUS_EN:
-                return visitor.visitAura2OrpheusEn();
-            case AURA2THALIA_EN:
-                return visitor.visitAura2ThaliaEn();
-            case AURA2CELESTE_ES:
-                return visitor.visitAura2CelesteEs();
-            case AURA_ASTERIA_EN:
-                return visitor.visitAuraAsteriaEn();
-            case AURA2ESTRELLA_ES:
-                return visitor.visitAura2EstrellaEs();
-            case AURA2HERA_EN:
-                return visitor.visitAura2HeraEn();
-            case AURA2MARS_EN:
-                return visitor.visitAura2MarsEn();
             case AURA2SIRIO_ES:
                 return visitor.visitAura2SirioEs();
+            case AURA2HERA_EN:
+                return visitor.visitAura2HeraEn();
             case AURA2ASTERIA_EN:
                 return visitor.visitAura2AsteriaEn();
-            case AURA2HERMES_EN:
-                return visitor.visitAura2HermesEn();
-            case AURA2VESTA_EN:
-                return visitor.visitAura2VestaEn();
-            case AURA2CARINA_ES:
-                return visitor.visitAura2CarinaEs();
-            case AURA2CALLISTA_EN:
-                return visitor.visitAura2CallistaEn();
             case AURA2HARMONIA_EN:
                 return visitor.visitAura2HarmoniaEn();
-            case AURA2SELENA_ES:
-                return visitor.visitAura2SelenaEs();
-            case AURA2AURORA_EN:
-                return visitor.visitAura2AuroraEn();
+            case AURA2CARINA_ES:
+                return visitor.visitAura2CarinaEs();
             case AURA_ZEUS_EN:
                 return visitor.visitAuraZeusEn();
+            case AURA2HERMES_EN:
+                return visitor.visitAura2HermesEn();
+            case AURA2SELENA_ES:
+                return visitor.visitAura2SelenaEs();
+            case AURA2NEPTUNE_EN:
+                return visitor.visitAura2NeptuneEn();
+            case AURA2CALLISTA_EN:
+                return visitor.visitAura2CallistaEn();
+            case AURA2AURORA_EN:
+                return visitor.visitAura2AuroraEn();
             case AURA2OPHELIA_EN:
                 return visitor.visitAura2OpheliaEn();
-            case AURA2AMALTHEA_EN:
-                return visitor.visitAura2AmaltheaEn();
+            case AURA2APOLLO_EN:
+                return visitor.visitAura2ApolloEn();
+            case AURA_LUNA_EN:
+                return visitor.visitAuraLunaEn();
             case AURA_ORPHEUS_EN:
                 return visitor.visitAuraOrpheusEn();
             case AURA2DELIA_EN:
                 return visitor.visitAura2DeliaEn();
-            case AURA_LUNA_EN:
-                return visitor.visitAuraLunaEn();
-            case AURA2APOLLO_EN:
-                return visitor.visitAura2ApolloEn();
-            case AURA2SELENE_EN:
-                return visitor.visitAura2SeleneEn();
-            case AURA2THEIA_EN:
-                return visitor.visitAura2TheiaEn();
+            case AURA2MARS_EN:
+                return visitor.visitAura2MarsEn();
+            case AURA2AMALTHEA_EN:
+                return visitor.visitAura2AmaltheaEn();
             case AURA_HERA_EN:
                 return visitor.visitAuraHeraEn();
-            case AURA2CORDELIA_EN:
-                return visitor.visitAura2CordeliaEn();
-            case AURA2ANDROMEDA_EN:
-                return visitor.visitAura2AndromedaEn();
+            case AURA2SELENE_EN:
+                return visitor.visitAura2SeleneEn();
             case AURA2ARIES_EN:
                 return visitor.visitAura2AriesEn();
             case AURA2JUNO_EN:
                 return visitor.visitAura2JunoEn();
             case AURA2LUNA_EN:
                 return visitor.visitAura2LunaEn();
-            case AURA2DIANA_ES:
-                return visitor.visitAura2DianaEs();
             case AURA2JAVIER_ES:
                 return visitor.visitAura2JavierEs();
+            case AURA2PHOEBE_EN:
+                return visitor.visitAura2PhoebeEn();
+            case AURA2DIANA_ES:
+                return visitor.visitAura2DianaEs();
             case AURA_ORION_EN:
                 return visitor.visitAuraOrionEn();
-            case AURA_ARCAS_EN:
-                return visitor.visitAuraArcasEn();
-            case AURA2IRIS_EN:
-                return visitor.visitAura2IrisEn();
+            case AURA2ANDROMEDA_EN:
+                return visitor.visitAura2AndromedaEn();
             case AURA2ATHENA_EN:
                 return visitor.visitAura2AthenaEn();
             case AURA2SATURN_EN:
                 return visitor.visitAura2SaturnEn();
-            case AURA2PHOEBE_EN:
-                return visitor.visitAura2PhoebeEn();
+            case AURA_ARCAS_EN:
+                return visitor.visitAuraArcasEn();
+            case AURA2THEIA_EN:
+                return visitor.visitAura2TheiaEn();
+            case AURA2IRIS_EN:
+                return visitor.visitAura2IrisEn();
+            case AURA_ANGUS_EN:
+                return visitor.visitAuraAngusEn();
+            case AURA2JUPITER_EN:
+                return visitor.visitAura2JupiterEn();
+            case AURA2AQUILA_ES:
+                return visitor.visitAura2AquilaEs();
+            case AURA2CORA_EN:
+                return visitor.visitAura2CoraEn();
+            case AURA2CORDELIA_EN:
+                return visitor.visitAura2CordeliaEn();
+            case AURA2ATLAS_EN:
+                return visitor.visitAura2AtlasEn();
+            case AURA2HELENA_EN:
+                return visitor.visitAura2HelenaEn();
+            case AURA_STELLA_EN:
+                return visitor.visitAuraStellaEn();
+            case AURA2DRACO_EN:
+                return visitor.visitAura2DracoEn();
+            case AURA2HYPERION_EN:
+                return visitor.visitAura2HyperionEn();
+            case AURA2CELESTE_ES:
+                return visitor.visitAura2CelesteEs();
+            case AURA_HELIOS_EN:
+                return visitor.visitAuraHeliosEn();
+            case AURA2PLUTO_EN:
+                return visitor.visitAura2PlutoEn();
+            case AURA2JANUS_EN:
+                return visitor.visitAura2JanusEn();
+            case AURA2NESTOR_ES:
+                return visitor.visitAura2NestorEs();
+            case AURA2ARCAS_EN:
+                return visitor.visitAura2ArcasEn();
+            case AURA2ORION_EN:
+                return visitor.visitAura2OrionEn();
+            case AURA_ATHENA_EN:
+                return visitor.visitAuraAthenaEn();
+            case AURA2ODYSSEUS_EN:
+                return visitor.visitAura2OdysseusEn();
+            case AURA2PANDORA_EN:
+                return visitor.visitAura2PandoraEn();
+            case AURA2MINERVA_EN:
+                return visitor.visitAura2MinervaEn();
+            case AURA2ALVARO_ES:
+                return visitor.visitAura2AlvaroEs();
+            case AURA_PERSEUS_EN:
+                return visitor.visitAuraPerseusEn();
+            case AURA2VESTA_EN:
+                return visitor.visitAura2VestaEn();
+            case AURA_ASTERIA_EN:
+                return visitor.visitAuraAsteriaEn();
+            case AURA2ZEUS_EN:
+                return visitor.visitAura2ZeusEn();
+            case AURA2ELECTRA_EN:
+                return visitor.visitAura2ElectraEn();
+            case AURA2ORPHEUS_EN:
+                return visitor.visitAura2OrpheusEn();
+            case AURA2ESTRELLA_ES:
+                return visitor.visitAura2EstrellaEs();
+            case AURA2THALIA_EN:
+                return visitor.visitAura2ThaliaEn();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -300,132 +300,132 @@ public final class SpeakV1Model {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static SpeakV1Model valueOf(String value) {
         switch (value) {
-            case "aura-angus-en":
-                return AURA_ANGUS_EN;
-            case "aura-2-jupiter-en":
-                return AURA2JUPITER_EN;
-            case "aura-2-cora-en":
-                return AURA2CORA_EN;
-            case "aura-stella-en":
-                return AURA_STELLA_EN;
-            case "aura-2-helena-en":
-                return AURA2HELENA_EN;
-            case "aura-2-aquila-es":
-                return AURA2AQUILA_ES;
-            case "aura-2-atlas-en":
-                return AURA2ATLAS_EN;
-            case "aura-2-orion-en":
-                return AURA2ORION_EN;
-            case "aura-2-draco-en":
-                return AURA2DRACO_EN;
-            case "aura-2-hyperion-en":
-                return AURA2HYPERION_EN;
-            case "aura-2-janus-en":
-                return AURA2JANUS_EN;
-            case "aura-helios-en":
-                return AURA_HELIOS_EN;
-            case "aura-2-pluto-en":
-                return AURA2PLUTO_EN;
-            case "aura-2-arcas-en":
-                return AURA2ARCAS_EN;
-            case "aura-2-nestor-es":
-                return AURA2NESTOR_ES;
-            case "aura-2-neptune-en":
-                return AURA2NEPTUNE_EN;
-            case "aura-2-minerva-en":
-                return AURA2MINERVA_EN;
-            case "aura-2-alvaro-es":
-                return AURA2ALVARO_ES;
-            case "aura-athena-en":
-                return AURA_ATHENA_EN;
-            case "aura-perseus-en":
-                return AURA_PERSEUS_EN;
-            case "aura-2-odysseus-en":
-                return AURA2ODYSSEUS_EN;
-            case "aura-2-pandora-en":
-                return AURA2PANDORA_EN;
-            case "aura-2-zeus-en":
-                return AURA2ZEUS_EN;
-            case "aura-2-electra-en":
-                return AURA2ELECTRA_EN;
-            case "aura-2-orpheus-en":
-                return AURA2ORPHEUS_EN;
-            case "aura-2-thalia-en":
-                return AURA2THALIA_EN;
-            case "aura-2-celeste-es":
-                return AURA2CELESTE_ES;
-            case "aura-asteria-en":
-                return AURA_ASTERIA_EN;
-            case "aura-2-estrella-es":
-                return AURA2ESTRELLA_ES;
-            case "aura-2-hera-en":
-                return AURA2HERA_EN;
-            case "aura-2-mars-en":
-                return AURA2MARS_EN;
             case "aura-2-sirio-es":
                 return AURA2SIRIO_ES;
+            case "aura-2-hera-en":
+                return AURA2HERA_EN;
             case "aura-2-asteria-en":
                 return AURA2ASTERIA_EN;
-            case "aura-2-hermes-en":
-                return AURA2HERMES_EN;
-            case "aura-2-vesta-en":
-                return AURA2VESTA_EN;
-            case "aura-2-carina-es":
-                return AURA2CARINA_ES;
-            case "aura-2-callista-en":
-                return AURA2CALLISTA_EN;
             case "aura-2-harmonia-en":
                 return AURA2HARMONIA_EN;
-            case "aura-2-selena-es":
-                return AURA2SELENA_ES;
-            case "aura-2-aurora-en":
-                return AURA2AURORA_EN;
+            case "aura-2-carina-es":
+                return AURA2CARINA_ES;
             case "aura-zeus-en":
                 return AURA_ZEUS_EN;
+            case "aura-2-hermes-en":
+                return AURA2HERMES_EN;
+            case "aura-2-selena-es":
+                return AURA2SELENA_ES;
+            case "aura-2-neptune-en":
+                return AURA2NEPTUNE_EN;
+            case "aura-2-callista-en":
+                return AURA2CALLISTA_EN;
+            case "aura-2-aurora-en":
+                return AURA2AURORA_EN;
             case "aura-2-ophelia-en":
                 return AURA2OPHELIA_EN;
-            case "aura-2-amalthea-en":
-                return AURA2AMALTHEA_EN;
+            case "aura-2-apollo-en":
+                return AURA2APOLLO_EN;
+            case "aura-luna-en":
+                return AURA_LUNA_EN;
             case "aura-orpheus-en":
                 return AURA_ORPHEUS_EN;
             case "aura-2-delia-en":
                 return AURA2DELIA_EN;
-            case "aura-luna-en":
-                return AURA_LUNA_EN;
-            case "aura-2-apollo-en":
-                return AURA2APOLLO_EN;
-            case "aura-2-selene-en":
-                return AURA2SELENE_EN;
-            case "aura-2-theia-en":
-                return AURA2THEIA_EN;
+            case "aura-2-mars-en":
+                return AURA2MARS_EN;
+            case "aura-2-amalthea-en":
+                return AURA2AMALTHEA_EN;
             case "aura-hera-en":
                 return AURA_HERA_EN;
-            case "aura-2-cordelia-en":
-                return AURA2CORDELIA_EN;
-            case "aura-2-andromeda-en":
-                return AURA2ANDROMEDA_EN;
+            case "aura-2-selene-en":
+                return AURA2SELENE_EN;
             case "aura-2-aries-en":
                 return AURA2ARIES_EN;
             case "aura-2-juno-en":
                 return AURA2JUNO_EN;
             case "aura-2-luna-en":
                 return AURA2LUNA_EN;
-            case "aura-2-diana-es":
-                return AURA2DIANA_ES;
             case "aura-2-javier-es":
                 return AURA2JAVIER_ES;
+            case "aura-2-phoebe-en":
+                return AURA2PHOEBE_EN;
+            case "aura-2-diana-es":
+                return AURA2DIANA_ES;
             case "aura-orion-en":
                 return AURA_ORION_EN;
-            case "aura-arcas-en":
-                return AURA_ARCAS_EN;
-            case "aura-2-iris-en":
-                return AURA2IRIS_EN;
+            case "aura-2-andromeda-en":
+                return AURA2ANDROMEDA_EN;
             case "aura-2-athena-en":
                 return AURA2ATHENA_EN;
             case "aura-2-saturn-en":
                 return AURA2SATURN_EN;
-            case "aura-2-phoebe-en":
-                return AURA2PHOEBE_EN;
+            case "aura-arcas-en":
+                return AURA_ARCAS_EN;
+            case "aura-2-theia-en":
+                return AURA2THEIA_EN;
+            case "aura-2-iris-en":
+                return AURA2IRIS_EN;
+            case "aura-angus-en":
+                return AURA_ANGUS_EN;
+            case "aura-2-jupiter-en":
+                return AURA2JUPITER_EN;
+            case "aura-2-aquila-es":
+                return AURA2AQUILA_ES;
+            case "aura-2-cora-en":
+                return AURA2CORA_EN;
+            case "aura-2-cordelia-en":
+                return AURA2CORDELIA_EN;
+            case "aura-2-atlas-en":
+                return AURA2ATLAS_EN;
+            case "aura-2-helena-en":
+                return AURA2HELENA_EN;
+            case "aura-stella-en":
+                return AURA_STELLA_EN;
+            case "aura-2-draco-en":
+                return AURA2DRACO_EN;
+            case "aura-2-hyperion-en":
+                return AURA2HYPERION_EN;
+            case "aura-2-celeste-es":
+                return AURA2CELESTE_ES;
+            case "aura-helios-en":
+                return AURA_HELIOS_EN;
+            case "aura-2-pluto-en":
+                return AURA2PLUTO_EN;
+            case "aura-2-janus-en":
+                return AURA2JANUS_EN;
+            case "aura-2-nestor-es":
+                return AURA2NESTOR_ES;
+            case "aura-2-arcas-en":
+                return AURA2ARCAS_EN;
+            case "aura-2-orion-en":
+                return AURA2ORION_EN;
+            case "aura-athena-en":
+                return AURA_ATHENA_EN;
+            case "aura-2-odysseus-en":
+                return AURA2ODYSSEUS_EN;
+            case "aura-2-pandora-en":
+                return AURA2PANDORA_EN;
+            case "aura-2-minerva-en":
+                return AURA2MINERVA_EN;
+            case "aura-2-alvaro-es":
+                return AURA2ALVARO_ES;
+            case "aura-perseus-en":
+                return AURA_PERSEUS_EN;
+            case "aura-2-vesta-en":
+                return AURA2VESTA_EN;
+            case "aura-asteria-en":
+                return AURA_ASTERIA_EN;
+            case "aura-2-zeus-en":
+                return AURA2ZEUS_EN;
+            case "aura-2-electra-en":
+                return AURA2ELECTRA_EN;
+            case "aura-2-orpheus-en":
+                return AURA2ORPHEUS_EN;
+            case "aura-2-estrella-es":
+                return AURA2ESTRELLA_ES;
+            case "aura-2-thalia-en":
+                return AURA2THALIA_EN;
             default:
                 return new SpeakV1Model(Value.UNKNOWN, value);
         }

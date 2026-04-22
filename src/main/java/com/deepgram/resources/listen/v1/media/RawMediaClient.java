@@ -58,98 +58,64 @@ public class RawMediaClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "callback_method", request.getCallbackMethod().get(), false);
         }
-        if (request.getSentiment().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "sentiment", request.getSentiment().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "sentiment", request.getSentiment().orElse(false), false);
         if (request.getSummarize().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "summarize", request.getSummarize().get(), false);
         }
-        if (request.getTopics().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "topics", request.getTopics().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "topics", request.getTopics().orElse(false), false);
         if (request.getCustomTopicMode().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "custom_topic_mode", request.getCustomTopicMode().get(), false);
         }
-        if (request.getIntents().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "intents", request.getIntents().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "intents", request.getIntents().orElse(false), false);
         if (request.getCustomIntentMode().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "custom_intent_mode", request.getCustomIntentMode().get(), false);
         }
-        if (request.getDetectEntities().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "detect_entities", request.getDetectEntities().get(), false);
-        }
-        if (request.getDetectLanguage().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "detect_language", request.getDetectLanguage().get(), false);
-        }
-        if (request.getDiarize().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "diarize", request.getDiarize().get(), false);
-        }
-        if (request.getDictation().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "dictation", request.getDictation().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "detect_entities", request.getDetectEntities().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "detect_language", request.getDetectLanguage().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "diarize", request.getDiarize().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "dictation", request.getDictation().orElse(false), false);
         if (request.getEncoding().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "encoding", request.getEncoding().get(), false);
         }
-        if (request.getFillerWords().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "filler_words", request.getFillerWords().get(), false);
-        }
-        if (request.getLanguage().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "language", request.getLanguage().get(), false);
-        }
-        if (request.getMeasurements().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "measurements", request.getMeasurements().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "filler_words", request.getFillerWords().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "language", request.getLanguage().orElse("en"), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "measurements", request.getMeasurements().orElse(false), false);
         if (request.getModel().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "model", request.getModel().get(), false);
         }
-        if (request.getMultichannel().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "multichannel", request.getMultichannel().get(), false);
-        }
-        if (request.getNumerals().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "numerals", request.getNumerals().get(), false);
-        }
-        if (request.getParagraphs().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "paragraphs", request.getParagraphs().get(), false);
-        }
-        if (request.getProfanityFilter().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "profanity_filter", request.getProfanityFilter().get(), false);
-        }
-        if (request.getPunctuate().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "punctuate", request.getPunctuate().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "multichannel", request.getMultichannel().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "numerals", request.getNumerals().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "paragraphs", request.getParagraphs().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "profanity_filter", request.getProfanityFilter().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "punctuate", request.getPunctuate().orElse(false), false);
         if (request.getRedact().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "redact", request.getRedact().get(), false);
         }
-        if (request.getSmartFormat().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "smart_format", request.getSmartFormat().get(), false);
-        }
-        if (request.getUtterances().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "utterances", request.getUtterances().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "smart_format", request.getSmartFormat().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "utterances", request.getUtterances().orElse(false), false);
         if (request.getUttSplit().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "utt_split", request.getUttSplit().get(), false);
@@ -158,10 +124,8 @@ public class RawMediaClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "version", request.getVersion().get(), false);
         }
-        if (request.getMipOptOut().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "mip_opt_out", request.getMipOptOut().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "mip_opt_out", request.getMipOptOut().orElse(false), false);
         if (request.getExtra().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "extra", request.getExtra().get(), true);
@@ -279,98 +243,64 @@ public class RawMediaClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "callback_method", request.getCallbackMethod().get(), false);
         }
-        if (request.getSentiment().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "sentiment", request.getSentiment().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "sentiment", request.getSentiment().orElse(false), false);
         if (request.getSummarize().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "summarize", request.getSummarize().get(), false);
         }
-        if (request.getTopics().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "topics", request.getTopics().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "topics", request.getTopics().orElse(false), false);
         if (request.getCustomTopicMode().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "custom_topic_mode", request.getCustomTopicMode().get(), false);
         }
-        if (request.getIntents().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "intents", request.getIntents().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "intents", request.getIntents().orElse(false), false);
         if (request.getCustomIntentMode().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "custom_intent_mode", request.getCustomIntentMode().get(), false);
         }
-        if (request.getDetectEntities().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "detect_entities", request.getDetectEntities().get(), false);
-        }
-        if (request.getDetectLanguage().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "detect_language", request.getDetectLanguage().get(), false);
-        }
-        if (request.getDiarize().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "diarize", request.getDiarize().get(), false);
-        }
-        if (request.getDictation().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "dictation", request.getDictation().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "detect_entities", request.getDetectEntities().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "detect_language", request.getDetectLanguage().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "diarize", request.getDiarize().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "dictation", request.getDictation().orElse(false), false);
         if (request.getEncoding().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "encoding", request.getEncoding().get(), false);
         }
-        if (request.getFillerWords().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "filler_words", request.getFillerWords().get(), false);
-        }
-        if (request.getLanguage().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "language", request.getLanguage().get(), false);
-        }
-        if (request.getMeasurements().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "measurements", request.getMeasurements().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "filler_words", request.getFillerWords().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "language", request.getLanguage().orElse("en"), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "measurements", request.getMeasurements().orElse(false), false);
         if (request.getModel().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "model", request.getModel().get(), false);
         }
-        if (request.getMultichannel().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "multichannel", request.getMultichannel().get(), false);
-        }
-        if (request.getNumerals().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "numerals", request.getNumerals().get(), false);
-        }
-        if (request.getParagraphs().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "paragraphs", request.getParagraphs().get(), false);
-        }
-        if (request.getProfanityFilter().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "profanity_filter", request.getProfanityFilter().get(), false);
-        }
-        if (request.getPunctuate().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "punctuate", request.getPunctuate().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "multichannel", request.getMultichannel().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "numerals", request.getNumerals().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "paragraphs", request.getParagraphs().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "profanity_filter", request.getProfanityFilter().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "punctuate", request.getPunctuate().orElse(false), false);
         if (request.getRedact().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "redact", request.getRedact().get(), false);
         }
-        if (request.getSmartFormat().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "smart_format", request.getSmartFormat().get(), false);
-        }
-        if (request.getUtterances().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "utterances", request.getUtterances().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "smart_format", request.getSmartFormat().orElse(false), false);
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "utterances", request.getUtterances().orElse(false), false);
         if (request.getUttSplit().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "utt_split", request.getUttSplit().get(), false);
@@ -379,10 +309,8 @@ public class RawMediaClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "version", request.getVersion().get(), false);
         }
-        if (request.getMipOptOut().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    httpUrl, "mip_opt_out", request.getMipOptOut().get(), false);
-        }
+        QueryStringMapper.addQueryParameter(
+                httpUrl, "mip_opt_out", request.getMipOptOut().orElse(false), false);
         if (request.getExtra().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "extra", request.getExtra().get(), true);

@@ -12,6 +12,7 @@ import com.deepgram.resources.manage.AsyncManageClient;
 import com.deepgram.resources.read.AsyncReadClient;
 import com.deepgram.resources.selfhosted.AsyncSelfHostedClient;
 import com.deepgram.resources.speak.AsyncSpeakClient;
+import com.deepgram.resources.voiceagent.AsyncVoiceAgentClient;
 import java.util.function.Supplier;
 
 public class AsyncDeepgramApiClient {
@@ -31,6 +32,8 @@ public class AsyncDeepgramApiClient {
 
     protected final Supplier<AsyncSpeakClient> speakClient;
 
+    protected final Supplier<AsyncVoiceAgentClient> voiceAgentClient;
+
     public AsyncDeepgramApiClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
         this.agentClient = Suppliers.memoize(() -> new AsyncAgentClient(clientOptions));
@@ -40,6 +43,7 @@ public class AsyncDeepgramApiClient {
         this.readClient = Suppliers.memoize(() -> new AsyncReadClient(clientOptions));
         this.selfHostedClient = Suppliers.memoize(() -> new AsyncSelfHostedClient(clientOptions));
         this.speakClient = Suppliers.memoize(() -> new AsyncSpeakClient(clientOptions));
+        this.voiceAgentClient = Suppliers.memoize(() -> new AsyncVoiceAgentClient(clientOptions));
     }
 
     public AsyncAgentClient agent() {
@@ -68,6 +72,10 @@ public class AsyncDeepgramApiClient {
 
     public AsyncSpeakClient speak() {
         return this.speakClient.get();
+    }
+
+    public AsyncVoiceAgentClient voiceAgent() {
+        return this.voiceAgentClient.get();
     }
 
     public static AsyncDeepgramApiClientBuilder builder() {

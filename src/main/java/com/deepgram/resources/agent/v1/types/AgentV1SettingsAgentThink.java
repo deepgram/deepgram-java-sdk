@@ -37,7 +37,7 @@ public final class AgentV1SettingsAgentThink {
         if (this.type == 0) {
             return visitor.visit((ThinkSettingsV1) this.value);
         } else if (this.type == 1) {
-            return visitor.visit((List<AgentV1SettingsAgentThinkOneItem>) this.value);
+            return visitor.visit((List<ThinkSettingsV1>) this.value);
         }
         throw new IllegalStateException("Failed to visit value. This should never happen.");
     }
@@ -66,14 +66,14 @@ public final class AgentV1SettingsAgentThink {
         return new AgentV1SettingsAgentThink(value, 0);
     }
 
-    public static AgentV1SettingsAgentThink of(List<AgentV1SettingsAgentThinkOneItem> value) {
+    public static AgentV1SettingsAgentThink of(List<ThinkSettingsV1> value) {
         return new AgentV1SettingsAgentThink(value, 1);
     }
 
     public interface Visitor<T> {
         T visit(ThinkSettingsV1 value);
 
-        T visit(List<AgentV1SettingsAgentThinkOneItem> value);
+        T visit(List<ThinkSettingsV1> value);
     }
 
     static final class Deserializer extends StdDeserializer<AgentV1SettingsAgentThink> {
@@ -89,8 +89,7 @@ public final class AgentV1SettingsAgentThink {
             } catch (RuntimeException e) {
             }
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, new TypeReference<List<AgentV1SettingsAgentThinkOneItem>>() {}));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, new TypeReference<List<ThinkSettingsV1>>() {}));
             } catch (RuntimeException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");

@@ -21,12 +21,12 @@ import org.jetbrains.annotations.NotNull;
 public final class AgentV1SettingsAudioInput {
     private final AgentV1SettingsAudioInputEncoding encoding;
 
-    private final double sampleRate;
+    private final int sampleRate;
 
     private final Map<String, Object> additionalProperties;
 
     private AgentV1SettingsAudioInput(
-            AgentV1SettingsAudioInputEncoding encoding, double sampleRate, Map<String, Object> additionalProperties) {
+            AgentV1SettingsAudioInputEncoding encoding, int sampleRate, Map<String, Object> additionalProperties) {
         this.encoding = encoding;
         this.sampleRate = sampleRate;
         this.additionalProperties = additionalProperties;
@@ -44,7 +44,7 @@ public final class AgentV1SettingsAudioInput {
      * @return Sample rate in Hz. Common values are 16000, 24000, 44100, 48000
      */
     @JsonProperty("sample_rate")
-    public double getSampleRate() {
+    public int getSampleRate() {
         return sampleRate;
     }
 
@@ -90,7 +90,7 @@ public final class AgentV1SettingsAudioInput {
         /**
          * <p>Sample rate in Hz. Common values are 16000, 24000, 44100, 48000</p>
          */
-        _FinalStage sampleRate(double sampleRate);
+        _FinalStage sampleRate(int sampleRate);
     }
 
     public interface _FinalStage {
@@ -105,7 +105,7 @@ public final class AgentV1SettingsAudioInput {
     public static final class Builder implements EncodingStage, SampleRateStage, _FinalStage {
         private AgentV1SettingsAudioInputEncoding encoding;
 
-        private double sampleRate;
+        private int sampleRate;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -138,7 +138,7 @@ public final class AgentV1SettingsAudioInput {
          */
         @java.lang.Override
         @JsonSetter("sample_rate")
-        public _FinalStage sampleRate(double sampleRate) {
+        public _FinalStage sampleRate(int sampleRate) {
             this.sampleRate = sampleRate;
             return this;
         }

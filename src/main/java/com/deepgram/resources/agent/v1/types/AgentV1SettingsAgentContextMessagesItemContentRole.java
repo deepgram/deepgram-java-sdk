@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class AgentV1SettingsAgentContextMessagesItemContentRole {
-    public static final AgentV1SettingsAgentContextMessagesItemContentRole ASSISTANT =
-            new AgentV1SettingsAgentContextMessagesItemContentRole(Value.ASSISTANT, "assistant");
-
     public static final AgentV1SettingsAgentContextMessagesItemContentRole USER =
             new AgentV1SettingsAgentContextMessagesItemContentRole(Value.USER, "user");
+
+    public static final AgentV1SettingsAgentContextMessagesItemContentRole ASSISTANT =
+            new AgentV1SettingsAgentContextMessagesItemContentRole(Value.ASSISTANT, "assistant");
 
     private final Value value;
 
@@ -46,10 +46,10 @@ public final class AgentV1SettingsAgentContextMessagesItemContentRole {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case ASSISTANT:
-                return visitor.visitAssistant();
             case USER:
                 return visitor.visitUser();
+            case ASSISTANT:
+                return visitor.visitAssistant();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -59,10 +59,10 @@ public final class AgentV1SettingsAgentContextMessagesItemContentRole {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static AgentV1SettingsAgentContextMessagesItemContentRole valueOf(String value) {
         switch (value) {
-            case "assistant":
-                return ASSISTANT;
             case "user":
                 return USER;
+            case "assistant":
+                return ASSISTANT;
             default:
                 return new AgentV1SettingsAgentContextMessagesItemContentRole(Value.UNKNOWN, value);
         }

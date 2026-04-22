@@ -13,11 +13,11 @@ public final class ListBillingFieldsV1ResponseDeploymentsItem {
     public static final ListBillingFieldsV1ResponseDeploymentsItem BETA =
             new ListBillingFieldsV1ResponseDeploymentsItem(Value.BETA, "beta");
 
-    public static final ListBillingFieldsV1ResponseDeploymentsItem HOSTED =
-            new ListBillingFieldsV1ResponseDeploymentsItem(Value.HOSTED, "hosted");
-
     public static final ListBillingFieldsV1ResponseDeploymentsItem DEDICATED =
             new ListBillingFieldsV1ResponseDeploymentsItem(Value.DEDICATED, "dedicated");
+
+    public static final ListBillingFieldsV1ResponseDeploymentsItem HOSTED =
+            new ListBillingFieldsV1ResponseDeploymentsItem(Value.HOSTED, "hosted");
 
     private final Value value;
 
@@ -56,10 +56,10 @@ public final class ListBillingFieldsV1ResponseDeploymentsItem {
                 return visitor.visitSelfHosted();
             case BETA:
                 return visitor.visitBeta();
-            case HOSTED:
-                return visitor.visitHosted();
             case DEDICATED:
                 return visitor.visitDedicated();
+            case HOSTED:
+                return visitor.visitHosted();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -73,10 +73,10 @@ public final class ListBillingFieldsV1ResponseDeploymentsItem {
                 return SELF_HOSTED;
             case "beta":
                 return BETA;
-            case "hosted":
-                return HOSTED;
             case "dedicated":
                 return DEDICATED;
+            case "hosted":
+                return HOSTED;
             default:
                 return new ListBillingFieldsV1ResponseDeploymentsItem(Value.UNKNOWN, value);
         }
