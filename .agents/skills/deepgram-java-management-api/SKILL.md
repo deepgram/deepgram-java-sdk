@@ -49,7 +49,12 @@ for (ListProjectsV1ResponseProjectsItem project : projects) {
 
 ## Quick start — project models / keys
 
+Pick a project from the list above. New accounts may have zero projects — guard against that before indexing.
+
 ```java
+if (projects.isEmpty()) {
+    throw new IllegalStateException("No Deepgram projects are visible to this API key.");
+}
 String projectId = projects.get(0).getProjectId().orElseThrow();
 
 client.manage().v1().projects().models().list(projectId);

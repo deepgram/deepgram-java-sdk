@@ -50,8 +50,10 @@ examples/
 target/
 
 # Agent files (Claude Code, OpenCode, other agent tools)
-# .agents/skills/ holds agent-agnostic skills discoverable via `npx skills`
+# .agents/skills/ holds agent-agnostic skills discoverable via `npx skills`.
+# CLAUDE.md is kept here defensively alongside AGENTS.md — some agent tooling
+# expects one name, some the other, and layouts vary across checkouts.
 CLAUDE.md
 AGENTS.md
-.claude
-.agents
+.claude/
+.agents/

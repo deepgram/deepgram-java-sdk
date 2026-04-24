@@ -62,11 +62,21 @@ MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(requ
 result.visit(new MediaTranscribeResponse.Visitor<Void>() {
     @Override
     public Void visit(ListenV1Response response) {
-        String transcript = response.getResults()
-                .getChannels().get(0)
-                .getAlternatives().orElse(java.util.Collections.emptyList())
-                .get(0)
-                .getTranscript().orElse("");
+        // Guard channels + alternatives against empty results (matches examples/listen/TranscribeUrl.java).
+        String transcript = "";
+        java.util.List<?> channels = response.getResults().getChannels();
+        if (channels != null && !channels.isEmpty()) {
+            java.util.List<?> alternatives = response.getResults()
+                    .getChannels().get(0)
+                    .getAlternatives().orElse(java.util.Collections.emptyList());
+            if (!alternatives.isEmpty()) {
+                transcript = response.getResults()
+                        .getChannels().get(0)
+                        .getAlternatives().orElse(java.util.Collections.emptyList())
+                        .get(0)
+                        .getTranscript().orElse("");
+            }
+        }
         System.out.println(transcript);
         return null;
     }

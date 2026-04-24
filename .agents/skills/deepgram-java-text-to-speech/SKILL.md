@@ -57,17 +57,32 @@ import com.deepgram.resources.speak.v1.types.SpeakV1FlushType;
 import com.deepgram.resources.speak.v1.types.SpeakV1Text;
 import com.deepgram.resources.speak.v1.websocket.V1WebSocketClient;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+Logger logger = Logger.getLogger("StreamingTts");
 V1WebSocketClient wsClient = client.speak().v1().v1WebSocket();
 OutputStream audioOutput = new FileOutputStream("output_streaming.wav");
 
+// Log write failures rather than throwing from the WebSocket callback thread
+// (matches examples/speak/StreamingTts.java).
 wsClient.onSpeakV1Audio(audioData -> {
     try {
         audioOutput.write(audioData.toByteArray());
-    } catch (Exception e) {
-        throw new RuntimeException(e);
+    } catch (IOException e) {
+        logger.log(Level.SEVERE, "Failed to write streaming audio to output file.", e);
+    }
+});
+
+// Close the output stream when the server disconnects so we don't leak the file handle.
+wsClient.onDisconnected(message -> {
+    try {
+        audioOutput.close();
+    } catch (IOException e) {
+        logger.log(Level.WARNING, "Failed to close streaming audio output file.", e);
     }
 });
 
