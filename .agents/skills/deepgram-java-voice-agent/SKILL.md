@@ -109,7 +109,7 @@ wsClient.sendInjectAgentMessage(com.deepgram.resources.agent.v1.types.AgentV1Inj
 2. **Send settings first.** The repo examples wait for `onWelcome(...)` and immediately call `sendSettings(...)`.
 3. **Audio is binary `ByteString`.** Playback/output is your responsibility.
 4. **`sendMedia(...)` is raw audio bytes.** Match whatever audio settings you configured.
-5. **Provider config is strongly typed.** Use `OpenAiThinkProvider`, `Anthropic`, `Google`, etc., not ad-hoc JSON strings.
+5. **Use the provider wrapper/union types rather than raw JSON.** Constructors like `OpenAiThinkProvider.of(...)`, `AnthropicThinkProvider.of(...)`, `GoogleThinkProvider.of(...)` package the provider into the think/listen/speak union the SDK expects. The underlying payload is still an `Object` (so provider-field mistakes won't be caught at compile time), but the wrappers keep routing correct and ensure you pick the right variant of the sealed union.
 6. **There is no persisted agent-configuration management client shown in this checkout.** This repo exposes live agent runtime plus think-model discovery.
 7. **Closing is connection-level.** The examples call `disconnect()`; there is no separate close-message flow like Speak/Listen.
 
