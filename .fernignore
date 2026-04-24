@@ -16,6 +16,12 @@ src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 # Fern regen overwrites these with incorrect SDK names and strips the markers.
 src/main/java/com/deepgram/core/ClientOptions.java
 
+# Agent History websocket patch
+# Fern currently dispatches on the message name instead of wire type "History",
+# and the generated union needs explicit variant selection for content vs function_calls.
+src/main/java/com/deepgram/resources/agent/v1/websocket/V1WebSocketClient.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1History.java
+
 # Transport abstraction (pluggable transport for SageMaker, etc.)
 src/main/java/com/deepgram/core/transport/
 

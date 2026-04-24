@@ -664,7 +664,7 @@ public class V1WebSocketClient implements AutoCloseable {
                         }
                     }
                     break;
-                case "AgentV1History":
+                case "History":
                     if (agentV1HistoryHandler != null) {
                         AgentV1History event = objectMapper.treeToValue(node, AgentV1History.class);
                         if (event != null) {

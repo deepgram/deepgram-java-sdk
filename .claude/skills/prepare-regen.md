@@ -12,6 +12,7 @@ Read AGENTS.md for full context on the regeneration workflow and freeze classifi
 4. Read `.fernignore` and classify each entry using the rules in AGENTS.md:
     - **Permanently frozen**: entirely hand-written, no Fern equivalent. NEVER touch these.
     - **Temporarily frozen**: Fern-generated with manual patches. These get swapped.
+    - Current Java temporary freezes include `ClientOptions.java` plus the Agent History patch files `V1WebSocketClient.java` and `AgentV1History.java`.
 5. For each **temporarily frozen** file only:
     - Copy the file to `<filename>.bak` alongside the original.
     - In `.fernignore`, replace the original path with the `.bak` path (protects our patch, lets Fern overwrite the original).

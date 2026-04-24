@@ -48,6 +48,8 @@ How to identify:
 Current temporarily frozen files:
 
 - `src/main/java/com/deepgram/core/ClientOptions.java` - preserves release-please version markers and correct SDK header constants that Fern currently overwrites; re-apply with `python3 .claude/scripts/fix_clientoptions.py` during review regen
+- `src/main/java/com/deepgram/resources/agent/v1/websocket/V1WebSocketClient.java` - patches Fern's generated Agent History websocket dispatch to use wire type `"History"` instead of message name `"AgentV1History"`
+- `src/main/java/com/deepgram/resources/agent/v1/types/AgentV1History.java` - patches Fern's generated Agent History union deserializer to choose the correct variant by payload shape (`role`/`content` vs `function_calls`)
 
 ### Prepare repo for regeneration
 
@@ -66,7 +68,7 @@ Current temporarily frozen files:
 The `.bak` files are our manually patched versions protected by `.fernignore`. The original paths now contain the freshly generated versions. By comparing the two, we can see what the generator now produces versus what we had patched.
 
 1. Diff each `.bak` file against the new generated version to understand what changed and whether our patches are still needed.
-2. Re-apply any patches that are still necessary to the newly generated files. For `src/main/java/com/deepgram/core/ClientOptions.java`, run `python3 .claude/scripts/fix_clientoptions.py` to restore the Deepgram SDK header constants and `// x-release-please-version` markers.
+2. Re-apply any patches that are still necessary to the newly generated files. For `src/main/java/com/deepgram/core/ClientOptions.java`, run `python3 .claude/scripts/fix_clientoptions.py` to restore the Deepgram SDK header constants and `// x-release-please-version` markers. If Agent History is still generated incorrectly, re-apply the `V1WebSocketClient.java` and `AgentV1History.java` patches and keep those files frozen.
 3. In `.fernignore`, replace each `.bak` path back to the original path for files that still need patches.
 4. Remove `.fernignore` entries entirely for any files where the generator now produces correct output.
 5. Delete all `.bak` files once review is complete.

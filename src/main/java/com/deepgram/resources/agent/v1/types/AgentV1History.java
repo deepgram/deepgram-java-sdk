@@ -7,6 +7,7 @@ import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -80,16 +81,19 @@ public final class AgentV1History {
 
         @java.lang.Override
         public AgentV1History deserialize(JsonParser p, DeserializationContext context) throws IOException {
-            Object value = p.readValueAs(Object.class);
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentV1HistoryContent.class));
-            } catch (RuntimeException e) {
+            JsonNode value = p.readValueAsTree();
+
+            if (value.hasNonNull("function_calls")) {
+                return of(ObjectMappers.JSON_MAPPER.treeToValue(value, AgentV1HistoryFunctionCalls.class));
             }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentV1HistoryFunctionCalls.class));
-            } catch (RuntimeException e) {
+
+            if (value.hasNonNull("role") || value.hasNonNull("content")) {
+                return of(ObjectMappers.JSON_MAPPER.treeToValue(value, AgentV1HistoryContent.class));
             }
-            throw new JsonParseException(p, "Failed to deserialize");
+
+            throw new JsonParseException(
+                    p,
+                    "Failed to deserialize AgentV1History: expected either role/content or function_calls payload");
         }
     }
 }
