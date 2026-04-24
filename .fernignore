@@ -48,3 +48,10 @@ examples/
 
 # Build output
 target/
+
+# Agent files (Claude Code, OpenCode, other agent tools)
+# .agents/skills/ holds agent-agnostic skills discoverable via `npx skills`
+CLAUDE.md
+AGENTS.md
+.claude
+.agents
