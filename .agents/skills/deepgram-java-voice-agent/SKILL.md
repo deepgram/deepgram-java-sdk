@@ -1,6 +1,6 @@
 ---
-name: using-voice-agent
-description: Use when writing or reviewing Java code in this repo that builds an interactive voice agent over `agent.deepgram.com/v1/agent/converse`. Covers `client.agent().v1().v1WebSocket()`, `AgentV1Settings`, `sendSettings`, `sendMedia`, event handlers, provider configuration, and message injection. Use `using-text-to-speech` for one-way synthesis or the STT skills for transcription-only flows. Triggers include "voice agent", "agent converse", "full duplex", "barge in", "function call", and "agent websocket".
+name: deepgram-java-voice-agent
+description: Use when writing or reviewing Java code in this repo that builds an interactive voice agent over `agent.deepgram.com/v1/agent/converse`. Covers `client.agent().v1().v1WebSocket()`, `AgentV1Settings`, `sendSettings`, `sendMedia`, event handlers, provider configuration, and message injection. Use `deepgram-java-text-to-speech` for one-way synthesis or the STT skills for transcription-only flows. Triggers include "voice agent", "agent converse", "full duplex", "barge in", "function call", and "agent websocket".
 ---
 
 # Using Deepgram Voice Agent (Java SDK)
@@ -14,9 +14,9 @@ Run a full-duplex voice agent over a single WebSocket: user audio in, agent even
 - You may need message injection, prompt updates, or function-call handling.
 
 **Use a different skill when:**
-- You only need transcription → `using-speech-to-text` or `using-conversational-stt`.
-- You only need speech synthesis → `using-text-to-speech`.
-- You only need project/admin endpoints → `using-management-api`.
+- You only need transcription → `deepgram-java-speech-to-text` or `deepgram-java-conversational-stt`.
+- You only need speech synthesis → `deepgram-java-text-to-speech`.
+- You only need project/admin endpoints → `deepgram-java-management-api`.
 
 ## Authentication
 

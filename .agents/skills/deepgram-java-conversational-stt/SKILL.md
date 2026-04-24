@@ -1,6 +1,6 @@
 ---
-name: using-conversational-stt
-description: Use when writing or reviewing Java code in this repo that calls Deepgram Conversational STT v2 / Flux over `/v2/listen`. Covers `client.listen().v2().v2WebSocket()`, `V2ConnectOptions`, `onTurnInfo`, and turn-aware close handling. Use `using-speech-to-text` for standard v1 transcription and `using-voice-agent` for fully interactive assistants. Triggers include "flux", "conversational stt", "listen v2", "turn detection", "end of turn", and "eot".
+name: deepgram-java-conversational-stt
+description: Use when writing or reviewing Java code in this repo that calls Deepgram Conversational STT v2 / Flux over `/v2/listen`. Covers `client.listen().v2().v2WebSocket()`, `V2ConnectOptions`, `onTurnInfo`, and turn-aware close handling. Use `deepgram-java-speech-to-text` for standard v1 transcription and `deepgram-java-voice-agent` for fully interactive assistants. Triggers include "flux", "conversational stt", "listen v2", "turn detection", "end of turn", and "eot".
 ---
 
 # Using Deepgram Conversational STT / Flux (Java SDK)
@@ -13,8 +13,8 @@ Turn-aware streaming transcription over `/v2/listen` for conversational audio.
 - You are building conversational UX where end-of-turn timing matters.
 
 **Use a different skill when:**
-- You need general-purpose STT over REST or classic streaming → `using-speech-to-text`.
-- You need a hosted interactive assistant → `using-voice-agent`.
+- You need general-purpose STT over REST or classic streaming → `deepgram-java-speech-to-text`.
+- You need a hosted interactive assistant → `deepgram-java-voice-agent`.
 
 ## Authentication
 

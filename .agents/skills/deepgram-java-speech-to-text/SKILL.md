@@ -1,6 +1,6 @@
 ---
-name: using-speech-to-text
-description: Use when writing or reviewing Java code in this repo that calls Deepgram Speech-to-Text v1 (`/v1/listen`) for prerecorded or live transcription. Covers `client.listen().v1().media().transcribeUrl` / `transcribeFile` (REST) and `client.listen().v1().v1WebSocket()` (WebSocket). Use `using-audio-intelligence` for analytics overlays, `using-conversational-stt` for Flux `/v2/listen`, and `using-voice-agent` for full-duplex assistants. Triggers include "transcribe", "speech to text", "STT", "listen v1", "nova-3", "live transcription", and "websocket transcription".
+name: deepgram-java-speech-to-text
+description: Use when writing or reviewing Java code in this repo that calls Deepgram Speech-to-Text v1 (`/v1/listen`) for prerecorded or live transcription. Covers `client.listen().v1().media().transcribeUrl` / `transcribeFile` (REST) and `client.listen().v1().v1WebSocket()` (WebSocket). Use `deepgram-java-audio-intelligence` for analytics overlays, `deepgram-java-conversational-stt` for Flux `/v2/listen`, and `deepgram-java-voice-agent` for full-duplex assistants. Triggers include "transcribe", "speech to text", "STT", "listen v1", "nova-3", "live transcription", and "websocket transcription".
 ---
 
 # Using Deepgram Speech-to-Text (Java SDK)
@@ -13,9 +13,9 @@ Basic transcription for prerecorded audio over REST or live audio over WebSocket
 - **WebSocket (`v1WebSocket()`)** — live streaming transcription with interim/final results.
 
 **Use a different skill when:**
-- You want summaries, sentiment, topics, intents, diarization, redaction, or language detection overlays on the same endpoint → `using-audio-intelligence`.
-- You need turn-aware conversational streaming on `/v2/listen` → `using-conversational-stt`.
-- You need a full interactive assistant with TTS + LLM orchestration → `using-voice-agent`.
+- You want summaries, sentiment, topics, intents, diarization, redaction, or language detection overlays on the same endpoint → `deepgram-java-audio-intelligence`.
+- You need turn-aware conversational streaming on `/v2/listen` → `deepgram-java-conversational-stt`.
+- You need a full interactive assistant with TTS + LLM orchestration → `deepgram-java-voice-agent`.
 
 ## Authentication
 

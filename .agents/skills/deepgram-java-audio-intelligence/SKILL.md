@@ -1,6 +1,6 @@
 ---
-name: using-audio-intelligence
-description: Use when writing or reviewing Java code in this repo that enables Deepgram intelligence overlays on `/v1/listen` audio transcription - diarization, entity detection, sentiment, summarize, topics, intents, language detection, and redaction. Same endpoint as plain STT, but with extra request fields on `ListenV1RequestUrl` or `MediaTranscribeRequestOctetStream`. Use `using-speech-to-text` for plain transcripts and `using-text-intelligence` for analysis on existing text. Triggers include "audio intelligence", "diarize", "summarize audio", "sentiment from audio", "topic detection", and "redact".
+name: deepgram-java-audio-intelligence
+description: Use when writing or reviewing Java code in this repo that enables Deepgram intelligence overlays on `/v1/listen` audio transcription - diarization, entity detection, sentiment, summarize, topics, intents, language detection, and redaction. Same endpoint as plain STT, but with extra request fields on `ListenV1RequestUrl` or `MediaTranscribeRequestOctetStream`. Use `deepgram-java-speech-to-text` for plain transcripts and `deepgram-java-text-intelligence` for analysis on existing text. Triggers include "audio intelligence", "diarize", "summarize audio", "sentiment from audio", "topic detection", and "redact".
 ---
 
 # Using Deepgram Audio Intelligence (Java SDK)
@@ -13,9 +13,9 @@ Audio intelligence is not a separate client in this SDK. It is the **Listen V1 R
 - REST is the main path; the Java WebSocket client only exposes the real-time subset.
 
 **Use a different skill when:**
-- You want plain transcription only → `using-speech-to-text`.
-- You already have text and only need text analysis → `using-text-intelligence`.
-- You need turn-aware conversational streaming → `using-conversational-stt`.
+- You want plain transcription only → `deepgram-java-speech-to-text`.
+- You already have text and only need text analysis → `deepgram-java-text-intelligence`.
+- You need turn-aware conversational streaming → `deepgram-java-conversational-stt`.
 
 ## Authentication
 

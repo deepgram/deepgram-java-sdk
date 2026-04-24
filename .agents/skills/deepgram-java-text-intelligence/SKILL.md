@@ -1,6 +1,6 @@
 ---
-name: using-text-intelligence
-description: Use when writing or reviewing Java code in this repo that calls Deepgram Text Intelligence / Read (`/v1/read`) for text analysis. Covers `client.read().v1().text().analyze(...)` with `ReadV1Request` or `TextAnalyzeRequest`. Use `using-audio-intelligence` when the source is audio instead of text. Triggers include "read api", "text intelligence", "analyze text", "sentiment", "topics", "intents", and "summarize text".
+name: deepgram-java-text-intelligence
+description: Use when writing or reviewing Java code in this repo that calls Deepgram Text Intelligence / Read (`/v1/read`) for text analysis. Covers `client.read().v1().text().analyze(...)` with `ReadV1Request` or `TextAnalyzeRequest`. Use `deepgram-java-audio-intelligence` when the source is audio instead of text. Triggers include "read api", "text intelligence", "analyze text", "sentiment", "topics", "intents", and "summarize text".
 ---
 
 # Using Deepgram Text Intelligence (Java SDK)
@@ -13,7 +13,7 @@ Analyze text you already have — transcripts, chats, documents, or other plain 
 - You want one-shot REST analysis for sentiment, topics, intents, or summary-like outputs.
 
 **Use a different skill when:**
-- The source is audio and you want analysis during transcription → `using-audio-intelligence`.
+- The source is audio and you want analysis during transcription → `deepgram-java-audio-intelligence`.
 
 ## Authentication
 

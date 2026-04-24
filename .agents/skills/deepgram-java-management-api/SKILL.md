@@ -1,6 +1,6 @@
 ---
-name: using-management-api
-description: Use when writing or reviewing Java code in this repo that calls Deepgram Management APIs for projects, project models, API keys, members, invites, usage, and billing. Covers `client.manage().v1().*` plus related think-model discovery under `client.agent().v1().settings().think().models()`. Use `using-voice-agent` for live agent conversations instead of admin APIs. Triggers include "management api", "list projects", "api keys", "members", "invites", "usage", "billing", and "models".
+name: deepgram-java-management-api
+description: Use when writing or reviewing Java code in this repo that calls Deepgram Management APIs for projects, project models, API keys, members, invites, usage, and billing. Covers `client.manage().v1().*` plus related think-model discovery under `client.agent().v1().settings().think().models()`. Use `deepgram-java-voice-agent` for live agent conversations instead of admin APIs. Triggers include "management api", "list projects", "api keys", "members", "invites", "usage", "billing", and "models".
 ---
 
 # Using Deepgram Management API (Java SDK)
@@ -14,7 +14,7 @@ Administrative REST APIs for project metadata, project-scoped resources, and mod
 - Discover public or project-scoped STT/TTS models.
 
 **Use a different skill when:**
-- You want to run a live agent session → `using-voice-agent`.
+- You want to run a live agent session → `deepgram-java-voice-agent`.
 - You want speech/text inference rather than project administration → use the product skills for STT, TTS, or Read.
 
 ## Authentication

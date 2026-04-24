@@ -1,5 +1,5 @@
 ---
-name: maintaining-java-sdk
+name: deepgram-java-maintaining-sdk
 description: Use when regenerating this Java SDK with Fern, editing `.fernignore`, preparing the repo for a generator release, reconciling manual patches after regen, or deciding whether a file is permanently frozen vs temporarily frozen. This SDK is Fern-generated - most files under `src/main/java/com/deepgram/` should not be edited directly. Triggers include "fern regen", "regenerate sdk", ".fernignore", "unfreeze", "re-apply patches", and "sdk regeneration".
 ---
 

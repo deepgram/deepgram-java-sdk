@@ -1,6 +1,6 @@
 ---
-name: using-text-to-speech
-description: Use when writing or reviewing Java code in this repo that calls Deepgram Text-to-Speech v1 (`/v1/speak`) for audio synthesis. Covers one-shot REST via `client.speak().v1().audio().generate(...)` and streaming synthesis via `client.speak().v1().v1WebSocket()`. Use `using-voice-agent` for full-duplex assistants instead of one-way synthesis. Triggers include "tts", "text to speech", "speak", "aura", "streaming tts", and "speak websocket".
+name: deepgram-java-text-to-speech
+description: Use when writing or reviewing Java code in this repo that calls Deepgram Text-to-Speech v1 (`/v1/speak`) for audio synthesis. Covers one-shot REST via `client.speak().v1().audio().generate(...)` and streaming synthesis via `client.speak().v1().v1WebSocket()`. Use `deepgram-java-voice-agent` for full-duplex assistants instead of one-way synthesis. Triggers include "tts", "text to speech", "speak", "aura", "streaming tts", and "speak websocket".
 ---
 
 # Using Deepgram Text-to-Speech (Java SDK)
@@ -13,7 +13,7 @@ Convert text to audio with REST or stream audio back incrementally over WebSocke
 - **WebSocket (`v1WebSocket()`)** — lower-latency synthesis while text arrives in chunks.
 
 **Use a different skill when:**
-- You need the system to listen, think, and speak in one session → `using-voice-agent`.
+- You need the system to listen, think, and speak in one session → `deepgram-java-voice-agent`.
 
 ## Authentication
 
