@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class SpeakV1SampleRate {
-    public static final SpeakV1SampleRate EIGHT_THOUSAND = new SpeakV1SampleRate(Value.EIGHT_THOUSAND, "8000");
-
     public static final SpeakV1SampleRate SIXTEEN_THOUSAND = new SpeakV1SampleRate(Value.SIXTEEN_THOUSAND, "16000");
+
+    public static final SpeakV1SampleRate EIGHT_THOUSAND = new SpeakV1SampleRate(Value.EIGHT_THOUSAND, "8000");
 
     public static final SpeakV1SampleRate FORTY_EIGHT_THOUSAND =
             new SpeakV1SampleRate(Value.FORTY_EIGHT_THOUSAND, "48000");
@@ -52,10 +52,10 @@ public final class SpeakV1SampleRate {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case EIGHT_THOUSAND:
-                return visitor.visitEightThousand();
             case SIXTEEN_THOUSAND:
                 return visitor.visitSixteenThousand();
+            case EIGHT_THOUSAND:
+                return visitor.visitEightThousand();
             case FORTY_EIGHT_THOUSAND:
                 return visitor.visitFortyEightThousand();
             case TWENTY_FOUR_THOUSAND:
@@ -71,10 +71,10 @@ public final class SpeakV1SampleRate {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static SpeakV1SampleRate valueOf(String value) {
         switch (value) {
-            case "8000":
-                return EIGHT_THOUSAND;
             case "16000":
                 return SIXTEEN_THOUSAND;
+            case "8000":
+                return EIGHT_THOUSAND;
             case "48000":
                 return FORTY_EIGHT_THOUSAND;
             case "24000":

@@ -3,40 +3,166 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-public final class SpeakSettingsV1 implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = SpeakSettingsV1.Builder.class)
+public final class SpeakSettingsV1 {
+    private final SpeakSettingsV1Provider provider;
 
-    private SpeakSettingsV1(Object value) {
-        this.value = value;
+    private final Optional<SpeakSettingsV1Endpoint> endpoint;
+
+    private final Map<String, Object> additionalProperties;
+
+    private SpeakSettingsV1(
+            SpeakSettingsV1Provider provider,
+            Optional<SpeakSettingsV1Endpoint> endpoint,
+            Map<String, Object> additionalProperties) {
+        this.provider = provider;
+        this.endpoint = endpoint;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("provider")
+    public SpeakSettingsV1Provider getProvider() {
+        return provider;
+    }
+
+    /**
+     * @return Optional if provider is Deepgram. Required for non-Deepgram TTS providers.
+     * When present, must include url field and headers object. Valid schemes are https and wss with wss only supported for Eleven Labs.
+     */
+    @JsonProperty("endpoint")
+    public Optional<SpeakSettingsV1Endpoint> getEndpoint() {
+        return endpoint;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other
-                || (other instanceof SpeakSettingsV1 && this.value.equals(((SpeakSettingsV1) other).value));
+        if (this == other) return true;
+        return other instanceof SpeakSettingsV1 && equalTo((SpeakSettingsV1) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(SpeakSettingsV1 other) {
+        return provider.equals(other.provider) && endpoint.equals(other.endpoint);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.provider, this.endpoint);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static SpeakSettingsV1 of(Object value) {
-        return new SpeakSettingsV1(value);
+    public static ProviderStage builder() {
+        return new Builder();
+    }
+
+    public interface ProviderStage {
+        _FinalStage provider(@NotNull SpeakSettingsV1Provider provider);
+
+        Builder from(SpeakSettingsV1 other);
+    }
+
+    public interface _FinalStage {
+        SpeakSettingsV1 build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Optional if provider is Deepgram. Required for non-Deepgram TTS providers.
+         * When present, must include url field and headers object. Valid schemes are https and wss with wss only supported for Eleven Labs.</p>
+         */
+        _FinalStage endpoint(Optional<SpeakSettingsV1Endpoint> endpoint);
+
+        _FinalStage endpoint(SpeakSettingsV1Endpoint endpoint);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder implements ProviderStage, _FinalStage {
+        private SpeakSettingsV1Provider provider;
+
+        private Optional<SpeakSettingsV1Endpoint> endpoint = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        @java.lang.Override
+        public Builder from(SpeakSettingsV1 other) {
+            provider(other.getProvider());
+            endpoint(other.getEndpoint());
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter("provider")
+        public _FinalStage provider(@NotNull SpeakSettingsV1Provider provider) {
+            this.provider = Objects.requireNonNull(provider, "provider must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Optional if provider is Deepgram. Required for non-Deepgram TTS providers.
+         * When present, must include url field and headers object. Valid schemes are https and wss with wss only supported for Eleven Labs.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage endpoint(SpeakSettingsV1Endpoint endpoint) {
+            this.endpoint = Optional.ofNullable(endpoint);
+            return this;
+        }
+
+        /**
+         * <p>Optional if provider is Deepgram. Required for non-Deepgram TTS providers.
+         * When present, must include url field and headers object. Valid schemes are https and wss with wss only supported for Eleven Labs.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "endpoint", nulls = Nulls.SKIP)
+        public _FinalStage endpoint(Optional<SpeakSettingsV1Endpoint> endpoint) {
+            this.endpoint = endpoint;
+            return this;
+        }
+
+        @java.lang.Override
+        public SpeakSettingsV1 build() {
+            return new SpeakSettingsV1(provider, endpoint, additionalProperties);
+        }
+
+        @java.lang.Override
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

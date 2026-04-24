@@ -117,6 +117,10 @@ public class V1WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
         }
+        if (options.getSpeed() != null && options.getSpeed().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "speed", String.valueOf(options.getSpeed().get()));
+        }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers(null).forEach(requestBuilder::addHeader);
         final Request request = requestBuilder.build();

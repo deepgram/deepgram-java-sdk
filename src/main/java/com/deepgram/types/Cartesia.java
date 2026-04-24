@@ -3,39 +3,289 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-public final class Cartesia implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = Cartesia.Builder.class)
+public final class Cartesia {
+    private final Optional<String> version;
 
-    private Cartesia(Object value) {
-        this.value = value;
+    private final CartesiaSpeakProviderModelId modelId;
+
+    private final CartesiaSpeakProviderVoice voice;
+
+    private final Optional<String> language;
+
+    private final Optional<Double> volume;
+
+    private final Map<String, Object> additionalProperties;
+
+    private Cartesia(
+            Optional<String> version,
+            CartesiaSpeakProviderModelId modelId,
+            CartesiaSpeakProviderVoice voice,
+            Optional<String> language,
+            Optional<Double> volume,
+            Map<String, Object> additionalProperties) {
+        this.version = version;
+        this.modelId = modelId;
+        this.voice = voice;
+        this.language = language;
+        this.volume = volume;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("type")
+    public String getType() {
+        return "cartesia";
+    }
+
+    /**
+     * @return The API version header for the Cartesia text-to-speech API
+     */
+    @JsonProperty("version")
+    public Optional<String> getVersion() {
+        return version;
+    }
+
+    /**
+     * @return Cartesia model ID
+     */
+    @JsonProperty("model_id")
+    public CartesiaSpeakProviderModelId getModelId() {
+        return modelId;
+    }
+
+    @JsonProperty("voice")
+    public CartesiaSpeakProviderVoice getVoice() {
+        return voice;
+    }
+
+    /**
+     * @return Cartesia language code
+     */
+    @JsonProperty("language")
+    public Optional<String> getLanguage() {
+        return language;
+    }
+
+    /**
+     * @return Volume level for Cartesia TTS output. Valid range: 0.5 to 2.0. See <a href="https://docs.cartesia.ai/build-with-cartesia/sonic-3/volume-speed-emotion#volume-speed-and-emotion">Cartesia documentation</a>.
+     */
+    @JsonProperty("volume")
+    public Optional<Double> getVolume() {
+        return volume;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other || (other instanceof Cartesia && this.value.equals(((Cartesia) other).value));
+        if (this == other) return true;
+        return other instanceof Cartesia && equalTo((Cartesia) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(Cartesia other) {
+        return version.equals(other.version)
+                && modelId.equals(other.modelId)
+                && voice.equals(other.voice)
+                && language.equals(other.language)
+                && volume.equals(other.volume);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.version, this.modelId, this.voice, this.language, this.volume);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static Cartesia of(Object value) {
-        return new Cartesia(value);
+    public static ModelIdStage builder() {
+        return new Builder();
+    }
+
+    public interface ModelIdStage {
+        /**
+         * <p>Cartesia model ID</p>
+         */
+        VoiceStage modelId(@NotNull CartesiaSpeakProviderModelId modelId);
+
+        Builder from(Cartesia other);
+    }
+
+    public interface VoiceStage {
+        _FinalStage voice(@NotNull CartesiaSpeakProviderVoice voice);
+    }
+
+    public interface _FinalStage {
+        Cartesia build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>The API version header for the Cartesia text-to-speech API</p>
+         */
+        _FinalStage version(Optional<String> version);
+
+        _FinalStage version(String version);
+
+        /**
+         * <p>Cartesia language code</p>
+         */
+        _FinalStage language(Optional<String> language);
+
+        _FinalStage language(String language);
+
+        /**
+         * <p>Volume level for Cartesia TTS output. Valid range: 0.5 to 2.0. See <a href="https://docs.cartesia.ai/build-with-cartesia/sonic-3/volume-speed-emotion#volume-speed-and-emotion">Cartesia documentation</a>.</p>
+         */
+        _FinalStage volume(Optional<Double> volume);
+
+        _FinalStage volume(Double volume);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder implements ModelIdStage, VoiceStage, _FinalStage {
+        private CartesiaSpeakProviderModelId modelId;
+
+        private CartesiaSpeakProviderVoice voice;
+
+        private Optional<Double> volume = Optional.empty();
+
+        private Optional<String> language = Optional.empty();
+
+        private Optional<String> version = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        @java.lang.Override
+        public Builder from(Cartesia other) {
+            version(other.getVersion());
+            modelId(other.getModelId());
+            voice(other.getVoice());
+            language(other.getLanguage());
+            volume(other.getVolume());
+            return this;
+        }
+
+        /**
+         * <p>Cartesia model ID</p>
+         * <p>Cartesia model ID</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("model_id")
+        public VoiceStage modelId(@NotNull CartesiaSpeakProviderModelId modelId) {
+            this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter("voice")
+        public _FinalStage voice(@NotNull CartesiaSpeakProviderVoice voice) {
+            this.voice = Objects.requireNonNull(voice, "voice must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Volume level for Cartesia TTS output. Valid range: 0.5 to 2.0. See <a href="https://docs.cartesia.ai/build-with-cartesia/sonic-3/volume-speed-emotion#volume-speed-and-emotion">Cartesia documentation</a>.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage volume(Double volume) {
+            this.volume = Optional.ofNullable(volume);
+            return this;
+        }
+
+        /**
+         * <p>Volume level for Cartesia TTS output. Valid range: 0.5 to 2.0. See <a href="https://docs.cartesia.ai/build-with-cartesia/sonic-3/volume-speed-emotion#volume-speed-and-emotion">Cartesia documentation</a>.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "volume", nulls = Nulls.SKIP)
+        public _FinalStage volume(Optional<Double> volume) {
+            this.volume = volume;
+            return this;
+        }
+
+        /**
+         * <p>Cartesia language code</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage language(String language) {
+            this.language = Optional.ofNullable(language);
+            return this;
+        }
+
+        /**
+         * <p>Cartesia language code</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "language", nulls = Nulls.SKIP)
+        public _FinalStage language(Optional<String> language) {
+            this.language = language;
+            return this;
+        }
+
+        /**
+         * <p>The API version header for the Cartesia text-to-speech API</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage version(String version) {
+            this.version = Optional.ofNullable(version);
+            return this;
+        }
+
+        /**
+         * <p>The API version header for the Cartesia text-to-speech API</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "version", nulls = Nulls.SKIP)
+        public _FinalStage version(Optional<String> version) {
+            this.version = version;
+            return this;
+        }
+
+        @java.lang.Override
+        public Cartesia build() {
+            return new Cartesia(version, modelId, voice, language, volume, additionalProperties);
+        }
+
+        @java.lang.Override
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

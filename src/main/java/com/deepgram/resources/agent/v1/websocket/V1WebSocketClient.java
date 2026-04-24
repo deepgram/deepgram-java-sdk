@@ -14,6 +14,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1AgentThinking;
 import com.deepgram.resources.agent.v1.types.AgentV1ConversationText;
 import com.deepgram.resources.agent.v1.types.AgentV1Error;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallRequest;
+import com.deepgram.resources.agent.v1.types.AgentV1History;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectionRefused;
@@ -24,8 +25,10 @@ import com.deepgram.resources.agent.v1.types.AgentV1SendFunctionCallResponse;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsApplied;
 import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdatePrompt;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1UpdateThink;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.agent.v1.types.AgentV1Warning;
 import com.deepgram.resources.agent.v1.types.AgentV1Welcome;
@@ -76,6 +79,8 @@ public class V1WebSocketClient implements AutoCloseable {
 
     private volatile Consumer<AgentV1SpeakUpdated> speakUpdatedHandler;
 
+    private volatile Consumer<AgentV1ThinkUpdated> thinkUpdatedHandler;
+
     private volatile Consumer<AgentV1InjectionRefused> injectionRefusedHandler;
 
     private volatile Consumer<AgentV1Welcome> welcomeHandler;
@@ -97,6 +102,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<AgentV1Error> errorHandler;
 
     private volatile Consumer<AgentV1Warning> warningHandler;
+
+    private volatile Consumer<AgentV1History> agentV1HistoryHandler;
 
     private volatile Consumer<ByteString> agentV1AudioHandler;
 
@@ -276,6 +283,15 @@ public class V1WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends an AgentV1UpdateThink message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendUpdateThink(AgentV1UpdateThink message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Sends an AgentV1Media message to the server asynchronously.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
@@ -315,6 +331,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onSpeakUpdated(Consumer<AgentV1SpeakUpdated> handler) {
         this.speakUpdatedHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1ThinkUpdated messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onThinkUpdated(Consumer<AgentV1ThinkUpdated> handler) {
+        this.thinkUpdatedHandler = handler;
     }
 
     /**
@@ -403,6 +427,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onWarning(Consumer<AgentV1Warning> handler) {
         this.warningHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1History messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onAgentV1History(Consumer<AgentV1History> handler) {
+        this.agentV1HistoryHandler = handler;
     }
 
     /**
@@ -533,6 +565,14 @@ public class V1WebSocketClient implements AutoCloseable {
                         }
                     }
                     break;
+                case "ThinkUpdated":
+                    if (thinkUpdatedHandler != null) {
+                        AgentV1ThinkUpdated event = objectMapper.treeToValue(node, AgentV1ThinkUpdated.class);
+                        if (event != null) {
+                            thinkUpdatedHandler.accept(event);
+                        }
+                    }
+                    break;
                 case "InjectionRefused":
                     if (injectionRefusedHandler != null) {
                         AgentV1InjectionRefused event = objectMapper.treeToValue(node, AgentV1InjectionRefused.class);
@@ -621,6 +661,14 @@ public class V1WebSocketClient implements AutoCloseable {
                         AgentV1Warning event = objectMapper.treeToValue(node, AgentV1Warning.class);
                         if (event != null) {
                             warningHandler.accept(event);
+                        }
+                    }
+                    break;
+                case "AgentV1History":
+                    if (agentV1HistoryHandler != null) {
+                        AgentV1History event = objectMapper.treeToValue(node, AgentV1History.class);
+                        if (event != null) {
+                            agentV1HistoryHandler.accept(event);
                         }
                     }
                     break;

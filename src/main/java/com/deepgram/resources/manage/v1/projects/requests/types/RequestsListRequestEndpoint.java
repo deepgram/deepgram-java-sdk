@@ -11,9 +11,9 @@ public final class RequestsListRequestEndpoint {
 
     public static final RequestsListRequestEndpoint READ = new RequestsListRequestEndpoint(Value.READ, "read");
 
-    public static final RequestsListRequestEndpoint LISTEN = new RequestsListRequestEndpoint(Value.LISTEN, "listen");
-
     public static final RequestsListRequestEndpoint SPEAK = new RequestsListRequestEndpoint(Value.SPEAK, "speak");
+
+    public static final RequestsListRequestEndpoint LISTEN = new RequestsListRequestEndpoint(Value.LISTEN, "listen");
 
     private final Value value;
 
@@ -52,10 +52,10 @@ public final class RequestsListRequestEndpoint {
                 return visitor.visitAgent();
             case READ:
                 return visitor.visitRead();
-            case LISTEN:
-                return visitor.visitListen();
             case SPEAK:
                 return visitor.visitSpeak();
+            case LISTEN:
+                return visitor.visitListen();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -69,10 +69,10 @@ public final class RequestsListRequestEndpoint {
                 return AGENT;
             case "read":
                 return READ;
-            case "listen":
-                return LISTEN;
             case "speak":
                 return SPEAK;
+            case "listen":
+                return LISTEN;
             default:
                 return new RequestsListRequestEndpoint(Value.UNKNOWN, value);
         }

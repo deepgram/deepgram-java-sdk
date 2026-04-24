@@ -3,41 +3,265 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-public final class ElevenLabsSpeakProvider implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = ElevenLabsSpeakProvider.Builder.class)
+public final class ElevenLabsSpeakProvider {
+    private final Optional<String> version;
 
-    private ElevenLabsSpeakProvider(Object value) {
-        this.value = value;
+    private final ElevenLabsSpeakProviderModelId modelId;
+
+    private final Optional<String> language;
+
+    private final Optional<String> languageCode;
+
+    private final Map<String, Object> additionalProperties;
+
+    private ElevenLabsSpeakProvider(
+            Optional<String> version,
+            ElevenLabsSpeakProviderModelId modelId,
+            Optional<String> language,
+            Optional<String> languageCode,
+            Map<String, Object> additionalProperties) {
+        this.version = version;
+        this.modelId = modelId;
+        this.language = language;
+        this.languageCode = languageCode;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("type")
+    public String getType() {
+        return "eleven_labs";
+    }
+
+    /**
+     * @return The REST API version for the ElevenLabs text-to-speech API
+     */
+    @JsonProperty("version")
+    public Optional<String> getVersion() {
+        return version;
+    }
+
+    /**
+     * @return Eleven Labs model ID
+     */
+    @JsonProperty("model_id")
+    public ElevenLabsSpeakProviderModelId getModelId() {
+        return modelId;
+    }
+
+    /**
+     * @return Optional language to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the ElevenLabs API
+     */
+    @JsonProperty("language")
+    public Optional<String> getLanguage() {
+        return language;
+    }
+
+    /**
+     * @return Use the <code>language</code> field instead.
+     */
+    @JsonProperty("language_code")
+    public Optional<String> getLanguageCode() {
+        return languageCode;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other
-                || (other instanceof ElevenLabsSpeakProvider
-                        && this.value.equals(((ElevenLabsSpeakProvider) other).value));
+        if (this == other) return true;
+        return other instanceof ElevenLabsSpeakProvider && equalTo((ElevenLabsSpeakProvider) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(ElevenLabsSpeakProvider other) {
+        return version.equals(other.version)
+                && modelId.equals(other.modelId)
+                && language.equals(other.language)
+                && languageCode.equals(other.languageCode);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.version, this.modelId, this.language, this.languageCode);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static ElevenLabsSpeakProvider of(Object value) {
-        return new ElevenLabsSpeakProvider(value);
+    public static ModelIdStage builder() {
+        return new Builder();
+    }
+
+    public interface ModelIdStage {
+        /**
+         * <p>Eleven Labs model ID</p>
+         */
+        _FinalStage modelId(@NotNull ElevenLabsSpeakProviderModelId modelId);
+
+        Builder from(ElevenLabsSpeakProvider other);
+    }
+
+    public interface _FinalStage {
+        ElevenLabsSpeakProvider build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>The REST API version for the ElevenLabs text-to-speech API</p>
+         */
+        _FinalStage version(Optional<String> version);
+
+        _FinalStage version(String version);
+
+        /**
+         * <p>Optional language to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the ElevenLabs API</p>
+         */
+        _FinalStage language(Optional<String> language);
+
+        _FinalStage language(String language);
+
+        /**
+         * <p>Use the <code>language</code> field instead.</p>
+         */
+        _FinalStage languageCode(Optional<String> languageCode);
+
+        _FinalStage languageCode(String languageCode);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder implements ModelIdStage, _FinalStage {
+        private ElevenLabsSpeakProviderModelId modelId;
+
+        private Optional<String> languageCode = Optional.empty();
+
+        private Optional<String> language = Optional.empty();
+
+        private Optional<String> version = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        @java.lang.Override
+        public Builder from(ElevenLabsSpeakProvider other) {
+            version(other.getVersion());
+            modelId(other.getModelId());
+            language(other.getLanguage());
+            languageCode(other.getLanguageCode());
+            return this;
+        }
+
+        /**
+         * <p>Eleven Labs model ID</p>
+         * <p>Eleven Labs model ID</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("model_id")
+        public _FinalStage modelId(@NotNull ElevenLabsSpeakProviderModelId modelId) {
+            this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Use the <code>language</code> field instead.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languageCode(String languageCode) {
+            this.languageCode = Optional.ofNullable(languageCode);
+            return this;
+        }
+
+        /**
+         * <p>Use the <code>language</code> field instead.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "language_code", nulls = Nulls.SKIP)
+        public _FinalStage languageCode(Optional<String> languageCode) {
+            this.languageCode = languageCode;
+            return this;
+        }
+
+        /**
+         * <p>Optional language to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the ElevenLabs API</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage language(String language) {
+            this.language = Optional.ofNullable(language);
+            return this;
+        }
+
+        /**
+         * <p>Optional language to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the ElevenLabs API</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "language", nulls = Nulls.SKIP)
+        public _FinalStage language(Optional<String> language) {
+            this.language = language;
+            return this;
+        }
+
+        /**
+         * <p>The REST API version for the ElevenLabs text-to-speech API</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage version(String version) {
+            this.version = Optional.ofNullable(version);
+            return this;
+        }
+
+        /**
+         * <p>The REST API version for the ElevenLabs text-to-speech API</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "version", nulls = Nulls.SKIP)
+        public _FinalStage version(Optional<String> version) {
+            this.version = version;
+            return this;
+        }
+
+        @java.lang.Override
+        public ElevenLabsSpeakProvider build() {
+            return new ElevenLabsSpeakProvider(version, modelId, language, languageCode, additionalProperties);
+        }
+
+        @java.lang.Override
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

@@ -3,40 +3,262 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-public final class AwsPollySpeakProvider implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = AwsPollySpeakProvider.Builder.class)
+public final class AwsPollySpeakProvider {
+    private final AwsPollySpeakProviderVoice voice;
 
-    private AwsPollySpeakProvider(Object value) {
-        this.value = value;
+    private final String language;
+
+    private final Optional<String> languageCode;
+
+    private final AwsPollySpeakProviderEngine engine;
+
+    private final AwsPollySpeakProviderCredentials credentials;
+
+    private final Map<String, Object> additionalProperties;
+
+    private AwsPollySpeakProvider(
+            AwsPollySpeakProviderVoice voice,
+            String language,
+            Optional<String> languageCode,
+            AwsPollySpeakProviderEngine engine,
+            AwsPollySpeakProviderCredentials credentials,
+            Map<String, Object> additionalProperties) {
+        this.voice = voice;
+        this.language = language;
+        this.languageCode = languageCode;
+        this.engine = engine;
+        this.credentials = credentials;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("type")
+    public String getType() {
+        return "aws_polly";
+    }
+
+    /**
+     * @return AWS Polly voice name
+     */
+    @JsonProperty("voice")
+    public AwsPollySpeakProviderVoice getVoice() {
+        return voice;
+    }
+
+    /**
+     * @return Language code to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the AWS Polly API
+     */
+    @JsonProperty("language")
+    public String getLanguage() {
+        return language;
+    }
+
+    /**
+     * @return Use the <code>language</code> field instead.
+     */
+    @JsonProperty("language_code")
+    public Optional<String> getLanguageCode() {
+        return languageCode;
+    }
+
+    @JsonProperty("engine")
+    public AwsPollySpeakProviderEngine getEngine() {
+        return engine;
+    }
+
+    @JsonProperty("credentials")
+    public AwsPollySpeakProviderCredentials getCredentials() {
+        return credentials;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other
-                || (other instanceof AwsPollySpeakProvider && this.value.equals(((AwsPollySpeakProvider) other).value));
+        if (this == other) return true;
+        return other instanceof AwsPollySpeakProvider && equalTo((AwsPollySpeakProvider) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(AwsPollySpeakProvider other) {
+        return voice.equals(other.voice)
+                && language.equals(other.language)
+                && languageCode.equals(other.languageCode)
+                && engine.equals(other.engine)
+                && credentials.equals(other.credentials);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.voice, this.language, this.languageCode, this.engine, this.credentials);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static AwsPollySpeakProvider of(Object value) {
-        return new AwsPollySpeakProvider(value);
+    public static VoiceStage builder() {
+        return new Builder();
+    }
+
+    public interface VoiceStage {
+        /**
+         * <p>AWS Polly voice name</p>
+         */
+        LanguageStage voice(@NotNull AwsPollySpeakProviderVoice voice);
+
+        Builder from(AwsPollySpeakProvider other);
+    }
+
+    public interface LanguageStage {
+        /**
+         * <p>Language code to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the AWS Polly API</p>
+         */
+        EngineStage language(@NotNull String language);
+    }
+
+    public interface EngineStage {
+        CredentialsStage engine(@NotNull AwsPollySpeakProviderEngine engine);
+    }
+
+    public interface CredentialsStage {
+        _FinalStage credentials(@NotNull AwsPollySpeakProviderCredentials credentials);
+    }
+
+    public interface _FinalStage {
+        AwsPollySpeakProvider build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Use the <code>language</code> field instead.</p>
+         */
+        _FinalStage languageCode(Optional<String> languageCode);
+
+        _FinalStage languageCode(String languageCode);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder implements VoiceStage, LanguageStage, EngineStage, CredentialsStage, _FinalStage {
+        private AwsPollySpeakProviderVoice voice;
+
+        private String language;
+
+        private AwsPollySpeakProviderEngine engine;
+
+        private AwsPollySpeakProviderCredentials credentials;
+
+        private Optional<String> languageCode = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        @java.lang.Override
+        public Builder from(AwsPollySpeakProvider other) {
+            voice(other.getVoice());
+            language(other.getLanguage());
+            languageCode(other.getLanguageCode());
+            engine(other.getEngine());
+            credentials(other.getCredentials());
+            return this;
+        }
+
+        /**
+         * <p>AWS Polly voice name</p>
+         * <p>AWS Polly voice name</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("voice")
+        public LanguageStage voice(@NotNull AwsPollySpeakProviderVoice voice) {
+            this.voice = Objects.requireNonNull(voice, "voice must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Language code to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the AWS Polly API</p>
+         * <p>Language code to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the AWS Polly API</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("language")
+        public EngineStage language(@NotNull String language) {
+            this.language = Objects.requireNonNull(language, "language must not be null");
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter("engine")
+        public CredentialsStage engine(@NotNull AwsPollySpeakProviderEngine engine) {
+            this.engine = Objects.requireNonNull(engine, "engine must not be null");
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter("credentials")
+        public _FinalStage credentials(@NotNull AwsPollySpeakProviderCredentials credentials) {
+            this.credentials = Objects.requireNonNull(credentials, "credentials must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Use the <code>language</code> field instead.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languageCode(String languageCode) {
+            this.languageCode = Optional.ofNullable(languageCode);
+            return this;
+        }
+
+        /**
+         * <p>Use the <code>language</code> field instead.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "language_code", nulls = Nulls.SKIP)
+        public _FinalStage languageCode(Optional<String> languageCode) {
+            this.languageCode = languageCode;
+            return this;
+        }
+
+        @java.lang.Override
+        public AwsPollySpeakProvider build() {
+            return new AwsPollySpeakProvider(voice, language, languageCode, engine, credentials, additionalProperties);
+        }
+
+        @java.lang.Override
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

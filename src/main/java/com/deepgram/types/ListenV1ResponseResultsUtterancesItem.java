@@ -27,13 +27,13 @@ public final class ListenV1ResponseResultsUtterancesItem {
 
     private final Optional<Float> confidence;
 
-    private final Optional<Float> channel;
+    private final Optional<Integer> channel;
 
     private final Optional<String> transcript;
 
     private final Optional<List<ListenV1ResponseResultsUtterancesItemWordsItem>> words;
 
-    private final Optional<Float> speaker;
+    private final Optional<Integer> speaker;
 
     private final Optional<String> id;
 
@@ -43,10 +43,10 @@ public final class ListenV1ResponseResultsUtterancesItem {
             Optional<Float> start,
             Optional<Float> end,
             Optional<Float> confidence,
-            Optional<Float> channel,
+            Optional<Integer> channel,
             Optional<String> transcript,
             Optional<List<ListenV1ResponseResultsUtterancesItemWordsItem>> words,
-            Optional<Float> speaker,
+            Optional<Integer> speaker,
             Optional<String> id,
             Map<String, Object> additionalProperties) {
         this.start = start;
@@ -76,7 +76,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
     }
 
     @JsonProperty("channel")
-    public Optional<Float> getChannel() {
+    public Optional<Integer> getChannel() {
         return channel;
     }
 
@@ -91,7 +91,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
     }
 
     @JsonProperty("speaker")
-    public Optional<Float> getSpeaker() {
+    public Optional<Integer> getSpeaker() {
         return speaker;
     }
 
@@ -153,13 +153,13 @@ public final class ListenV1ResponseResultsUtterancesItem {
 
         private Optional<Float> confidence = Optional.empty();
 
-        private Optional<Float> channel = Optional.empty();
+        private Optional<Integer> channel = Optional.empty();
 
         private Optional<String> transcript = Optional.empty();
 
         private Optional<List<ListenV1ResponseResultsUtterancesItemWordsItem>> words = Optional.empty();
 
-        private Optional<Float> speaker = Optional.empty();
+        private Optional<Integer> speaker = Optional.empty();
 
         private Optional<String> id = Optional.empty();
 
@@ -214,12 +214,12 @@ public final class ListenV1ResponseResultsUtterancesItem {
         }
 
         @JsonSetter(value = "channel", nulls = Nulls.SKIP)
-        public Builder channel(Optional<Float> channel) {
+        public Builder channel(Optional<Integer> channel) {
             this.channel = channel;
             return this;
         }
 
-        public Builder channel(Float channel) {
+        public Builder channel(Integer channel) {
             this.channel = Optional.ofNullable(channel);
             return this;
         }
@@ -247,12 +247,12 @@ public final class ListenV1ResponseResultsUtterancesItem {
         }
 
         @JsonSetter(value = "speaker", nulls = Nulls.SKIP)
-        public Builder speaker(Optional<Float> speaker) {
+        public Builder speaker(Optional<Integer> speaker) {
             this.speaker = speaker;
             return this;
         }
 
-        public Builder speaker(Float speaker) {
+        public Builder speaker(Integer speaker) {
             this.speaker = Optional.ofNullable(speaker);
             return this;
         }

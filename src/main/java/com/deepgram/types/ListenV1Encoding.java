@@ -13,9 +13,9 @@ public final class ListenV1Encoding {
 
     public static final ListenV1Encoding LINEAR32 = new ListenV1Encoding(Value.LINEAR32, "linear32");
 
-    public static final ListenV1Encoding OGG_OPUS = new ListenV1Encoding(Value.OGG_OPUS, "ogg-opus");
-
     public static final ListenV1Encoding FLAC = new ListenV1Encoding(Value.FLAC, "flac");
+
+    public static final ListenV1Encoding OGG_OPUS = new ListenV1Encoding(Value.OGG_OPUS, "ogg-opus");
 
     public static final ListenV1Encoding SPEEX = new ListenV1Encoding(Value.SPEEX, "speex");
 
@@ -67,10 +67,10 @@ public final class ListenV1Encoding {
                 return visitor.visitAmrWb();
             case LINEAR32:
                 return visitor.visitLinear32();
-            case OGG_OPUS:
-                return visitor.visitOggOpus();
             case FLAC:
                 return visitor.visitFlac();
+            case OGG_OPUS:
+                return visitor.visitOggOpus();
             case SPEEX:
                 return visitor.visitSpeex();
             case LINEAR16:
@@ -98,10 +98,10 @@ public final class ListenV1Encoding {
                 return AMR_WB;
             case "linear32":
                 return LINEAR32;
-            case "ogg-opus":
-                return OGG_OPUS;
             case "flac":
                 return FLAC;
+            case "ogg-opus":
+                return OGG_OPUS;
             case "speex":
                 return SPEEX;
             case "linear16":

@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class AgentV1ConversationTextRole {
+    public static final AgentV1ConversationTextRole USER = new AgentV1ConversationTextRole(Value.USER, "user");
+
     public static final AgentV1ConversationTextRole ASSISTANT =
             new AgentV1ConversationTextRole(Value.ASSISTANT, "assistant");
-
-    public static final AgentV1ConversationTextRole USER = new AgentV1ConversationTextRole(Value.USER, "user");
 
     private final Value value;
 
@@ -45,10 +45,10 @@ public final class AgentV1ConversationTextRole {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case ASSISTANT:
-                return visitor.visitAssistant();
             case USER:
                 return visitor.visitUser();
+            case ASSISTANT:
+                return visitor.visitAssistant();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -58,10 +58,10 @@ public final class AgentV1ConversationTextRole {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static AgentV1ConversationTextRole valueOf(String value) {
         switch (value) {
-            case "assistant":
-                return ASSISTANT;
             case "user":
                 return USER;
+            case "assistant":
+                return ASSISTANT;
             default:
                 return new AgentV1ConversationTextRole(Value.UNKNOWN, value);
         }

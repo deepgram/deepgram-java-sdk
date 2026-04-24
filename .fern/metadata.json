@@ -1,7 +1,7 @@
 {
-  "cliVersion": "4.46.0",
+  "cliVersion": "4.92.0",
   "generatorName": "fernapi/fern-java-sdk",
-  "generatorVersion": "4.0.4",
+  "generatorVersion": "4.4.1",
   "generatorConfig": {
     "package-prefix": "com.deepgram",
     "base-api-exception-class-name": "DeepgramHttpException",
@@ -11,6 +11,10 @@
     },
     "enable-wire-tests": true
   },
-  "originGitCommit": "e994b5ab79ae6fe3560daff055acdf80d315b48e",
-  "sdkVersion": "0.2.1"
+  "originGitCommit": "056c768b382ec36b703948952f552521d19ff857",
+  "originGitCommitIsDirty": true,
+  "invokedBy": "manual",
+  "requestedVersion": null,
+  "ciProvider": null,
+  "sdkVersion": "0.2.2"
 }

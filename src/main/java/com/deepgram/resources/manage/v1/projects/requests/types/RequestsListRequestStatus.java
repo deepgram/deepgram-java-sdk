@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class RequestsListRequestStatus {
+    public static final RequestsListRequestStatus FAILED = new RequestsListRequestStatus(Value.FAILED, "failed");
+
     public static final RequestsListRequestStatus SUCCEEDED =
             new RequestsListRequestStatus(Value.SUCCEEDED, "succeeded");
-
-    public static final RequestsListRequestStatus FAILED = new RequestsListRequestStatus(Value.FAILED, "failed");
 
     private final Value value;
 
@@ -45,10 +45,10 @@ public final class RequestsListRequestStatus {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case SUCCEEDED:
-                return visitor.visitSucceeded();
             case FAILED:
                 return visitor.visitFailed();
+            case SUCCEEDED:
+                return visitor.visitSucceeded();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -58,10 +58,10 @@ public final class RequestsListRequestStatus {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static RequestsListRequestStatus valueOf(String value) {
         switch (value) {
-            case "succeeded":
-                return SUCCEEDED;
             case "failed":
                 return FAILED;
+            case "succeeded":
+                return SUCCEEDED;
             default:
                 return new RequestsListRequestStatus(Value.UNKNOWN, value);
         }

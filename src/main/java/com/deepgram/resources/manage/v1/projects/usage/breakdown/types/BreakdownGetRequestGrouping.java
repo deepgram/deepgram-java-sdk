@@ -9,15 +9,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public final class BreakdownGetRequestGrouping {
     public static final BreakdownGetRequestGrouping METHOD = new BreakdownGetRequestGrouping(Value.METHOD, "method");
 
-    public static final BreakdownGetRequestGrouping MODELS = new BreakdownGetRequestGrouping(Value.MODELS, "models");
-
-    public static final BreakdownGetRequestGrouping ENDPOINT =
-            new BreakdownGetRequestGrouping(Value.ENDPOINT, "endpoint");
-
     public static final BreakdownGetRequestGrouping TAGS = new BreakdownGetRequestGrouping(Value.TAGS, "tags");
 
     public static final BreakdownGetRequestGrouping ACCESSOR =
             new BreakdownGetRequestGrouping(Value.ACCESSOR, "accessor");
+
+    public static final BreakdownGetRequestGrouping MODELS = new BreakdownGetRequestGrouping(Value.MODELS, "models");
+
+    public static final BreakdownGetRequestGrouping ENDPOINT =
+            new BreakdownGetRequestGrouping(Value.ENDPOINT, "endpoint");
 
     public static final BreakdownGetRequestGrouping FEATURE_SET =
             new BreakdownGetRequestGrouping(Value.FEATURE_SET, "feature_set");
@@ -60,14 +60,14 @@ public final class BreakdownGetRequestGrouping {
         switch (value) {
             case METHOD:
                 return visitor.visitMethod();
-            case MODELS:
-                return visitor.visitModels();
-            case ENDPOINT:
-                return visitor.visitEndpoint();
             case TAGS:
                 return visitor.visitTags();
             case ACCESSOR:
                 return visitor.visitAccessor();
+            case MODELS:
+                return visitor.visitModels();
+            case ENDPOINT:
+                return visitor.visitEndpoint();
             case FEATURE_SET:
                 return visitor.visitFeatureSet();
             case DEPLOYMENT:
@@ -83,14 +83,14 @@ public final class BreakdownGetRequestGrouping {
         switch (value) {
             case "method":
                 return METHOD;
-            case "models":
-                return MODELS;
-            case "endpoint":
-                return ENDPOINT;
             case "tags":
                 return TAGS;
             case "accessor":
                 return ACCESSOR;
+            case "models":
+                return MODELS;
+            case "endpoint":
+                return ENDPOINT;
             case "feature_set":
                 return FEATURE_SET;
             case "deployment":

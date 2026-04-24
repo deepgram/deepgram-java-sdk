@@ -25,9 +25,9 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs
                     List<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem>>
             sentences;
 
-    private final Optional<Float> speaker;
+    private final Optional<Integer> speaker;
 
-    private final Optional<Float> numWords;
+    private final Optional<Integer> numWords;
 
     private final Optional<Float> start;
 
@@ -38,8 +38,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs
     private ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem(
             Optional<List<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem>>
                     sentences,
-            Optional<Float> speaker,
-            Optional<Float> numWords,
+            Optional<Integer> speaker,
+            Optional<Integer> numWords,
             Optional<Float> start,
             Optional<Float> end,
             Map<String, Object> additionalProperties) {
@@ -58,12 +58,12 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs
     }
 
     @JsonProperty("speaker")
-    public Optional<Float> getSpeaker() {
+    public Optional<Integer> getSpeaker() {
         return speaker;
     }
 
     @JsonProperty("num_words")
-    public Optional<Float> getNumWords() {
+    public Optional<Integer> getNumWords() {
         return numWords;
     }
 
@@ -116,9 +116,9 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs
         private Optional<List<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem>>
                 sentences = Optional.empty();
 
-        private Optional<Float> speaker = Optional.empty();
+        private Optional<Integer> speaker = Optional.empty();
 
-        private Optional<Float> numWords = Optional.empty();
+        private Optional<Integer> numWords = Optional.empty();
 
         private Optional<Float> start = Optional.empty();
 
@@ -154,23 +154,23 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs
         }
 
         @JsonSetter(value = "speaker", nulls = Nulls.SKIP)
-        public Builder speaker(Optional<Float> speaker) {
+        public Builder speaker(Optional<Integer> speaker) {
             this.speaker = speaker;
             return this;
         }
 
-        public Builder speaker(Float speaker) {
+        public Builder speaker(Integer speaker) {
             this.speaker = Optional.ofNullable(speaker);
             return this;
         }
 
         @JsonSetter(value = "num_words", nulls = Nulls.SKIP)
-        public Builder numWords(Optional<Float> numWords) {
+        public Builder numWords(Optional<Integer> numWords) {
             this.numWords = numWords;
             return this;
         }
 
-        public Builder numWords(Float numWords) {
+        public Builder numWords(Integer numWords) {
             this.numWords = Optional.ofNullable(numWords);
             return this;
         }

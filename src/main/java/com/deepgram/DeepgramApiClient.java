@@ -12,6 +12,7 @@ import com.deepgram.resources.manage.ManageClient;
 import com.deepgram.resources.read.ReadClient;
 import com.deepgram.resources.selfhosted.SelfHostedClient;
 import com.deepgram.resources.speak.SpeakClient;
+import com.deepgram.resources.voiceagent.VoiceAgentClient;
 import java.util.function.Supplier;
 
 public class DeepgramApiClient {
@@ -31,6 +32,8 @@ public class DeepgramApiClient {
 
     protected final Supplier<SpeakClient> speakClient;
 
+    protected final Supplier<VoiceAgentClient> voiceAgentClient;
+
     public DeepgramApiClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
         this.agentClient = Suppliers.memoize(() -> new AgentClient(clientOptions));
@@ -40,6 +43,7 @@ public class DeepgramApiClient {
         this.readClient = Suppliers.memoize(() -> new ReadClient(clientOptions));
         this.selfHostedClient = Suppliers.memoize(() -> new SelfHostedClient(clientOptions));
         this.speakClient = Suppliers.memoize(() -> new SpeakClient(clientOptions));
+        this.voiceAgentClient = Suppliers.memoize(() -> new VoiceAgentClient(clientOptions));
     }
 
     public AgentClient agent() {
@@ -68,6 +72,10 @@ public class DeepgramApiClient {
 
     public SpeakClient speak() {
         return this.speakClient.get();
+    }
+
+    public VoiceAgentClient voiceAgent() {
+        return this.voiceAgentClient.get();
     }
 
     public static DeepgramApiClientBuilder builder() {
