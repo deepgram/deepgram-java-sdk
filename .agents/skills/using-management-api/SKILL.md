@@ -104,3 +104,13 @@ client.manage().v1().projects().billing().balances().list(projectId);
 - `examples/manage/GetUsage.java`
 - `examples/manage/Billing.java`
 - `examples/agent/ListModels.java`
+
+## Central product skills
+
+For cross-language Deepgram product knowledge — the consolidated API reference, documentation finder, focused runnable recipes, third-party integration examples, and MCP setup — install the central skills:
+
+```bash
+npx skills add deepgram/skills
+```
+
+This SDK ships language-idiomatic code skills; `deepgram/skills` ships cross-language product knowledge (see `api`, `docs`, `recipes`, `examples`, `starters`, `setup-mcp`).
