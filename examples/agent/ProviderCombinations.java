@@ -1,17 +1,19 @@
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeak;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeakEndpoint;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeakEndpointProvider;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItem;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItemProvider;
-import com.deepgram.resources.agent.v1.types.Deepgram;
 import com.deepgram.types.Anthropic;
+import com.deepgram.types.AnthropicThinkProviderModel;
+import com.deepgram.types.Deepgram;
+import com.deepgram.types.DeepgramSpeakProviderModel;
 import com.deepgram.types.Google;
+import com.deepgram.types.GoogleThinkProviderModel;
 import com.deepgram.types.OpenAiThinkProvider;
+import com.deepgram.types.OpenAiThinkProviderModel;
+import com.deepgram.types.SpeakSettingsV1;
+import com.deepgram.types.SpeakSettingsV1Provider;
+import com.deepgram.types.ThinkSettingsV1;
+import com.deepgram.types.ThinkSettingsV1Provider;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Demonstrates building different provider combination configurations for comparison. Shows how to configure OpenAI,
@@ -27,20 +29,21 @@ public class ProviderCombinations {
 
         // Shared speak provider (Deepgram TTS)
         Deepgram deepgramSpeak = Deepgram.builder()
-                .model(AgentV1SettingsAgentSpeakOneItemProviderDeepgramModel.AURA2ASTERIA_EN)
+                .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
                 .build();
-        AgentV1SettingsAgentSpeak speakSettings =
-                AgentV1SettingsAgentSpeak.of(AgentV1SettingsAgentSpeakEndpoint.builder()
-                        .provider(AgentV1SettingsAgentSpeakEndpointProvider.deepgram(deepgramSpeak))
-                        .build());
+        AgentV1SettingsAgentSpeak speakSettings = AgentV1SettingsAgentSpeak.of(SpeakSettingsV1.builder()
+                .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeak))
+                .build());
 
         // Combination 1: OpenAI GPT-4o Mini + Deepgram
         System.out.println("=== Combination 1: OpenAI + Deepgram ===");
-        OpenAiThinkProvider openAiProvider = OpenAiThinkProvider.of(Map.of("model", "gpt-4o-mini"));
+        OpenAiThinkProvider openAiProvider = OpenAiThinkProvider.builder()
+                .model(OpenAiThinkProviderModel.GPT4O_MINI)
+                .build();
 
         AgentV1SettingsAgent openAiConfig = AgentV1SettingsAgent.builder()
-                .think(AgentV1SettingsAgentThink.of(List.of(AgentV1SettingsAgentThinkOneItem.builder()
-                        .provider(AgentV1SettingsAgentThinkOneItemProvider.of(openAiProvider))
+                .think(AgentV1SettingsAgentThink.of(List.of(ThinkSettingsV1.builder()
+                        .provider(ThinkSettingsV1Provider.openAi(openAiProvider))
                         .prompt("You are a helpful assistant powered by OpenAI.")
                         .build())))
                 .speak(speakSettings)
@@ -53,11 +56,13 @@ public class ProviderCombinations {
 
         // Combination 2: Anthropic Claude + Deepgram
         System.out.println("=== Combination 2: Anthropic + Deepgram ===");
-        Anthropic anthropicProvider = Anthropic.of(Map.of("model", "claude-sonnet-4-20250514"));
+        Anthropic anthropicProvider = Anthropic.builder()
+                .model(AnthropicThinkProviderModel.CLAUDE_SONNET420250514)
+                .build();
 
         AgentV1SettingsAgent anthropicConfig = AgentV1SettingsAgent.builder()
-                .think(AgentV1SettingsAgentThink.of(List.of(AgentV1SettingsAgentThinkOneItem.builder()
-                        .provider(AgentV1SettingsAgentThinkOneItemProvider.of(anthropicProvider))
+                .think(AgentV1SettingsAgentThink.of(List.of(ThinkSettingsV1.builder()
+                        .provider(ThinkSettingsV1Provider.anthropic(anthropicProvider))
                         .prompt("You are a helpful assistant powered by Anthropic Claude.")
                         .build())))
                 .speak(speakSettings)
@@ -70,11 +75,12 @@ public class ProviderCombinations {
 
         // Combination 3: Google Gemini + Deepgram
         System.out.println("=== Combination 3: Google + Deepgram ===");
-        Google googleProvider = Google.of(Map.of("model", "gemini-2.5-flash"));
+        Google googleProvider =
+                Google.builder().model(GoogleThinkProviderModel.GEMINI25FLASH).build();
 
         AgentV1SettingsAgent googleConfig = AgentV1SettingsAgent.builder()
-                .think(AgentV1SettingsAgentThink.of(List.of(AgentV1SettingsAgentThinkOneItem.builder()
-                        .provider(AgentV1SettingsAgentThinkOneItemProvider.of(googleProvider))
+                .think(AgentV1SettingsAgentThink.of(List.of(ThinkSettingsV1.builder()
+                        .provider(ThinkSettingsV1Provider.google(googleProvider))
                         .prompt("You are a helpful assistant powered by Google Gemini.")
                         .build())))
                 .speak(speakSettings)

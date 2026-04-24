@@ -77,8 +77,8 @@ public class Captions {
                                 for (int i = 0; i < paras.size(); i++) {
                                     ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItem para =
                                             paras.get(i);
-                                    float speaker = para.getSpeaker().orElse(0f);
-                                    System.out.printf("Speaker %.0f:%n", speaker);
+                                    int speaker = para.getSpeaker().orElse(0);
+                                    System.out.printf("Speaker %d:%n", speaker);
 
                                     List<
                                                     ListenV1ResponseResultsChannelsItemAlternativesItemParagraphsParagraphsItemSentencesItem>
@@ -100,11 +100,11 @@ public class Captions {
                         System.out.println("=== Utterances ===");
                         System.out.println("-".repeat(60));
                         for (ListenV1ResponseResultsUtterancesItem utterance : utterances) {
-                            float speaker = utterance.getSpeaker().orElse(0f);
+                            int speaker = utterance.getSpeaker().orElse(0);
                             float start = utterance.getStart().orElse(0f);
                             float end = utterance.getEnd().orElse(0f);
                             String transcript = utterance.getTranscript().orElse("");
-                            System.out.printf("[%.2f - %.2f] Speaker %.0f: %s%n", start, end, speaker, transcript);
+                            System.out.printf("[%.2f - %.2f] Speaker %d: %s%n", start, end, speaker, transcript);
                         }
                     }
 
