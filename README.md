@@ -14,6 +14,10 @@ Power your applications with world-class speech and language AI models.
 
 You can learn more about the Deepgram API at [developers.deepgram.com](https://developers.deepgram.com).
 
+### Migrating Between Versions
+
+- [v0.2 to v0.3](./docs/Migrating-v0.2-to-v0.3.md) (current)
+
 ## Installation
 
 ### Gradle
