@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * List all available Deepgram models (speech-to-text and text-to-speech).
  *
- * <p>Usage: java ListModels
+ * <p>Usage: java ManageListModels
  */
-public class ListModels {
+public class ManageListModels {
     public static void main(String[] args) {
         // Get API key from environment
         String apiKey = System.getenv("DEEPGRAM_API_KEY");

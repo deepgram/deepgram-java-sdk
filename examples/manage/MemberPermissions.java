@@ -61,18 +61,9 @@ public class MemberPermissions {
             for (ListProjectMembersV1ResponseMembersItem member : members) {
                 String memberId = member.getMemberId().orElse("unknown");
                 String email = member.getEmail().orElse("unknown");
-                List<String> memberScopes = member.getScopes().orElse(Collections.emptyList());
 
                 System.out.printf("  Member: %s%n", email);
                 System.out.printf("  ID:     %s%n", memberId);
-
-                // Show scopes from the member listing
-                if (!memberScopes.isEmpty()) {
-                    System.out.println("  Scopes (from member):");
-                    for (String scope : memberScopes) {
-                        System.out.printf("    - %s%n", scope);
-                    }
-                }
 
                 // Also fetch detailed scopes via the scopes endpoint
                 try {
