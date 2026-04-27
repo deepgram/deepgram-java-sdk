@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonDeserialize(using = AgentThinkModelsV1ResponseModelsItem.Deserializer.class)
@@ -107,27 +108,48 @@ public final class AgentThinkModelsV1ResponseModelsItem {
         public AgentThinkModelsV1ResponseModelsItem deserialize(JsonParser p, DeserializationContext context)
                 throws IOException {
             Object value = p.readValueAs(Object.class);
-            try {
-                return of(
-                        ObjectMappers.JSON_MAPPER.convertValue(value, AgentThinkModelsV1ResponseModelsItemZero.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("id")
+                    && ((Map<?, ?>) value).containsKey("name")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(
+                            value, AgentThinkModelsV1ResponseModelsItemZero.class));
+                } catch (RuntimeException e) {
+                }
             }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentThinkModelsV1ResponseModelsItemOne.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("id")
+                    && ((Map<?, ?>) value).containsKey("name")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(
+                            value, AgentThinkModelsV1ResponseModelsItemOne.class));
+                } catch (RuntimeException e) {
+                }
             }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentThinkModelsV1ResponseModelsItemTwo.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("id")
+                    && ((Map<?, ?>) value).containsKey("name")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(
+                            value, AgentThinkModelsV1ResponseModelsItemTwo.class));
+                } catch (RuntimeException e) {
+                }
             }
-            try {
-                return of(
-                        ObjectMappers.JSON_MAPPER.convertValue(value, AgentThinkModelsV1ResponseModelsItemThree.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("name")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(
+                            value, AgentThinkModelsV1ResponseModelsItemThree.class));
+                } catch (RuntimeException e) {
+                }
             }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentThinkModelsV1ResponseModelsItemId.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("id")
+                    && ((Map<?, ?>) value).containsKey("name")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(
+                            value, AgentThinkModelsV1ResponseModelsItemId.class));
+                } catch (RuntimeException e) {
+                }
             }
             throw new JsonParseException(p, "Failed to deserialize");
         }

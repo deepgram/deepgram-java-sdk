@@ -22,16 +22,16 @@ import java.util.Optional;
 public final class ReadV1ResponseMetadataMetadataSentimentInfo {
     private final Optional<String> modelUuid;
 
-    private final Optional<Double> inputTokens;
+    private final Optional<Integer> inputTokens;
 
-    private final Optional<Double> outputTokens;
+    private final Optional<Integer> outputTokens;
 
     private final Map<String, Object> additionalProperties;
 
     private ReadV1ResponseMetadataMetadataSentimentInfo(
             Optional<String> modelUuid,
-            Optional<Double> inputTokens,
-            Optional<Double> outputTokens,
+            Optional<Integer> inputTokens,
+            Optional<Integer> outputTokens,
             Map<String, Object> additionalProperties) {
         this.modelUuid = modelUuid;
         this.inputTokens = inputTokens;
@@ -45,12 +45,12 @@ public final class ReadV1ResponseMetadataMetadataSentimentInfo {
     }
 
     @JsonProperty("input_tokens")
-    public Optional<Double> getInputTokens() {
+    public Optional<Integer> getInputTokens() {
         return inputTokens;
     }
 
     @JsonProperty("output_tokens")
-    public Optional<Double> getOutputTokens() {
+    public Optional<Integer> getOutputTokens() {
         return outputTokens;
     }
 
@@ -90,9 +90,9 @@ public final class ReadV1ResponseMetadataMetadataSentimentInfo {
     public static final class Builder {
         private Optional<String> modelUuid = Optional.empty();
 
-        private Optional<Double> inputTokens = Optional.empty();
+        private Optional<Integer> inputTokens = Optional.empty();
 
-        private Optional<Double> outputTokens = Optional.empty();
+        private Optional<Integer> outputTokens = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -118,23 +118,23 @@ public final class ReadV1ResponseMetadataMetadataSentimentInfo {
         }
 
         @JsonSetter(value = "input_tokens", nulls = Nulls.SKIP)
-        public Builder inputTokens(Optional<Double> inputTokens) {
+        public Builder inputTokens(Optional<Integer> inputTokens) {
             this.inputTokens = inputTokens;
             return this;
         }
 
-        public Builder inputTokens(Double inputTokens) {
+        public Builder inputTokens(Integer inputTokens) {
             this.inputTokens = Optional.ofNullable(inputTokens);
             return this;
         }
 
         @JsonSetter(value = "output_tokens", nulls = Nulls.SKIP)
-        public Builder outputTokens(Optional<Double> outputTokens) {
+        public Builder outputTokens(Optional<Integer> outputTokens) {
             this.outputTokens = outputTokens;
             return this;
         }
 
-        public Builder outputTokens(Double outputTokens) {
+        public Builder outputTokens(Integer outputTokens) {
             this.outputTokens = Optional.ofNullable(outputTokens);
             return this;
         }

@@ -22,9 +22,9 @@ import java.util.Optional;
 public final class AgentV1SettingsAudioOutput {
     private final Optional<AgentV1SettingsAudioOutputEncoding> encoding;
 
-    private final Optional<Double> sampleRate;
+    private final Optional<Integer> sampleRate;
 
-    private final Optional<Double> bitrate;
+    private final Optional<Integer> bitrate;
 
     private final Optional<String> container;
 
@@ -32,8 +32,8 @@ public final class AgentV1SettingsAudioOutput {
 
     private AgentV1SettingsAudioOutput(
             Optional<AgentV1SettingsAudioOutputEncoding> encoding,
-            Optional<Double> sampleRate,
-            Optional<Double> bitrate,
+            Optional<Integer> sampleRate,
+            Optional<Integer> bitrate,
             Optional<String> container,
             Map<String, Object> additionalProperties) {
         this.encoding = encoding;
@@ -55,7 +55,7 @@ public final class AgentV1SettingsAudioOutput {
      * @return Sample rate in Hz
      */
     @JsonProperty("sample_rate")
-    public Optional<Double> getSampleRate() {
+    public Optional<Integer> getSampleRate() {
         return sampleRate;
     }
 
@@ -63,7 +63,7 @@ public final class AgentV1SettingsAudioOutput {
      * @return Audio bitrate in bits per second
      */
     @JsonProperty("bitrate")
-    public Optional<Double> getBitrate() {
+    public Optional<Integer> getBitrate() {
         return bitrate;
     }
 
@@ -111,9 +111,9 @@ public final class AgentV1SettingsAudioOutput {
     public static final class Builder {
         private Optional<AgentV1SettingsAudioOutputEncoding> encoding = Optional.empty();
 
-        private Optional<Double> sampleRate = Optional.empty();
+        private Optional<Integer> sampleRate = Optional.empty();
 
-        private Optional<Double> bitrate = Optional.empty();
+        private Optional<Integer> bitrate = Optional.empty();
 
         private Optional<String> container = Optional.empty();
 
@@ -148,12 +148,12 @@ public final class AgentV1SettingsAudioOutput {
          * <p>Sample rate in Hz</p>
          */
         @JsonSetter(value = "sample_rate", nulls = Nulls.SKIP)
-        public Builder sampleRate(Optional<Double> sampleRate) {
+        public Builder sampleRate(Optional<Integer> sampleRate) {
             this.sampleRate = sampleRate;
             return this;
         }
 
-        public Builder sampleRate(Double sampleRate) {
+        public Builder sampleRate(Integer sampleRate) {
             this.sampleRate = Optional.ofNullable(sampleRate);
             return this;
         }
@@ -162,12 +162,12 @@ public final class AgentV1SettingsAudioOutput {
          * <p>Audio bitrate in bits per second</p>
          */
         @JsonSetter(value = "bitrate", nulls = Nulls.SKIP)
-        public Builder bitrate(Optional<Double> bitrate) {
+        public Builder bitrate(Optional<Integer> bitrate) {
             this.bitrate = bitrate;
             return this;
         }
 
-        public Builder bitrate(Double bitrate) {
+        public Builder bitrate(Integer bitrate) {
             this.bitrate = Optional.ofNullable(bitrate);
             return this;
         }

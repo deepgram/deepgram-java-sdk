@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public final class ListenV1FinalizeType {
     public static final ListenV1FinalizeType CLOSE_STREAM = new ListenV1FinalizeType(Value.CLOSE_STREAM, "CloseStream");
 
-    public static final ListenV1FinalizeType FINALIZE = new ListenV1FinalizeType(Value.FINALIZE, "Finalize");
-
     public static final ListenV1FinalizeType KEEP_ALIVE = new ListenV1FinalizeType(Value.KEEP_ALIVE, "KeepAlive");
+
+    public static final ListenV1FinalizeType FINALIZE = new ListenV1FinalizeType(Value.FINALIZE, "Finalize");
 
     private final Value value;
 
@@ -47,10 +47,10 @@ public final class ListenV1FinalizeType {
         switch (value) {
             case CLOSE_STREAM:
                 return visitor.visitCloseStream();
-            case FINALIZE:
-                return visitor.visitFinalize();
             case KEEP_ALIVE:
                 return visitor.visitKeepAlive();
+            case FINALIZE:
+                return visitor.visitFinalize();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -62,10 +62,10 @@ public final class ListenV1FinalizeType {
         switch (value) {
             case "CloseStream":
                 return CLOSE_STREAM;
-            case "Finalize":
-                return FINALIZE;
             case "KeepAlive":
                 return KEEP_ALIVE;
+            case "Finalize":
+                return FINALIZE;
             default:
                 return new ListenV1FinalizeType(Value.UNKNOWN, value);
         }

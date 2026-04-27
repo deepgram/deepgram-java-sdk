@@ -32,6 +32,8 @@ public final class V1ConnectOptions {
 
     private final Optional<SpeakV1SampleRate> sampleRate;
 
+    private final Optional<Double> speed;
+
     private final Map<String, Object> additionalProperties;
 
     private V1ConnectOptions(
@@ -39,11 +41,13 @@ public final class V1ConnectOptions {
             Optional<SpeakV1MipOptOut> mipOptOut,
             Optional<SpeakV1Model> model,
             Optional<SpeakV1SampleRate> sampleRate,
+            Optional<Double> speed,
             Map<String, Object> additionalProperties) {
         this.encoding = encoding;
         this.mipOptOut = mipOptOut;
         this.model = model;
         this.sampleRate = sampleRate;
+        this.speed = speed;
         this.additionalProperties = additionalProperties;
     }
 
@@ -67,6 +71,11 @@ public final class V1ConnectOptions {
         return sampleRate;
     }
 
+    @JsonProperty("speed")
+    public Optional<Double> getSpeed() {
+        return speed;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -82,12 +91,13 @@ public final class V1ConnectOptions {
         return encoding.equals(other.encoding)
                 && mipOptOut.equals(other.mipOptOut)
                 && model.equals(other.model)
-                && sampleRate.equals(other.sampleRate);
+                && sampleRate.equals(other.sampleRate)
+                && speed.equals(other.speed);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.encoding, this.mipOptOut, this.model, this.sampleRate);
+        return Objects.hash(this.encoding, this.mipOptOut, this.model, this.sampleRate, this.speed);
     }
 
     @java.lang.Override
@@ -109,6 +119,8 @@ public final class V1ConnectOptions {
 
         private Optional<SpeakV1SampleRate> sampleRate = Optional.empty();
 
+        private Optional<Double> speed = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -119,6 +131,7 @@ public final class V1ConnectOptions {
             mipOptOut(other.getMipOptOut());
             model(other.getModel());
             sampleRate(other.getSampleRate());
+            speed(other.getSpeed());
             return this;
         }
 
@@ -166,8 +179,19 @@ public final class V1ConnectOptions {
             return this;
         }
 
+        @JsonSetter(value = "speed", nulls = Nulls.SKIP)
+        public Builder speed(Optional<Double> speed) {
+            this.speed = speed;
+            return this;
+        }
+
+        public Builder speed(Double speed) {
+            this.speed = Optional.ofNullable(speed);
+            return this;
+        }
+
         public V1ConnectOptions build() {
-            return new V1ConnectOptions(encoding, mipOptOut, model, sampleRate, additionalProperties);
+            return new V1ConnectOptions(encoding, mipOptOut, model, sampleRate, speed, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

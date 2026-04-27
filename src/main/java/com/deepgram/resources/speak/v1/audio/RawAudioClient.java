@@ -78,6 +78,10 @@ public class RawAudioClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "sample_rate", request.getSampleRate().get(), false);
         }
+        if (request.getSpeed().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "speed", request.getSpeed().get(), false);
+        }
         if (request.getTag().isPresent()) {
             QueryStringMapper.addQueryParameter(httpUrl, "tag", request.getTag().get(), true);
         }

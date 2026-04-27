@@ -3,39 +3,220 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-public final class Anthropic implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = Anthropic.Builder.class)
+public final class Anthropic {
+    private final Optional<String> version;
 
-    private Anthropic(Object value) {
-        this.value = value;
+    private final AnthropicThinkProviderModel model;
+
+    private final Optional<Double> temperature;
+
+    private final Map<String, Object> additionalProperties;
+
+    private Anthropic(
+            Optional<String> version,
+            AnthropicThinkProviderModel model,
+            Optional<Double> temperature,
+            Map<String, Object> additionalProperties) {
+        this.version = version;
+        this.model = model;
+        this.temperature = temperature;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("type")
+    public String getType() {
+        return "anthropic";
+    }
+
+    /**
+     * @return The REST API version for the Anthropic Messages API
+     */
+    @JsonProperty("version")
+    public Optional<String> getVersion() {
+        return version;
+    }
+
+    /**
+     * @return Anthropic model to use
+     */
+    @JsonProperty("model")
+    public AnthropicThinkProviderModel getModel() {
+        return model;
+    }
+
+    /**
+     * @return Anthropic temperature (0-1)
+     */
+    @JsonProperty("temperature")
+    public Optional<Double> getTemperature() {
+        return temperature;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other || (other instanceof Anthropic && this.value.equals(((Anthropic) other).value));
+        if (this == other) return true;
+        return other instanceof Anthropic && equalTo((Anthropic) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(Anthropic other) {
+        return version.equals(other.version) && model.equals(other.model) && temperature.equals(other.temperature);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.version, this.model, this.temperature);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static Anthropic of(Object value) {
-        return new Anthropic(value);
+    public static ModelStage builder() {
+        return new Builder();
+    }
+
+    public interface ModelStage {
+        /**
+         * <p>Anthropic model to use</p>
+         */
+        _FinalStage model(@NotNull AnthropicThinkProviderModel model);
+
+        Builder from(Anthropic other);
+    }
+
+    public interface _FinalStage {
+        Anthropic build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>The REST API version for the Anthropic Messages API</p>
+         */
+        _FinalStage version(Optional<String> version);
+
+        _FinalStage version(String version);
+
+        /**
+         * <p>Anthropic temperature (0-1)</p>
+         */
+        _FinalStage temperature(Optional<Double> temperature);
+
+        _FinalStage temperature(Double temperature);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder implements ModelStage, _FinalStage {
+        private AnthropicThinkProviderModel model;
+
+        private Optional<Double> temperature = Optional.empty();
+
+        private Optional<String> version = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        @java.lang.Override
+        public Builder from(Anthropic other) {
+            version(other.getVersion());
+            model(other.getModel());
+            temperature(other.getTemperature());
+            return this;
+        }
+
+        /**
+         * <p>Anthropic model to use</p>
+         * <p>Anthropic model to use</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("model")
+        public _FinalStage model(@NotNull AnthropicThinkProviderModel model) {
+            this.model = Objects.requireNonNull(model, "model must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Anthropic temperature (0-1)</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage temperature(Double temperature) {
+            this.temperature = Optional.ofNullable(temperature);
+            return this;
+        }
+
+        /**
+         * <p>Anthropic temperature (0-1)</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "temperature", nulls = Nulls.SKIP)
+        public _FinalStage temperature(Optional<Double> temperature) {
+            this.temperature = temperature;
+            return this;
+        }
+
+        /**
+         * <p>The REST API version for the Anthropic Messages API</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage version(String version) {
+            this.version = Optional.ofNullable(version);
+            return this;
+        }
+
+        /**
+         * <p>The REST API version for the Anthropic Messages API</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "version", nulls = Nulls.SKIP)
+        public _FinalStage version(Optional<String> version) {
+            this.version = version;
+            return this;
+        }
+
+        @java.lang.Override
+        public Anthropic build() {
+            return new Anthropic(version, model, temperature, additionalProperties);
+        }
+
+        @java.lang.Override
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

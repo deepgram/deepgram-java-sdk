@@ -117,6 +117,10 @@ public class V1WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
         }
+        if (options.getSpeed() != null && options.getSpeed().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "speed", String.valueOf(options.getSpeed().get()));
+        }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers(null).forEach(requestBuilder::addHeader);
         final Request request = requestBuilder.build();
@@ -369,50 +373,68 @@ public class V1WebSocketClient implements AutoCloseable {
             if (node == null || node.isNull()) {
                 throw new IllegalArgumentException("Received null or invalid JSON message");
             }
-            JsonNode typeNode = node.get("type");
-            if (typeNode == null || typeNode.isNull()) {
-                throw new IllegalArgumentException("Message missing 'type' field");
-            }
-            String type = typeNode.asText();
-            switch (type) {
-                case "Metadata":
+            if (node.has("request_id")
+                    && node.has("model_name")
+                    && node.has("model_version")
+                    && node.has("model_uuid")
+                    && "Metadata".equals(node.path("type").asText())) {
+                SpeakV1Metadata metadataHandlerEvent = null;
+                try {
+                    metadataHandlerEvent = objectMapper.treeToValue(node, SpeakV1Metadata.class);
+                } catch (Exception e) {
+                }
+                if (metadataHandlerEvent != null) {
                     if (metadataHandler != null) {
-                        SpeakV1Metadata event = objectMapper.treeToValue(node, SpeakV1Metadata.class);
-                        if (event != null) {
-                            metadataHandler.accept(event);
-                        }
+                        metadataHandler.accept(metadataHandlerEvent);
                     }
-                    break;
-                case "Flushed":
-                    if (flushedHandler != null) {
-                        SpeakV1Flushed event = objectMapper.treeToValue(node, SpeakV1Flushed.class);
-                        if (event != null) {
-                            flushedHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "Cleared":
-                    if (clearedHandler != null) {
-                        SpeakV1Cleared event = objectMapper.treeToValue(node, SpeakV1Cleared.class);
-                        if (event != null) {
-                            clearedHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "Warning":
+                    return;
+                }
+            }
+            if (node.has("description")
+                    && node.has("code")
+                    && "Warning".equals(node.path("type").asText())) {
+                SpeakV1Warning warningHandlerEvent = null;
+                try {
+                    warningHandlerEvent = objectMapper.treeToValue(node, SpeakV1Warning.class);
+                } catch (Exception e) {
+                }
+                if (warningHandlerEvent != null) {
                     if (warningHandler != null) {
-                        SpeakV1Warning event = objectMapper.treeToValue(node, SpeakV1Warning.class);
-                        if (event != null) {
-                            warningHandler.accept(event);
-                        }
+                        warningHandler.accept(warningHandlerEvent);
                     }
-                    break;
-                default:
-                    if (onErrorHandler != null) {
-                        onErrorHandler.accept(new RuntimeException("Unknown WebSocket message type: '" + type
-                                + "'. Update your SDK version to support new message types."));
+                    return;
+                }
+            }
+            if (node.has("type") && node.has("sequence_id")) {
+                SpeakV1Flushed flushedHandlerEvent = null;
+                try {
+                    flushedHandlerEvent = objectMapper.treeToValue(node, SpeakV1Flushed.class);
+                } catch (Exception e) {
+                }
+                if (flushedHandlerEvent != null) {
+                    if (flushedHandler != null) {
+                        flushedHandler.accept(flushedHandlerEvent);
                     }
-                    break;
+                    return;
+                }
+            }
+            if (node.has("type") && node.has("sequence_id")) {
+                SpeakV1Cleared clearedHandlerEvent = null;
+                try {
+                    clearedHandlerEvent = objectMapper.treeToValue(node, SpeakV1Cleared.class);
+                } catch (Exception e) {
+                }
+                if (clearedHandlerEvent != null) {
+                    if (clearedHandler != null) {
+                        clearedHandler.accept(clearedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (onErrorHandler != null) {
+                onErrorHandler.accept(new RuntimeException(
+                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
+                                + "... Update your SDK version to support new message types."));
             }
         } catch (Exception e) {
             if (onErrorHandler != null) {

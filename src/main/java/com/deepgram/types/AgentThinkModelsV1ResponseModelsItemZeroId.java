@@ -10,20 +10,20 @@ public final class AgentThinkModelsV1ResponseModelsItemZeroId {
     public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT5MINI =
             new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT5MINI, "gpt-5-mini");
 
+    public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT41NANO =
+            new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT41NANO, "gpt-4.1-nano");
+
     public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT4O_MINI =
             new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT4O_MINI, "gpt-4o-mini");
 
-    public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT4O =
-            new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT4O, "gpt-4o");
-
-    public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT41NANO =
-            new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT41NANO, "gpt-4.1-nano");
+    public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT41MINI =
+            new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT41MINI, "gpt-4.1-mini");
 
     public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT5 =
             new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT5, "gpt-5");
 
-    public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT41MINI =
-            new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT41MINI, "gpt-4.1-mini");
+    public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT4O =
+            new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT4O, "gpt-4o");
 
     public static final AgentThinkModelsV1ResponseModelsItemZeroId GPT5NANO =
             new AgentThinkModelsV1ResponseModelsItemZeroId(Value.GPT5NANO, "gpt-5-nano");
@@ -66,16 +66,16 @@ public final class AgentThinkModelsV1ResponseModelsItemZeroId {
         switch (value) {
             case GPT5MINI:
                 return visitor.visitGpt5Mini();
-            case GPT4O_MINI:
-                return visitor.visitGpt4OMini();
-            case GPT4O:
-                return visitor.visitGpt4O();
             case GPT41NANO:
                 return visitor.visitGpt41Nano();
-            case GPT5:
-                return visitor.visitGpt5();
+            case GPT4O_MINI:
+                return visitor.visitGpt4OMini();
             case GPT41MINI:
                 return visitor.visitGpt41Mini();
+            case GPT5:
+                return visitor.visitGpt5();
+            case GPT4O:
+                return visitor.visitGpt4O();
             case GPT5NANO:
                 return visitor.visitGpt5Nano();
             case GPT41:
@@ -91,16 +91,16 @@ public final class AgentThinkModelsV1ResponseModelsItemZeroId {
         switch (value) {
             case "gpt-5-mini":
                 return GPT5MINI;
-            case "gpt-4o-mini":
-                return GPT4O_MINI;
-            case "gpt-4o":
-                return GPT4O;
             case "gpt-4.1-nano":
                 return GPT41NANO;
-            case "gpt-5":
-                return GPT5;
+            case "gpt-4o-mini":
+                return GPT4O_MINI;
             case "gpt-4.1-mini":
                 return GPT41MINI;
+            case "gpt-5":
+                return GPT5;
+            case "gpt-4o":
+                return GPT4O;
             case "gpt-5-nano":
                 return GPT5NANO;
             case "gpt-4.1":

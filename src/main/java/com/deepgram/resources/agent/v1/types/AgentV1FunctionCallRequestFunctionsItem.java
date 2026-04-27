@@ -10,10 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -27,14 +29,22 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
 
     private final boolean clientSide;
 
+    private final Optional<String> thoughtSignature;
+
     private final Map<String, Object> additionalProperties;
 
     private AgentV1FunctionCallRequestFunctionsItem(
-            String id, String name, String arguments, boolean clientSide, Map<String, Object> additionalProperties) {
+            String id,
+            String name,
+            String arguments,
+            boolean clientSide,
+            Optional<String> thoughtSignature,
+            Map<String, Object> additionalProperties) {
         this.id = id;
         this.name = name;
         this.arguments = arguments;
         this.clientSide = clientSide;
+        this.thoughtSignature = thoughtSignature;
         this.additionalProperties = additionalProperties;
     }
 
@@ -70,6 +80,14 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
         return clientSide;
     }
 
+    /**
+     * @return Some Gemini models require this as an additional function call identifier
+     */
+    @JsonProperty("thought_signature")
+    public Optional<String> getThoughtSignature() {
+        return thoughtSignature;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -86,12 +104,13 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
         return id.equals(other.id)
                 && name.equals(other.name)
                 && arguments.equals(other.arguments)
-                && clientSide == other.clientSide;
+                && clientSide == other.clientSide
+                && thoughtSignature.equals(other.thoughtSignature);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.id, this.name, this.arguments, this.clientSide);
+        return Objects.hash(this.id, this.name, this.arguments, this.clientSide, this.thoughtSignature);
     }
 
     @java.lang.Override
@@ -139,6 +158,13 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Some Gemini models require this as an additional function call identifier</p>
+         */
+        _FinalStage thoughtSignature(Optional<String> thoughtSignature);
+
+        _FinalStage thoughtSignature(String thoughtSignature);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -151,6 +177,8 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
 
         private boolean clientSide;
 
+        private Optional<String> thoughtSignature = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -162,6 +190,7 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
             name(other.getName());
             arguments(other.getArguments());
             clientSide(other.getClientSide());
+            thoughtSignature(other.getThoughtSignature());
             return this;
         }
 
@@ -213,9 +242,30 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
             return this;
         }
 
+        /**
+         * <p>Some Gemini models require this as an additional function call identifier</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage thoughtSignature(String thoughtSignature) {
+            this.thoughtSignature = Optional.ofNullable(thoughtSignature);
+            return this;
+        }
+
+        /**
+         * <p>Some Gemini models require this as an additional function call identifier</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "thought_signature", nulls = Nulls.SKIP)
+        public _FinalStage thoughtSignature(Optional<String> thoughtSignature) {
+            this.thoughtSignature = thoughtSignature;
+            return this;
+        }
+
         @java.lang.Override
         public AgentV1FunctionCallRequestFunctionsItem build() {
-            return new AgentV1FunctionCallRequestFunctionsItem(id, name, arguments, clientSide, additionalProperties);
+            return new AgentV1FunctionCallRequestFunctionsItem(
+                    id, name, arguments, clientSide, thoughtSignature, additionalProperties);
         }
 
         @java.lang.Override
