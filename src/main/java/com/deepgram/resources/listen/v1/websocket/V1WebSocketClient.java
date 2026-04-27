@@ -452,50 +452,77 @@ public class V1WebSocketClient implements AutoCloseable {
             if (node == null || node.isNull()) {
                 throw new IllegalArgumentException("Received null or invalid JSON message");
             }
-            JsonNode typeNode = node.get("type");
-            if (typeNode == null || typeNode.isNull()) {
-                throw new IllegalArgumentException("Message missing 'type' field");
-            }
-            String type = typeNode.asText();
-            switch (type) {
-                case "Results":
-                    if (resultsHandler != null) {
-                        ListenV1Results event = objectMapper.treeToValue(node, ListenV1Results.class);
-                        if (event != null) {
-                            resultsHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "Metadata":
+            if (node.has("transaction_key")
+                    && node.has("request_id")
+                    && node.has("sha256")
+                    && node.has("created")
+                    && node.has("duration")
+                    && node.has("channels")
+                    && "Metadata".equals(node.path("type").asText())) {
+                ListenV1Metadata metadataHandlerEvent = null;
+                try {
+                    metadataHandlerEvent = objectMapper.treeToValue(node, ListenV1Metadata.class);
+                } catch (Exception e) {
+                }
+                if (metadataHandlerEvent != null) {
                     if (metadataHandler != null) {
-                        ListenV1Metadata event = objectMapper.treeToValue(node, ListenV1Metadata.class);
-                        if (event != null) {
-                            metadataHandler.accept(event);
-                        }
+                        metadataHandler.accept(metadataHandlerEvent);
                     }
-                    break;
-                case "UtteranceEnd":
+                    return;
+                }
+            }
+            if (node.has("channel_index")
+                    && node.has("duration")
+                    && node.has("start")
+                    && node.has("channel")
+                    && node.has("metadata")
+                    && "Results".equals(node.path("type").asText())) {
+                ListenV1Results resultsHandlerEvent = null;
+                try {
+                    resultsHandlerEvent = objectMapper.treeToValue(node, ListenV1Results.class);
+                } catch (Exception e) {
+                }
+                if (resultsHandlerEvent != null) {
+                    if (resultsHandler != null) {
+                        resultsHandler.accept(resultsHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("channel")
+                    && node.has("last_word_end")
+                    && "UtteranceEnd".equals(node.path("type").asText())) {
+                ListenV1UtteranceEnd utteranceEndHandlerEvent = null;
+                try {
+                    utteranceEndHandlerEvent = objectMapper.treeToValue(node, ListenV1UtteranceEnd.class);
+                } catch (Exception e) {
+                }
+                if (utteranceEndHandlerEvent != null) {
                     if (utteranceEndHandler != null) {
-                        ListenV1UtteranceEnd event = objectMapper.treeToValue(node, ListenV1UtteranceEnd.class);
-                        if (event != null) {
-                            utteranceEndHandler.accept(event);
-                        }
+                        utteranceEndHandler.accept(utteranceEndHandlerEvent);
                     }
-                    break;
-                case "SpeechStarted":
+                    return;
+                }
+            }
+            if (node.has("channel")
+                    && node.has("timestamp")
+                    && "SpeechStarted".equals(node.path("type").asText())) {
+                ListenV1SpeechStarted speechStartedHandlerEvent = null;
+                try {
+                    speechStartedHandlerEvent = objectMapper.treeToValue(node, ListenV1SpeechStarted.class);
+                } catch (Exception e) {
+                }
+                if (speechStartedHandlerEvent != null) {
                     if (speechStartedHandler != null) {
-                        ListenV1SpeechStarted event = objectMapper.treeToValue(node, ListenV1SpeechStarted.class);
-                        if (event != null) {
-                            speechStartedHandler.accept(event);
-                        }
+                        speechStartedHandler.accept(speechStartedHandlerEvent);
                     }
-                    break;
-                default:
-                    if (onErrorHandler != null) {
-                        onErrorHandler.accept(new RuntimeException("Unknown WebSocket message type: '" + type
-                                + "'. Update your SDK version to support new message types."));
-                    }
-                    break;
+                    return;
+                }
+            }
+            if (onErrorHandler != null) {
+                onErrorHandler.accept(new RuntimeException(
+                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
+                                + "... Update your SDK version to support new message types."));
             }
         } catch (Exception e) {
             if (onErrorHandler != null) {

@@ -16,11 +16,11 @@ public final class AgentV1SettingsAudioInputEncoding {
     public static final AgentV1SettingsAudioInputEncoding LINEAR32 =
             new AgentV1SettingsAudioInputEncoding(Value.LINEAR32, "linear32");
 
-    public static final AgentV1SettingsAudioInputEncoding OGG_OPUS =
-            new AgentV1SettingsAudioInputEncoding(Value.OGG_OPUS, "ogg-opus");
-
     public static final AgentV1SettingsAudioInputEncoding FLAC =
             new AgentV1SettingsAudioInputEncoding(Value.FLAC, "flac");
+
+    public static final AgentV1SettingsAudioInputEncoding OGG_OPUS =
+            new AgentV1SettingsAudioInputEncoding(Value.OGG_OPUS, "ogg-opus");
 
     public static final AgentV1SettingsAudioInputEncoding SPEEX =
             new AgentV1SettingsAudioInputEncoding(Value.SPEEX, "speex");
@@ -79,10 +79,10 @@ public final class AgentV1SettingsAudioInputEncoding {
                 return visitor.visitAmrWb();
             case LINEAR32:
                 return visitor.visitLinear32();
-            case OGG_OPUS:
-                return visitor.visitOggOpus();
             case FLAC:
                 return visitor.visitFlac();
+            case OGG_OPUS:
+                return visitor.visitOggOpus();
             case SPEEX:
                 return visitor.visitSpeex();
             case LINEAR16:
@@ -110,10 +110,10 @@ public final class AgentV1SettingsAudioInputEncoding {
                 return AMR_WB;
             case "linear32":
                 return LINEAR32;
-            case "ogg-opus":
-                return OGG_OPUS;
             case "flac":
                 return FLAC;
+            case "ogg-opus":
+                return OGG_OPUS;
             case "speex":
                 return SPEEX;
             case "linear16":

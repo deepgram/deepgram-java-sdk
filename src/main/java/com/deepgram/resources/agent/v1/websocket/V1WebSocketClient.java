@@ -14,6 +14,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1AgentThinking;
 import com.deepgram.resources.agent.v1.types.AgentV1ConversationText;
 import com.deepgram.resources.agent.v1.types.AgentV1Error;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallRequest;
+import com.deepgram.resources.agent.v1.types.AgentV1History;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectionRefused;
@@ -24,8 +25,10 @@ import com.deepgram.resources.agent.v1.types.AgentV1SendFunctionCallResponse;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsApplied;
 import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdatePrompt;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1UpdateThink;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.agent.v1.types.AgentV1Warning;
 import com.deepgram.resources.agent.v1.types.AgentV1Welcome;
@@ -76,6 +79,8 @@ public class V1WebSocketClient implements AutoCloseable {
 
     private volatile Consumer<AgentV1SpeakUpdated> speakUpdatedHandler;
 
+    private volatile Consumer<AgentV1ThinkUpdated> thinkUpdatedHandler;
+
     private volatile Consumer<AgentV1InjectionRefused> injectionRefusedHandler;
 
     private volatile Consumer<AgentV1Welcome> welcomeHandler;
@@ -97,6 +102,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<AgentV1Error> errorHandler;
 
     private volatile Consumer<AgentV1Warning> warningHandler;
+
+    private volatile Consumer<AgentV1History> agentV1HistoryHandler;
 
     private volatile Consumer<ByteString> agentV1AudioHandler;
 
@@ -276,6 +283,15 @@ public class V1WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends an AgentV1UpdateThink message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendUpdateThink(AgentV1UpdateThink message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Sends an AgentV1Media message to the server asynchronously.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
@@ -315,6 +331,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onSpeakUpdated(Consumer<AgentV1SpeakUpdated> handler) {
         this.speakUpdatedHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1ThinkUpdated messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onThinkUpdated(Consumer<AgentV1ThinkUpdated> handler) {
+        this.thinkUpdatedHandler = handler;
     }
 
     /**
@@ -403,6 +427,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onWarning(Consumer<AgentV1Warning> handler) {
         this.warningHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1History messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onAgentV1History(Consumer<AgentV1History> handler) {
+        this.agentV1HistoryHandler = handler;
     }
 
     /**
@@ -502,134 +534,231 @@ public class V1WebSocketClient implements AutoCloseable {
             if (node == null || node.isNull()) {
                 throw new IllegalArgumentException("Received null or invalid JSON message");
             }
-            JsonNode typeNode = node.get("type");
-            if (typeNode == null || typeNode.isNull()) {
-                throw new IllegalArgumentException("Message missing 'type' field");
-            }
-            String type = typeNode.asText();
-            switch (type) {
-                case "FunctionCallResponse":
-                    if (onFunctionCallResponseHandler != null) {
-                        AgentV1ReceiveFunctionCallResponse event =
-                                objectMapper.treeToValue(node, AgentV1ReceiveFunctionCallResponse.class);
-                        if (event != null) {
-                            onFunctionCallResponseHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "PromptUpdated":
-                    if (promptUpdatedHandler != null) {
-                        AgentV1PromptUpdated event = objectMapper.treeToValue(node, AgentV1PromptUpdated.class);
-                        if (event != null) {
-                            promptUpdatedHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "SpeakUpdated":
-                    if (speakUpdatedHandler != null) {
-                        AgentV1SpeakUpdated event = objectMapper.treeToValue(node, AgentV1SpeakUpdated.class);
-                        if (event != null) {
-                            speakUpdatedHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "InjectionRefused":
-                    if (injectionRefusedHandler != null) {
-                        AgentV1InjectionRefused event = objectMapper.treeToValue(node, AgentV1InjectionRefused.class);
-                        if (event != null) {
-                            injectionRefusedHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "Welcome":
-                    if (welcomeHandler != null) {
-                        AgentV1Welcome event = objectMapper.treeToValue(node, AgentV1Welcome.class);
-                        if (event != null) {
-                            welcomeHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "SettingsApplied":
-                    if (settingsAppliedHandler != null) {
-                        AgentV1SettingsApplied event = objectMapper.treeToValue(node, AgentV1SettingsApplied.class);
-                        if (event != null) {
-                            settingsAppliedHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "ConversationText":
-                    if (conversationTextHandler != null) {
-                        AgentV1ConversationText event = objectMapper.treeToValue(node, AgentV1ConversationText.class);
-                        if (event != null) {
-                            conversationTextHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "UserStartedSpeaking":
-                    if (userStartedSpeakingHandler != null) {
-                        AgentV1UserStartedSpeaking event =
-                                objectMapper.treeToValue(node, AgentV1UserStartedSpeaking.class);
-                        if (event != null) {
-                            userStartedSpeakingHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "AgentThinking":
-                    if (agentThinkingHandler != null) {
-                        AgentV1AgentThinking event = objectMapper.treeToValue(node, AgentV1AgentThinking.class);
-                        if (event != null) {
-                            agentThinkingHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "FunctionCallRequest":
-                    if (functionCallRequestHandler != null) {
-                        AgentV1FunctionCallRequest event =
-                                objectMapper.treeToValue(node, AgentV1FunctionCallRequest.class);
-                        if (event != null) {
-                            functionCallRequestHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "AgentStartedSpeaking":
+            if (node.has("total_latency")
+                    && node.has("tts_latency")
+                    && node.has("ttt_latency")
+                    && "AgentStartedSpeaking".equals(node.path("type").asText())) {
+                AgentV1AgentStartedSpeaking agentStartedSpeakingHandlerEvent = null;
+                try {
+                    agentStartedSpeakingHandlerEvent =
+                            objectMapper.treeToValue(node, AgentV1AgentStartedSpeaking.class);
+                } catch (Exception e) {
+                }
+                if (agentStartedSpeakingHandlerEvent != null) {
                     if (agentStartedSpeakingHandler != null) {
-                        AgentV1AgentStartedSpeaking event =
-                                objectMapper.treeToValue(node, AgentV1AgentStartedSpeaking.class);
-                        if (event != null) {
-                            agentStartedSpeakingHandler.accept(event);
-                        }
+                        agentStartedSpeakingHandler.accept(agentStartedSpeakingHandlerEvent);
                     }
-                    break;
-                case "AgentAudioDone":
-                    if (agentAudioDoneHandler != null) {
-                        AgentV1AgentAudioDone event = objectMapper.treeToValue(node, AgentV1AgentAudioDone.class);
-                        if (event != null) {
-                            agentAudioDoneHandler.accept(event);
-                        }
+                    return;
+                }
+            }
+            if (node.has("name")
+                    && node.has("content")
+                    && "FunctionCallResponse".equals(node.path("type").asText())) {
+                AgentV1ReceiveFunctionCallResponse onFunctionCallResponseHandlerEvent = null;
+                try {
+                    onFunctionCallResponseHandlerEvent =
+                            objectMapper.treeToValue(node, AgentV1ReceiveFunctionCallResponse.class);
+                } catch (Exception e) {
+                }
+                if (onFunctionCallResponseHandlerEvent != null) {
+                    if (onFunctionCallResponseHandler != null) {
+                        onFunctionCallResponseHandler.accept(onFunctionCallResponseHandlerEvent);
                     }
-                    break;
-                case "Error":
+                    return;
+                }
+            }
+            if (node.has("role")
+                    && node.has("content")
+                    && "ConversationText".equals(node.path("type").asText())) {
+                AgentV1ConversationText conversationTextHandlerEvent = null;
+                try {
+                    conversationTextHandlerEvent = objectMapper.treeToValue(node, AgentV1ConversationText.class);
+                } catch (Exception e) {
+                }
+                if (conversationTextHandlerEvent != null) {
+                    if (conversationTextHandler != null) {
+                        conversationTextHandler.accept(conversationTextHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("description")
+                    && node.has("code")
+                    && "Error".equals(node.path("type").asText())) {
+                AgentV1Error errorHandlerEvent = null;
+                try {
+                    errorHandlerEvent = objectMapper.treeToValue(node, AgentV1Error.class);
+                } catch (Exception e) {
+                }
+                if (errorHandlerEvent != null) {
                     if (errorHandler != null) {
-                        AgentV1Error event = objectMapper.treeToValue(node, AgentV1Error.class);
-                        if (event != null) {
-                            errorHandler.accept(event);
-                        }
+                        errorHandler.accept(errorHandlerEvent);
                     }
-                    break;
-                case "Warning":
+                    return;
+                }
+            }
+            if (node.has("description")
+                    && node.has("code")
+                    && "Warning".equals(node.path("type").asText())) {
+                AgentV1Warning warningHandlerEvent = null;
+                try {
+                    warningHandlerEvent = objectMapper.treeToValue(node, AgentV1Warning.class);
+                } catch (Exception e) {
+                }
+                if (warningHandlerEvent != null) {
                     if (warningHandler != null) {
-                        AgentV1Warning event = objectMapper.treeToValue(node, AgentV1Warning.class);
-                        if (event != null) {
-                            warningHandler.accept(event);
-                        }
+                        warningHandler.accept(warningHandlerEvent);
                     }
-                    break;
-                default:
-                    if (onErrorHandler != null) {
-                        onErrorHandler.accept(new RuntimeException("Unknown WebSocket message type: '" + type
-                                + "'. Update your SDK version to support new message types."));
+                    return;
+                }
+            }
+            if (node.has("message")
+                    && "InjectionRefused".equals(node.path("type").asText())) {
+                AgentV1InjectionRefused injectionRefusedHandlerEvent = null;
+                try {
+                    injectionRefusedHandlerEvent = objectMapper.treeToValue(node, AgentV1InjectionRefused.class);
+                } catch (Exception e) {
+                }
+                if (injectionRefusedHandlerEvent != null) {
+                    if (injectionRefusedHandler != null) {
+                        injectionRefusedHandler.accept(injectionRefusedHandlerEvent);
                     }
-                    break;
+                    return;
+                }
+            }
+            if (node.has("request_id") && "Welcome".equals(node.path("type").asText())) {
+                AgentV1Welcome welcomeHandlerEvent = null;
+                try {
+                    welcomeHandlerEvent = objectMapper.treeToValue(node, AgentV1Welcome.class);
+                } catch (Exception e) {
+                }
+                if (welcomeHandlerEvent != null) {
+                    if (welcomeHandler != null) {
+                        welcomeHandler.accept(welcomeHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("content") && "AgentThinking".equals(node.path("type").asText())) {
+                AgentV1AgentThinking agentThinkingHandlerEvent = null;
+                try {
+                    agentThinkingHandlerEvent = objectMapper.treeToValue(node, AgentV1AgentThinking.class);
+                } catch (Exception e) {
+                }
+                if (agentThinkingHandlerEvent != null) {
+                    if (agentThinkingHandler != null) {
+                        agentThinkingHandler.accept(agentThinkingHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("functions")
+                    && "FunctionCallRequest".equals(node.path("type").asText())) {
+                AgentV1FunctionCallRequest functionCallRequestHandlerEvent = null;
+                try {
+                    functionCallRequestHandlerEvent = objectMapper.treeToValue(node, AgentV1FunctionCallRequest.class);
+                } catch (Exception e) {
+                }
+                if (functionCallRequestHandlerEvent != null) {
+                    if (functionCallRequestHandler != null) {
+                        functionCallRequestHandler.accept(functionCallRequestHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("PromptUpdated".equals(node.path("type").asText())) {
+                AgentV1PromptUpdated promptUpdatedHandlerEvent = null;
+                try {
+                    promptUpdatedHandlerEvent = objectMapper.treeToValue(node, AgentV1PromptUpdated.class);
+                } catch (Exception e) {
+                }
+                if (promptUpdatedHandlerEvent != null) {
+                    if (promptUpdatedHandler != null) {
+                        promptUpdatedHandler.accept(promptUpdatedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("SpeakUpdated".equals(node.path("type").asText())) {
+                AgentV1SpeakUpdated speakUpdatedHandlerEvent = null;
+                try {
+                    speakUpdatedHandlerEvent = objectMapper.treeToValue(node, AgentV1SpeakUpdated.class);
+                } catch (Exception e) {
+                }
+                if (speakUpdatedHandlerEvent != null) {
+                    if (speakUpdatedHandler != null) {
+                        speakUpdatedHandler.accept(speakUpdatedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("ThinkUpdated".equals(node.path("type").asText())) {
+                AgentV1ThinkUpdated thinkUpdatedHandlerEvent = null;
+                try {
+                    thinkUpdatedHandlerEvent = objectMapper.treeToValue(node, AgentV1ThinkUpdated.class);
+                } catch (Exception e) {
+                }
+                if (thinkUpdatedHandlerEvent != null) {
+                    if (thinkUpdatedHandler != null) {
+                        thinkUpdatedHandler.accept(thinkUpdatedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("SettingsApplied".equals(node.path("type").asText())) {
+                AgentV1SettingsApplied settingsAppliedHandlerEvent = null;
+                try {
+                    settingsAppliedHandlerEvent = objectMapper.treeToValue(node, AgentV1SettingsApplied.class);
+                } catch (Exception e) {
+                }
+                if (settingsAppliedHandlerEvent != null) {
+                    if (settingsAppliedHandler != null) {
+                        settingsAppliedHandler.accept(settingsAppliedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("UserStartedSpeaking".equals(node.path("type").asText())) {
+                AgentV1UserStartedSpeaking userStartedSpeakingHandlerEvent = null;
+                try {
+                    userStartedSpeakingHandlerEvent = objectMapper.treeToValue(node, AgentV1UserStartedSpeaking.class);
+                } catch (Exception e) {
+                }
+                if (userStartedSpeakingHandlerEvent != null) {
+                    if (userStartedSpeakingHandler != null) {
+                        userStartedSpeakingHandler.accept(userStartedSpeakingHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("AgentAudioDone".equals(node.path("type").asText())) {
+                AgentV1AgentAudioDone agentAudioDoneHandlerEvent = null;
+                try {
+                    agentAudioDoneHandlerEvent = objectMapper.treeToValue(node, AgentV1AgentAudioDone.class);
+                } catch (Exception e) {
+                }
+                if (agentAudioDoneHandlerEvent != null) {
+                    if (agentAudioDoneHandler != null) {
+                        agentAudioDoneHandler.accept(agentAudioDoneHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            AgentV1History agentV1HistoryHandlerEvent = null;
+            try {
+                agentV1HistoryHandlerEvent = objectMapper.treeToValue(node, AgentV1History.class);
+            } catch (Exception e) {
+            }
+            if (agentV1HistoryHandlerEvent != null) {
+                if (agentV1HistoryHandler != null) {
+                    agentV1HistoryHandler.accept(agentV1HistoryHandlerEvent);
+                }
+                return;
+            }
+            if (onErrorHandler != null) {
+                onErrorHandler.accept(new RuntimeException(
+                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
+                                + "... Update your SDK version to support new message types."));
             }
         } catch (Exception e) {
             if (onErrorHandler != null) {

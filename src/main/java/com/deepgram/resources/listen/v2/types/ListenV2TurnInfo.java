@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -24,11 +25,11 @@ import org.jetbrains.annotations.NotNull;
 public final class ListenV2TurnInfo {
     private final String requestId;
 
-    private final double sequenceId;
+    private final int sequenceId;
 
     private final ListenV2TurnInfoEvent event;
 
-    private final double turnIndex;
+    private final int turnIndex;
 
     private final float audioWindowStart;
 
@@ -40,18 +41,24 @@ public final class ListenV2TurnInfo {
 
     private final float endOfTurnConfidence;
 
+    private final Optional<List<String>> languages;
+
+    private final Optional<List<String>> languagesHinted;
+
     private final Map<String, Object> additionalProperties;
 
     private ListenV2TurnInfo(
             String requestId,
-            double sequenceId,
+            int sequenceId,
             ListenV2TurnInfoEvent event,
-            double turnIndex,
+            int turnIndex,
             float audioWindowStart,
             float audioWindowEnd,
             String transcript,
             List<ListenV2TurnInfoWordsItem> words,
             float endOfTurnConfidence,
+            Optional<List<String>> languages,
+            Optional<List<String>> languagesHinted,
             Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.sequenceId = sequenceId;
@@ -62,6 +69,8 @@ public final class ListenV2TurnInfo {
         this.transcript = transcript;
         this.words = words;
         this.endOfTurnConfidence = endOfTurnConfidence;
+        this.languages = languages;
+        this.languagesHinted = languagesHinted;
         this.additionalProperties = additionalProperties;
     }
 
@@ -82,7 +91,7 @@ public final class ListenV2TurnInfo {
      * @return Starts at <code>0</code> and increments for each message the server sends to the client.  This includes messages of other types, like <code>Connected</code> messages.
      */
     @JsonProperty("sequence_id")
-    public double getSequenceId() {
+    public int getSequenceId() {
         return sequenceId;
     }
 
@@ -105,7 +114,7 @@ public final class ListenV2TurnInfo {
      * @return The index of the current turn
      */
     @JsonProperty("turn_index")
-    public double getTurnIndex() {
+    public int getTurnIndex() {
         return turnIndex;
     }
 
@@ -149,6 +158,25 @@ public final class ListenV2TurnInfo {
         return endOfTurnConfidence;
     }
 
+    /**
+     * @return Detected languages sorted by descending frequency in the
+     * transcript. Only present when the flux-general-multi model
+     * detects languages in the audio.
+     */
+    @JsonProperty("languages")
+    public Optional<List<String>> getLanguages() {
+        return languages;
+    }
+
+    /**
+     * @return The language hints that were supplied for this turn. Only
+     * present when language hints are configured.
+     */
+    @JsonProperty("languages_hinted")
+    public Optional<List<String>> getLanguagesHinted() {
+        return languagesHinted;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -169,7 +197,9 @@ public final class ListenV2TurnInfo {
                 && audioWindowEnd == other.audioWindowEnd
                 && transcript.equals(other.transcript)
                 && words.equals(other.words)
-                && endOfTurnConfidence == other.endOfTurnConfidence;
+                && endOfTurnConfidence == other.endOfTurnConfidence
+                && languages.equals(other.languages)
+                && languagesHinted.equals(other.languagesHinted);
     }
 
     @java.lang.Override
@@ -183,7 +213,9 @@ public final class ListenV2TurnInfo {
                 this.audioWindowEnd,
                 this.transcript,
                 this.words,
-                this.endOfTurnConfidence);
+                this.endOfTurnConfidence,
+                this.languages,
+                this.languagesHinted);
     }
 
     @java.lang.Override
@@ -208,7 +240,7 @@ public final class ListenV2TurnInfo {
         /**
          * <p>Starts at <code>0</code> and increments for each message the server sends to the client.  This includes messages of other types, like <code>Connected</code> messages.</p>
          */
-        EventStage sequenceId(double sequenceId);
+        EventStage sequenceId(int sequenceId);
     }
 
     public interface EventStage {
@@ -229,7 +261,7 @@ public final class ListenV2TurnInfo {
         /**
          * <p>The index of the current turn</p>
          */
-        AudioWindowStartStage turnIndex(double turnIndex);
+        AudioWindowStartStage turnIndex(int turnIndex);
     }
 
     public interface AudioWindowStartStage {
@@ -275,6 +307,23 @@ public final class ListenV2TurnInfo {
         _FinalStage addWords(ListenV2TurnInfoWordsItem words);
 
         _FinalStage addAllWords(List<ListenV2TurnInfoWordsItem> words);
+
+        /**
+         * <p>Detected languages sorted by descending frequency in the
+         * transcript. Only present when the flux-general-multi model
+         * detects languages in the audio.</p>
+         */
+        _FinalStage languages(Optional<List<String>> languages);
+
+        _FinalStage languages(List<String> languages);
+
+        /**
+         * <p>The language hints that were supplied for this turn. Only
+         * present when language hints are configured.</p>
+         */
+        _FinalStage languagesHinted(Optional<List<String>> languagesHinted);
+
+        _FinalStage languagesHinted(List<String> languagesHinted);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -290,11 +339,11 @@ public final class ListenV2TurnInfo {
                     _FinalStage {
         private String requestId;
 
-        private double sequenceId;
+        private int sequenceId;
 
         private ListenV2TurnInfoEvent event;
 
-        private double turnIndex;
+        private int turnIndex;
 
         private float audioWindowStart;
 
@@ -303,6 +352,10 @@ public final class ListenV2TurnInfo {
         private String transcript;
 
         private float endOfTurnConfidence;
+
+        private Optional<List<String>> languagesHinted = Optional.empty();
+
+        private Optional<List<String>> languages = Optional.empty();
 
         private List<ListenV2TurnInfoWordsItem> words = new ArrayList<>();
 
@@ -322,6 +375,8 @@ public final class ListenV2TurnInfo {
             transcript(other.getTranscript());
             words(other.getWords());
             endOfTurnConfidence(other.getEndOfTurnConfidence());
+            languages(other.getLanguages());
+            languagesHinted(other.getLanguagesHinted());
             return this;
         }
 
@@ -344,7 +399,7 @@ public final class ListenV2TurnInfo {
          */
         @java.lang.Override
         @JsonSetter("sequence_id")
-        public EventStage sequenceId(double sequenceId) {
+        public EventStage sequenceId(int sequenceId) {
             this.sequenceId = sequenceId;
             return this;
         }
@@ -382,7 +437,7 @@ public final class ListenV2TurnInfo {
          */
         @java.lang.Override
         @JsonSetter("turn_index")
-        public AudioWindowStartStage turnIndex(double turnIndex) {
+        public AudioWindowStartStage turnIndex(int turnIndex) {
             this.turnIndex = turnIndex;
             return this;
         }
@@ -436,6 +491,52 @@ public final class ListenV2TurnInfo {
         }
 
         /**
+         * <p>The language hints that were supplied for this turn. Only
+         * present when language hints are configured.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languagesHinted(List<String> languagesHinted) {
+            this.languagesHinted = Optional.ofNullable(languagesHinted);
+            return this;
+        }
+
+        /**
+         * <p>The language hints that were supplied for this turn. Only
+         * present when language hints are configured.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "languages_hinted", nulls = Nulls.SKIP)
+        public _FinalStage languagesHinted(Optional<List<String>> languagesHinted) {
+            this.languagesHinted = languagesHinted;
+            return this;
+        }
+
+        /**
+         * <p>Detected languages sorted by descending frequency in the
+         * transcript. Only present when the flux-general-multi model
+         * detects languages in the audio.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languages(List<String> languages) {
+            this.languages = Optional.ofNullable(languages);
+            return this;
+        }
+
+        /**
+         * <p>Detected languages sorted by descending frequency in the
+         * transcript. Only present when the flux-general-multi model
+         * detects languages in the audio.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "languages", nulls = Nulls.SKIP)
+        public _FinalStage languages(Optional<List<String>> languages) {
+            this.languages = languages;
+            return this;
+        }
+
+        /**
          * <p>The words in the <code>transcript</code></p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -482,6 +583,8 @@ public final class ListenV2TurnInfo {
                     transcript,
                     words,
                     endOfTurnConfidence,
+                    languages,
+                    languagesHinted,
                     additionalProperties);
         }
 

@@ -80,10 +80,6 @@ sourceSets {
     examples {
         java {
             srcDir 'examples'
-            // Exclude examples that still need API updates.
-            exclude 'manage/ListModels.java'    // Duplicate class name with agent/ListModels
-            exclude 'manage/MemberPermissions.java' // getScopes() not in generated API
-            exclude 'manage/UsageBreakdown.java'    // getModels() return type mismatch
         }
         compileClasspath += sourceSets.main.output + configurations.runtimeClasspath
         runtimeClasspath += sourceSets.main.output + configurations.runtimeClasspath

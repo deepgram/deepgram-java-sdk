@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonDeserialize(using = MediaTranscribeResponse.Deserializer.class)
@@ -83,13 +84,19 @@ public final class MediaTranscribeResponse {
         @java.lang.Override
         public MediaTranscribeResponse deserialize(JsonParser p, DeserializationContext context) throws IOException {
             Object value = p.readValueAs(Object.class);
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ListenV1Response.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("metadata")
+                    && ((Map<?, ?>) value).containsKey("results")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, ListenV1Response.class));
+                } catch (RuntimeException e) {
+                }
             }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ListenV1AcceptedResponse.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("request_id")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, ListenV1AcceptedResponse.class));
+                } catch (RuntimeException e) {
+                }
             }
             throw new JsonParseException(p, "Failed to deserialize");
         }

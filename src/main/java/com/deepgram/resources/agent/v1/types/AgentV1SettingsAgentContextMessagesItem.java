@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonDeserialize(using = AgentV1SettingsAgentContextMessagesItem.Deserializer.class)
@@ -84,15 +85,21 @@ public final class AgentV1SettingsAgentContextMessagesItem {
         public AgentV1SettingsAgentContextMessagesItem deserialize(JsonParser p, DeserializationContext context)
                 throws IOException {
             Object value = p.readValueAs(Object.class);
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, AgentV1SettingsAgentContextMessagesItemContent.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("role")
+                    && ((Map<?, ?>) value).containsKey("content")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(
+                            value, AgentV1SettingsAgentContextMessagesItemContent.class));
+                } catch (RuntimeException e) {
+                }
             }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, AgentV1SettingsAgentContextMessagesItemFunctionCalls.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("function_calls")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(
+                            value, AgentV1SettingsAgentContextMessagesItemFunctionCalls.class));
+                } catch (RuntimeException e) {
+                }
             }
             throw new JsonParseException(p, "Failed to deserialize");
         }

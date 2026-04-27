@@ -10,9 +10,9 @@ public final class ListenV2CloseStreamType {
     public static final ListenV2CloseStreamType CLOSE_STREAM =
             new ListenV2CloseStreamType(Value.CLOSE_STREAM, "CloseStream");
 
-    public static final ListenV2CloseStreamType FINALIZE = new ListenV2CloseStreamType(Value.FINALIZE, "Finalize");
-
     public static final ListenV2CloseStreamType KEEP_ALIVE = new ListenV2CloseStreamType(Value.KEEP_ALIVE, "KeepAlive");
+
+    public static final ListenV2CloseStreamType FINALIZE = new ListenV2CloseStreamType(Value.FINALIZE, "Finalize");
 
     private final Value value;
 
@@ -49,10 +49,10 @@ public final class ListenV2CloseStreamType {
         switch (value) {
             case CLOSE_STREAM:
                 return visitor.visitCloseStream();
-            case FINALIZE:
-                return visitor.visitFinalize();
             case KEEP_ALIVE:
                 return visitor.visitKeepAlive();
+            case FINALIZE:
+                return visitor.visitFinalize();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -64,10 +64,10 @@ public final class ListenV2CloseStreamType {
         switch (value) {
             case "CloseStream":
                 return CLOSE_STREAM;
-            case "Finalize":
-                return FINALIZE;
             case "KeepAlive":
                 return KEEP_ALIVE;
+            case "Finalize":
+                return FINALIZE;
             default:
                 return new ListenV2CloseStreamType(Value.UNKNOWN, value);
         }

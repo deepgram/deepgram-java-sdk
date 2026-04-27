@@ -35,7 +35,7 @@ public final class UsageBreakdownV1ResponseResultsItemGrouping {
 
     private final Optional<String> method;
 
-    private final Optional<String> tags;
+    private final Optional<List<String>> tags;
 
     private final Optional<String> deployment;
 
@@ -49,7 +49,7 @@ public final class UsageBreakdownV1ResponseResultsItemGrouping {
             Optional<String> featureSet,
             Optional<List<Optional<String>>> models,
             Optional<String> method,
-            Optional<String> tags,
+            Optional<List<String>> tags,
             Optional<String> deployment,
             Map<String, Object> additionalProperties) {
         this.start = start;
@@ -118,10 +118,10 @@ public final class UsageBreakdownV1ResponseResultsItemGrouping {
     }
 
     /**
-     * @return Optional tags
+     * @return Optional list of tags, null unless grouped by tags.
      */
     @JsonProperty("tags")
-    public Optional<String> getTags() {
+    public Optional<List<String>> getTags() {
         return tags;
     }
 
@@ -196,7 +196,7 @@ public final class UsageBreakdownV1ResponseResultsItemGrouping {
 
         private Optional<String> method = Optional.empty();
 
-        private Optional<String> tags = Optional.empty();
+        private Optional<List<String>> tags = Optional.empty();
 
         private Optional<String> deployment = Optional.empty();
 
@@ -314,15 +314,15 @@ public final class UsageBreakdownV1ResponseResultsItemGrouping {
         }
 
         /**
-         * <p>Optional tags</p>
+         * <p>Optional list of tags, null unless grouped by tags.</p>
          */
         @JsonSetter(value = "tags", nulls = Nulls.SKIP)
-        public Builder tags(Optional<String> tags) {
+        public Builder tags(Optional<List<String>> tags) {
             this.tags = tags;
             return this;
         }
 
-        public Builder tags(String tags) {
+        public Builder tags(List<String> tags) {
             this.tags = Optional.ofNullable(tags);
             return this;
         }

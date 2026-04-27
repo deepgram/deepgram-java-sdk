@@ -11,9 +11,9 @@ public final class BreakdownGetRequestEndpoint {
 
     public static final BreakdownGetRequestEndpoint READ = new BreakdownGetRequestEndpoint(Value.READ, "read");
 
-    public static final BreakdownGetRequestEndpoint LISTEN = new BreakdownGetRequestEndpoint(Value.LISTEN, "listen");
-
     public static final BreakdownGetRequestEndpoint SPEAK = new BreakdownGetRequestEndpoint(Value.SPEAK, "speak");
+
+    public static final BreakdownGetRequestEndpoint LISTEN = new BreakdownGetRequestEndpoint(Value.LISTEN, "listen");
 
     private final Value value;
 
@@ -52,10 +52,10 @@ public final class BreakdownGetRequestEndpoint {
                 return visitor.visitAgent();
             case READ:
                 return visitor.visitRead();
-            case LISTEN:
-                return visitor.visitListen();
             case SPEAK:
                 return visitor.visitSpeak();
+            case LISTEN:
+                return visitor.visitListen();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -69,10 +69,10 @@ public final class BreakdownGetRequestEndpoint {
                 return AGENT;
             case "read":
                 return READ;
-            case "listen":
-                return LISTEN;
             case "speak":
                 return SPEAK;
+            case "listen":
+                return LISTEN;
             default:
                 return new BreakdownGetRequestEndpoint(Value.UNKNOWN, value);
         }

@@ -21,13 +21,13 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ListenV1SpeechStarted.Builder.class)
 public final class ListenV1SpeechStarted {
-    private final List<Double> channel;
+    private final List<Integer> channel;
 
     private final double timestamp;
 
     private final Map<String, Object> additionalProperties;
 
-    private ListenV1SpeechStarted(List<Double> channel, double timestamp, Map<String, Object> additionalProperties) {
+    private ListenV1SpeechStarted(List<Integer> channel, double timestamp, Map<String, Object> additionalProperties) {
         this.channel = channel;
         this.timestamp = timestamp;
         this.additionalProperties = additionalProperties;
@@ -45,7 +45,7 @@ public final class ListenV1SpeechStarted {
      * @return The channel
      */
     @JsonProperty("channel")
-    public List<Double> getChannel() {
+    public List<Integer> getChannel() {
         return channel;
     }
 
@@ -105,18 +105,18 @@ public final class ListenV1SpeechStarted {
         /**
          * <p>The channel</p>
          */
-        _FinalStage channel(List<Double> channel);
+        _FinalStage channel(List<Integer> channel);
 
-        _FinalStage addChannel(Double channel);
+        _FinalStage addChannel(Integer channel);
 
-        _FinalStage addAllChannel(List<Double> channel);
+        _FinalStage addAllChannel(List<Integer> channel);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements TimestampStage, _FinalStage {
         private double timestamp;
 
-        private List<Double> channel = new ArrayList<>();
+        private List<Integer> channel = new ArrayList<>();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -147,7 +147,7 @@ public final class ListenV1SpeechStarted {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage addAllChannel(List<Double> channel) {
+        public _FinalStage addAllChannel(List<Integer> channel) {
             if (channel != null) {
                 this.channel.addAll(channel);
             }
@@ -159,7 +159,7 @@ public final class ListenV1SpeechStarted {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage addChannel(Double channel) {
+        public _FinalStage addChannel(Integer channel) {
             this.channel.add(channel);
             return this;
         }
@@ -169,7 +169,7 @@ public final class ListenV1SpeechStarted {
          */
         @java.lang.Override
         @JsonSetter(value = "channel", nulls = Nulls.SKIP)
-        public _FinalStage channel(List<Double> channel) {
+        public _FinalStage channel(List<Integer> channel) {
             this.channel.clear();
             if (channel != null) {
                 this.channel.addAll(channel);

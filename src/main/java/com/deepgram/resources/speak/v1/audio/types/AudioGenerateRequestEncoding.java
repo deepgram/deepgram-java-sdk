@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class AudioGenerateRequestEncoding {
-    public static final AudioGenerateRequestEncoding MULAW = new AudioGenerateRequestEncoding(Value.MULAW, "mulaw");
-
     public static final AudioGenerateRequestEncoding AAC = new AudioGenerateRequestEncoding(Value.AAC, "aac");
+
+    public static final AudioGenerateRequestEncoding MULAW = new AudioGenerateRequestEncoding(Value.MULAW, "mulaw");
 
     public static final AudioGenerateRequestEncoding FLAC = new AudioGenerateRequestEncoding(Value.FLAC, "flac");
 
@@ -55,10 +55,10 @@ public final class AudioGenerateRequestEncoding {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case MULAW:
-                return visitor.visitMulaw();
             case AAC:
                 return visitor.visitAac();
+            case MULAW:
+                return visitor.visitMulaw();
             case FLAC:
                 return visitor.visitFlac();
             case MP3:
@@ -78,10 +78,10 @@ public final class AudioGenerateRequestEncoding {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static AudioGenerateRequestEncoding valueOf(String value) {
         switch (value) {
-            case "mulaw":
-                return MULAW;
             case "aac":
                 return AAC;
+            case "mulaw":
+                return MULAW;
             case "flac":
                 return FLAC;
             case "mp3":

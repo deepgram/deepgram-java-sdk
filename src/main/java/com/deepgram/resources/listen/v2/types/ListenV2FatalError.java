@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ListenV2FatalError.Builder.class)
 public final class ListenV2FatalError {
-    private final double sequenceId;
+    private final int sequenceId;
 
     private final String code;
 
@@ -28,7 +28,7 @@ public final class ListenV2FatalError {
     private final Map<String, Object> additionalProperties;
 
     private ListenV2FatalError(
-            double sequenceId, String code, String description, Map<String, Object> additionalProperties) {
+            int sequenceId, String code, String description, Map<String, Object> additionalProperties) {
         this.sequenceId = sequenceId;
         this.code = code;
         this.description = description;
@@ -49,7 +49,7 @@ public final class ListenV2FatalError {
      * <code>Connected</code> messages.
      */
     @JsonProperty("sequence_id")
-    public double getSequenceId() {
+    public int getSequenceId() {
         return sequenceId;
     }
 
@@ -104,7 +104,7 @@ public final class ListenV2FatalError {
          * to the client.  This includes messages of other types, like
          * <code>Connected</code> messages.</p>
          */
-        CodeStage sequenceId(double sequenceId);
+        CodeStage sequenceId(int sequenceId);
 
         Builder from(ListenV2FatalError other);
     }
@@ -133,7 +133,7 @@ public final class ListenV2FatalError {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements SequenceIdStage, CodeStage, DescriptionStage, _FinalStage {
-        private double sequenceId;
+        private int sequenceId;
 
         private String code;
 
@@ -163,7 +163,7 @@ public final class ListenV2FatalError {
          */
         @java.lang.Override
         @JsonSetter("sequence_id")
-        public CodeStage sequenceId(double sequenceId) {
+        public CodeStage sequenceId(int sequenceId) {
             this.sequenceId = sequenceId;
             return this;
         }

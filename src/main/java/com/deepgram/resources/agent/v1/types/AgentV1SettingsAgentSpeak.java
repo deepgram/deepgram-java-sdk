@@ -4,6 +4,7 @@
 package com.deepgram.resources.agent.v1.types;
 
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.types.SpeakSettingsV1;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonDeserialize(using = AgentV1SettingsAgentSpeak.Deserializer.class)
@@ -34,9 +36,9 @@ public final class AgentV1SettingsAgentSpeak {
     @SuppressWarnings("unchecked")
     public <T> T visit(Visitor<T> visitor) {
         if (this.type == 0) {
-            return visitor.visit((AgentV1SettingsAgentSpeakEndpoint) this.value);
+            return visitor.visit((SpeakSettingsV1) this.value);
         } else if (this.type == 1) {
-            return visitor.visit((List<AgentV1SettingsAgentSpeakOneItem>) this.value);
+            return visitor.visit((List<SpeakSettingsV1>) this.value);
         }
         throw new IllegalStateException("Failed to visit value. This should never happen.");
     }
@@ -61,18 +63,18 @@ public final class AgentV1SettingsAgentSpeak {
         return this.value.toString();
     }
 
-    public static AgentV1SettingsAgentSpeak of(AgentV1SettingsAgentSpeakEndpoint value) {
+    public static AgentV1SettingsAgentSpeak of(SpeakSettingsV1 value) {
         return new AgentV1SettingsAgentSpeak(value, 0);
     }
 
-    public static AgentV1SettingsAgentSpeak of(List<AgentV1SettingsAgentSpeakOneItem> value) {
+    public static AgentV1SettingsAgentSpeak of(List<SpeakSettingsV1> value) {
         return new AgentV1SettingsAgentSpeak(value, 1);
     }
 
     public interface Visitor<T> {
-        T visit(AgentV1SettingsAgentSpeakEndpoint value);
+        T visit(SpeakSettingsV1 value);
 
-        T visit(List<AgentV1SettingsAgentSpeakOneItem> value);
+        T visit(List<SpeakSettingsV1> value);
     }
 
     static final class Deserializer extends StdDeserializer<AgentV1SettingsAgentSpeak> {
@@ -83,13 +85,14 @@ public final class AgentV1SettingsAgentSpeak {
         @java.lang.Override
         public AgentV1SettingsAgentSpeak deserialize(JsonParser p, DeserializationContext context) throws IOException {
             Object value = p.readValueAs(Object.class);
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentV1SettingsAgentSpeakEndpoint.class));
-            } catch (RuntimeException e) {
+            if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("provider")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, SpeakSettingsV1.class));
+                } catch (RuntimeException e) {
+                }
             }
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, new TypeReference<List<AgentV1SettingsAgentSpeakOneItem>>() {}));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, new TypeReference<List<SpeakSettingsV1>>() {}));
             } catch (RuntimeException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");

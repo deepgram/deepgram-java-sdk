@@ -3,41 +3,222 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-public final class AwsBedrockThinkProvider implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = AwsBedrockThinkProvider.Builder.class)
+public final class AwsBedrockThinkProvider {
+    private final AwsBedrockThinkProviderModel model;
 
-    private AwsBedrockThinkProvider(Object value) {
-        this.value = value;
+    private final Optional<Double> temperature;
+
+    private final Optional<AwsBedrockThinkProviderCredentials> credentials;
+
+    private final Map<String, Object> additionalProperties;
+
+    private AwsBedrockThinkProvider(
+            AwsBedrockThinkProviderModel model,
+            Optional<Double> temperature,
+            Optional<AwsBedrockThinkProviderCredentials> credentials,
+            Map<String, Object> additionalProperties) {
+        this.model = model;
+        this.temperature = temperature;
+        this.credentials = credentials;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("type")
+    public String getType() {
+        return "aws_bedrock";
+    }
+
+    /**
+     * @return AWS Bedrock model to use
+     */
+    @JsonProperty("model")
+    public AwsBedrockThinkProviderModel getModel() {
+        return model;
+    }
+
+    /**
+     * @return AWS Bedrock temperature (0-2)
+     */
+    @JsonProperty("temperature")
+    public Optional<Double> getTemperature() {
+        return temperature;
+    }
+
+    /**
+     * @return AWS credentials type (STS short-lived or IAM long-lived)
+     */
+    @JsonProperty("credentials")
+    public Optional<AwsBedrockThinkProviderCredentials> getCredentials() {
+        return credentials;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other
-                || (other instanceof AwsBedrockThinkProvider
-                        && this.value.equals(((AwsBedrockThinkProvider) other).value));
+        if (this == other) return true;
+        return other instanceof AwsBedrockThinkProvider && equalTo((AwsBedrockThinkProvider) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(AwsBedrockThinkProvider other) {
+        return model.equals(other.model)
+                && temperature.equals(other.temperature)
+                && credentials.equals(other.credentials);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.model, this.temperature, this.credentials);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static AwsBedrockThinkProvider of(Object value) {
-        return new AwsBedrockThinkProvider(value);
+    public static ModelStage builder() {
+        return new Builder();
+    }
+
+    public interface ModelStage {
+        /**
+         * <p>AWS Bedrock model to use</p>
+         */
+        _FinalStage model(@NotNull AwsBedrockThinkProviderModel model);
+
+        Builder from(AwsBedrockThinkProvider other);
+    }
+
+    public interface _FinalStage {
+        AwsBedrockThinkProvider build();
+
+        _FinalStage additionalProperty(String key, Object value);
+
+        _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>AWS Bedrock temperature (0-2)</p>
+         */
+        _FinalStage temperature(Optional<Double> temperature);
+
+        _FinalStage temperature(Double temperature);
+
+        /**
+         * <p>AWS credentials type (STS short-lived or IAM long-lived)</p>
+         */
+        _FinalStage credentials(Optional<AwsBedrockThinkProviderCredentials> credentials);
+
+        _FinalStage credentials(AwsBedrockThinkProviderCredentials credentials);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder implements ModelStage, _FinalStage {
+        private AwsBedrockThinkProviderModel model;
+
+        private Optional<AwsBedrockThinkProviderCredentials> credentials = Optional.empty();
+
+        private Optional<Double> temperature = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        @java.lang.Override
+        public Builder from(AwsBedrockThinkProvider other) {
+            model(other.getModel());
+            temperature(other.getTemperature());
+            credentials(other.getCredentials());
+            return this;
+        }
+
+        /**
+         * <p>AWS Bedrock model to use</p>
+         * <p>AWS Bedrock model to use</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("model")
+        public _FinalStage model(@NotNull AwsBedrockThinkProviderModel model) {
+            this.model = Objects.requireNonNull(model, "model must not be null");
+            return this;
+        }
+
+        /**
+         * <p>AWS credentials type (STS short-lived or IAM long-lived)</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage credentials(AwsBedrockThinkProviderCredentials credentials) {
+            this.credentials = Optional.ofNullable(credentials);
+            return this;
+        }
+
+        /**
+         * <p>AWS credentials type (STS short-lived or IAM long-lived)</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "credentials", nulls = Nulls.SKIP)
+        public _FinalStage credentials(Optional<AwsBedrockThinkProviderCredentials> credentials) {
+            this.credentials = credentials;
+            return this;
+        }
+
+        /**
+         * <p>AWS Bedrock temperature (0-2)</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage temperature(Double temperature) {
+            this.temperature = Optional.ofNullable(temperature);
+            return this;
+        }
+
+        /**
+         * <p>AWS Bedrock temperature (0-2)</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "temperature", nulls = Nulls.SKIP)
+        public _FinalStage temperature(Optional<Double> temperature) {
+            this.temperature = temperature;
+            return this;
+        }
+
+        @java.lang.Override
+        public AwsBedrockThinkProvider build() {
+            return new AwsBedrockThinkProvider(model, temperature, credentials, additionalProperties);
+        }
+
+        @java.lang.Override
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

@@ -9,6 +9,9 @@ import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2Configure;
+import com.deepgram.resources.listen.v2.types.ListenV2ConfigureFailure;
+import com.deepgram.resources.listen.v2.types.ListenV2ConfigureSuccess;
 import com.deepgram.resources.listen.v2.types.ListenV2Connected;
 import com.deepgram.resources.listen.v2.types.ListenV2FatalError;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
@@ -56,6 +59,10 @@ public class V2WebSocketClient implements AutoCloseable {
     private volatile Consumer<ListenV2Connected> connectedHandler;
 
     private volatile Consumer<ListenV2TurnInfo> turnInfoHandler;
+
+    private volatile Consumer<ListenV2ConfigureSuccess> configureSuccessHandler;
+
+    private volatile Consumer<ListenV2ConfigureFailure> configureFailureHandler;
 
     private volatile Consumer<ListenV2FatalError> errorHandler;
 
@@ -230,6 +237,15 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends a ListenV2Configure message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendConfigure(ListenV2Configure message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Registers a handler for ListenV2Connected messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -243,6 +259,22 @@ public class V2WebSocketClient implements AutoCloseable {
      */
     public void onTurnInfo(Consumer<ListenV2TurnInfo> handler) {
         this.turnInfoHandler = handler;
+    }
+
+    /**
+     * Registers a handler for ListenV2ConfigureSuccess messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureSuccess(Consumer<ListenV2ConfigureSuccess> handler) {
+        this.configureSuccessHandler = handler;
+    }
+
+    /**
+     * Registers a handler for ListenV2ConfigureFailure messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureFailure(Consumer<ListenV2ConfigureFailure> handler) {
+        this.configureFailureHandler = handler;
     }
 
     /**
@@ -342,42 +374,95 @@ public class V2WebSocketClient implements AutoCloseable {
             if (node == null || node.isNull()) {
                 throw new IllegalArgumentException("Received null or invalid JSON message");
             }
-            JsonNode typeNode = node.get("type");
-            if (typeNode == null || typeNode.isNull()) {
-                throw new IllegalArgumentException("Message missing 'type' field");
-            }
-            String type = typeNode.asText();
-            switch (type) {
-                case "Connected":
-                    if (connectedHandler != null) {
-                        ListenV2Connected event = objectMapper.treeToValue(node, ListenV2Connected.class);
-                        if (event != null) {
-                            connectedHandler.accept(event);
-                        }
-                    }
-                    break;
-                case "TurnInfo":
+            if (node.has("request_id")
+                    && node.has("sequence_id")
+                    && node.has("event")
+                    && node.has("turn_index")
+                    && node.has("audio_window_start")
+                    && node.has("audio_window_end")
+                    && node.has("transcript")
+                    && node.has("words")
+                    && node.has("end_of_turn_confidence")
+                    && "TurnInfo".equals(node.path("type").asText())) {
+                ListenV2TurnInfo turnInfoHandlerEvent = null;
+                try {
+                    turnInfoHandlerEvent = objectMapper.treeToValue(node, ListenV2TurnInfo.class);
+                } catch (Exception e) {
+                }
+                if (turnInfoHandlerEvent != null) {
                     if (turnInfoHandler != null) {
-                        ListenV2TurnInfo event = objectMapper.treeToValue(node, ListenV2TurnInfo.class);
-                        if (event != null) {
-                            turnInfoHandler.accept(event);
-                        }
+                        turnInfoHandler.accept(turnInfoHandlerEvent);
                     }
-                    break;
-                case "Error":
+                    return;
+                }
+            }
+            if (node.has("request_id")
+                    && node.has("thresholds")
+                    && node.has("keyterms")
+                    && node.has("sequence_id")
+                    && "ConfigureSuccess".equals(node.path("type").asText())) {
+                ListenV2ConfigureSuccess configureSuccessHandlerEvent = null;
+                try {
+                    configureSuccessHandlerEvent = objectMapper.treeToValue(node, ListenV2ConfigureSuccess.class);
+                } catch (Exception e) {
+                }
+                if (configureSuccessHandlerEvent != null) {
+                    if (configureSuccessHandler != null) {
+                        configureSuccessHandler.accept(configureSuccessHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("sequence_id")
+                    && node.has("code")
+                    && node.has("description")
+                    && "Error".equals(node.path("type").asText())) {
+                ListenV2FatalError errorHandlerEvent = null;
+                try {
+                    errorHandlerEvent = objectMapper.treeToValue(node, ListenV2FatalError.class);
+                } catch (Exception e) {
+                }
+                if (errorHandlerEvent != null) {
                     if (errorHandler != null) {
-                        ListenV2FatalError event = objectMapper.treeToValue(node, ListenV2FatalError.class);
-                        if (event != null) {
-                            errorHandler.accept(event);
-                        }
+                        errorHandler.accept(errorHandlerEvent);
                     }
-                    break;
-                default:
-                    if (onErrorHandler != null) {
-                        onErrorHandler.accept(new RuntimeException("Unknown WebSocket message type: '" + type
-                                + "'. Update your SDK version to support new message types."));
+                    return;
+                }
+            }
+            if (node.has("request_id")
+                    && node.has("sequence_id")
+                    && "Connected".equals(node.path("type").asText())) {
+                ListenV2Connected connectedHandlerEvent = null;
+                try {
+                    connectedHandlerEvent = objectMapper.treeToValue(node, ListenV2Connected.class);
+                } catch (Exception e) {
+                }
+                if (connectedHandlerEvent != null) {
+                    if (connectedHandler != null) {
+                        connectedHandler.accept(connectedHandlerEvent);
                     }
-                    break;
+                    return;
+                }
+            }
+            if (node.has("request_id")
+                    && node.has("sequence_id")
+                    && "ConfigureFailure".equals(node.path("type").asText())) {
+                ListenV2ConfigureFailure configureFailureHandlerEvent = null;
+                try {
+                    configureFailureHandlerEvent = objectMapper.treeToValue(node, ListenV2ConfigureFailure.class);
+                } catch (Exception e) {
+                }
+                if (configureFailureHandlerEvent != null) {
+                    if (configureFailureHandler != null) {
+                        configureFailureHandler.accept(configureFailureHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (onErrorHandler != null) {
+                onErrorHandler.accept(new RuntimeException(
+                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
+                                + "... Update your SDK version to support new message types."));
             }
         } catch (Exception e) {
             if (onErrorHandler != null) {

@@ -21,11 +21,11 @@ import org.jetbrains.annotations.NotNull;
 public final class SpeakV1Flushed {
     private final SpeakV1FlushedType type;
 
-    private final double sequenceId;
+    private final int sequenceId;
 
     private final Map<String, Object> additionalProperties;
 
-    private SpeakV1Flushed(SpeakV1FlushedType type, double sequenceId, Map<String, Object> additionalProperties) {
+    private SpeakV1Flushed(SpeakV1FlushedType type, int sequenceId, Map<String, Object> additionalProperties) {
         this.type = type;
         this.sequenceId = sequenceId;
         this.additionalProperties = additionalProperties;
@@ -43,7 +43,7 @@ public final class SpeakV1Flushed {
      * @return The sequence ID of the response
      */
     @JsonProperty("sequence_id")
-    public double getSequenceId() {
+    public int getSequenceId() {
         return sequenceId;
     }
 
@@ -89,7 +89,7 @@ public final class SpeakV1Flushed {
         /**
          * <p>The sequence ID of the response</p>
          */
-        _FinalStage sequenceId(double sequenceId);
+        _FinalStage sequenceId(int sequenceId);
     }
 
     public interface _FinalStage {
@@ -104,7 +104,7 @@ public final class SpeakV1Flushed {
     public static final class Builder implements TypeStage, SequenceIdStage, _FinalStage {
         private SpeakV1FlushedType type;
 
-        private double sequenceId;
+        private int sequenceId;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -137,7 +137,7 @@ public final class SpeakV1Flushed {
          */
         @java.lang.Override
         @JsonSetter("sequence_id")
-        public _FinalStage sequenceId(double sequenceId) {
+        public _FinalStage sequenceId(int sequenceId) {
             this.sequenceId = sequenceId;
             return this;
         }

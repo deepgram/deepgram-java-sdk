@@ -29,7 +29,7 @@ public final class ListenV1Metadata {
 
     private final double duration;
 
-    private final double channels;
+    private final int channels;
 
     private final Map<String, Object> additionalProperties;
 
@@ -39,7 +39,7 @@ public final class ListenV1Metadata {
             String sha256,
             String created,
             double duration,
-            double channels,
+            int channels,
             Map<String, Object> additionalProperties) {
         this.transactionKey = transactionKey;
         this.requestId = requestId;
@@ -102,7 +102,7 @@ public final class ListenV1Metadata {
      * @return The channels
      */
     @JsonProperty("channels")
-    public double getChannels() {
+    public int getChannels() {
         return channels;
     }
 
@@ -182,7 +182,7 @@ public final class ListenV1Metadata {
         /**
          * <p>The channels</p>
          */
-        _FinalStage channels(double channels);
+        _FinalStage channels(int channels);
     }
 
     public interface _FinalStage {
@@ -212,7 +212,7 @@ public final class ListenV1Metadata {
 
         private double duration;
 
-        private double channels;
+        private int channels;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -297,7 +297,7 @@ public final class ListenV1Metadata {
          */
         @java.lang.Override
         @JsonSetter("channels")
-        public _FinalStage channels(double channels) {
+        public _FinalStage channels(int channels) {
             this.channels = channels;
             return this;
         }

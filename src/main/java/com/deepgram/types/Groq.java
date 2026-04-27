@@ -3,39 +3,150 @@
  */
 package com.deepgram.types;
 
-import com.deepgram.core.WrappedAlias;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.deepgram.core.ObjectMappers;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
-public final class Groq implements WrappedAlias {
-    private final Object value;
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = Groq.Builder.class)
+public final class Groq {
+    private final Optional<String> version;
 
-    private Groq(Object value) {
-        this.value = value;
+    private final Optional<Double> temperature;
+
+    private final Map<String, Object> additionalProperties;
+
+    private Groq(Optional<String> version, Optional<Double> temperature, Map<String, Object> additionalProperties) {
+        this.version = version;
+        this.temperature = temperature;
+        this.additionalProperties = additionalProperties;
     }
 
-    @JsonValue
-    public Object get() {
-        return this.value;
+    @JsonProperty("type")
+    public String getType() {
+        return "groq";
+    }
+
+    /**
+     * @return The REST API version for the Groq's chat completions API (mostly OpenAI-compatible)
+     */
+    @JsonProperty("version")
+    public Optional<String> getVersion() {
+        return version;
+    }
+
+    /**
+     * @return Groq model to use
+     */
+    @JsonProperty("model")
+    public String getModel() {
+        return "openai/gpt-oss-20b";
+    }
+
+    /**
+     * @return Groq temperature (0-2)
+     */
+    @JsonProperty("temperature")
+    public Optional<Double> getTemperature() {
+        return temperature;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return this == other || (other instanceof Groq && this.value.equals(((Groq) other).value));
+        if (this == other) return true;
+        return other instanceof Groq && equalTo((Groq) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    private boolean equalTo(Groq other) {
+        return version.equals(other.version) && temperature.equals(other.temperature);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(this.version, this.temperature);
     }
 
     @java.lang.Override
     public String toString() {
-        return value.toString();
+        return ObjectMappers.stringify(this);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static Groq of(Object value) {
-        return new Groq(value);
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static final class Builder {
+        private Optional<String> version = Optional.empty();
+
+        private Optional<Double> temperature = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
+        private Builder() {}
+
+        public Builder from(Groq other) {
+            version(other.getVersion());
+            temperature(other.getTemperature());
+            return this;
+        }
+
+        /**
+         * <p>The REST API version for the Groq's chat completions API (mostly OpenAI-compatible)</p>
+         */
+        @JsonSetter(value = "version", nulls = Nulls.SKIP)
+        public Builder version(Optional<String> version) {
+            this.version = version;
+            return this;
+        }
+
+        public Builder version(String version) {
+            this.version = Optional.ofNullable(version);
+            return this;
+        }
+
+        /**
+         * <p>Groq temperature (0-2)</p>
+         */
+        @JsonSetter(value = "temperature", nulls = Nulls.SKIP)
+        public Builder temperature(Optional<Double> temperature) {
+            this.temperature = temperature;
+            return this;
+        }
+
+        public Builder temperature(Double temperature) {
+            this.temperature = Optional.ofNullable(temperature);
+            return this;
+        }
+
+        public Groq build() {
+            return new Groq(version, temperature, additionalProperties);
+        }
+
+        public Builder additionalProperty(String key, Object value) {
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        public Builder additionalProperties(Map<String, Object> additionalProperties) {
+            this.additionalProperties.putAll(additionalProperties);
+            return this;
+        }
     }
 }

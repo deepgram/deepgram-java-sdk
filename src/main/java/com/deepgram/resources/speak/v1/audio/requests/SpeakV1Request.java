@@ -46,6 +46,8 @@ public final class SpeakV1Request {
 
     private final Optional<Double> sampleRate;
 
+    private final Optional<Double> speed;
+
     private final String text;
 
     private final Map<String, Object> additionalProperties;
@@ -60,6 +62,7 @@ public final class SpeakV1Request {
             Optional<AudioGenerateRequestEncoding> encoding,
             Optional<AudioGenerateRequestModel> model,
             Optional<Double> sampleRate,
+            Optional<Double> speed,
             String text,
             Map<String, Object> additionalProperties) {
         this.tag = tag;
@@ -71,6 +74,7 @@ public final class SpeakV1Request {
         this.encoding = encoding;
         this.model = model;
         this.sampleRate = sampleRate;
+        this.speed = speed;
         this.text = text;
         this.additionalProperties = additionalProperties;
     }
@@ -148,6 +152,14 @@ public final class SpeakV1Request {
     }
 
     /**
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.
+     */
+    @JsonIgnore
+    public Optional<Double> getSpeed() {
+        return speed;
+    }
+
+    /**
      * @return The text content to be converted to speech
      */
     @JsonProperty("text")
@@ -176,6 +188,7 @@ public final class SpeakV1Request {
                 && encoding.equals(other.encoding)
                 && model.equals(other.model)
                 && sampleRate.equals(other.sampleRate)
+                && speed.equals(other.speed)
                 && text.equals(other.text);
     }
 
@@ -191,6 +204,7 @@ public final class SpeakV1Request {
                 this.encoding,
                 this.model,
                 this.sampleRate,
+                this.speed,
                 this.text);
     }
 
@@ -283,11 +297,20 @@ public final class SpeakV1Request {
         _FinalStage sampleRate(Optional<Double> sampleRate);
 
         _FinalStage sampleRate(Double sampleRate);
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         */
+        _FinalStage speed(Optional<Double> speed);
+
+        _FinalStage speed(Double speed);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements TextStage, _FinalStage {
         private String text;
+
+        private Optional<Double> speed = Optional.empty();
 
         private Optional<Double> sampleRate = Optional.empty();
 
@@ -323,6 +346,7 @@ public final class SpeakV1Request {
             encoding(other.getEncoding());
             model(other.getModel());
             sampleRate(other.getSampleRate());
+            speed(other.getSpeed());
             text(other.getText());
             return this;
         }
@@ -336,6 +360,26 @@ public final class SpeakV1Request {
         @JsonSetter("text")
         public _FinalStage text(@NotNull String text) {
             this.text = Objects.requireNonNull(text, "text must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage speed(Double speed) {
+            this.speed = Optional.ofNullable(speed);
+            return this;
+        }
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "speed", nulls = Nulls.SKIP)
+        public _FinalStage speed(Optional<Double> speed) {
+            this.speed = speed;
             return this;
         }
 
@@ -537,6 +581,7 @@ public final class SpeakV1Request {
                     encoding,
                     model,
                     sampleRate,
+                    speed,
                     text,
                     additionalProperties);
         }

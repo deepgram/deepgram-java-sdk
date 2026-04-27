@@ -28,7 +28,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
 
     private final Optional<Float> confidence;
 
-    private final Optional<Float> speaker;
+    private final Optional<Integer> speaker;
 
     private final Optional<Float> speakerConfidence;
 
@@ -41,7 +41,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
             Optional<Float> start,
             Optional<Float> end,
             Optional<Float> confidence,
-            Optional<Float> speaker,
+            Optional<Integer> speaker,
             Optional<Float> speakerConfidence,
             Optional<String> punctuatedWord,
             Map<String, Object> additionalProperties) {
@@ -76,7 +76,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
     }
 
     @JsonProperty("speaker")
-    public Optional<Float> getSpeaker() {
+    public Optional<Integer> getSpeaker() {
         return speaker;
     }
 
@@ -143,7 +143,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
 
         private Optional<Float> confidence = Optional.empty();
 
-        private Optional<Float> speaker = Optional.empty();
+        private Optional<Integer> speaker = Optional.empty();
 
         private Optional<Float> speakerConfidence = Optional.empty();
 
@@ -210,12 +210,12 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
         }
 
         @JsonSetter(value = "speaker", nulls = Nulls.SKIP)
-        public Builder speaker(Optional<Float> speaker) {
+        public Builder speaker(Optional<Integer> speaker) {
             this.speaker = speaker;
             return this;
         }
 
-        public Builder speaker(Float speaker) {
+        public Builder speaker(Integer speaker) {
             this.speaker = Optional.ofNullable(speaker);
             return this;
         }

@@ -33,7 +33,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
 
     private final Optional<String> punctuatedWord;
 
-    private final Optional<Double> speaker;
+    private final Optional<Integer> speaker;
 
     private final Map<String, Object> additionalProperties;
 
@@ -44,7 +44,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
             double confidence,
             Optional<String> language,
             Optional<String> punctuatedWord,
-            Optional<Double> speaker,
+            Optional<Integer> speaker,
             Map<String, Object> additionalProperties) {
         this.word = word;
         this.start = start;
@@ -108,7 +108,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
      * @return The speaker of the word
      */
     @JsonProperty("speaker")
-    public Optional<Double> getSpeaker() {
+    public Optional<Integer> getSpeaker() {
         return speaker;
     }
 
@@ -203,9 +203,9 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         /**
          * <p>The speaker of the word</p>
          */
-        _FinalStage speaker(Optional<Double> speaker);
+        _FinalStage speaker(Optional<Integer> speaker);
 
-        _FinalStage speaker(Double speaker);
+        _FinalStage speaker(Integer speaker);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -218,7 +218,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
 
         private double confidence;
 
-        private Optional<Double> speaker = Optional.empty();
+        private Optional<Integer> speaker = Optional.empty();
 
         private Optional<String> punctuatedWord = Optional.empty();
 
@@ -294,7 +294,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage speaker(Double speaker) {
+        public _FinalStage speaker(Integer speaker) {
             this.speaker = Optional.ofNullable(speaker);
             return this;
         }
@@ -304,7 +304,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
          */
         @java.lang.Override
         @JsonSetter(value = "speaker", nulls = Nulls.SKIP)
-        public _FinalStage speaker(Optional<Double> speaker) {
+        public _FinalStage speaker(Optional<Integer> speaker) {
             this.speaker = speaker;
             return this;
         }

@@ -8,6 +8,7 @@ import com.deepgram.types.UsageBreakdownV1ResponseResultsItem;
 import com.deepgram.types.UsageBreakdownV1ResponseResultsItemGrouping;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * View usage breakdown grouped by model and tag for a Deepgram project.
@@ -88,8 +89,13 @@ public class UsageBreakdown {
 
         for (UsageBreakdownV1ResponseResultsItem item : results) {
             UsageBreakdownV1ResponseResultsItemGrouping grouping = item.getGrouping();
-            String model = grouping.getModels().orElse("N/A");
-            String tags = grouping.getTags().orElse("N/A");
+            String model = grouping.getModels()
+                    .map(models ->
+                            models.stream().map(entry -> entry.orElse("N/A")).collect(Collectors.joining(", ")))
+                    .orElse("N/A");
+            String tags = grouping.getTags()
+                    .map(entries -> String.join(", ", entries))
+                    .orElse("N/A");
 
             System.out.printf("  Model: %-20s Tags: %-15s%n", model, tags);
             System.out.printf("    Hours:       %.4f%n", item.getHours());

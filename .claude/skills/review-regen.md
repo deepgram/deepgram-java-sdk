@@ -14,7 +14,7 @@ Read AGENTS.md for full context on the regeneration workflow and freeze classifi
     - Patches still needed (must be re-applied)
     - New changes from the generator worth noting
 5. Wait for user direction on which patches to re-apply.
-6. Re-apply confirmed patches to the generated files.
+6. Re-apply confirmed patches to the generated files. If `src/main/java/com/deepgram/core/ClientOptions.java` still needs the patch, restore it through the standard `.bak` swap/restore workflow used for other temporarily frozen files.
 7. In `.fernignore`, replace each `.bak` path back to the original path for files that still need patches.
 8. Remove `.fernignore` entries entirely for files where patches are no longer needed.
 9. Delete all `.bak` files.

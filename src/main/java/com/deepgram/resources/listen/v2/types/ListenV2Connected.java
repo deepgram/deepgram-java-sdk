@@ -21,11 +21,11 @@ import org.jetbrains.annotations.NotNull;
 public final class ListenV2Connected {
     private final String requestId;
 
-    private final double sequenceId;
+    private final int sequenceId;
 
     private final Map<String, Object> additionalProperties;
 
-    private ListenV2Connected(String requestId, double sequenceId, Map<String, Object> additionalProperties) {
+    private ListenV2Connected(String requestId, int sequenceId, Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.sequenceId = sequenceId;
         this.additionalProperties = additionalProperties;
@@ -53,7 +53,7 @@ public final class ListenV2Connected {
      * <code>TurnInfo</code> messages.
      */
     @JsonProperty("sequence_id")
-    public double getSequenceId() {
+    public int getSequenceId() {
         return sequenceId;
     }
 
@@ -101,7 +101,7 @@ public final class ListenV2Connected {
          * to the client.  This includes messages of other types, like
          * <code>TurnInfo</code> messages.</p>
          */
-        _FinalStage sequenceId(double sequenceId);
+        _FinalStage sequenceId(int sequenceId);
     }
 
     public interface _FinalStage {
@@ -116,7 +116,7 @@ public final class ListenV2Connected {
     public static final class Builder implements RequestIdStage, SequenceIdStage, _FinalStage {
         private String requestId;
 
-        private double sequenceId;
+        private int sequenceId;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -153,7 +153,7 @@ public final class ListenV2Connected {
          */
         @java.lang.Override
         @JsonSetter("sequence_id")
-        public _FinalStage sequenceId(double sequenceId) {
+        public _FinalStage sequenceId(int sequenceId) {
             this.sequenceId = sequenceId;
             return this;
         }
