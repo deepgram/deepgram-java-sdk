@@ -14,7 +14,7 @@ src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 # Contains User-Agent, X-Fern-SDK-Name, and X-Fern-SDK-Version headers
 # with // x-release-please-version comments for automated version bumps.
 # Fern regen overwrites these with incorrect SDK names and strips the markers.
-src/main/java/com/deepgram/core/ClientOptions.java.bak
+src/main/java/com/deepgram/core/ClientOptions.java
 
 # Transport abstraction (pluggable transport for SageMaker, etc.)
 src/main/java/com/deepgram/core/transport/
@@ -45,6 +45,7 @@ examples/
 .githooks/
 .github/
 .gitignore
+context7.json
 
 # Agent files
 AGENTS.md
