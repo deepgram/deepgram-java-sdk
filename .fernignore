@@ -47,15 +47,10 @@ examples/
 .gitignore
 context7.json
 
-# Agent files
-AGENTS.md
-CLAUDE.md
-.claude/
-
 # Build output
 target/
 
-# Agent files (Claude Code, OpenCode, other agent tools)
+# Agent files (Claude Code, OpenCode, and shared agent tooling)
 # .agents/skills/ holds agent-agnostic skills discoverable via `npx skills`.
 # CLAUDE.md is kept here defensively alongside AGENTS.md — some agent tooling
 # expects one name, some the other, and layouts vary across checkouts.
