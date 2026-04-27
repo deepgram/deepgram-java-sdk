@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.2.1...v0.3.0) (2026-04-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* sdk regeneration 2026-04-27 ([#42](https://github.com/deepgram/deepgram-java-sdk/issues/42))
+
+### Features
+
+* sdk regeneration 2026-04-27 ([#42](https://github.com/deepgram/deepgram-java-sdk/issues/42)) ([f1bac65](https://github.com/deepgram/deepgram-java-sdk/commit/f1bac65f09ef0217c6bdc29ddc99dcf7e76dc22f))
+
+
+### Bug Fixes
+
+* align README and examples with v0.2.1 and validate them in CI ([#34](https://github.com/deepgram/deepgram-java-sdk/issues/34)) ([df02cdc](https://github.com/deepgram/deepgram-java-sdk/commit/df02cdc5968977e708c0449ad11bc52d84c3737c))
+
 ## [0.2.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.2.0...v0.2.1) (2026-04-07)
 
 
