@@ -118,6 +118,11 @@ public class AsyncDeepgramClientBuilder extends AsyncDeepgramApiClientBuilder {
         builder.addHeader("x-deepgram-session-id", sid);
         if (transportFactory != null) {
             builder.webSocketFactory(new TransportWebSocketFactory(transportFactory));
+            // Custom transports manage their own connection lifecycle and retry semantics.
+            // Wrapping them in ReconnectingWebSocketListener creates double-retry layering
+            // that compounds failures under burst load. Auto-disable here; users can
+            // re-enable explicitly via ClientOptions if they have a reason to.
+            builder.reconnect(false);
         }
     }
 
