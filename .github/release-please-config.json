@@ -20,6 +20,10 @@
           "path": "build.gradle"
         },
         {
+          "type": "generic",
+          "path": "README.md"
+        },
+        {
           "type": "json",
           "path": ".fern/metadata.json",
           "jsonpath": "$.sdkVersion"

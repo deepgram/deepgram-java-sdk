@@ -116,6 +116,12 @@
             <version>3.25.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.deepgram</groupId>
+            <artifactId>deepgram-sagemaker</artifactId>
+            <version>0.1.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
