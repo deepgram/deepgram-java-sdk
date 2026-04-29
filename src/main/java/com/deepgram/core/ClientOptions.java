@@ -27,8 +27,6 @@ public final class ClientOptions {
 
     private final Optional<LogConfig> logging;
 
-    private final boolean reconnect;
-
     private ClientOptions(
             Environment environment,
             Map<String, String> headers,
@@ -37,8 +35,7 @@ public final class ClientOptions {
             int timeout,
             int maxRetries,
             Optional<WebSocketFactory> webSocketFactory,
-            Optional<LogConfig> logging,
-            boolean reconnect) {
+            Optional<LogConfig> logging) {
         this.environment = environment;
         this.headers = new HashMap<>();
         this.headers.putAll(headers);
@@ -56,7 +53,6 @@ public final class ClientOptions {
         this.maxRetries = maxRetries;
         this.webSocketFactory = webSocketFactory;
         this.logging = logging;
-        this.reconnect = reconnect;
     }
 
     public Environment environment() {
@@ -110,18 +106,6 @@ public final class ClientOptions {
         return this.logging;
     }
 
-    /**
-     * Whether the per-resource WebSocket clients should wrap the underlying WebSocket in a
-     * {@link ReconnectingWebSocketListener} that retries on failure. Defaults to {@code true}.
-     * When {@code false}, the WebSocket clients connect once and propagate failures directly
-     * without retry. Use {@code false} when the underlying transport (e.g. SageMaker bidi
-     * streaming) already manages its own connection lifecycle and retry semantics, in which
-     * case wrapping in another retry layer causes double-retry storms under burst load.
-     */
-    public boolean reconnect() {
-        return this.reconnect;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -142,8 +126,6 @@ public final class ClientOptions {
         private Optional<LogConfig> logging = Optional.empty();
 
         private Optional<WebSocketFactory> webSocketFactory = Optional.empty();
-
-        private boolean reconnect = true;
 
         public Builder environment(Environment environment) {
             this.environment = environment;
@@ -205,17 +187,6 @@ public final class ClientOptions {
             return this;
         }
 
-        /**
-         * Enable or disable the auto-reconnecting WebSocket wrapper. Defaults to {@code true}.
-         * Set to {@code false} when using a custom transport (e.g. SageMaker) that already
-         * manages its own connection lifecycle — wrapping such transports in the reconnect
-         * listener causes double-retry storms under burst load.
-         */
-        public Builder reconnect(boolean reconnect) {
-            this.reconnect = reconnect;
-            return this;
-        }
-
         public ClientOptions build() {
             OkHttpClient.Builder httpClientBuilder =
                     this.httpClient != null ? this.httpClient.newBuilder() : new OkHttpClient.Builder();
@@ -249,8 +220,7 @@ public final class ClientOptions {
                     this.timeout.get(),
                     this.maxRetries,
                     this.webSocketFactory,
-                    this.logging,
-                    this.reconnect);
+                    this.logging);
         }
 
         /**
@@ -265,7 +235,6 @@ public final class ClientOptions {
             builder.headerSuppliers.putAll(clientOptions.headerSuppliers);
             builder.maxRetries = clientOptions.maxRetries();
             builder.logging = clientOptions.logging();
-            builder.reconnect = clientOptions.reconnect();
             return builder;
         }
     }

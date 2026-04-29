@@ -26,7 +26,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
 import okio.ByteString;
 
 /**
@@ -57,12 +56,6 @@ public class V1WebSocketClient implements AutoCloseable {
     private CompletableFuture<Void> connectionFuture;
 
     private ReconnectingWebSocketListener reconnectingListener;
-
-    // Direct (non-reconnecting) WebSocket — used when clientOptions.reconnect() is false
-    // (e.g. when a custom transportFactory is configured). In that mode, the underlying
-    // transport owns its own connection lifecycle, so we connect once and propagate
-    // failures directly without wrapping in ReconnectingWebSocketListener.
-    private volatile WebSocket directWebSocket;
 
     private volatile Consumer<ByteString> speakV1AudioHandler;
 
@@ -132,58 +125,6 @@ public class V1WebSocketClient implements AutoCloseable {
         clientOptions.headers(null).forEach(requestBuilder::addHeader);
         final Request request = requestBuilder.build();
         this.readyState = WebSocketReadyState.CONNECTING;
-
-        if (!clientOptions.reconnect()) {
-            // Direct mode — no ReconnectingWebSocketListener wrapper. Used when a custom
-            // transportFactory manages its own retry/lifecycle (e.g. SageMaker bidi streaming).
-            WebSocketListener directListener = new WebSocketListener() {
-                @Override
-                public void onOpen(WebSocket webSocket, Response response) {
-                    directWebSocket = webSocket;
-                    readyState = WebSocketReadyState.OPEN;
-                    if (onConnectedHandler != null) {
-                        onConnectedHandler.run();
-                    }
-                    connectionFuture.complete(null);
-                }
-
-                @Override
-                public void onMessage(WebSocket webSocket, String text) {
-                    handleIncomingMessage(text);
-                }
-
-                @Override
-                public void onMessage(WebSocket webSocket, ByteString bytes) {
-                    if (speakV1AudioHandler != null) {
-                        speakV1AudioHandler.accept(bytes);
-                    }
-                }
-
-                @Override
-                public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                    readyState = WebSocketReadyState.CLOSED;
-                    if (onErrorHandler != null) {
-                        onErrorHandler.accept(new RuntimeException(t));
-                    }
-                    connectionFuture.completeExceptionally(t);
-                }
-
-                @Override
-                public void onClosed(WebSocket webSocket, int code, String reason) {
-                    readyState = WebSocketReadyState.CLOSED;
-                    if (onDisconnectedHandler != null) {
-                        onDisconnectedHandler.accept(new DisconnectReason(code, reason));
-                    }
-                }
-            };
-            if (clientOptions.webSocketFactory().isPresent()) {
-                this.directWebSocket = clientOptions.webSocketFactory().get().create(request, directListener);
-            } else {
-                this.directWebSocket = okHttpClient.newWebSocket(request, directListener);
-            }
-            return connectionFuture;
-        }
-
         ReconnectingWebSocketListener.ReconnectOptions reconnectOpts = this.reconnectOptions != null
                 ? this.reconnectOptions
                 : ReconnectingWebSocketListener.ReconnectOptions.builder().build();
@@ -249,12 +190,7 @@ public class V1WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
-        if (reconnectingListener != null) {
-            reconnectingListener.disconnect();
-        } else if (directWebSocket != null) {
-            directWebSocket.close(1000, "Client disconnecting");
-            directWebSocket = null;
-        }
+        reconnectingListener.disconnect();
         if (timeoutExecutor != null) {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
@@ -404,10 +340,7 @@ public class V1WebSocketClient implements AutoCloseable {
      * @throws IllegalStateException if the socket is not connected or not open
      */
     private void assertSocketIsOpen() {
-        WebSocket activeSocket = (reconnectingListener != null)
-                ? reconnectingListener.getWebSocket()
-                : directWebSocket;
-        if (activeSocket == null) {
+        if (reconnectingListener.getWebSocket() == null) {
             throw new IllegalStateException("WebSocket is not connected. Call connect() first.");
         }
         if (readyState != WebSocketReadyState.OPEN) {
@@ -420,12 +353,8 @@ public class V1WebSocketClient implements AutoCloseable {
         try {
             assertSocketIsOpen();
             String json = objectMapper.writeValueAsString(body);
-            if (reconnectingListener != null) {
-                // Use reconnecting listener's send method which handles queuing
-                reconnectingListener.send(json);
-            } else {
-                directWebSocket.send(json);
-            }
+            // Use reconnecting listener's send method which handles queuing
+            reconnectingListener.send(json);
             future.complete(null);
         } catch (IllegalStateException e) {
             future.completeExceptionally(e);
