@@ -10,10 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -21,10 +23,16 @@ import org.jetbrains.annotations.NotNull;
 public final class AgentV1InjectAgentMessage {
     private final String message;
 
+    private final Optional<AgentV1InjectAgentMessageBehavior> behavior;
+
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1InjectAgentMessage(String message, Map<String, Object> additionalProperties) {
+    private AgentV1InjectAgentMessage(
+            String message,
+            Optional<AgentV1InjectAgentMessageBehavior> behavior,
+            Map<String, Object> additionalProperties) {
         this.message = message;
+        this.behavior = behavior;
         this.additionalProperties = additionalProperties;
     }
 
@@ -44,6 +52,18 @@ public final class AgentV1InjectAgentMessage {
         return message;
     }
 
+    /**
+     * @return Controls how the injection interacts with any in-progress user or agent turn.
+     * <ul>
+     * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
+     * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+     * </ul>
+     */
+    @JsonProperty("behavior")
+    public Optional<AgentV1InjectAgentMessageBehavior> getBehavior() {
+        return behavior;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -56,12 +76,12 @@ public final class AgentV1InjectAgentMessage {
     }
 
     private boolean equalTo(AgentV1InjectAgentMessage other) {
-        return message.equals(other.message);
+        return message.equals(other.message) && behavior.equals(other.behavior);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.message);
+        return Objects.hash(this.message, this.behavior);
     }
 
     @java.lang.Override
@@ -88,11 +108,24 @@ public final class AgentV1InjectAgentMessage {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Controls how the injection interacts with any in-progress user or agent turn.</p>
+         * <ul>
+         * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
+         * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+         * </ul>
+         */
+        _FinalStage behavior(Optional<AgentV1InjectAgentMessageBehavior> behavior);
+
+        _FinalStage behavior(AgentV1InjectAgentMessageBehavior behavior);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements MessageStage, _FinalStage {
         private String message;
+
+        private Optional<AgentV1InjectAgentMessageBehavior> behavior = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -102,6 +135,7 @@ public final class AgentV1InjectAgentMessage {
         @java.lang.Override
         public Builder from(AgentV1InjectAgentMessage other) {
             message(other.getMessage());
+            behavior(other.getBehavior());
             return this;
         }
 
@@ -117,9 +151,37 @@ public final class AgentV1InjectAgentMessage {
             return this;
         }
 
+        /**
+         * <p>Controls how the injection interacts with any in-progress user or agent turn.</p>
+         * <ul>
+         * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
+         * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+         * </ul>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage behavior(AgentV1InjectAgentMessageBehavior behavior) {
+            this.behavior = Optional.ofNullable(behavior);
+            return this;
+        }
+
+        /**
+         * <p>Controls how the injection interacts with any in-progress user or agent turn.</p>
+         * <ul>
+         * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
+         * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+         * </ul>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "behavior", nulls = Nulls.SKIP)
+        public _FinalStage behavior(Optional<AgentV1InjectAgentMessageBehavior> behavior) {
+            this.behavior = behavior;
+            return this;
+        }
+
         @java.lang.Override
         public AgentV1InjectAgentMessage build() {
-            return new AgentV1InjectAgentMessage(message, additionalProperties);
+            return new AgentV1InjectAgentMessage(message, behavior, additionalProperties);
         }
 
         @java.lang.Override

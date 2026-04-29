@@ -6,7 +6,7 @@ package com.deepgram.resources.manage.v1.projects.keys;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.resources.manage.v1.projects.keys.requests.KeysListRequest;
-import com.deepgram.types.CreateKeyV1RequestOne;
+import com.deepgram.types.CreateKeyV1Request;
 import com.deepgram.types.CreateKeyV1Response;
 import com.deepgram.types.DeleteProjectKeyV1Response;
 import com.deepgram.types.GetProjectKeyV1Response;
@@ -62,7 +62,7 @@ public class AsyncKeysClient {
     /**
      * Creates a new API key with specified settings for the project
      */
-    public CompletableFuture<CreateKeyV1Response> create(String projectId, CreateKeyV1RequestOne request) {
+    public CompletableFuture<CreateKeyV1Response> create(String projectId, CreateKeyV1Request request) {
         return this.rawClient.create(projectId, request).thenApply(response -> response.body());
     }
 
@@ -70,7 +70,7 @@ public class AsyncKeysClient {
      * Creates a new API key with specified settings for the project
      */
     public CompletableFuture<CreateKeyV1Response> create(
-            String projectId, CreateKeyV1RequestOne request, RequestOptions requestOptions) {
+            String projectId, CreateKeyV1Request request, RequestOptions requestOptions) {
         return this.rawClient.create(projectId, request, requestOptions).thenApply(response -> response.body());
     }
 

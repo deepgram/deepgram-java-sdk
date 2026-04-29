@@ -19,13 +19,13 @@ import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = AgentV1SettingsAgentContextMessagesItemFunctionCalls.Builder.class)
-public final class AgentV1SettingsAgentContextMessagesItemFunctionCalls {
+@JsonDeserialize(builder = FunctionCallHistoryMessage.Builder.class)
+public final class FunctionCallHistoryMessage {
     private final List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls;
 
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1SettingsAgentContextMessagesItemFunctionCalls(
+    private FunctionCallHistoryMessage(
             List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls,
             Map<String, Object> additionalProperties) {
         this.functionCalls = functionCalls;
@@ -48,8 +48,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCalls {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1SettingsAgentContextMessagesItemFunctionCalls
-                && equalTo((AgentV1SettingsAgentContextMessagesItemFunctionCalls) other);
+        return other instanceof FunctionCallHistoryMessage && equalTo((FunctionCallHistoryMessage) other);
     }
 
     @JsonAnyGetter
@@ -57,7 +56,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCalls {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(AgentV1SettingsAgentContextMessagesItemFunctionCalls other) {
+    private boolean equalTo(FunctionCallHistoryMessage other) {
         return functionCalls.equals(other.functionCalls);
     }
 
@@ -85,7 +84,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCalls {
 
         private Builder() {}
 
-        public Builder from(AgentV1SettingsAgentContextMessagesItemFunctionCalls other) {
+        public Builder from(FunctionCallHistoryMessage other) {
             functionCalls(other.getFunctionCalls());
             return this;
         }
@@ -117,8 +116,8 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCalls {
             return this;
         }
 
-        public AgentV1SettingsAgentContextMessagesItemFunctionCalls build() {
-            return new AgentV1SettingsAgentContextMessagesItemFunctionCalls(functionCalls, additionalProperties);
+        public FunctionCallHistoryMessage build() {
+            return new FunctionCallHistoryMessage(functionCalls, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {
