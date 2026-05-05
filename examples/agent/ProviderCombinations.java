@@ -31,10 +31,9 @@ public class ProviderCombinations {
         Deepgram deepgramSpeak = Deepgram.builder()
                 .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
                 .build();
-        AgentV1SettingsAgentContextSpeak speakSettings =
-                AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
-                        .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeak))
-                        .build());
+        AgentV1SettingsAgentContextSpeak speakSettings = AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
+                .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeak))
+                .build());
 
         // Combination 1: OpenAI GPT-4o Mini + Deepgram
         System.out.println("=== Combination 1: OpenAI + Deepgram ===");
