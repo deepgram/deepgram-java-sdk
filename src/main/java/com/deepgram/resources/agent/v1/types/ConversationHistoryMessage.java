@@ -17,16 +17,18 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = AgentV1HistoryContent.Builder.class)
-public final class AgentV1HistoryContent {
-    private final AgentV1HistoryContentRole role;
+@JsonDeserialize(builder = ConversationHistoryMessage.Builder.class)
+public final class ConversationHistoryMessage {
+    private final AgentV1SettingsAgentContextMessagesItemContentRole role;
 
     private final String content;
 
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1HistoryContent(
-            AgentV1HistoryContentRole role, String content, Map<String, Object> additionalProperties) {
+    private ConversationHistoryMessage(
+            AgentV1SettingsAgentContextMessagesItemContentRole role,
+            String content,
+            Map<String, Object> additionalProperties) {
         this.role = role;
         this.content = content;
         this.additionalProperties = additionalProperties;
@@ -44,7 +46,7 @@ public final class AgentV1HistoryContent {
      * @return Identifies who spoke the statement
      */
     @JsonProperty("role")
-    public AgentV1HistoryContentRole getRole() {
+    public AgentV1SettingsAgentContextMessagesItemContentRole getRole() {
         return role;
     }
 
@@ -59,7 +61,7 @@ public final class AgentV1HistoryContent {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1HistoryContent && equalTo((AgentV1HistoryContent) other);
+        return other instanceof ConversationHistoryMessage && equalTo((ConversationHistoryMessage) other);
     }
 
     @JsonAnyGetter
@@ -67,7 +69,7 @@ public final class AgentV1HistoryContent {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(AgentV1HistoryContent other) {
+    private boolean equalTo(ConversationHistoryMessage other) {
         return role.equals(other.role) && content.equals(other.content);
     }
 
@@ -89,9 +91,9 @@ public final class AgentV1HistoryContent {
         /**
          * <p>Identifies who spoke the statement</p>
          */
-        ContentStage role(@NotNull AgentV1HistoryContentRole role);
+        ContentStage role(@NotNull AgentV1SettingsAgentContextMessagesItemContentRole role);
 
-        Builder from(AgentV1HistoryContent other);
+        Builder from(ConversationHistoryMessage other);
     }
 
     public interface ContentStage {
@@ -102,7 +104,7 @@ public final class AgentV1HistoryContent {
     }
 
     public interface _FinalStage {
-        AgentV1HistoryContent build();
+        ConversationHistoryMessage build();
 
         _FinalStage additionalProperty(String key, Object value);
 
@@ -111,7 +113,7 @@ public final class AgentV1HistoryContent {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements RoleStage, ContentStage, _FinalStage {
-        private AgentV1HistoryContentRole role;
+        private AgentV1SettingsAgentContextMessagesItemContentRole role;
 
         private String content;
 
@@ -121,7 +123,7 @@ public final class AgentV1HistoryContent {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(AgentV1HistoryContent other) {
+        public Builder from(ConversationHistoryMessage other) {
             role(other.getRole());
             content(other.getContent());
             return this;
@@ -134,7 +136,7 @@ public final class AgentV1HistoryContent {
          */
         @java.lang.Override
         @JsonSetter("role")
-        public ContentStage role(@NotNull AgentV1HistoryContentRole role) {
+        public ContentStage role(@NotNull AgentV1SettingsAgentContextMessagesItemContentRole role) {
             this.role = Objects.requireNonNull(role, "role must not be null");
             return this;
         }
@@ -152,8 +154,8 @@ public final class AgentV1HistoryContent {
         }
 
         @java.lang.Override
-        public AgentV1HistoryContent build() {
-            return new AgentV1HistoryContent(role, content, additionalProperties);
+        public ConversationHistoryMessage build() {
+            return new ConversationHistoryMessage(role, content, additionalProperties);
         }
 
         @java.lang.Override

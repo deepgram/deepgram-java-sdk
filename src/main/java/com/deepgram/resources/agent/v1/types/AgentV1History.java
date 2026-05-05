@@ -33,9 +33,9 @@ public final class AgentV1History {
     @SuppressWarnings("unchecked")
     public <T> T visit(Visitor<T> visitor) {
         if (this.type == 0) {
-            return visitor.visit((AgentV1HistoryContent) this.value);
+            return visitor.visit((ConversationHistoryMessage) this.value);
         } else if (this.type == 1) {
-            return visitor.visit((AgentV1HistoryFunctionCalls) this.value);
+            return visitor.visit((FunctionCallHistoryMessage) this.value);
         }
         throw new IllegalStateException("Failed to visit value. This should never happen.");
     }
@@ -60,18 +60,18 @@ public final class AgentV1History {
         return this.value.toString();
     }
 
-    public static AgentV1History of(AgentV1HistoryContent value) {
+    public static AgentV1History of(ConversationHistoryMessage value) {
         return new AgentV1History(value, 0);
     }
 
-    public static AgentV1History of(AgentV1HistoryFunctionCalls value) {
+    public static AgentV1History of(FunctionCallHistoryMessage value) {
         return new AgentV1History(value, 1);
     }
 
     public interface Visitor<T> {
-        T visit(AgentV1HistoryContent value);
+        T visit(ConversationHistoryMessage value);
 
-        T visit(AgentV1HistoryFunctionCalls value);
+        T visit(FunctionCallHistoryMessage value);
     }
 
     static final class Deserializer extends StdDeserializer<AgentV1History> {
@@ -86,13 +86,13 @@ public final class AgentV1History {
                     && ((Map<?, ?>) value).containsKey("role")
                     && ((Map<?, ?>) value).containsKey("content")) {
                 try {
-                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentV1HistoryContent.class));
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, ConversationHistoryMessage.class));
                 } catch (RuntimeException e) {
                 }
             }
             if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("function_calls")) {
                 try {
-                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentV1HistoryFunctionCalls.class));
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, FunctionCallHistoryMessage.class));
                 } catch (RuntimeException e) {
                 }
             }

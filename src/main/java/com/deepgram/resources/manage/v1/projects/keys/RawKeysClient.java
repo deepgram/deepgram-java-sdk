@@ -13,7 +13,7 @@ import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.errors.BadRequestError;
 import com.deepgram.resources.manage.v1.projects.keys.requests.KeysListRequest;
-import com.deepgram.types.CreateKeyV1RequestOne;
+import com.deepgram.types.CreateKeyV1Request;
 import com.deepgram.types.CreateKeyV1Response;
 import com.deepgram.types.DeleteProjectKeyV1Response;
 import com.deepgram.types.GetProjectKeyV1Response;
@@ -112,7 +112,7 @@ public class RawKeysClient {
     /**
      * Creates a new API key with specified settings for the project
      */
-    public DeepgramApiHttpResponse<CreateKeyV1Response> create(String projectId, CreateKeyV1RequestOne request) {
+    public DeepgramApiHttpResponse<CreateKeyV1Response> create(String projectId, CreateKeyV1Request request) {
         return create(projectId, request, null);
     }
 
@@ -120,7 +120,7 @@ public class RawKeysClient {
      * Creates a new API key with specified settings for the project
      */
     public DeepgramApiHttpResponse<CreateKeyV1Response> create(
-            String projectId, CreateKeyV1RequestOne request, RequestOptions requestOptions) {
+            String projectId, CreateKeyV1Request request, RequestOptions requestOptions) {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getBaseURL())
                 .newBuilder()
                 .addPathSegments("v1/projects")

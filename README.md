@@ -26,7 +26,7 @@ Add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'com.deepgram:deepgram-java-sdk:0.2.1' // x-release-please-version
+    implementation 'com.deepgram:deepgram-java-sdk:0.3.0' // x-release-please-version
 }
 ```
 
@@ -38,7 +38,7 @@ Add the dependency to your `pom.xml`:
 <dependency>
     <groupId>com.deepgram</groupId>
     <artifactId>deepgram-java-sdk</artifactId>
-    <version>0.2.1</version> <!-- x-release-please-version -->
+    <version>0.3.0</version> <!-- x-release-please-version -->
 </dependency>
 ```
 
@@ -405,7 +405,7 @@ Use the separate [`deepgram-sagemaker`](https://github.com/deepgram/deepgram-jav
 
 ```groovy
 dependencies {
-    implementation 'com.deepgram:deepgram-java-sdk:0.2.1' // x-release-please-version
+    implementation 'com.deepgram:deepgram-java-sdk:0.3.0' // x-release-please-version
     implementation 'com.deepgram:deepgram-sagemaker:0.1.2'
 }
 ```
@@ -507,7 +507,7 @@ DeepgramClient client = DeepgramClient.builder()
 
 ### Custom Base URL
 
-For on-premises deployments or custom endpoints:
+For on-premises deployments or custom REST/WebSocket endpoints:
 
 ```java
 import com.deepgram.core.Environment;
@@ -515,7 +515,9 @@ import com.deepgram.core.Environment;
 DeepgramClient client = DeepgramClient.builder()
     .apiKey("YOUR_DEEPGRAM_API_KEY")
     .environment(Environment.custom()
-        .base("https://your-custom-endpoint.com")
+        .base("https://your-rest-endpoint.com")
+        .production("wss://your-listen-websocket-endpoint.com")
+        .agent("wss://your-agent-websocket-endpoint.com")
         .build())
     .build();
 ```
@@ -700,7 +702,7 @@ make format            # auto-format code
 
 ## API Reference
 
-See [reference.md](reference.md) for complete API documentation.
+See [developers.deepgram.com](https://developers.deepgram.com) for complete API documentation.
 
 ## Getting Help
 

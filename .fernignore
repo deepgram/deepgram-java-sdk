@@ -33,6 +33,7 @@ README.md
 CHANGELOG.md
 CONTRIBUTING.md
 LICENSE
+docs/
 
 # Tests (manually maintained)
 src/test/

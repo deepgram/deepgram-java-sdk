@@ -6,7 +6,7 @@ package com.deepgram.resources.manage.v1.projects.keys;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.resources.manage.v1.projects.keys.requests.KeysListRequest;
-import com.deepgram.types.CreateKeyV1RequestOne;
+import com.deepgram.types.CreateKeyV1Request;
 import com.deepgram.types.CreateKeyV1Response;
 import com.deepgram.types.DeleteProjectKeyV1Response;
 import com.deepgram.types.GetProjectKeyV1Response;
@@ -60,14 +60,14 @@ public class KeysClient {
     /**
      * Creates a new API key with specified settings for the project
      */
-    public CreateKeyV1Response create(String projectId, CreateKeyV1RequestOne request) {
+    public CreateKeyV1Response create(String projectId, CreateKeyV1Request request) {
         return this.rawClient.create(projectId, request).body();
     }
 
     /**
      * Creates a new API key with specified settings for the project
      */
-    public CreateKeyV1Response create(String projectId, CreateKeyV1RequestOne request, RequestOptions requestOptions) {
+    public CreateKeyV1Response create(String projectId, CreateKeyV1Request request, RequestOptions requestOptions) {
         return this.rawClient.create(projectId, request, requestOptions).body();
     }
 

@@ -9,6 +9,7 @@ import com.deepgram.types.ListenV2Encoding;
 import com.deepgram.types.ListenV2EotThreshold;
 import com.deepgram.types.ListenV2EotTimeoutMs;
 import com.deepgram.types.ListenV2Keyterm;
+import com.deepgram.types.ListenV2LanguageHint;
 import com.deepgram.types.ListenV2MipOptOut;
 import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2SampleRate;
@@ -44,6 +45,8 @@ public final class V2ConnectOptions {
 
     private final Optional<ListenV2Keyterm> keyterm;
 
+    private final Optional<ListenV2LanguageHint> languageHint;
+
     private final Optional<ListenV2MipOptOut> mipOptOut;
 
     private final Optional<ListenV2Tag> tag;
@@ -58,6 +61,7 @@ public final class V2ConnectOptions {
             Optional<ListenV2EotThreshold> eotThreshold,
             Optional<ListenV2EotTimeoutMs> eotTimeoutMs,
             Optional<ListenV2Keyterm> keyterm,
+            Optional<ListenV2LanguageHint> languageHint,
             Optional<ListenV2MipOptOut> mipOptOut,
             Optional<ListenV2Tag> tag,
             Map<String, Object> additionalProperties) {
@@ -68,6 +72,7 @@ public final class V2ConnectOptions {
         this.eotThreshold = eotThreshold;
         this.eotTimeoutMs = eotTimeoutMs;
         this.keyterm = keyterm;
+        this.languageHint = languageHint;
         this.mipOptOut = mipOptOut;
         this.tag = tag;
         this.additionalProperties = additionalProperties;
@@ -108,6 +113,11 @@ public final class V2ConnectOptions {
         return keyterm;
     }
 
+    @JsonProperty("language_hint")
+    public Optional<ListenV2LanguageHint> getLanguageHint() {
+        return languageHint;
+    }
+
     @JsonProperty("mip_opt_out")
     public Optional<ListenV2MipOptOut> getMipOptOut() {
         return mipOptOut;
@@ -137,6 +147,7 @@ public final class V2ConnectOptions {
                 && eotThreshold.equals(other.eotThreshold)
                 && eotTimeoutMs.equals(other.eotTimeoutMs)
                 && keyterm.equals(other.keyterm)
+                && languageHint.equals(other.languageHint)
                 && mipOptOut.equals(other.mipOptOut)
                 && tag.equals(other.tag);
     }
@@ -151,6 +162,7 @@ public final class V2ConnectOptions {
                 this.eotThreshold,
                 this.eotTimeoutMs,
                 this.keyterm,
+                this.languageHint,
                 this.mipOptOut,
                 this.tag);
     }
@@ -201,6 +213,10 @@ public final class V2ConnectOptions {
 
         _FinalStage keyterm(ListenV2Keyterm keyterm);
 
+        _FinalStage languageHint(Optional<ListenV2LanguageHint> languageHint);
+
+        _FinalStage languageHint(ListenV2LanguageHint languageHint);
+
         _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut);
 
         _FinalStage mipOptOut(ListenV2MipOptOut mipOptOut);
@@ -217,6 +233,8 @@ public final class V2ConnectOptions {
         private Optional<ListenV2Tag> tag = Optional.empty();
 
         private Optional<ListenV2MipOptOut> mipOptOut = Optional.empty();
+
+        private Optional<ListenV2LanguageHint> languageHint = Optional.empty();
 
         private Optional<ListenV2Keyterm> keyterm = Optional.empty();
 
@@ -244,6 +262,7 @@ public final class V2ConnectOptions {
             eotThreshold(other.getEotThreshold());
             eotTimeoutMs(other.getEotTimeoutMs());
             keyterm(other.getKeyterm());
+            languageHint(other.getLanguageHint());
             mipOptOut(other.getMipOptOut());
             tag(other.getTag());
             return this;
@@ -279,6 +298,19 @@ public final class V2ConnectOptions {
         @JsonSetter(value = "mip_opt_out", nulls = Nulls.SKIP)
         public _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut) {
             this.mipOptOut = mipOptOut;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage languageHint(ListenV2LanguageHint languageHint) {
+            this.languageHint = Optional.ofNullable(languageHint);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "language_hint", nulls = Nulls.SKIP)
+        public _FinalStage languageHint(Optional<ListenV2LanguageHint> languageHint) {
+            this.languageHint = languageHint;
             return this;
         }
 
@@ -370,6 +402,7 @@ public final class V2ConnectOptions {
                     eotThreshold,
                     eotTimeoutMs,
                     keyterm,
+                    languageHint,
                     mipOptOut,
                     tag,
                     additionalProperties);
