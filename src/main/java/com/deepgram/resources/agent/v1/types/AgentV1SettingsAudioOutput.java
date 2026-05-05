@@ -26,7 +26,7 @@ public final class AgentV1SettingsAudioOutput {
 
     private final Optional<Integer> bitrate;
 
-    private final Optional<String> container;
+    private final Optional<AgentV1SettingsAudioOutputContainer> container;
 
     private final Map<String, Object> additionalProperties;
 
@@ -34,7 +34,7 @@ public final class AgentV1SettingsAudioOutput {
             Optional<AgentV1SettingsAudioOutputEncoding> encoding,
             Optional<Integer> sampleRate,
             Optional<Integer> bitrate,
-            Optional<String> container,
+            Optional<AgentV1SettingsAudioOutputContainer> container,
             Map<String, Object> additionalProperties) {
         this.encoding = encoding;
         this.sampleRate = sampleRate;
@@ -68,10 +68,10 @@ public final class AgentV1SettingsAudioOutput {
     }
 
     /**
-     * @return Audio container format. If omitted, defaults to 'none'
+     * @return Audio container format.
      */
     @JsonProperty("container")
-    public Optional<String> getContainer() {
+    public Optional<AgentV1SettingsAudioOutputContainer> getContainer() {
         return container;
     }
 
@@ -115,7 +115,7 @@ public final class AgentV1SettingsAudioOutput {
 
         private Optional<Integer> bitrate = Optional.empty();
 
-        private Optional<String> container = Optional.empty();
+        private Optional<AgentV1SettingsAudioOutputContainer> container = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -173,15 +173,15 @@ public final class AgentV1SettingsAudioOutput {
         }
 
         /**
-         * <p>Audio container format. If omitted, defaults to 'none'</p>
+         * <p>Audio container format.</p>
          */
         @JsonSetter(value = "container", nulls = Nulls.SKIP)
-        public Builder container(Optional<String> container) {
+        public Builder container(Optional<AgentV1SettingsAudioOutputContainer> container) {
             this.container = container;
             return this;
         }
 
-        public Builder container(String container) {
+        public Builder container(AgentV1SettingsAudioOutputContainer container) {
             this.container = Optional.ofNullable(container);
             return this;
         }

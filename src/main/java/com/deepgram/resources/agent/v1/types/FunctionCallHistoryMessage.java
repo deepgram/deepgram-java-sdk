@@ -21,12 +21,12 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = FunctionCallHistoryMessage.Builder.class)
 public final class FunctionCallHistoryMessage {
-    private final List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls;
+    private final List<AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls;
 
     private final Map<String, Object> additionalProperties;
 
     private FunctionCallHistoryMessage(
-            List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls,
+            List<AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls,
             Map<String, Object> additionalProperties) {
         this.functionCalls = functionCalls;
         this.additionalProperties = additionalProperties;
@@ -41,7 +41,7 @@ public final class FunctionCallHistoryMessage {
      * @return List of function call objects
      */
     @JsonProperty("function_calls")
-    public List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> getFunctionCalls() {
+    public List<AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem> getFunctionCalls() {
         return functionCalls;
     }
 
@@ -76,7 +76,7 @@ public final class FunctionCallHistoryMessage {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
-        private List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls =
+        private List<AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls =
                 new ArrayList<>();
 
         @JsonAnySetter
@@ -94,7 +94,7 @@ public final class FunctionCallHistoryMessage {
          */
         @JsonSetter(value = "function_calls", nulls = Nulls.SKIP)
         public Builder functionCalls(
-                List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls) {
+                List<AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls) {
             this.functionCalls.clear();
             if (functionCalls != null) {
                 this.functionCalls.addAll(functionCalls);
@@ -103,13 +103,13 @@ public final class FunctionCallHistoryMessage {
         }
 
         public Builder addFunctionCalls(
-                AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem functionCalls) {
+                AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem functionCalls) {
             this.functionCalls.add(functionCalls);
             return this;
         }
 
         public Builder addAllFunctionCalls(
-                List<AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls) {
+                List<AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem> functionCalls) {
             if (functionCalls != null) {
                 this.functionCalls.addAll(functionCalls);
             }

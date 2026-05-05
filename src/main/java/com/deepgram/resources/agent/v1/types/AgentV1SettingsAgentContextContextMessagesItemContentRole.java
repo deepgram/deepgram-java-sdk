@@ -6,18 +6,18 @@ package com.deepgram.resources.agent.v1.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class AgentV1SettingsAgentContextMessagesItemContentRole {
-    public static final AgentV1SettingsAgentContextMessagesItemContentRole USER =
-            new AgentV1SettingsAgentContextMessagesItemContentRole(Value.USER, "user");
+public final class AgentV1SettingsAgentContextContextMessagesItemContentRole {
+    public static final AgentV1SettingsAgentContextContextMessagesItemContentRole USER =
+            new AgentV1SettingsAgentContextContextMessagesItemContentRole(Value.USER, "user");
 
-    public static final AgentV1SettingsAgentContextMessagesItemContentRole ASSISTANT =
-            new AgentV1SettingsAgentContextMessagesItemContentRole(Value.ASSISTANT, "assistant");
+    public static final AgentV1SettingsAgentContextContextMessagesItemContentRole ASSISTANT =
+            new AgentV1SettingsAgentContextContextMessagesItemContentRole(Value.ASSISTANT, "assistant");
 
     private final Value value;
 
     private final String string;
 
-    AgentV1SettingsAgentContextMessagesItemContentRole(Value value, String string) {
+    AgentV1SettingsAgentContextContextMessagesItemContentRole(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -35,8 +35,9 @@ public final class AgentV1SettingsAgentContextMessagesItemContentRole {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof AgentV1SettingsAgentContextMessagesItemContentRole
-                        && this.string.equals(((AgentV1SettingsAgentContextMessagesItemContentRole) other).string));
+                || (other instanceof AgentV1SettingsAgentContextContextMessagesItemContentRole
+                        && this.string.equals(
+                                ((AgentV1SettingsAgentContextContextMessagesItemContentRole) other).string));
     }
 
     @java.lang.Override
@@ -57,14 +58,14 @@ public final class AgentV1SettingsAgentContextMessagesItemContentRole {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static AgentV1SettingsAgentContextMessagesItemContentRole valueOf(String value) {
+    public static AgentV1SettingsAgentContextContextMessagesItemContentRole valueOf(String value) {
         switch (value) {
             case "user":
                 return USER;
             case "assistant":
                 return ASSISTANT;
             default:
-                return new AgentV1SettingsAgentContextMessagesItemContentRole(Value.UNKNOWN, value);
+                return new AgentV1SettingsAgentContextContextMessagesItemContentRole(Value.UNKNOWN, value);
         }
     }
 

@@ -11,10 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -26,6 +29,8 @@ public final class ListenV2ConfigureSuccess {
 
     private final ListenV2Keyterm keyterms;
 
+    private final Optional<List<String>> languageHints;
+
     private final int sequenceId;
 
     private final Map<String, Object> additionalProperties;
@@ -34,11 +39,13 @@ public final class ListenV2ConfigureSuccess {
             String requestId,
             ListenV2ConfigureSuccessThresholds thresholds,
             ListenV2Keyterm keyterms,
+            Optional<List<String>> languageHints,
             int sequenceId,
             Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.thresholds = thresholds;
         this.keyterms = keyterms;
+        this.languageHints = languageHints;
         this.sequenceId = sequenceId;
         this.additionalProperties = additionalProperties;
     }
@@ -74,6 +81,14 @@ public final class ListenV2ConfigureSuccess {
     }
 
     /**
+     * @return The currently active language hints. Only applicable to the flux-general-multi model.
+     */
+    @JsonProperty("language_hints")
+    public Optional<List<String>> getLanguageHints() {
+        return languageHints;
+    }
+
+    /**
      * @return Starts at <code>0</code> and increments for each message the server sends
      * to the client.  This includes messages of other types, like
      * <code>TurnInfo</code> messages.
@@ -98,12 +113,13 @@ public final class ListenV2ConfigureSuccess {
         return requestId.equals(other.requestId)
                 && thresholds.equals(other.thresholds)
                 && keyterms.equals(other.keyterms)
+                && languageHints.equals(other.languageHints)
                 && sequenceId == other.sequenceId;
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.requestId, this.thresholds, this.keyterms, this.sequenceId);
+        return Objects.hash(this.requestId, this.thresholds, this.keyterms, this.languageHints, this.sequenceId);
     }
 
     @java.lang.Override
@@ -151,6 +167,13 @@ public final class ListenV2ConfigureSuccess {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>The currently active language hints. Only applicable to the flux-general-multi model.</p>
+         */
+        _FinalStage languageHints(Optional<List<String>> languageHints);
+
+        _FinalStage languageHints(List<String> languageHints);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -164,6 +187,8 @@ public final class ListenV2ConfigureSuccess {
 
         private int sequenceId;
 
+        private Optional<List<String>> languageHints = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -174,6 +199,7 @@ public final class ListenV2ConfigureSuccess {
             requestId(other.getRequestId());
             thresholds(other.getThresholds());
             keyterms(other.getKeyterms());
+            languageHints(other.getLanguageHints());
             sequenceId(other.getSequenceId());
             return this;
         }
@@ -227,9 +253,30 @@ public final class ListenV2ConfigureSuccess {
             return this;
         }
 
+        /**
+         * <p>The currently active language hints. Only applicable to the flux-general-multi model.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languageHints(List<String> languageHints) {
+            this.languageHints = Optional.ofNullable(languageHints);
+            return this;
+        }
+
+        /**
+         * <p>The currently active language hints. Only applicable to the flux-general-multi model.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "language_hints", nulls = Nulls.SKIP)
+        public _FinalStage languageHints(Optional<List<String>> languageHints) {
+            this.languageHints = languageHints;
+            return this;
+        }
+
         @java.lang.Override
         public ListenV2ConfigureSuccess build() {
-            return new ListenV2ConfigureSuccess(requestId, thresholds, keyterms, sequenceId, additionalProperties);
+            return new ListenV2ConfigureSuccess(
+                    requestId, thresholds, keyterms, languageHints, sequenceId, additionalProperties);
         }
 
         @java.lang.Override

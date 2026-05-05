@@ -27,16 +27,20 @@ public final class OpenAiThinkProvider {
 
     private final Optional<Double> temperature;
 
+    private final Optional<OpenAiThinkProviderReasoningMode> reasoningMode;
+
     private final Map<String, Object> additionalProperties;
 
     private OpenAiThinkProvider(
             Optional<String> version,
             OpenAiThinkProviderModel model,
             Optional<Double> temperature,
+            Optional<OpenAiThinkProviderReasoningMode> reasoningMode,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.model = model;
         this.temperature = temperature;
+        this.reasoningMode = reasoningMode;
         this.additionalProperties = additionalProperties;
     }
 
@@ -69,6 +73,14 @@ public final class OpenAiThinkProvider {
         return temperature;
     }
 
+    /**
+     * @return OpenAI reasoning_effort
+     */
+    @JsonProperty("reasoning_mode")
+    public Optional<OpenAiThinkProviderReasoningMode> getReasoningMode() {
+        return reasoningMode;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -81,12 +93,15 @@ public final class OpenAiThinkProvider {
     }
 
     private boolean equalTo(OpenAiThinkProvider other) {
-        return version.equals(other.version) && model.equals(other.model) && temperature.equals(other.temperature);
+        return version.equals(other.version)
+                && model.equals(other.model)
+                && temperature.equals(other.temperature)
+                && reasoningMode.equals(other.reasoningMode);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model, this.temperature);
+        return Objects.hash(this.version, this.model, this.temperature, this.reasoningMode);
     }
 
     @java.lang.Override
@@ -127,11 +142,20 @@ public final class OpenAiThinkProvider {
         _FinalStage temperature(Optional<Double> temperature);
 
         _FinalStage temperature(Double temperature);
+
+        /**
+         * <p>OpenAI reasoning_effort</p>
+         */
+        _FinalStage reasoningMode(Optional<OpenAiThinkProviderReasoningMode> reasoningMode);
+
+        _FinalStage reasoningMode(OpenAiThinkProviderReasoningMode reasoningMode);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
         private OpenAiThinkProviderModel model;
+
+        private Optional<OpenAiThinkProviderReasoningMode> reasoningMode = Optional.empty();
 
         private Optional<Double> temperature = Optional.empty();
 
@@ -147,6 +171,7 @@ public final class OpenAiThinkProvider {
             version(other.getVersion());
             model(other.getModel());
             temperature(other.getTemperature());
+            reasoningMode(other.getReasoningMode());
             return this;
         }
 
@@ -159,6 +184,26 @@ public final class OpenAiThinkProvider {
         @JsonSetter("model")
         public _FinalStage model(@NotNull OpenAiThinkProviderModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
+            return this;
+        }
+
+        /**
+         * <p>OpenAI reasoning_effort</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage reasoningMode(OpenAiThinkProviderReasoningMode reasoningMode) {
+            this.reasoningMode = Optional.ofNullable(reasoningMode);
+            return this;
+        }
+
+        /**
+         * <p>OpenAI reasoning_effort</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "reasoning_mode", nulls = Nulls.SKIP)
+        public _FinalStage reasoningMode(Optional<OpenAiThinkProviderReasoningMode> reasoningMode) {
+            this.reasoningMode = reasoningMode;
             return this;
         }
 
@@ -204,7 +249,7 @@ public final class OpenAiThinkProvider {
 
         @java.lang.Override
         public OpenAiThinkProvider build() {
-            return new OpenAiThinkProvider(version, model, temperature, additionalProperties);
+            return new OpenAiThinkProvider(version, model, temperature, reasoningMode, additionalProperties);
         }
 
         @java.lang.Override

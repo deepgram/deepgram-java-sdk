@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,23 +20,74 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = AgentV1SettingsAgentContext.Builder.class)
 public final class AgentV1SettingsAgentContext {
-    private final Optional<List<AgentV1SettingsAgentContextMessagesItem>> messages;
+    private final Optional<String> language;
+
+    private final Optional<AgentV1SettingsAgentContextContext> context;
+
+    private final Optional<AgentV1SettingsAgentContextListen> listen;
+
+    private final Optional<AgentV1SettingsAgentContextThink> think;
+
+    private final Optional<AgentV1SettingsAgentContextSpeak> speak;
+
+    private final Optional<String> greeting;
 
     private final Map<String, Object> additionalProperties;
 
     private AgentV1SettingsAgentContext(
-            Optional<List<AgentV1SettingsAgentContextMessagesItem>> messages,
+            Optional<String> language,
+            Optional<AgentV1SettingsAgentContextContext> context,
+            Optional<AgentV1SettingsAgentContextListen> listen,
+            Optional<AgentV1SettingsAgentContextThink> think,
+            Optional<AgentV1SettingsAgentContextSpeak> speak,
+            Optional<String> greeting,
             Map<String, Object> additionalProperties) {
-        this.messages = messages;
+        this.language = language;
+        this.context = context;
+        this.listen = listen;
+        this.think = think;
+        this.speak = speak;
+        this.greeting = greeting;
         this.additionalProperties = additionalProperties;
     }
 
     /**
-     * @return Conversation history as a list of messages and function calls
+     * @return Deprecated. Use <code>listen.provider.language</code> and <code>speak.provider.language</code> fields instead.
      */
-    @JsonProperty("messages")
-    public Optional<List<AgentV1SettingsAgentContextMessagesItem>> getMessages() {
-        return messages;
+    @JsonProperty("language")
+    public Optional<String> getLanguage() {
+        return language;
+    }
+
+    /**
+     * @return Conversation context including the history of messages and function calls
+     */
+    @JsonProperty("context")
+    public Optional<AgentV1SettingsAgentContextContext> getContext() {
+        return context;
+    }
+
+    @JsonProperty("listen")
+    public Optional<AgentV1SettingsAgentContextListen> getListen() {
+        return listen;
+    }
+
+    @JsonProperty("think")
+    public Optional<AgentV1SettingsAgentContextThink> getThink() {
+        return think;
+    }
+
+    @JsonProperty("speak")
+    public Optional<AgentV1SettingsAgentContextSpeak> getSpeak() {
+        return speak;
+    }
+
+    /**
+     * @return Optional message that agent will speak at the start
+     */
+    @JsonProperty("greeting")
+    public Optional<String> getGreeting() {
+        return greeting;
     }
 
     @java.lang.Override
@@ -52,12 +102,17 @@ public final class AgentV1SettingsAgentContext {
     }
 
     private boolean equalTo(AgentV1SettingsAgentContext other) {
-        return messages.equals(other.messages);
+        return language.equals(other.language)
+                && context.equals(other.context)
+                && listen.equals(other.listen)
+                && think.equals(other.think)
+                && speak.equals(other.speak)
+                && greeting.equals(other.greeting);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.messages);
+        return Objects.hash(this.language, this.context, this.listen, this.think, this.speak, this.greeting);
     }
 
     @java.lang.Override
@@ -71,7 +126,17 @@ public final class AgentV1SettingsAgentContext {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
-        private Optional<List<AgentV1SettingsAgentContextMessagesItem>> messages = Optional.empty();
+        private Optional<String> language = Optional.empty();
+
+        private Optional<AgentV1SettingsAgentContextContext> context = Optional.empty();
+
+        private Optional<AgentV1SettingsAgentContextListen> listen = Optional.empty();
+
+        private Optional<AgentV1SettingsAgentContextThink> think = Optional.empty();
+
+        private Optional<AgentV1SettingsAgentContextSpeak> speak = Optional.empty();
+
+        private Optional<String> greeting = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -79,26 +144,93 @@ public final class AgentV1SettingsAgentContext {
         private Builder() {}
 
         public Builder from(AgentV1SettingsAgentContext other) {
-            messages(other.getMessages());
+            language(other.getLanguage());
+            context(other.getContext());
+            listen(other.getListen());
+            think(other.getThink());
+            speak(other.getSpeak());
+            greeting(other.getGreeting());
             return this;
         }
 
         /**
-         * <p>Conversation history as a list of messages and function calls</p>
+         * <p>Deprecated. Use <code>listen.provider.language</code> and <code>speak.provider.language</code> fields instead.</p>
          */
-        @JsonSetter(value = "messages", nulls = Nulls.SKIP)
-        public Builder messages(Optional<List<AgentV1SettingsAgentContextMessagesItem>> messages) {
-            this.messages = messages;
+        @JsonSetter(value = "language", nulls = Nulls.SKIP)
+        public Builder language(Optional<String> language) {
+            this.language = language;
             return this;
         }
 
-        public Builder messages(List<AgentV1SettingsAgentContextMessagesItem> messages) {
-            this.messages = Optional.ofNullable(messages);
+        public Builder language(String language) {
+            this.language = Optional.ofNullable(language);
+            return this;
+        }
+
+        /**
+         * <p>Conversation context including the history of messages and function calls</p>
+         */
+        @JsonSetter(value = "context", nulls = Nulls.SKIP)
+        public Builder context(Optional<AgentV1SettingsAgentContextContext> context) {
+            this.context = context;
+            return this;
+        }
+
+        public Builder context(AgentV1SettingsAgentContextContext context) {
+            this.context = Optional.ofNullable(context);
+            return this;
+        }
+
+        @JsonSetter(value = "listen", nulls = Nulls.SKIP)
+        public Builder listen(Optional<AgentV1SettingsAgentContextListen> listen) {
+            this.listen = listen;
+            return this;
+        }
+
+        public Builder listen(AgentV1SettingsAgentContextListen listen) {
+            this.listen = Optional.ofNullable(listen);
+            return this;
+        }
+
+        @JsonSetter(value = "think", nulls = Nulls.SKIP)
+        public Builder think(Optional<AgentV1SettingsAgentContextThink> think) {
+            this.think = think;
+            return this;
+        }
+
+        public Builder think(AgentV1SettingsAgentContextThink think) {
+            this.think = Optional.ofNullable(think);
+            return this;
+        }
+
+        @JsonSetter(value = "speak", nulls = Nulls.SKIP)
+        public Builder speak(Optional<AgentV1SettingsAgentContextSpeak> speak) {
+            this.speak = speak;
+            return this;
+        }
+
+        public Builder speak(AgentV1SettingsAgentContextSpeak speak) {
+            this.speak = Optional.ofNullable(speak);
+            return this;
+        }
+
+        /**
+         * <p>Optional message that agent will speak at the start</p>
+         */
+        @JsonSetter(value = "greeting", nulls = Nulls.SKIP)
+        public Builder greeting(Optional<String> greeting) {
+            this.greeting = greeting;
+            return this;
+        }
+
+        public Builder greeting(String greeting) {
+            this.greeting = Optional.ofNullable(greeting);
             return this;
         }
 
         public AgentV1SettingsAgentContext build() {
-            return new AgentV1SettingsAgentContext(messages, additionalProperties);
+            return new AgentV1SettingsAgentContext(
+                    language, context, listen, think, speak, greeting, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

@@ -10,10 +10,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -23,12 +26,22 @@ public final class AgentV1ConversationText {
 
     private final String content;
 
+    private final Optional<List<String>> languagesHinted;
+
+    private final Optional<List<String>> languages;
+
     private final Map<String, Object> additionalProperties;
 
     private AgentV1ConversationText(
-            AgentV1ConversationTextRole role, String content, Map<String, Object> additionalProperties) {
+            AgentV1ConversationTextRole role,
+            String content,
+            Optional<List<String>> languagesHinted,
+            Optional<List<String>> languages,
+            Map<String, Object> additionalProperties) {
         this.role = role;
         this.content = content;
+        this.languagesHinted = languagesHinted;
+        this.languages = languages;
         this.additionalProperties = additionalProperties;
     }
 
@@ -56,6 +69,22 @@ public final class AgentV1ConversationText {
         return content;
     }
 
+    /**
+     * @return The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.
+     */
+    @JsonProperty("languages_hinted")
+    public Optional<List<String>> getLanguagesHinted() {
+        return languagesHinted;
+    }
+
+    /**
+     * @return Languages detected in the user's speech, sorted by word count (descending). Only present on user-role messages when the listen model is flux-general-multi.
+     */
+    @JsonProperty("languages")
+    public Optional<List<String>> getLanguages() {
+        return languages;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -68,12 +97,15 @@ public final class AgentV1ConversationText {
     }
 
     private boolean equalTo(AgentV1ConversationText other) {
-        return role.equals(other.role) && content.equals(other.content);
+        return role.equals(other.role)
+                && content.equals(other.content)
+                && languagesHinted.equals(other.languagesHinted)
+                && languages.equals(other.languages);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.role, this.content);
+        return Objects.hash(this.role, this.content, this.languagesHinted, this.languages);
     }
 
     @java.lang.Override
@@ -107,6 +139,20 @@ public final class AgentV1ConversationText {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
+         */
+        _FinalStage languagesHinted(Optional<List<String>> languagesHinted);
+
+        _FinalStage languagesHinted(List<String> languagesHinted);
+
+        /**
+         * <p>Languages detected in the user's speech, sorted by word count (descending). Only present on user-role messages when the listen model is flux-general-multi.</p>
+         */
+        _FinalStage languages(Optional<List<String>> languages);
+
+        _FinalStage languages(List<String> languages);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -114,6 +160,10 @@ public final class AgentV1ConversationText {
         private AgentV1ConversationTextRole role;
 
         private String content;
+
+        private Optional<List<String>> languages = Optional.empty();
+
+        private Optional<List<String>> languagesHinted = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -124,6 +174,8 @@ public final class AgentV1ConversationText {
         public Builder from(AgentV1ConversationText other) {
             role(other.getRole());
             content(other.getContent());
+            languagesHinted(other.getLanguagesHinted());
+            languages(other.getLanguages());
             return this;
         }
 
@@ -151,9 +203,49 @@ public final class AgentV1ConversationText {
             return this;
         }
 
+        /**
+         * <p>Languages detected in the user's speech, sorted by word count (descending). Only present on user-role messages when the listen model is flux-general-multi.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languages(List<String> languages) {
+            this.languages = Optional.ofNullable(languages);
+            return this;
+        }
+
+        /**
+         * <p>Languages detected in the user's speech, sorted by word count (descending). Only present on user-role messages when the listen model is flux-general-multi.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "languages", nulls = Nulls.SKIP)
+        public _FinalStage languages(Optional<List<String>> languages) {
+            this.languages = languages;
+            return this;
+        }
+
+        /**
+         * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languagesHinted(List<String> languagesHinted) {
+            this.languagesHinted = Optional.ofNullable(languagesHinted);
+            return this;
+        }
+
+        /**
+         * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "languages_hinted", nulls = Nulls.SKIP)
+        public _FinalStage languagesHinted(Optional<List<String>> languagesHinted) {
+            this.languagesHinted = languagesHinted;
+            return this;
+        }
+
         @java.lang.Override
         public AgentV1ConversationText build() {
-            return new AgentV1ConversationText(role, content, additionalProperties);
+            return new AgentV1ConversationText(role, content, languagesHinted, languages, additionalProperties);
         }
 
         @java.lang.Override

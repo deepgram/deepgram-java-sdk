@@ -7,11 +7,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class AgentV1SettingsAudioOutputEncoding {
+    public static final AgentV1SettingsAudioOutputEncoding AAC =
+            new AgentV1SettingsAudioOutputEncoding(Value.AAC, "aac");
+
     public static final AgentV1SettingsAudioOutputEncoding MULAW =
             new AgentV1SettingsAudioOutputEncoding(Value.MULAW, "mulaw");
 
+    public static final AgentV1SettingsAudioOutputEncoding MP3 =
+            new AgentV1SettingsAudioOutputEncoding(Value.MP3, "mp3");
+
+    public static final AgentV1SettingsAudioOutputEncoding FLAC =
+            new AgentV1SettingsAudioOutputEncoding(Value.FLAC, "flac");
+
     public static final AgentV1SettingsAudioOutputEncoding LINEAR16 =
             new AgentV1SettingsAudioOutputEncoding(Value.LINEAR16, "linear16");
+
+    public static final AgentV1SettingsAudioOutputEncoding OPUS =
+            new AgentV1SettingsAudioOutputEncoding(Value.OPUS, "opus");
 
     public static final AgentV1SettingsAudioOutputEncoding ALAW =
             new AgentV1SettingsAudioOutputEncoding(Value.ALAW, "alaw");
@@ -49,10 +61,18 @@ public final class AgentV1SettingsAudioOutputEncoding {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
+            case AAC:
+                return visitor.visitAac();
             case MULAW:
                 return visitor.visitMulaw();
+            case MP3:
+                return visitor.visitMp3();
+            case FLAC:
+                return visitor.visitFlac();
             case LINEAR16:
                 return visitor.visitLinear16();
+            case OPUS:
+                return visitor.visitOpus();
             case ALAW:
                 return visitor.visitAlaw();
             case UNKNOWN:
@@ -64,10 +84,18 @@ public final class AgentV1SettingsAudioOutputEncoding {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static AgentV1SettingsAudioOutputEncoding valueOf(String value) {
         switch (value) {
+            case "aac":
+                return AAC;
             case "mulaw":
                 return MULAW;
+            case "mp3":
+                return MP3;
+            case "flac":
+                return FLAC;
             case "linear16":
                 return LINEAR16;
+            case "opus":
+                return OPUS;
             case "alaw":
                 return ALAW;
             default:
@@ -82,6 +110,14 @@ public final class AgentV1SettingsAudioOutputEncoding {
 
         ALAW,
 
+        MP3,
+
+        OPUS,
+
+        FLAC,
+
+        AAC,
+
         UNKNOWN
     }
 
@@ -91,6 +127,14 @@ public final class AgentV1SettingsAudioOutputEncoding {
         T visitMulaw();
 
         T visitAlaw();
+
+        T visitMp3();
+
+        T visitOpus();
+
+        T visitFlac();
+
+        T visitAac();
 
         T visitUnknown(String unknownType);
     }

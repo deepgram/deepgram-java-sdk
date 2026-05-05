@@ -7,19 +7,21 @@ import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
-@JsonDeserialize(using = AgentV1SettingsAgent.Deserializer.class)
-public final class AgentV1SettingsAgent {
+@JsonDeserialize(using = AgentV1SettingsAgentContextListenProviderV2LanguageHint.Deserializer.class)
+public final class AgentV1SettingsAgentContextListenProviderV2LanguageHint {
     private final Object value;
 
     private final int type;
 
-    private AgentV1SettingsAgent(Object value, int type) {
+    private AgentV1SettingsAgentContextListenProviderV2LanguageHint(Object value, int type) {
         this.value = value;
         this.type = type;
     }
@@ -32,9 +34,9 @@ public final class AgentV1SettingsAgent {
     @SuppressWarnings("unchecked")
     public <T> T visit(Visitor<T> visitor) {
         if (this.type == 0) {
-            return visitor.visit((AgentV1SettingsAgentContext) this.value);
-        } else if (this.type == 1) {
             return visitor.visit((String) this.value);
+        } else if (this.type == 1) {
+            return visitor.visit((List<String>) this.value);
         }
         throw new IllegalStateException("Failed to visit value. This should never happen.");
     }
@@ -42,10 +44,11 @@ public final class AgentV1SettingsAgent {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1SettingsAgent && equalTo((AgentV1SettingsAgent) other);
+        return other instanceof AgentV1SettingsAgentContextListenProviderV2LanguageHint
+                && equalTo((AgentV1SettingsAgentContextListenProviderV2LanguageHint) other);
     }
 
-    private boolean equalTo(AgentV1SettingsAgent other) {
+    private boolean equalTo(AgentV1SettingsAgentContextListenProviderV2LanguageHint other) {
         return value.equals(other.value);
     }
 
@@ -59,34 +62,35 @@ public final class AgentV1SettingsAgent {
         return this.value.toString();
     }
 
-    public static AgentV1SettingsAgent of(AgentV1SettingsAgentContext value) {
-        return new AgentV1SettingsAgent(value, 0);
+    public static AgentV1SettingsAgentContextListenProviderV2LanguageHint of(String value) {
+        return new AgentV1SettingsAgentContextListenProviderV2LanguageHint(value, 0);
     }
 
-    public static AgentV1SettingsAgent of(String value) {
-        return new AgentV1SettingsAgent(value, 1);
+    public static AgentV1SettingsAgentContextListenProviderV2LanguageHint of(List<String> value) {
+        return new AgentV1SettingsAgentContextListenProviderV2LanguageHint(value, 1);
     }
 
     public interface Visitor<T> {
-        T visit(AgentV1SettingsAgentContext value);
-
         T visit(String value);
+
+        T visit(List<String> value);
     }
 
-    static final class Deserializer extends StdDeserializer<AgentV1SettingsAgent> {
+    static final class Deserializer extends StdDeserializer<AgentV1SettingsAgentContextListenProviderV2LanguageHint> {
         Deserializer() {
-            super(AgentV1SettingsAgent.class);
+            super(AgentV1SettingsAgentContextListenProviderV2LanguageHint.class);
         }
 
         @java.lang.Override
-        public AgentV1SettingsAgent deserialize(JsonParser p, DeserializationContext context) throws IOException {
+        public AgentV1SettingsAgentContextListenProviderV2LanguageHint deserialize(
+                JsonParser p, DeserializationContext context) throws IOException {
             Object value = p.readValueAs(Object.class);
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, AgentV1SettingsAgentContext.class));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, String.class));
             } catch (RuntimeException e) {
             }
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, String.class));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, new TypeReference<List<String>>() {}));
             } catch (RuntimeException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");

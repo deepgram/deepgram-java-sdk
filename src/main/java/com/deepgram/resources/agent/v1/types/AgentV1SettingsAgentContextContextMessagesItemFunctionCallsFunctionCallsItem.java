@@ -19,8 +19,8 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem.Builder.class)
-public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem {
+@JsonDeserialize(builder = AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem.Builder.class)
+public final class AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem {
     private final String id;
 
     private final String name;
@@ -35,7 +35,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionC
 
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem(
+    private AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem(
             String id,
             String name,
             boolean clientSide,
@@ -103,8 +103,8 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionC
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem
-                && equalTo((AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem) other);
+        return other instanceof AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem
+                && equalTo((AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem) other);
     }
 
     @JsonAnyGetter
@@ -112,7 +112,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionC
         return this.additionalProperties;
     }
 
-    private boolean equalTo(AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem other) {
+    private boolean equalTo(AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem other) {
         return id.equals(other.id)
                 && name.equals(other.name)
                 && clientSide == other.clientSide
@@ -141,7 +141,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionC
          */
         NameStage id(@NotNull String id);
 
-        Builder from(AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem other);
+        Builder from(AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem other);
     }
 
     public interface NameStage {
@@ -173,7 +173,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionC
     }
 
     public interface _FinalStage {
-        AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem build();
+        AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem build();
 
         _FinalStage additionalProperty(String key, Object value);
 
@@ -208,7 +208,7 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionC
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem other) {
+        public Builder from(AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem other) {
             id(other.getId());
             name(other.getName());
             clientSide(other.getClientSide());
@@ -299,8 +299,8 @@ public final class AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionC
         }
 
         @java.lang.Override
-        public AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem build() {
-            return new AgentV1SettingsAgentContextMessagesItemFunctionCallsFunctionCallsItem(
+        public AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem build() {
+            return new AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem(
                     id, name, clientSide, arguments, response, thoughtSignature, additionalProperties);
         }
 
