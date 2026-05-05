@@ -70,5 +70,5 @@ The `.bak` files are our manually patched versions protected by `.fernignore`. T
 3. In `.fernignore`, replace each `.bak` path back to the original path for files that still need patches.
 4. Remove `.fernignore` entries entirely for any files where the generator now produces correct output.
 5. Delete all `.bak` files once review is complete.
-6. Run checks (`./gradlew test`) to verify.
+6. Run checks (`./gradlew test compileExamples`) to verify. `test` covers unit/wire tests including the README snippet compilation; `compileExamples` separately compiles the hand-maintained `examples/` directory and catches stale API call sites that `test` alone would miss.
 7. Commit as `chore: re-apply manual patches after regen` and push.

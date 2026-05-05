@@ -1,8 +1,9 @@
 import com.deepgram.DeepgramClient;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeak;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.Anthropic;
@@ -65,18 +66,19 @@ public class CustomProviders {
                             .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
                             .build();
 
-                    AgentV1SettingsAgentSpeak speakSettings = AgentV1SettingsAgentSpeak.of(SpeakSettingsV1.builder()
-                            .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeakProvider))
-                            .build());
+                    AgentV1SettingsAgentContextSpeak speakSettings =
+                            AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
+                                    .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeakProvider))
+                                    .build());
 
-                    AgentV1SettingsAgent agentConfig = AgentV1SettingsAgent.builder()
-                            .think(AgentV1SettingsAgentThink.of(ThinkSettingsV1.builder()
+                    AgentV1SettingsAgent agentConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
+                            .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
                                     .provider(ThinkSettingsV1Provider.anthropic(anthropicProvider))
                                     .prompt("You are a helpful assistant. Keep responses concise.")
                                     .build()))
                             .speak(speakSettings)
                             .greeting("Hello! I'm powered by Anthropic Claude with Deepgram voices.")
-                            .build();
+                            .build());
 
                     AgentV1Settings settings = AgentV1Settings.builder()
                             .audio(AgentV1SettingsAudio.builder().build())
