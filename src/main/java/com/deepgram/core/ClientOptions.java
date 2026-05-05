@@ -41,10 +41,10 @@ public final class ClientOptions {
         this.headers.putAll(headers);
         this.headers.putAll(new HashMap<String, String>() {
             {
-                put("User-Agent", "com.deepgram:deepgram-sdk/0.3.1");
+                put("User-Agent", "com.deepgram:deepgram-java-sdk/0.3.0"); // x-release-please-version
                 put("X-Fern-Language", "JAVA");
-                put("X-Fern-SDK-Name", "com.deepgram.fern:api-sdk");
-                put("X-Fern-SDK-Version", "0.3.1");
+                put("X-Fern-SDK-Name", "com.deepgram:deepgram-java-sdk");
+                put("X-Fern-SDK-Version", "0.3.0"); // x-release-please-version
             }
         });
         this.headerSuppliers = headerSuppliers;
