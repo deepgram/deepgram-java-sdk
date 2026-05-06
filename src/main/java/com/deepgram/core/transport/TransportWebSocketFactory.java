@@ -1,5 +1,6 @@
 package com.deepgram.core.transport;
 
+import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.WebSocketFactory;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,6 +32,13 @@ public class TransportWebSocketFactory implements WebSocketFactory {
 
     @Override
     public WebSocket create(Request request, WebSocketListener listener) {
+        // Apply the plugin-declared reconnect policy to the SDK's wrapping listener. Plugins that
+        // own their own retry/backoff (SageMaker) return maxRetries(0) here so the wrapper-level
+        // reconnect doesn't compound their internal retries into a storm.
+        if (listener instanceof ReconnectingWebSocketListener) {
+            ((ReconnectingWebSocketListener) listener).applyOptionsOverride(transportFactory.reconnectOptions());
+        }
+
         String url = request.url().toString();
         // Restore wss:// scheme — OkHttp's HttpUrl normalizes to https://
         if (url.startsWith("https://")) {
