@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.4.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.3.0...v0.4.0) (2026-05-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* sdk regeneration 2026-05-05 ([#49](https://github.com/deepgram/deepgram-java-sdk/issues/49))
+* sdk regeneration 2026-04-29 ([#47](https://github.com/deepgram/deepgram-java-sdk/issues/47))
+
+### Features
+
+* sdk regeneration 2026-04-29 ([#47](https://github.com/deepgram/deepgram-java-sdk/issues/47)) ([0519ad3](https://github.com/deepgram/deepgram-java-sdk/commit/0519ad3eb148d696bb33a251cba27ce23df47fcd))
+* sdk regeneration 2026-05-05 ([#49](https://github.com/deepgram/deepgram-java-sdk/issues/49)) ([f44678a](https://github.com/deepgram/deepgram-java-sdk/commit/f44678a8ad81e013a1f0aae8cb82d4edceeab658))
+
+
+### Bug Fixes
+
+* **reconnect:** listener bug fixes + transport factory policy hook ([#45](https://github.com/deepgram/deepgram-java-sdk/issues/45)) ([eac8ad2](https://github.com/deepgram/deepgram-java-sdk/commit/eac8ad27c93bd74e317efa229e6e4b105da8f335))
+
 ## [0.3.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.2.1...v0.3.0) (2026-04-27)
 
 
