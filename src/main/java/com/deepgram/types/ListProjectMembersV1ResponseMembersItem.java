@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,14 +23,28 @@ import java.util.Optional;
 public final class ListProjectMembersV1ResponseMembersItem {
     private final Optional<String> memberId;
 
+    private final Optional<List<String>> scopes;
+
     private final Optional<String> email;
+
+    private final Optional<String> firstName;
+
+    private final Optional<String> lastName;
 
     private final Map<String, Object> additionalProperties;
 
     private ListProjectMembersV1ResponseMembersItem(
-            Optional<String> memberId, Optional<String> email, Map<String, Object> additionalProperties) {
+            Optional<String> memberId,
+            Optional<List<String>> scopes,
+            Optional<String> email,
+            Optional<String> firstName,
+            Optional<String> lastName,
+            Map<String, Object> additionalProperties) {
         this.memberId = memberId;
+        this.scopes = scopes;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.additionalProperties = additionalProperties;
     }
 
@@ -41,9 +56,27 @@ public final class ListProjectMembersV1ResponseMembersItem {
         return memberId;
     }
 
+    /**
+     * @return The API scopes of the member
+     */
+    @JsonProperty("scopes")
+    public Optional<List<String>> getScopes() {
+        return scopes;
+    }
+
     @JsonProperty("email")
     public Optional<String> getEmail() {
         return email;
+    }
+
+    @JsonProperty("first_name")
+    public Optional<String> getFirstName() {
+        return firstName;
+    }
+
+    @JsonProperty("last_name")
+    public Optional<String> getLastName() {
+        return lastName;
     }
 
     @java.lang.Override
@@ -59,12 +92,16 @@ public final class ListProjectMembersV1ResponseMembersItem {
     }
 
     private boolean equalTo(ListProjectMembersV1ResponseMembersItem other) {
-        return memberId.equals(other.memberId) && email.equals(other.email);
+        return memberId.equals(other.memberId)
+                && scopes.equals(other.scopes)
+                && email.equals(other.email)
+                && firstName.equals(other.firstName)
+                && lastName.equals(other.lastName);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.memberId, this.email);
+        return Objects.hash(this.memberId, this.scopes, this.email, this.firstName, this.lastName);
     }
 
     @java.lang.Override
@@ -80,7 +117,13 @@ public final class ListProjectMembersV1ResponseMembersItem {
     public static final class Builder {
         private Optional<String> memberId = Optional.empty();
 
+        private Optional<List<String>> scopes = Optional.empty();
+
         private Optional<String> email = Optional.empty();
+
+        private Optional<String> firstName = Optional.empty();
+
+        private Optional<String> lastName = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -89,7 +132,10 @@ public final class ListProjectMembersV1ResponseMembersItem {
 
         public Builder from(ListProjectMembersV1ResponseMembersItem other) {
             memberId(other.getMemberId());
+            scopes(other.getScopes());
             email(other.getEmail());
+            firstName(other.getFirstName());
+            lastName(other.getLastName());
             return this;
         }
 
@@ -107,6 +153,20 @@ public final class ListProjectMembersV1ResponseMembersItem {
             return this;
         }
 
+        /**
+         * <p>The API scopes of the member</p>
+         */
+        @JsonSetter(value = "scopes", nulls = Nulls.SKIP)
+        public Builder scopes(Optional<List<String>> scopes) {
+            this.scopes = scopes;
+            return this;
+        }
+
+        public Builder scopes(List<String> scopes) {
+            this.scopes = Optional.ofNullable(scopes);
+            return this;
+        }
+
         @JsonSetter(value = "email", nulls = Nulls.SKIP)
         public Builder email(Optional<String> email) {
             this.email = email;
@@ -118,8 +178,31 @@ public final class ListProjectMembersV1ResponseMembersItem {
             return this;
         }
 
+        @JsonSetter(value = "first_name", nulls = Nulls.SKIP)
+        public Builder firstName(Optional<String> firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = Optional.ofNullable(firstName);
+            return this;
+        }
+
+        @JsonSetter(value = "last_name", nulls = Nulls.SKIP)
+        public Builder lastName(Optional<String> lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = Optional.ofNullable(lastName);
+            return this;
+        }
+
         public ListProjectMembersV1ResponseMembersItem build() {
-            return new ListProjectMembersV1ResponseMembersItem(memberId, email, additionalProperties);
+            return new ListProjectMembersV1ResponseMembersItem(
+                    memberId, scopes, email, firstName, lastName, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

@@ -1,6 +1,7 @@
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentSpeak;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
 import com.deepgram.types.Anthropic;
 import com.deepgram.types.AnthropicThinkProviderModel;
 import com.deepgram.types.Deepgram;
@@ -30,7 +31,7 @@ public class ProviderCombinations {
         Deepgram deepgramSpeak = Deepgram.builder()
                 .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
                 .build();
-        AgentV1SettingsAgentSpeak speakSettings = AgentV1SettingsAgentSpeak.of(SpeakSettingsV1.builder()
+        AgentV1SettingsAgentContextSpeak speakSettings = AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
                 .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeak))
                 .build());
 
@@ -40,14 +41,14 @@ public class ProviderCombinations {
                 .model(OpenAiThinkProviderModel.GPT4O_MINI)
                 .build();
 
-        AgentV1SettingsAgent openAiConfig = AgentV1SettingsAgent.builder()
-                .think(AgentV1SettingsAgentThink.of(ThinkSettingsV1.builder()
+        AgentV1SettingsAgent openAiConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
+                .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
                         .provider(ThinkSettingsV1Provider.openAi(openAiProvider))
                         .prompt("You are a helpful assistant powered by OpenAI.")
                         .build()))
                 .speak(speakSettings)
                 .greeting("Hello! I'm powered by OpenAI GPT-4o Mini.")
-                .build();
+                .build());
         System.out.println("  Think: OpenAI GPT-4o Mini");
         System.out.println("  Speak: Deepgram Aura 2 Asteria");
         System.out.println("  Config built successfully.");
@@ -59,14 +60,14 @@ public class ProviderCombinations {
                 .model(AnthropicThinkProviderModel.CLAUDE_SONNET420250514)
                 .build();
 
-        AgentV1SettingsAgent anthropicConfig = AgentV1SettingsAgent.builder()
-                .think(AgentV1SettingsAgentThink.of(ThinkSettingsV1.builder()
+        AgentV1SettingsAgent anthropicConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
+                .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
                         .provider(ThinkSettingsV1Provider.anthropic(anthropicProvider))
                         .prompt("You are a helpful assistant powered by Anthropic Claude.")
                         .build()))
                 .speak(speakSettings)
                 .greeting("Hello! I'm powered by Anthropic Claude.")
-                .build();
+                .build());
         System.out.println("  Think: Anthropic Claude Sonnet 4");
         System.out.println("  Speak: Deepgram Aura 2 Asteria");
         System.out.println("  Config built successfully.");
@@ -77,14 +78,14 @@ public class ProviderCombinations {
         Google googleProvider =
                 Google.builder().model(GoogleThinkProviderModel.GEMINI25FLASH).build();
 
-        AgentV1SettingsAgent googleConfig = AgentV1SettingsAgent.builder()
-                .think(AgentV1SettingsAgentThink.of(ThinkSettingsV1.builder()
+        AgentV1SettingsAgent googleConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
+                .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
                         .provider(ThinkSettingsV1Provider.google(googleProvider))
                         .prompt("You are a helpful assistant powered by Google Gemini.")
                         .build()))
                 .speak(speakSettings)
                 .greeting("Hello! I'm powered by Google Gemini.")
-                .build();
+                .build());
         System.out.println("  Think: Google Gemini 2.5 Flash");
         System.out.println("  Speak: Deepgram Aura 2 Asteria");
         System.out.println("  Config built successfully.");

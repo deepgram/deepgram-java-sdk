@@ -14,13 +14,13 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
-@JsonDeserialize(using = AgentV1SettingsAgentContextMessagesItem.Deserializer.class)
-public final class AgentV1SettingsAgentContextMessagesItem {
+@JsonDeserialize(using = AgentV1SettingsAgentContextContextMessagesItem.Deserializer.class)
+public final class AgentV1SettingsAgentContextContextMessagesItem {
     private final Object value;
 
     private final int type;
 
-    private AgentV1SettingsAgentContextMessagesItem(Object value, int type) {
+    private AgentV1SettingsAgentContextContextMessagesItem(Object value, int type) {
         this.value = value;
         this.type = type;
     }
@@ -43,11 +43,11 @@ public final class AgentV1SettingsAgentContextMessagesItem {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1SettingsAgentContextMessagesItem
-                && equalTo((AgentV1SettingsAgentContextMessagesItem) other);
+        return other instanceof AgentV1SettingsAgentContextContextMessagesItem
+                && equalTo((AgentV1SettingsAgentContextContextMessagesItem) other);
     }
 
-    private boolean equalTo(AgentV1SettingsAgentContextMessagesItem other) {
+    private boolean equalTo(AgentV1SettingsAgentContextContextMessagesItem other) {
         return value.equals(other.value);
     }
 
@@ -61,12 +61,12 @@ public final class AgentV1SettingsAgentContextMessagesItem {
         return this.value.toString();
     }
 
-    public static AgentV1SettingsAgentContextMessagesItem of(ConversationHistoryMessage value) {
-        return new AgentV1SettingsAgentContextMessagesItem(value, 0);
+    public static AgentV1SettingsAgentContextContextMessagesItem of(ConversationHistoryMessage value) {
+        return new AgentV1SettingsAgentContextContextMessagesItem(value, 0);
     }
 
-    public static AgentV1SettingsAgentContextMessagesItem of(FunctionCallHistoryMessage value) {
-        return new AgentV1SettingsAgentContextMessagesItem(value, 1);
+    public static AgentV1SettingsAgentContextContextMessagesItem of(FunctionCallHistoryMessage value) {
+        return new AgentV1SettingsAgentContextContextMessagesItem(value, 1);
     }
 
     public interface Visitor<T> {
@@ -75,13 +75,13 @@ public final class AgentV1SettingsAgentContextMessagesItem {
         T visit(FunctionCallHistoryMessage value);
     }
 
-    static final class Deserializer extends StdDeserializer<AgentV1SettingsAgentContextMessagesItem> {
+    static final class Deserializer extends StdDeserializer<AgentV1SettingsAgentContextContextMessagesItem> {
         Deserializer() {
-            super(AgentV1SettingsAgentContextMessagesItem.class);
+            super(AgentV1SettingsAgentContextContextMessagesItem.class);
         }
 
         @java.lang.Override
-        public AgentV1SettingsAgentContextMessagesItem deserialize(JsonParser p, DeserializationContext context)
+        public AgentV1SettingsAgentContextContextMessagesItem deserialize(JsonParser p, DeserializationContext context)
                 throws IOException {
             Object value = p.readValueAs(Object.class);
             if (value instanceof Map<?, ?>

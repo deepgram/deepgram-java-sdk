@@ -24,11 +24,18 @@ public final class Groq {
 
     private final Optional<Double> temperature;
 
+    private final Optional<GroqThinkProviderReasoningMode> reasoningMode;
+
     private final Map<String, Object> additionalProperties;
 
-    private Groq(Optional<String> version, Optional<Double> temperature, Map<String, Object> additionalProperties) {
+    private Groq(
+            Optional<String> version,
+            Optional<Double> temperature,
+            Optional<GroqThinkProviderReasoningMode> reasoningMode,
+            Map<String, Object> additionalProperties) {
         this.version = version;
         this.temperature = temperature;
+        this.reasoningMode = reasoningMode;
         this.additionalProperties = additionalProperties;
     }
 
@@ -61,6 +68,14 @@ public final class Groq {
         return temperature;
     }
 
+    /**
+     * @return OpenAI reasoning_effort
+     */
+    @JsonProperty("reasoning_mode")
+    public Optional<GroqThinkProviderReasoningMode> getReasoningMode() {
+        return reasoningMode;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -73,12 +88,14 @@ public final class Groq {
     }
 
     private boolean equalTo(Groq other) {
-        return version.equals(other.version) && temperature.equals(other.temperature);
+        return version.equals(other.version)
+                && temperature.equals(other.temperature)
+                && reasoningMode.equals(other.reasoningMode);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.temperature);
+        return Objects.hash(this.version, this.temperature, this.reasoningMode);
     }
 
     @java.lang.Override
@@ -96,6 +113,8 @@ public final class Groq {
 
         private Optional<Double> temperature = Optional.empty();
 
+        private Optional<GroqThinkProviderReasoningMode> reasoningMode = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -104,6 +123,7 @@ public final class Groq {
         public Builder from(Groq other) {
             version(other.getVersion());
             temperature(other.getTemperature());
+            reasoningMode(other.getReasoningMode());
             return this;
         }
 
@@ -135,8 +155,22 @@ public final class Groq {
             return this;
         }
 
+        /**
+         * <p>OpenAI reasoning_effort</p>
+         */
+        @JsonSetter(value = "reasoning_mode", nulls = Nulls.SKIP)
+        public Builder reasoningMode(Optional<GroqThinkProviderReasoningMode> reasoningMode) {
+            this.reasoningMode = reasoningMode;
+            return this;
+        }
+
+        public Builder reasoningMode(GroqThinkProviderReasoningMode reasoningMode) {
+            this.reasoningMode = Optional.ofNullable(reasoningMode);
+            return this;
+        }
+
         public Groq build() {
-            return new Groq(version, temperature, additionalProperties);
+            return new Groq(version, temperature, reasoningMode, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

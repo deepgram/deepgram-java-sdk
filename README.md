@@ -338,7 +338,8 @@ import com.deepgram.DeepgramClient;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.OpenAiThinkProvider;
@@ -357,8 +358,9 @@ agentWs.onWelcome(welcome -> {
 
     agentWs.sendSettings(AgentV1Settings.builder()
         .audio(AgentV1SettingsAudio.builder().build())
-        .agent(AgentV1SettingsAgent.builder()
-                .think(AgentV1SettingsAgentThink.of(
+        .agent(AgentV1SettingsAgent.of(
+            AgentV1SettingsAgentContext.builder()
+                .think(AgentV1SettingsAgentContextThink.of(
                     ThinkSettingsV1.builder()
                         .provider(ThinkSettingsV1Provider.openAi(
                             OpenAiThinkProvider.builder()
@@ -367,7 +369,7 @@ agentWs.onWelcome(welcome -> {
                         .prompt("You are a helpful voice assistant. Keep responses brief.")
                         .build()))
                 .greeting("Hello! How can I help you today?")
-                .build())
+                .build()))
         .build());
 });
 

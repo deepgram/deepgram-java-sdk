@@ -10,10 +10,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -27,6 +30,8 @@ public final class SpeakV1Metadata {
 
     private final String modelUuid;
 
+    private final Optional<List<String>> additionalModelUuids;
+
     private final Map<String, Object> additionalProperties;
 
     private SpeakV1Metadata(
@@ -34,11 +39,13 @@ public final class SpeakV1Metadata {
             String modelName,
             String modelVersion,
             String modelUuid,
+            Optional<List<String>> additionalModelUuids,
             Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.modelName = modelName;
         this.modelVersion = modelVersion;
         this.modelUuid = modelUuid;
+        this.additionalModelUuids = additionalModelUuids;
         this.additionalProperties = additionalProperties;
     }
 
@@ -67,7 +74,7 @@ public final class SpeakV1Metadata {
     }
 
     /**
-     * @return Version of the model being used
+     * @return Version of the primary model being used
      */
     @JsonProperty("model_version")
     public String getModelVersion() {
@@ -75,11 +82,19 @@ public final class SpeakV1Metadata {
     }
 
     /**
-     * @return Unique identifier for the model
+     * @return Unique identifier for the primary model used
      */
     @JsonProperty("model_uuid")
     public String getModelUuid() {
         return modelUuid;
+    }
+
+    /**
+     * @return List of unique identifiers for any additional models used to serve the request
+     */
+    @JsonProperty("additional_model_uuids")
+    public Optional<List<String>> getAdditionalModelUuids() {
+        return additionalModelUuids;
     }
 
     @java.lang.Override
@@ -97,12 +112,14 @@ public final class SpeakV1Metadata {
         return requestId.equals(other.requestId)
                 && modelName.equals(other.modelName)
                 && modelVersion.equals(other.modelVersion)
-                && modelUuid.equals(other.modelUuid);
+                && modelUuid.equals(other.modelUuid)
+                && additionalModelUuids.equals(other.additionalModelUuids);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.requestId, this.modelName, this.modelVersion, this.modelUuid);
+        return Objects.hash(
+                this.requestId, this.modelName, this.modelVersion, this.modelUuid, this.additionalModelUuids);
     }
 
     @java.lang.Override
@@ -132,14 +149,14 @@ public final class SpeakV1Metadata {
 
     public interface ModelVersionStage {
         /**
-         * <p>Version of the model being used</p>
+         * <p>Version of the primary model being used</p>
          */
         ModelUuidStage modelVersion(@NotNull String modelVersion);
     }
 
     public interface ModelUuidStage {
         /**
-         * <p>Unique identifier for the model</p>
+         * <p>Unique identifier for the primary model used</p>
          */
         _FinalStage modelUuid(@NotNull String modelUuid);
     }
@@ -150,6 +167,13 @@ public final class SpeakV1Metadata {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>List of unique identifiers for any additional models used to serve the request</p>
+         */
+        _FinalStage additionalModelUuids(Optional<List<String>> additionalModelUuids);
+
+        _FinalStage additionalModelUuids(List<String> additionalModelUuids);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -163,6 +187,8 @@ public final class SpeakV1Metadata {
 
         private String modelUuid;
 
+        private Optional<List<String>> additionalModelUuids = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -174,6 +200,7 @@ public final class SpeakV1Metadata {
             modelName(other.getModelName());
             modelVersion(other.getModelVersion());
             modelUuid(other.getModelUuid());
+            additionalModelUuids(other.getAdditionalModelUuids());
             return this;
         }
 
@@ -202,8 +229,8 @@ public final class SpeakV1Metadata {
         }
 
         /**
-         * <p>Version of the model being used</p>
-         * <p>Version of the model being used</p>
+         * <p>Version of the primary model being used</p>
+         * <p>Version of the primary model being used</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -214,8 +241,8 @@ public final class SpeakV1Metadata {
         }
 
         /**
-         * <p>Unique identifier for the model</p>
-         * <p>Unique identifier for the model</p>
+         * <p>Unique identifier for the primary model used</p>
+         * <p>Unique identifier for the primary model used</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -225,9 +252,30 @@ public final class SpeakV1Metadata {
             return this;
         }
 
+        /**
+         * <p>List of unique identifiers for any additional models used to serve the request</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage additionalModelUuids(List<String> additionalModelUuids) {
+            this.additionalModelUuids = Optional.ofNullable(additionalModelUuids);
+            return this;
+        }
+
+        /**
+         * <p>List of unique identifiers for any additional models used to serve the request</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "additional_model_uuids", nulls = Nulls.SKIP)
+        public _FinalStage additionalModelUuids(Optional<List<String>> additionalModelUuids) {
+            this.additionalModelUuids = additionalModelUuids;
+            return this;
+        }
+
         @java.lang.Override
         public SpeakV1Metadata build() {
-            return new SpeakV1Metadata(requestId, modelName, modelVersion, modelUuid, additionalProperties);
+            return new SpeakV1Metadata(
+                    requestId, modelName, modelVersion, modelUuid, additionalModelUuids, additionalProperties);
         }
 
         @java.lang.Override

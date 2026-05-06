@@ -3,7 +3,8 @@ import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.OpenAiThinkProvider;
@@ -57,14 +58,14 @@ public class InjectMessage {
 
                     AgentV1Settings settings = AgentV1Settings.builder()
                             .audio(AgentV1SettingsAudio.builder().build())
-                            .agent(AgentV1SettingsAgent.builder()
-                                    .think(AgentV1SettingsAgentThink.of(ThinkSettingsV1.builder()
+                            .agent(AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
+                                    .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
                                             .provider(ThinkSettingsV1Provider.openAi(openAiProvider))
                                             .prompt(
                                                     "You are a helpful voice assistant. Keep responses brief and conversational.")
                                             .build()))
                                     .greeting("Hello! I'm ready to chat.")
-                                    .build())
+                                    .build()))
                             .build();
 
                     wsClient.sendSettings(settings);
