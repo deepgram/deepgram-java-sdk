@@ -19,6 +19,11 @@ src/main/java/com/deepgram/core/ClientOptions.java
 # Transport abstraction (pluggable transport for SageMaker, etc.)
 src/main/java/com/deepgram/core/transport/
 
+# Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
+# configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
+# Pull this back out once the fixes are upstreamed into the Fern generator.
+src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
+
 # Build and project configuration
 build.gradle
 settings.gradle
