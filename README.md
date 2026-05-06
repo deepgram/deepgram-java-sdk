@@ -26,7 +26,7 @@ Add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'com.deepgram:deepgram-java-sdk:0.3.0' // x-release-please-version
+    implementation 'com.deepgram:deepgram-java-sdk:0.4.0' // x-release-please-version
 }
 ```
 
@@ -38,7 +38,7 @@ Add the dependency to your `pom.xml`:
 <dependency>
     <groupId>com.deepgram</groupId>
     <artifactId>deepgram-java-sdk</artifactId>
-    <version>0.3.0</version> <!-- x-release-please-version -->
+    <version>0.4.0</version> <!-- x-release-please-version -->
 </dependency>
 ```
 
@@ -407,7 +407,7 @@ Use the separate [`deepgram-sagemaker`](https://github.com/deepgram/deepgram-jav
 
 ```groovy
 dependencies {
-    implementation 'com.deepgram:deepgram-java-sdk:0.3.0' // x-release-please-version
+    implementation 'com.deepgram:deepgram-java-sdk:0.4.0' // x-release-please-version
     implementation 'com.deepgram:deepgram-sagemaker:0.1.2'
 }
 ```
