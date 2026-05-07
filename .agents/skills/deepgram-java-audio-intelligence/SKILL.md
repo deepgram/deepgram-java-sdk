@@ -7,15 +7,10 @@ description: Use when writing or reviewing Java code in this repo that enables D
 
 Audio intelligence is not a separate client in this SDK. It is the **Listen V1 REST request surface** with additional analysis fields enabled.
 
-## When to use this product
-
-- You have **audio** and want transcript + analysis together.
-- REST is the main path; the Java WebSocket client only exposes the real-time subset.
-
 **Use a different skill when:**
-- You want plain transcription only → `deepgram-java-speech-to-text`.
-- You already have text and only need text analysis → `deepgram-java-text-intelligence`.
-- You need turn-aware conversational streaming → `deepgram-java-conversational-stt`.
+- Plain transcription only → `deepgram-java-speech-to-text`.
+- Text (not audio) analysis → `deepgram-java-text-intelligence`.
+- Turn-aware conversational streaming → `deepgram-java-conversational-stt`.
 
 ## Authentication
 
@@ -46,24 +41,22 @@ ListenV1RequestUrl request = ListenV1RequestUrl.builder()
 MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(request);
 ```
 
-The concrete repo example (`examples/listen/AdvancedOptions.java`) demonstrates the same pattern for enabling higher-value Listen options via the builder.
+The concrete repo example (`examples/listen/AdvancedOptions.java`) demonstrates the same pattern for enabling higher-value Listen options via the builder. Always check the response for the intelligence fields you requested:
 
-## What else the REST request surface supports
-
-The generated `ListenV1RequestUrl` and `MediaTranscribeRequestOctetStream` classes also expose these verified analysis fields in this checkout:
-
-- `sentiment`
-- `summarize`
-- `topics`
-- `customTopic`
-- `customTopicMode`
-- `intents`
-- `customIntent`
-- `customIntentMode`
-- `detectEntities`
-- `detectLanguage`
-- `diarize`
-- `redact`
+```java
+result.visit(new MediaTranscribeResponse.Visitor<Void>() {
+    @Override
+    public Void visit(ListenV1Response response) {
+        response.getResults().getSentiments().ifPresent(s -> System.out.println("Sentiment: " + s));
+        return null;
+    }
+    @Override
+    public Void visit(com.deepgram.types.ListenV1AcceptedResponse accepted) {
+        System.out.println("Async accepted: " + accepted.getRequestId());
+        return null;
+    }
+});
+```
 
 ## Quick start — WebSocket subset
 
@@ -94,29 +87,19 @@ In this Java checkout, the WebSocket connect options include `diarize`, `detectE
 
 ## API reference (layered)
 
-1. **In-repo source of truth**: `src/main/java/com/deepgram/resources/listen/v1/media/requests/` and `src/main/java/com/deepgram/resources/listen/v1/websocket/` plus `examples/listen/AdvancedOptions.java`. `reference.md` is absent here.
+1. **In-repo source of truth**: `src/main/java/com/deepgram/resources/listen/v1/media/requests/` and `src/main/java/com/deepgram/resources/listen/v1/websocket/` plus `examples/listen/AdvancedOptions.java`.
 2. **Canonical OpenAPI (REST)**: https://developers.deepgram.com/openapi.yaml
 3. **Canonical AsyncAPI (WSS subset)**: https://developers.deepgram.com/asyncapi.yaml
-4. **Context7**: `/llmstxt/developers_deepgram_llms_txt`
-5. **Product docs**:
-   - https://developers.deepgram.com/docs/stt-intelligence-feature-overview
-   - https://developers.deepgram.com/docs/summarization
-   - https://developers.deepgram.com/docs/topic-detection
-   - https://developers.deepgram.com/docs/intent-recognition
-   - https://developers.deepgram.com/docs/sentiment-analysis
-   - https://developers.deepgram.com/docs/language-detection
-   - https://developers.deepgram.com/docs/redaction
-   - https://developers.deepgram.com/docs/diarization
+4. **Product docs**: https://developers.deepgram.com/docs/stt-intelligence-feature-overview (links to individual feature docs for summarization, topics, intents, sentiment, language detection, redaction, diarization).
 
 ## Gotchas
 
-1. **There is no separate “audio intelligence client”.** Everything hangs off Listen V1.
-2. **Most intelligence fields are REST-only in this SDK surface.** The WebSocket connect options do not expose `summarize`, `topics`, `intents`, or `detectLanguage`.
-3. **`summarize` on Listen V1 is its own generated type.** Do not assume the Read API shape is identical.
-4. **The repo example only demonstrates diarization-level options.** There is no dedicated example file for sentiment/topics/intents in this checkout.
-5. **`redact` is currently a single `String` field on the REST builders.** Do not assume Python-style string-or-list support here.
-6. **Model support matters.** The examples consistently use `NOVA3`; follow that unless you have verified another model supports the overlays you need.
-7. **These fields live on both URL and byte-upload request builders.** Pick the builder that matches your input source.
+1. **No separate “audio intelligence client”.** Everything hangs off Listen V1 request builders.
+2. **Most intelligence fields are REST-only.** WebSocket connect options do not expose `summarize`, `topics`, `intents`, or `detectLanguage`.
+3. **`summarize` on Listen V1 has its own generated type.** Do not assume the Read API shape is identical.
+4. **`redact` is a single `String` field** on the REST builders -- not a list like the Python SDK.
+5. **Use `NOVA3` model** unless you have verified another model supports the overlays you need.
+6. **Both URL and byte-upload builders expose intelligence fields.** Pick the builder that matches your input source.
 
 ## Example files in this repo
 
@@ -126,10 +109,4 @@ In this Java checkout, the WebSocket connect options include `diarize`, `detectE
 
 ## Central product skills
 
-For cross-language Deepgram product knowledge — the consolidated API reference, documentation finder, focused runnable recipes, third-party integration examples, and MCP setup — install the central skills:
-
-```bash
-npx skills add deepgram/skills
-```
-
-This SDK ships language-idiomatic code skills; `deepgram/skills` ships cross-language product knowledge (see `api`, `docs`, `recipes`, `examples`, `starters`, `setup-mcp`).
+For cross-language Deepgram product knowledge, install `npx skills add deepgram/skills`.

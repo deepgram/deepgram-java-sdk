@@ -7,15 +7,9 @@ description: Use when writing or reviewing Java code in this repo that calls Dee
 
 Administrative REST APIs for project metadata, project-scoped resources, and model discovery.
 
-## When to use this product
-
-- List or inspect projects.
-- Manage project keys, members, invites, usage, or billing.
-- Discover public or project-scoped STT/TTS models.
-
 **Use a different skill when:**
-- You want to run a live agent session → `deepgram-java-voice-agent`.
-- You want speech/text inference rather than project administration → use the product skills for STT, TTS, or Read.
+- Live agent session → `deepgram-java-voice-agent`.
+- Speech/text inference → use the STT, TTS, or Read product skills.
 
 ## Authentication
 
@@ -49,8 +43,6 @@ for (ListProjectsV1ResponseProjectsItem project : projects) {
 
 ## Quick start — project models / keys
 
-Pick a project from the list above. New accounts may have zero projects — guard against that before indexing.
-
 ```java
 if (projects.isEmpty()) {
     throw new IllegalStateException("No Deepgram projects are visible to this API key.");
@@ -63,21 +55,38 @@ client.manage().v1().projects().members().list(projectId);
 client.manage().v1().projects().members().invites().list(projectId);
 client.manage().v1().projects().usage().get(projectId);
 client.manage().v1().projects().billing().balances().list(projectId);
+
 ```
 
-## Key parameters / API surface
+## Destructive operations — validate-then-act
 
-- Top-level public models: `client.manage().v1().models().list()` and `.get(modelId)`
-- Projects: `projects().list()`, `get(projectId)`, `update(projectId, ...)`, `delete(projectId)`, `leave(projectId)`
-- Keys: `projects().keys().list/create/get/delete`
-- Members: `projects().members().list/delete`
-- Invites: `projects().members().invites().list/create/delete`
-- Project models: `projects().models().list(projectId)`
-- Usage: `projects().usage().get(projectId)`
-- Billing: `projects().billing().balances().list(projectId)`
-- Requests: `projects().requests()` subtree exists in the generated API surface
-- Agent think-model discovery: `client.agent().v1().settings().think().models().list()`
-- Most clients expose `withRawResponse()` alongside typed methods
+```java
+// 1. Verify the key exists before deleting
+try {
+    var key = client.manage().v1().projects().keys().get(projectId, keyId);
+    // 2. Confirm identity before proceeding
+    System.out.printf("Deleting key: %s%n", key.getApiKeyId());
+    client.manage().v1().projects().keys().delete(projectId, keyId);
+} catch (Exception e) {
+    System.err.println("Key not found or delete failed: " + e.getMessage());
+}
+```
+
+## API surface (all under `client.manage().v1()`)
+
+| Resource | Methods |
+|----------|---------|
+| `models()` | `list()`, `get(modelId)` |
+| `projects()` | `list()`, `get`, `update`, `delete`, `leave` |
+| `projects().keys()` | `list`, `create`, `get`, `delete` |
+| `projects().members()` | `list`, `delete` |
+| `projects().members().invites()` | `list`, `create`, `delete` |
+| `projects().models()` | `list(projectId)` |
+| `projects().usage()` | `get(projectId)` |
+| `projects().billing().balances()` | `list(projectId)` |
+| `projects().requests()` | subtree in generated surface |
+
+Also: `client.agent().v1().settings().think().models().list()` for think-model discovery. Most clients expose `withRawResponse()` variants.
 
 ## API reference (layered)
 
@@ -92,12 +101,10 @@ client.manage().v1().projects().billing().balances().list(projectId);
 
 ## Gotchas
 
-1. **Use an API key, not a temporary JWT, for Manage APIs.** The token-grant endpoint explicitly says those JWTs do not work here.
-2. **Some example files are intentionally excluded from Gradle `compileExamples`.** `manage/ListModels.java`, `manage/MemberPermissions.java`, and `manage/UsageBreakdown.java` are currently excluded in `build.gradle`.
-3. **Many manage examples are read-only by default.** Create/delete snippets are commented out to avoid destructive calls.
-4. **Project-scoped model discovery and global model discovery are different.** `models().list()` returns public models; `projects().models().list(projectId)` returns what a project can use.
-5. **This checkout does not expose the Python-style persisted voice-agent configuration client.** Do not promise `voice_agent.configurations.*` here.
-6. **The SDK is highly nested.** For invites, the path is `projects().members().invites()`, not a top-level `invites()` client.
+1. **Some example files are excluded from Gradle `compileExamples`** (`ListModels.java`, `MemberPermissions.java`, `UsageBreakdown.java`).
+2. **Global vs project-scoped model discovery differ.** `models().list()` returns public models; `projects().models().list(projectId)` returns what a project can use.
+3. **No Python-style persisted voice-agent configuration client** in this checkout. Do not promise `voice_agent.configurations.*`.
+4. **The SDK is highly nested.** For invites: `projects().members().invites()`, not a top-level `invites()` client.
 
 ## Example files in this repo
 
@@ -112,10 +119,4 @@ client.manage().v1().projects().billing().balances().list(projectId);
 
 ## Central product skills
 
-For cross-language Deepgram product knowledge — the consolidated API reference, documentation finder, focused runnable recipes, third-party integration examples, and MCP setup — install the central skills:
-
-```bash
-npx skills add deepgram/skills
-```
-
-This SDK ships language-idiomatic code skills; `deepgram/skills` ships cross-language product knowledge (see `api`, `docs`, `recipes`, `examples`, `starters`, `setup-mcp`).
+For cross-language Deepgram product knowledge, install `npx skills add deepgram/skills`.
