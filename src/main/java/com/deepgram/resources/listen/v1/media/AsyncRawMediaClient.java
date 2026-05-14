@@ -99,6 +99,10 @@ public class AsyncRawMediaClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "diarize", request.getDiarize().get(), false);
         }
+        if (request.getDiarizeModel().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "diarize_model", request.getDiarizeModel().get(), false);
+        }
         if (request.getDictation().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "dictation", request.getDictation().get(), false);
@@ -335,6 +339,10 @@ public class AsyncRawMediaClient {
         if (request.getDiarize().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "diarize", request.getDiarize().get(), false);
+        }
+        if (request.getDiarizeModel().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "diarize_model", request.getDiarizeModel().get(), false);
         }
         if (request.getDictation().isPresent()) {
             QueryStringMapper.addQueryParameter(

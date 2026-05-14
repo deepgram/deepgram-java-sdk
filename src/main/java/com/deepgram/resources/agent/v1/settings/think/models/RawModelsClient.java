@@ -38,7 +38,7 @@ public class RawModelsClient {
      * Retrieves the available think models that can be used for AI agent processing
      */
     public DeepgramApiHttpResponse<AgentThinkModelsV1Response> list(RequestOptions requestOptions) {
-        HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getBaseURL())
+        HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getAgentURL())
                 .newBuilder()
                 .addPathSegments("v1/agent/settings/think/models");
         if (requestOptions != null) {

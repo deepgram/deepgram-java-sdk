@@ -3,6 +3,8 @@
  */
 package com.deepgram.resources.agent.v1.types;
 
+import com.deepgram.types.DeepgramListenProviderV1;
+import com.deepgram.types.DeepgramListenProviderV2;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,11 +28,11 @@ public final class AgentV1SettingsAgentContextListenProvider {
         return value.visit(visitor);
     }
 
-    public static AgentV1SettingsAgentContextListenProvider v1(AgentV1SettingsAgentContextListenProviderV1 value) {
+    public static AgentV1SettingsAgentContextListenProvider v1(DeepgramListenProviderV1 value) {
         return new AgentV1SettingsAgentContextListenProvider(new V1Value(value));
     }
 
-    public static AgentV1SettingsAgentContextListenProvider v2(AgentV1SettingsAgentContextListenProviderV2 value) {
+    public static AgentV1SettingsAgentContextListenProvider v2(DeepgramListenProviderV2 value) {
         return new AgentV1SettingsAgentContextListenProvider(new V2Value(value));
     }
 
@@ -46,14 +48,14 @@ public final class AgentV1SettingsAgentContextListenProvider {
         return value instanceof _UnknownValue;
     }
 
-    public Optional<AgentV1SettingsAgentContextListenProviderV1> getV1() {
+    public Optional<DeepgramListenProviderV1> getV1() {
         if (isV1()) {
             return Optional.of(((V1Value) value).value);
         }
         return Optional.empty();
     }
 
-    public Optional<AgentV1SettingsAgentContextListenProviderV2> getV2() {
+    public Optional<DeepgramListenProviderV2> getV2() {
         if (isV2()) {
             return Optional.of(((V2Value) value).value);
         }
@@ -90,9 +92,9 @@ public final class AgentV1SettingsAgentContextListenProvider {
     }
 
     public interface Visitor<T> {
-        T visitV1(AgentV1SettingsAgentContextListenProviderV1 v1);
+        T visitV1(DeepgramListenProviderV1 v1);
 
-        T visitV2(AgentV1SettingsAgentContextListenProviderV2 v2);
+        T visitV2(DeepgramListenProviderV2 v2);
 
         T _visitUnknown(Object unknownType);
     }
@@ -109,12 +111,12 @@ public final class AgentV1SettingsAgentContextListenProvider {
     private static final class V1Value implements Value {
         @JsonUnwrapped
         @JsonIgnoreProperties(value = "version", allowSetters = true)
-        private AgentV1SettingsAgentContextListenProviderV1 value;
+        private DeepgramListenProviderV1 value;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         private V1Value() {}
 
-        private V1Value(AgentV1SettingsAgentContextListenProviderV1 value) {
+        private V1Value(DeepgramListenProviderV1 value) {
             this.value = value;
         }
 
@@ -149,12 +151,12 @@ public final class AgentV1SettingsAgentContextListenProvider {
     private static final class V2Value implements Value {
         @JsonUnwrapped
         @JsonIgnoreProperties(value = "version", allowSetters = true)
-        private AgentV1SettingsAgentContextListenProviderV2 value;
+        private DeepgramListenProviderV2 value;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         private V2Value() {}
 
-        private V2Value(AgentV1SettingsAgentContextListenProviderV2 value) {
+        private V2Value(DeepgramListenProviderV2 value) {
             this.value = value;
         }
 

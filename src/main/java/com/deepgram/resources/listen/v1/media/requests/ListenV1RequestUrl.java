@@ -7,6 +7,7 @@ import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestCallbackMethod;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestCustomIntentMode;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestCustomTopicMode;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestDiarizeModel;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestEncoding;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestSummarize;
@@ -69,6 +70,8 @@ public final class ListenV1RequestUrl {
 
     private final Optional<Boolean> diarize;
 
+    private final Optional<MediaTranscribeRequestDiarizeModel> diarizeModel;
+
     private final Optional<Boolean> dictation;
 
     private final Optional<MediaTranscribeRequestEncoding> encoding;
@@ -127,6 +130,7 @@ public final class ListenV1RequestUrl {
             Optional<Boolean> detectEntities,
             Optional<Boolean> detectLanguage,
             Optional<Boolean> diarize,
+            Optional<MediaTranscribeRequestDiarizeModel> diarizeModel,
             Optional<Boolean> dictation,
             Optional<MediaTranscribeRequestEncoding> encoding,
             Optional<Boolean> fillerWords,
@@ -165,6 +169,7 @@ public final class ListenV1RequestUrl {
         this.detectEntities = detectEntities;
         this.detectLanguage = detectLanguage;
         this.diarize = diarize;
+        this.diarizeModel = diarizeModel;
         this.dictation = dictation;
         this.encoding = encoding;
         this.fillerWords = fillerWords;
@@ -339,6 +344,14 @@ public final class ListenV1RequestUrl {
     }
 
     /**
+     * @return Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.
+     */
+    @JsonIgnore
+    public Optional<MediaTranscribeRequestDiarizeModel> getDiarizeModel() {
+        return diarizeModel;
+    }
+
+    /**
      * @return Dictation mode for controlling formatting with dictated speech
      */
     @JsonIgnore
@@ -510,6 +523,7 @@ public final class ListenV1RequestUrl {
                 && detectEntities.equals(other.detectEntities)
                 && detectLanguage.equals(other.detectLanguage)
                 && diarize.equals(other.diarize)
+                && diarizeModel.equals(other.diarizeModel)
                 && dictation.equals(other.dictation)
                 && encoding.equals(other.encoding)
                 && fillerWords.equals(other.fillerWords)
@@ -552,6 +566,7 @@ public final class ListenV1RequestUrl {
                 this.detectEntities,
                 this.detectLanguage,
                 this.diarize,
+                this.diarizeModel,
                 this.dictation,
                 this.encoding,
                 this.fillerWords,
@@ -744,6 +759,13 @@ public final class ListenV1RequestUrl {
         _FinalStage diarize(Boolean diarize);
 
         /**
+         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         */
+        _FinalStage diarizeModel(Optional<MediaTranscribeRequestDiarizeModel> diarizeModel);
+
+        _FinalStage diarizeModel(MediaTranscribeRequestDiarizeModel diarizeModel);
+
+        /**
          * <p>Dictation mode for controlling formatting with dictated speech</p>
          */
         _FinalStage dictation(Optional<Boolean> dictation);
@@ -901,6 +923,8 @@ public final class ListenV1RequestUrl {
 
         private Optional<Boolean> dictation = Optional.empty();
 
+        private Optional<MediaTranscribeRequestDiarizeModel> diarizeModel = Optional.empty();
+
         private Optional<Boolean> diarize = Optional.empty();
 
         private Optional<Boolean> detectLanguage = Optional.empty();
@@ -965,6 +989,7 @@ public final class ListenV1RequestUrl {
             detectEntities(other.getDetectEntities());
             detectLanguage(other.getDetectLanguage());
             diarize(other.getDiarize());
+            diarizeModel(other.getDiarizeModel());
             dictation(other.getDictation());
             encoding(other.getEncoding());
             fillerWords(other.getFillerWords());
@@ -1330,6 +1355,26 @@ public final class ListenV1RequestUrl {
         @JsonSetter(value = "dictation", nulls = Nulls.SKIP)
         public _FinalStage dictation(Optional<Boolean> dictation) {
             this.dictation = dictation;
+            return this;
+        }
+
+        /**
+         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage diarizeModel(MediaTranscribeRequestDiarizeModel diarizeModel) {
+            this.diarizeModel = Optional.ofNullable(diarizeModel);
+            return this;
+        }
+
+        /**
+         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "diarize_model", nulls = Nulls.SKIP)
+        public _FinalStage diarizeModel(Optional<MediaTranscribeRequestDiarizeModel> diarizeModel) {
+            this.diarizeModel = diarizeModel;
             return this;
         }
 
@@ -1783,6 +1828,7 @@ public final class ListenV1RequestUrl {
                     detectEntities,
                     detectLanguage,
                     diarize,
+                    diarizeModel,
                     dictation,
                     encoding,
                     fillerWords,
