@@ -4,11 +4,11 @@
 package com.deepgram.core;
 
 public final class Environment {
-    public static final Environment PRODUCTION =
-            new Environment("https://api.deepgram.com", "wss://api.deepgram.com", "wss://agent.deepgram.com");
-
-    public static final Environment AGENT =
-            new Environment("https://agent.deepgram.com", "wss://api.deepgram.com", "wss://agent.deepgram.com");
+    public static final Environment PRODUCTION = new Environment(
+            "https://api.deepgram.com",
+            "wss://api.deepgram.com",
+            "wss://agent.deepgram.com",
+            "https://agent.deepgram.com");
 
     private final String base;
 
@@ -16,10 +16,13 @@ public final class Environment {
 
     private final String agent;
 
-    Environment(String base, String production, String agent) {
+    private final String agentRest;
+
+    Environment(String base, String production, String agent, String agentRest) {
         this.base = base;
         this.production = production;
         this.agent = agent;
+        this.agentRest = agentRest;
     }
 
     public String getBaseURL() {
@@ -34,6 +37,10 @@ public final class Environment {
         return this.agent;
     }
 
+    public String getAgentRestURL() {
+        return this.agentRest;
+    }
+
     public static Builder custom() {
         return new Builder();
     }
@@ -44,6 +51,8 @@ public final class Environment {
         private String production;
 
         private String agent;
+
+        private String agentRest;
 
         public Builder base(String base) {
             this.base = base;
@@ -60,8 +69,13 @@ public final class Environment {
             return this;
         }
 
+        public Builder agentRest(String agentRest) {
+            this.agentRest = agentRest;
+            return this;
+        }
+
         public Environment build() {
-            return new Environment(base, production, agent);
+            return new Environment(base, production, agent, agentRest);
         }
     }
 }
