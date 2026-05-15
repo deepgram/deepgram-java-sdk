@@ -47,11 +47,18 @@ class ClientBuilderTest {
         }
 
         @Test
-        @DisplayName("accepts AGENT environment")
+        @DisplayName("accepts an agent-shaped environment")
         void testAgentEnvironment() {
+            Environment agent = Environment.custom()
+                    .base("https://agent.deepgram.com")
+                    .agent("wss://agent.deepgram.com")
+                    .production("wss://api.deepgram.com")
+                    .agentRest("https://agent.deepgram.com")
+                    .build();
+
             DeepgramClient client = DeepgramClient.builder()
                     .apiKey("test-key")
-                    .environment(Environment.AGENT)
+                    .environment(agent)
                     .build();
 
             assertThat(client).isNotNull();
