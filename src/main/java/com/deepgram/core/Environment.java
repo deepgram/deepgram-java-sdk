@@ -5,33 +5,33 @@ package com.deepgram.core;
 
 public final class Environment {
     public static final Environment PRODUCTION =
-            new Environment("https://api.deepgram.com", "wss://agent.deepgram.com", "wss://api.deepgram.com");
+            new Environment("https://api.deepgram.com", "wss://api.deepgram.com", "wss://agent.deepgram.com");
 
     public static final Environment AGENT =
-            new Environment("https://agent.deepgram.com", "wss://agent.deepgram.com", "wss://api.deepgram.com");
+            new Environment("https://agent.deepgram.com", "wss://api.deepgram.com", "wss://agent.deepgram.com");
 
     private final String base;
 
-    private final String agent;
-
     private final String production;
 
-    Environment(String base, String agent, String production) {
+    private final String agent;
+
+    Environment(String base, String production, String agent) {
         this.base = base;
-        this.agent = agent;
         this.production = production;
+        this.agent = agent;
     }
 
     public String getBaseURL() {
         return this.base;
     }
 
-    public String getAgentURL() {
-        return this.agent;
-    }
-
     public String getProductionURL() {
         return this.production;
+    }
+
+    public String getAgentURL() {
+        return this.agent;
     }
 
     public static Builder custom() {
@@ -41,17 +41,12 @@ public final class Environment {
     public static class Builder {
         private String base;
 
-        private String agent;
-
         private String production;
+
+        private String agent;
 
         public Builder base(String base) {
             this.base = base;
-            return this;
-        }
-
-        public Builder agent(String agent) {
-            this.agent = agent;
             return this;
         }
 
@@ -60,8 +55,13 @@ public final class Environment {
             return this;
         }
 
+        public Builder agent(String agent) {
+            this.agent = agent;
+            return this;
+        }
+
         public Environment build() {
-            return new Environment(base, agent, production);
+            return new Environment(base, production, agent);
         }
     }
 }
