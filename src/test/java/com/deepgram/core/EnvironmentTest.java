@@ -33,25 +33,34 @@ class EnvironmentTest {
     }
 
     @Nested
-    @DisplayName("AGENT environment")
+    @DisplayName("Agent-shaped custom environment")
     class AgentEnvironment {
+
+        private Environment agent() {
+            return Environment.custom()
+                    .base("https://agent.deepgram.com")
+                    .agent("wss://agent.deepgram.com")
+                    .production("wss://api.deepgram.com")
+                    .agentRest("https://agent.deepgram.com")
+                    .build();
+        }
 
         @Test
         @DisplayName("base URL points to agent.deepgram.com")
         void testBaseUrl() {
-            assertThat(Environment.AGENT.getBaseURL()).isEqualTo("https://agent.deepgram.com");
+            assertThat(agent().getBaseURL()).isEqualTo("https://agent.deepgram.com");
         }
 
         @Test
         @DisplayName("agent URL points to wss://agent.deepgram.com")
         void testAgentUrl() {
-            assertThat(Environment.AGENT.getAgentURL()).isEqualTo("wss://agent.deepgram.com");
+            assertThat(agent().getAgentURL()).isEqualTo("wss://agent.deepgram.com");
         }
 
         @Test
         @DisplayName("production URL uses wss://api.deepgram.com")
         void testProductionUrl() {
-            assertThat(Environment.AGENT.getProductionURL()).isEqualTo("wss://api.deepgram.com");
+            assertThat(agent().getProductionURL()).isEqualTo("wss://api.deepgram.com");
         }
     }
 
