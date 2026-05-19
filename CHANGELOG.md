@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.4.0...v0.5.0) (2026-05-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **`Environment` constructor signature changed (3-arg → 4-arg)** ([#57](https://github.com/deepgram/deepgram-java-sdk/issues/57), [#59](https://github.com/deepgram/deepgram-java-sdk/issues/59)). A new `agentRest` slot was added with a `getAgentRestURL()` getter and `Environment.Builder#agentRest(...)` method. `Environment.AGENT` was dropped in favor of the dedicated `agentRest` REST host. Callers building a custom `Environment` via `Environment.custom()...` must add the new `agentRest(...)` builder call.
+* **Listen-provider wrapper types deleted** ([#57](https://github.com/deepgram/deepgram-java-sdk/issues/57)). `AgentV1SettingsAgentContextListenProvider{V1, V2, V2LanguageHint}` and `AgentV1SettingsAgentListenProvider{V1, V2}` were removed in favor of the canonical top-level types `DeepgramListenProviderV1`, `DeepgramListenProviderV2`, and `DeepgramListenProviderV2LanguageHint`. The sealed-type wrappers `AgentV1SettingsAgentContextListenProvider` and `AgentV1SettingsAgentListenProvider` remain.
+
+### Features
+
+* **Diarization v2 batch GA** ([#57](https://github.com/deepgram/deepgram-java-sdk/issues/57)) ([fccb3e3](https://github.com/deepgram/deepgram-java-sdk/commit/fccb3e314bdab92b97af790d69e32c18697fb8ba)). New listen/media request types `ListenV1RequestUrl`, `MediaTranscribeRequestOctetStream`, and `MediaTranscribeRequestDiarizeModel`. `AsyncRawMediaClient` and `RawMediaClient` updated to surface the new diarize-model and octet-stream request paths.
+
+### Bug Fixes
+
+* **Route `agent.v1.settings.think.models.list()` to `env.agentRest`** ([#59](https://github.com/deepgram/deepgram-java-sdk/issues/59)) ([f6fd3af](https://github.com/deepgram/deepgram-java-sdk/commit/f6fd3af8d9ac6bbbbbcf5f12813b3045fcb8fbdb)). `RawModelsClient` and `AsyncRawModelsClient` now resolve their base URL via `environment().getAgentRestURL()` instead of `getAgentURL()`. The endpoint was previously broken for any caller; this is a corrective fix paired with the `Environment` breaking change above.
+
 ## [0.4.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.3.0...v0.4.0) (2026-05-06)
 
 
