@@ -11,7 +11,6 @@ import com.deepgram.resources.read.v1.text.types.TextAnalyzeRequestSummarize;
 import com.deepgram.types.ReadV1Request;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -91,7 +90,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Label your requests for the purpose of identification during usage reporting
      */
-    @JsonIgnore
+    @JsonProperty("tag")
     public Optional<List<String>> getTag() {
         return tag;
     }
@@ -99,7 +98,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Custom topics you want the model to detect within your input audio or text if present Submit up to <code>100</code>.
      */
-    @JsonIgnore
+    @JsonProperty("custom_topic")
     public Optional<List<String>> getCustomTopic() {
         return customTopic;
     }
@@ -107,7 +106,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Custom intents you want the model to detect within your input audio if present
      */
-    @JsonIgnore
+    @JsonProperty("custom_intent")
     public Optional<List<String>> getCustomIntent() {
         return customIntent;
     }
@@ -115,7 +114,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return URL to which we'll make the callback request
      */
-    @JsonIgnore
+    @JsonProperty("callback")
     public Optional<String> getCallback() {
         return callback;
     }
@@ -123,7 +122,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return HTTP method by which the callback request will be made
      */
-    @JsonIgnore
+    @JsonProperty("callback_method")
     public Optional<TextAnalyzeRequestCallbackMethod> getCallbackMethod() {
         return callbackMethod;
     }
@@ -131,7 +130,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Recognizes the sentiment throughout a transcript or text
      */
-    @JsonIgnore
+    @JsonProperty("sentiment")
     public Optional<Boolean> getSentiment() {
         return sentiment;
     }
@@ -139,7 +138,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Summarize content. For Listen API, supports string version option. For Read API, accepts boolean only.
      */
-    @JsonIgnore
+    @JsonProperty("summarize")
     public Optional<TextAnalyzeRequestSummarize> getSummarize() {
         return summarize;
     }
@@ -147,7 +146,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Detect topics throughout a transcript or text
      */
-    @JsonIgnore
+    @JsonProperty("topics")
     public Optional<Boolean> getTopics() {
         return topics;
     }
@@ -155,7 +154,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Sets how the model will interpret strings submitted to the <code>custom_topic</code> param. When <code>strict</code>, the model will only return topics submitted using the <code>custom_topic</code> param. When <code>extended</code>, the model will return its own detected topics in addition to those submitted using the <code>custom_topic</code> param
      */
-    @JsonIgnore
+    @JsonProperty("custom_topic_mode")
     public Optional<TextAnalyzeRequestCustomTopicMode> getCustomTopicMode() {
         return customTopicMode;
     }
@@ -163,7 +162,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Recognizes speaker intent throughout a transcript or text
      */
-    @JsonIgnore
+    @JsonProperty("intents")
     public Optional<Boolean> getIntents() {
         return intents;
     }
@@ -171,7 +170,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return Sets how the model will interpret intents submitted to the <code>custom_intent</code> param. When <code>strict</code>, the model will only return intents submitted using the <code>custom_intent</code> param. When <code>extended</code>, the model will return its own detected intents in the <code>custom_intent</code> param.
      */
-    @JsonIgnore
+    @JsonProperty("custom_intent_mode")
     public Optional<TextAnalyzeRequestCustomIntentMode> getCustomIntentMode() {
         return customIntentMode;
     }
@@ -179,7 +178,7 @@ public final class TextAnalyzeRequest {
     /**
      * @return The <a href="https://tools.ietf.org/html/bcp47">BCP-47 language tag</a> that hints at the primary spoken language. Depending on the Model and API endpoint you choose only certain languages are available
      */
-    @JsonIgnore
+    @JsonProperty("language")
     public Optional<String> getLanguage() {
         return language;
     }

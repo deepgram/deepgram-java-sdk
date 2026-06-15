@@ -7,6 +7,7 @@ import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.ReconnectingWebSocketListener;
+import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.listen.v1.types.ListenV1CloseStream;
 import com.deepgram.resources.listen.v1.types.ListenV1Finalize;
@@ -120,6 +121,10 @@ public class V1WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "diarize", String.valueOf(options.getDiarize().get()));
         }
+        if (options.getDiarizeModel() != null && options.getDiarizeModel().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "diarize_model", String.valueOf(options.getDiarizeModel().get()));
+        }
         if (options.getDictation() != null && options.getDictation().isPresent()) {
             urlBuilder.addQueryParameter(
                     "dictation", String.valueOf(options.getDictation().get()));
@@ -212,7 +217,7 @@ public class V1WebSocketClient implements AutoCloseable {
                     "version", String.valueOf(options.getVersion().get()));
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
-        clientOptions.headers(null).forEach(requestBuilder::addHeader);
+        clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
         final Request request = requestBuilder.build();
         this.readyState = WebSocketReadyState.CONNECTING;
         ReconnectingWebSocketListener.ReconnectOptions reconnectOpts = this.reconnectOptions != null

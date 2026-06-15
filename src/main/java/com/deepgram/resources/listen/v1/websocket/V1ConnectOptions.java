@@ -4,6 +4,7 @@
 package com.deepgram.resources.listen.v1.websocket;
 
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.resources.listen.v1.types.DiarizeModel;
 import com.deepgram.types.ListenV1Callback;
 import com.deepgram.types.ListenV1CallbackMethod;
 import com.deepgram.types.ListenV1Channels;
@@ -59,6 +60,8 @@ public final class V1ConnectOptions {
 
     private final Optional<ListenV1Diarize> diarize;
 
+    private final Optional<DiarizeModel> diarizeModel;
+
     private final Optional<ListenV1Dictation> dictation;
 
     private final Optional<ListenV1Encoding> encoding;
@@ -113,6 +116,7 @@ public final class V1ConnectOptions {
             Optional<ListenV1Channels> channels,
             Optional<ListenV1DetectEntities> detectEntities,
             Optional<ListenV1Diarize> diarize,
+            Optional<DiarizeModel> diarizeModel,
             Optional<ListenV1Dictation> dictation,
             Optional<ListenV1Encoding> encoding,
             Optional<ListenV1Endpointing> endpointing,
@@ -142,6 +146,7 @@ public final class V1ConnectOptions {
         this.channels = channels;
         this.detectEntities = detectEntities;
         this.diarize = diarize;
+        this.diarizeModel = diarizeModel;
         this.dictation = dictation;
         this.encoding = encoding;
         this.endpointing = endpointing;
@@ -188,9 +193,20 @@ public final class V1ConnectOptions {
         return detectEntities;
     }
 
+    /**
+     * @return Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.
+     */
     @JsonProperty("diarize")
     public Optional<ListenV1Diarize> getDiarize() {
         return diarize;
+    }
+
+    /**
+     * @return Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set <code>diarize=true</code>. Supported values for streaming: <code>v1</code>, <code>latest</code>. The <code>v2</code> value is not supported on streaming and returns a validation error.
+     */
+    @JsonProperty("diarize_model")
+    public Optional<DiarizeModel> getDiarizeModel() {
+        return diarizeModel;
     }
 
     @JsonProperty("dictation")
@@ -328,6 +344,7 @@ public final class V1ConnectOptions {
                 && channels.equals(other.channels)
                 && detectEntities.equals(other.detectEntities)
                 && diarize.equals(other.diarize)
+                && diarizeModel.equals(other.diarizeModel)
                 && dictation.equals(other.dictation)
                 && encoding.equals(other.encoding)
                 && endpointing.equals(other.endpointing)
@@ -361,6 +378,7 @@ public final class V1ConnectOptions {
                 this.channels,
                 this.detectEntities,
                 this.diarize,
+                this.diarizeModel,
                 this.dictation,
                 this.encoding,
                 this.endpointing,
@@ -427,9 +445,19 @@ public final class V1ConnectOptions {
 
         _FinalStage detectEntities(ListenV1DetectEntities detectEntities);
 
+        /**
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
+         */
         _FinalStage diarize(Optional<ListenV1Diarize> diarize);
 
         _FinalStage diarize(ListenV1Diarize diarize);
+
+        /**
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set <code>diarize=true</code>. Supported values for streaming: <code>v1</code>, <code>latest</code>. The <code>v2</code> value is not supported on streaming and returns a validation error.</p>
+         */
+        _FinalStage diarizeModel(Optional<DiarizeModel> diarizeModel);
+
+        _FinalStage diarizeModel(DiarizeModel diarizeModel);
 
         _FinalStage dictation(Optional<ListenV1Dictation> dictation);
 
@@ -568,6 +596,8 @@ public final class V1ConnectOptions {
 
         private Optional<ListenV1Dictation> dictation = Optional.empty();
 
+        private Optional<DiarizeModel> diarizeModel = Optional.empty();
+
         private Optional<ListenV1Diarize> diarize = Optional.empty();
 
         private Optional<ListenV1DetectEntities> detectEntities = Optional.empty();
@@ -590,6 +620,7 @@ public final class V1ConnectOptions {
             channels(other.getChannels());
             detectEntities(other.getDetectEntities());
             diarize(other.getDiarize());
+            diarizeModel(other.getDiarizeModel());
             dictation(other.getDictation());
             encoding(other.getEncoding());
             endpointing(other.getEndpointing());
@@ -914,12 +945,39 @@ public final class V1ConnectOptions {
             return this;
         }
 
+        /**
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set <code>diarize=true</code>. Supported values for streaming: <code>v1</code>, <code>latest</code>. The <code>v2</code> value is not supported on streaming and returns a validation error.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage diarizeModel(DiarizeModel diarizeModel) {
+            this.diarizeModel = Optional.ofNullable(diarizeModel);
+            return this;
+        }
+
+        /**
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set <code>diarize=true</code>. Supported values for streaming: <code>v1</code>, <code>latest</code>. The <code>v2</code> value is not supported on streaming and returns a validation error.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "diarize_model", nulls = Nulls.SKIP)
+        public _FinalStage diarizeModel(Optional<DiarizeModel> diarizeModel) {
+            this.diarizeModel = diarizeModel;
+            return this;
+        }
+
+        /**
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @java.lang.Override
         public _FinalStage diarize(ListenV1Diarize diarize) {
             this.diarize = Optional.ofNullable(diarize);
             return this;
         }
 
+        /**
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
+         */
         @java.lang.Override
         @JsonSetter(value = "diarize", nulls = Nulls.SKIP)
         public _FinalStage diarize(Optional<ListenV1Diarize> diarize) {
@@ -987,6 +1045,7 @@ public final class V1ConnectOptions {
                     channels,
                     detectEntities,
                     diarize,
+                    diarizeModel,
                     dictation,
                     encoding,
                     endpointing,

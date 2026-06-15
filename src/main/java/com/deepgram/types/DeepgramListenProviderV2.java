@@ -26,7 +26,7 @@ public final class DeepgramListenProviderV2 {
 
     private final String model;
 
-    private final Optional<DeepgramListenProviderV2LanguageHint> languageHint;
+    private final Optional<List<String>> languageHints;
 
     private final Optional<List<String>> keyterms;
 
@@ -35,12 +35,12 @@ public final class DeepgramListenProviderV2 {
     private DeepgramListenProviderV2(
             Optional<String> version,
             String model,
-            Optional<DeepgramListenProviderV2LanguageHint> languageHint,
+            Optional<List<String>> languageHints,
             Optional<List<String>> keyterms,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.model = model;
-        this.languageHint = languageHint;
+        this.languageHints = languageHints;
         this.keyterms = keyterms;
         this.additionalProperties = additionalProperties;
     }
@@ -70,11 +70,11 @@ public final class DeepgramListenProviderV2 {
     }
 
     /**
-     * @return One or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.
+     * @return An array of one or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.
      */
-    @JsonProperty("language_hint")
-    public Optional<DeepgramListenProviderV2LanguageHint> getLanguageHint() {
-        return languageHint;
+    @JsonProperty("language_hints")
+    public Optional<List<String>> getLanguageHints() {
+        return languageHints;
     }
 
     /**
@@ -99,13 +99,13 @@ public final class DeepgramListenProviderV2 {
     private boolean equalTo(DeepgramListenProviderV2 other) {
         return version.equals(other.version)
                 && model.equals(other.model)
-                && languageHint.equals(other.languageHint)
+                && languageHints.equals(other.languageHints)
                 && keyterms.equals(other.keyterms);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model, this.languageHint, this.keyterms);
+        return Objects.hash(this.version, this.model, this.languageHints, this.keyterms);
     }
 
     @java.lang.Override
@@ -141,11 +141,11 @@ public final class DeepgramListenProviderV2 {
         _FinalStage version(String version);
 
         /**
-         * <p>One or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.</p>
+         * <p>An array of one or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.</p>
          */
-        _FinalStage languageHint(Optional<DeepgramListenProviderV2LanguageHint> languageHint);
+        _FinalStage languageHints(Optional<List<String>> languageHints);
 
-        _FinalStage languageHint(DeepgramListenProviderV2LanguageHint languageHint);
+        _FinalStage languageHints(List<String> languageHints);
 
         /**
          * <p>Prompt keyterm recognition to improve Keyword Recall Rate</p>
@@ -161,7 +161,7 @@ public final class DeepgramListenProviderV2 {
 
         private Optional<List<String>> keyterms = Optional.empty();
 
-        private Optional<DeepgramListenProviderV2LanguageHint> languageHint = Optional.empty();
+        private Optional<List<String>> languageHints = Optional.empty();
 
         private Optional<String> version = Optional.empty();
 
@@ -174,7 +174,7 @@ public final class DeepgramListenProviderV2 {
         public Builder from(DeepgramListenProviderV2 other) {
             version(other.getVersion());
             model(other.getModel());
-            languageHint(other.getLanguageHint());
+            languageHints(other.getLanguageHints());
             keyterms(other.getKeyterms());
             return this;
         }
@@ -212,22 +212,22 @@ public final class DeepgramListenProviderV2 {
         }
 
         /**
-         * <p>One or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.</p>
+         * <p>An array of one or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage languageHint(DeepgramListenProviderV2LanguageHint languageHint) {
-            this.languageHint = Optional.ofNullable(languageHint);
+        public _FinalStage languageHints(List<String> languageHints) {
+            this.languageHints = Optional.ofNullable(languageHints);
             return this;
         }
 
         /**
-         * <p>One or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.</p>
+         * <p>An array of one or more BCP-47 language codes to bias the model toward specific languages. Only supported when model is flux-general-multi. Without hints, the model auto-detects the spoken language. See the Language Prompting guide for details.</p>
          */
         @java.lang.Override
-        @JsonSetter(value = "language_hint", nulls = Nulls.SKIP)
-        public _FinalStage languageHint(Optional<DeepgramListenProviderV2LanguageHint> languageHint) {
-            this.languageHint = languageHint;
+        @JsonSetter(value = "language_hints", nulls = Nulls.SKIP)
+        public _FinalStage languageHints(Optional<List<String>> languageHints) {
+            this.languageHints = languageHints;
             return this;
         }
 
@@ -253,7 +253,7 @@ public final class DeepgramListenProviderV2 {
 
         @java.lang.Override
         public DeepgramListenProviderV2 build() {
-            return new DeepgramListenProviderV2(version, model, languageHint, keyterms, additionalProperties);
+            return new DeepgramListenProviderV2(version, model, languageHints, keyterms, additionalProperties);
         }
 
         @java.lang.Override

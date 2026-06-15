@@ -7,6 +7,7 @@ import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.ReconnectingWebSocketListener;
+import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.speak.v1.types.SpeakV1Clear;
 import com.deepgram.resources.speak.v1.types.SpeakV1Cleared;
@@ -122,7 +123,7 @@ public class V1WebSocketClient implements AutoCloseable {
                     "speed", String.valueOf(options.getSpeed().get()));
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
-        clientOptions.headers(null).forEach(requestBuilder::addHeader);
+        clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
         final Request request = requestBuilder.build();
         this.readyState = WebSocketReadyState.CONNECTING;
         ReconnectingWebSocketListener.ReconnectOptions reconnectOpts = this.reconnectOptions != null

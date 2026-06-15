@@ -10,9 +10,9 @@ import com.deepgram.resources.manage.v1.projects.usage.breakdown.types.Breakdown
 import com.deepgram.resources.manage.v1.projects.usage.breakdown.types.BreakdownGetRequestMethod;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -214,7 +214,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Start date of the requested date range. Format accepted is YYYY-MM-DD
      */
-    @JsonIgnore
+    @JsonProperty("start")
     public Optional<String> getStart() {
         return start;
     }
@@ -222,7 +222,7 @@ public final class BreakdownGetRequest {
     /**
      * @return End date of the requested date range. Format accepted is YYYY-MM-DD
      */
-    @JsonIgnore
+    @JsonProperty("end")
     public Optional<String> getEnd() {
         return end;
     }
@@ -230,7 +230,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Common usage grouping parameters
      */
-    @JsonIgnore
+    @JsonProperty("grouping")
     public Optional<BreakdownGetRequestGrouping> getGrouping() {
         return grouping;
     }
@@ -238,7 +238,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where a specific accessor was used
      */
-    @JsonIgnore
+    @JsonProperty("accessor")
     public Optional<String> getAccessor() {
         return accessor;
     }
@@ -246,7 +246,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where alternatives were used
      */
-    @JsonIgnore
+    @JsonProperty("alternatives")
     public Optional<Boolean> getAlternatives() {
         return alternatives;
     }
@@ -254,7 +254,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where callback method was used
      */
-    @JsonIgnore
+    @JsonProperty("callback_method")
     public Optional<Boolean> getCallbackMethod() {
         return callbackMethod;
     }
@@ -262,7 +262,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where callback was used
      */
-    @JsonIgnore
+    @JsonProperty("callback")
     public Optional<Boolean> getCallback() {
         return callback;
     }
@@ -270,7 +270,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where channels were used
      */
-    @JsonIgnore
+    @JsonProperty("channels")
     public Optional<Boolean> getChannels() {
         return channels;
     }
@@ -278,7 +278,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where custom intent mode was used
      */
-    @JsonIgnore
+    @JsonProperty("custom_intent_mode")
     public Optional<Boolean> getCustomIntentMode() {
         return customIntentMode;
     }
@@ -286,7 +286,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where custom intent was used
      */
-    @JsonIgnore
+    @JsonProperty("custom_intent")
     public Optional<Boolean> getCustomIntent() {
         return customIntent;
     }
@@ -294,7 +294,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where custom topic mode was used
      */
-    @JsonIgnore
+    @JsonProperty("custom_topic_mode")
     public Optional<Boolean> getCustomTopicMode() {
         return customTopicMode;
     }
@@ -302,7 +302,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where custom topic was used
      */
-    @JsonIgnore
+    @JsonProperty("custom_topic")
     public Optional<Boolean> getCustomTopic() {
         return customTopic;
     }
@@ -310,7 +310,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where a specific deployment was used
      */
-    @JsonIgnore
+    @JsonProperty("deployment")
     public Optional<BreakdownGetRequestDeployment> getDeployment() {
         return deployment;
     }
@@ -318,7 +318,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where detect entities was used
      */
-    @JsonIgnore
+    @JsonProperty("detect_entities")
     public Optional<Boolean> getDetectEntities() {
         return detectEntities;
     }
@@ -326,7 +326,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where detect language was used
      */
-    @JsonIgnore
+    @JsonProperty("detect_language")
     public Optional<Boolean> getDetectLanguage() {
         return detectLanguage;
     }
@@ -334,7 +334,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where diarize was used
      */
-    @JsonIgnore
+    @JsonProperty("diarize")
     public Optional<Boolean> getDiarize() {
         return diarize;
     }
@@ -342,7 +342,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where dictation was used
      */
-    @JsonIgnore
+    @JsonProperty("dictation")
     public Optional<Boolean> getDictation() {
         return dictation;
     }
@@ -350,7 +350,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where encoding was used
      */
-    @JsonIgnore
+    @JsonProperty("encoding")
     public Optional<Boolean> getEncoding() {
         return encoding;
     }
@@ -358,7 +358,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where a specific endpoint was used
      */
-    @JsonIgnore
+    @JsonProperty("endpoint")
     public Optional<BreakdownGetRequestEndpoint> getEndpoint() {
         return endpoint;
     }
@@ -366,7 +366,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where extra was used
      */
-    @JsonIgnore
+    @JsonProperty("extra")
     public Optional<Boolean> getExtra() {
         return extra;
     }
@@ -374,7 +374,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where filler words was used
      */
-    @JsonIgnore
+    @JsonProperty("filler_words")
     public Optional<Boolean> getFillerWords() {
         return fillerWords;
     }
@@ -382,7 +382,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where intents was used
      */
-    @JsonIgnore
+    @JsonProperty("intents")
     public Optional<Boolean> getIntents() {
         return intents;
     }
@@ -390,7 +390,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where keyterm was used
      */
-    @JsonIgnore
+    @JsonProperty("keyterm")
     public Optional<Boolean> getKeyterm() {
         return keyterm;
     }
@@ -398,7 +398,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where keywords was used
      */
-    @JsonIgnore
+    @JsonProperty("keywords")
     public Optional<Boolean> getKeywords() {
         return keywords;
     }
@@ -406,7 +406,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where language was used
      */
-    @JsonIgnore
+    @JsonProperty("language")
     public Optional<Boolean> getLanguage() {
         return language;
     }
@@ -414,7 +414,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where measurements were used
      */
-    @JsonIgnore
+    @JsonProperty("measurements")
     public Optional<Boolean> getMeasurements() {
         return measurements;
     }
@@ -422,7 +422,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where a specific method was used
      */
-    @JsonIgnore
+    @JsonProperty("method")
     public Optional<BreakdownGetRequestMethod> getMethod() {
         return method;
     }
@@ -430,7 +430,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where a specific model uuid was used
      */
-    @JsonIgnore
+    @JsonProperty("model")
     public Optional<String> getModel() {
         return model;
     }
@@ -438,7 +438,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where multichannel was used
      */
-    @JsonIgnore
+    @JsonProperty("multichannel")
     public Optional<Boolean> getMultichannel() {
         return multichannel;
     }
@@ -446,7 +446,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where numerals were used
      */
-    @JsonIgnore
+    @JsonProperty("numerals")
     public Optional<Boolean> getNumerals() {
         return numerals;
     }
@@ -454,7 +454,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where paragraphs were used
      */
-    @JsonIgnore
+    @JsonProperty("paragraphs")
     public Optional<Boolean> getParagraphs() {
         return paragraphs;
     }
@@ -462,7 +462,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where profanity filter was used
      */
-    @JsonIgnore
+    @JsonProperty("profanity_filter")
     public Optional<Boolean> getProfanityFilter() {
         return profanityFilter;
     }
@@ -470,7 +470,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where punctuate was used
      */
-    @JsonIgnore
+    @JsonProperty("punctuate")
     public Optional<Boolean> getPunctuate() {
         return punctuate;
     }
@@ -478,7 +478,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where redact was used
      */
-    @JsonIgnore
+    @JsonProperty("redact")
     public Optional<Boolean> getRedact() {
         return redact;
     }
@@ -486,7 +486,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where replace was used
      */
-    @JsonIgnore
+    @JsonProperty("replace")
     public Optional<Boolean> getReplace() {
         return replace;
     }
@@ -494,7 +494,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where sample rate was used
      */
-    @JsonIgnore
+    @JsonProperty("sample_rate")
     public Optional<Boolean> getSampleRate() {
         return sampleRate;
     }
@@ -502,7 +502,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where search was used
      */
-    @JsonIgnore
+    @JsonProperty("search")
     public Optional<Boolean> getSearch() {
         return search;
     }
@@ -510,7 +510,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where sentiment was used
      */
-    @JsonIgnore
+    @JsonProperty("sentiment")
     public Optional<Boolean> getSentiment() {
         return sentiment;
     }
@@ -518,7 +518,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where smart format was used
      */
-    @JsonIgnore
+    @JsonProperty("smart_format")
     public Optional<Boolean> getSmartFormat() {
         return smartFormat;
     }
@@ -526,7 +526,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where summarize was used
      */
-    @JsonIgnore
+    @JsonProperty("summarize")
     public Optional<Boolean> getSummarize() {
         return summarize;
     }
@@ -534,7 +534,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where a specific tag was used
      */
-    @JsonIgnore
+    @JsonProperty("tag")
     public Optional<String> getTag() {
         return tag;
     }
@@ -542,7 +542,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where topics was used
      */
-    @JsonIgnore
+    @JsonProperty("topics")
     public Optional<Boolean> getTopics() {
         return topics;
     }
@@ -550,7 +550,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where utt split was used
      */
-    @JsonIgnore
+    @JsonProperty("utt_split")
     public Optional<Boolean> getUttSplit() {
         return uttSplit;
     }
@@ -558,7 +558,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where utterances was used
      */
-    @JsonIgnore
+    @JsonProperty("utterances")
     public Optional<Boolean> getUtterances() {
         return utterances;
     }
@@ -566,7 +566,7 @@ public final class BreakdownGetRequest {
     /**
      * @return Filter for requests where version was used
      */
-    @JsonIgnore
+    @JsonProperty("version")
     public Optional<Boolean> getVersion() {
         return version;
     }

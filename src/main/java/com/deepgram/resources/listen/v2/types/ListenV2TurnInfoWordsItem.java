@@ -10,10 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -23,11 +25,22 @@ public final class ListenV2TurnInfoWordsItem {
 
     private final float confidence;
 
+    private final Optional<Float> start;
+
+    private final Optional<Float> end;
+
     private final Map<String, Object> additionalProperties;
 
-    private ListenV2TurnInfoWordsItem(String word, float confidence, Map<String, Object> additionalProperties) {
+    private ListenV2TurnInfoWordsItem(
+            String word,
+            float confidence,
+            Optional<Float> start,
+            Optional<Float> end,
+            Map<String, Object> additionalProperties) {
         this.word = word;
         this.confidence = confidence;
+        this.start = start;
+        this.end = end;
         this.additionalProperties = additionalProperties;
     }
 
@@ -47,6 +60,22 @@ public final class ListenV2TurnInfoWordsItem {
         return confidence;
     }
 
+    /**
+     * @return The start time of the word
+     */
+    @JsonProperty("start")
+    public Optional<Float> getStart() {
+        return start;
+    }
+
+    /**
+     * @return The end time of the word
+     */
+    @JsonProperty("end")
+    public Optional<Float> getEnd() {
+        return end;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -59,12 +88,15 @@ public final class ListenV2TurnInfoWordsItem {
     }
 
     private boolean equalTo(ListenV2TurnInfoWordsItem other) {
-        return word.equals(other.word) && confidence == other.confidence;
+        return word.equals(other.word)
+                && confidence == other.confidence
+                && start.equals(other.start)
+                && end.equals(other.end);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.word, this.confidence);
+        return Objects.hash(this.word, this.confidence, this.start, this.end);
     }
 
     @java.lang.Override
@@ -98,6 +130,20 @@ public final class ListenV2TurnInfoWordsItem {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>The start time of the word</p>
+         */
+        _FinalStage start(Optional<Float> start);
+
+        _FinalStage start(Float start);
+
+        /**
+         * <p>The end time of the word</p>
+         */
+        _FinalStage end(Optional<Float> end);
+
+        _FinalStage end(Float end);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -105,6 +151,10 @@ public final class ListenV2TurnInfoWordsItem {
         private String word;
 
         private float confidence;
+
+        private Optional<Float> end = Optional.empty();
+
+        private Optional<Float> start = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -115,6 +165,8 @@ public final class ListenV2TurnInfoWordsItem {
         public Builder from(ListenV2TurnInfoWordsItem other) {
             word(other.getWord());
             confidence(other.getConfidence());
+            start(other.getStart());
+            end(other.getEnd());
             return this;
         }
 
@@ -142,9 +194,49 @@ public final class ListenV2TurnInfoWordsItem {
             return this;
         }
 
+        /**
+         * <p>The end time of the word</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage end(Float end) {
+            this.end = Optional.ofNullable(end);
+            return this;
+        }
+
+        /**
+         * <p>The end time of the word</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "end", nulls = Nulls.SKIP)
+        public _FinalStage end(Optional<Float> end) {
+            this.end = end;
+            return this;
+        }
+
+        /**
+         * <p>The start time of the word</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage start(Float start) {
+            this.start = Optional.ofNullable(start);
+            return this;
+        }
+
+        /**
+         * <p>The start time of the word</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "start", nulls = Nulls.SKIP)
+        public _FinalStage start(Optional<Float> start) {
+            this.start = start;
+            return this;
+        }
+
         @java.lang.Override
         public ListenV2TurnInfoWordsItem build() {
-            return new ListenV2TurnInfoWordsItem(word, confidence, additionalProperties);
+            return new ListenV2TurnInfoWordsItem(word, confidence, start, end, additionalProperties);
         }
 
         @java.lang.Override

@@ -14,7 +14,6 @@ import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestSummar
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestVersion;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -194,7 +193,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Arbitrary key-value pairs that are attached to the API response for usage in downstream processing
      */
-    @JsonIgnore
+    @JsonProperty("extra")
     public Optional<List<String>> getExtra() {
         return extra;
     }
@@ -202,7 +201,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Label your requests for the purpose of identification during usage reporting
      */
-    @JsonIgnore
+    @JsonProperty("tag")
     public Optional<List<String>> getTag() {
         return tag;
     }
@@ -210,7 +209,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Custom topics you want the model to detect within your input audio or text if present Submit up to <code>100</code>.
      */
-    @JsonIgnore
+    @JsonProperty("custom_topic")
     public Optional<List<String>> getCustomTopic() {
         return customTopic;
     }
@@ -218,7 +217,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Custom intents you want the model to detect within your input audio if present
      */
-    @JsonIgnore
+    @JsonProperty("custom_intent")
     public Optional<List<String>> getCustomIntent() {
         return customIntent;
     }
@@ -226,7 +225,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Key term prompting can boost or suppress specialized terminology and brands. Only compatible with Nova-3
      */
-    @JsonIgnore
+    @JsonProperty("keyterm")
     public Optional<List<String>> getKeyterm() {
         return keyterm;
     }
@@ -234,7 +233,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Keywords can boost or suppress specialized terminology and brands
      */
-    @JsonIgnore
+    @JsonProperty("keywords")
     public Optional<List<String>> getKeywords() {
         return keywords;
     }
@@ -242,7 +241,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Search for terms or phrases in submitted audio and replaces them
      */
-    @JsonIgnore
+    @JsonProperty("replace")
     public Optional<List<String>> getReplace() {
         return replace;
     }
@@ -250,7 +249,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Search for terms or phrases in submitted audio
      */
-    @JsonIgnore
+    @JsonProperty("search")
     public Optional<List<String>> getSearch() {
         return search;
     }
@@ -258,7 +257,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return URL to which we'll make the callback request
      */
-    @JsonIgnore
+    @JsonProperty("callback")
     public Optional<String> getCallback() {
         return callback;
     }
@@ -266,7 +265,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return HTTP method by which the callback request will be made
      */
-    @JsonIgnore
+    @JsonProperty("callback_method")
     public Optional<MediaTranscribeRequestCallbackMethod> getCallbackMethod() {
         return callbackMethod;
     }
@@ -274,7 +273,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Recognizes the sentiment throughout a transcript or text
      */
-    @JsonIgnore
+    @JsonProperty("sentiment")
     public Optional<Boolean> getSentiment() {
         return sentiment;
     }
@@ -282,7 +281,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Summarize content. For Listen API, supports string version option. For Read API, accepts boolean only.
      */
-    @JsonIgnore
+    @JsonProperty("summarize")
     public Optional<MediaTranscribeRequestSummarize> getSummarize() {
         return summarize;
     }
@@ -290,7 +289,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Detect topics throughout a transcript or text
      */
-    @JsonIgnore
+    @JsonProperty("topics")
     public Optional<Boolean> getTopics() {
         return topics;
     }
@@ -298,7 +297,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Sets how the model will interpret strings submitted to the <code>custom_topic</code> param. When <code>strict</code>, the model will only return topics submitted using the <code>custom_topic</code> param. When <code>extended</code>, the model will return its own detected topics in addition to those submitted using the <code>custom_topic</code> param
      */
-    @JsonIgnore
+    @JsonProperty("custom_topic_mode")
     public Optional<MediaTranscribeRequestCustomTopicMode> getCustomTopicMode() {
         return customTopicMode;
     }
@@ -306,7 +305,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Recognizes speaker intent throughout a transcript or text
      */
-    @JsonIgnore
+    @JsonProperty("intents")
     public Optional<Boolean> getIntents() {
         return intents;
     }
@@ -314,7 +313,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Sets how the model will interpret intents submitted to the <code>custom_intent</code> param. When <code>strict</code>, the model will only return intents submitted using the <code>custom_intent</code> param. When <code>extended</code>, the model will return its own detected intents in the <code>custom_intent</code> param.
      */
-    @JsonIgnore
+    @JsonProperty("custom_intent_mode")
     public Optional<MediaTranscribeRequestCustomIntentMode> getCustomIntentMode() {
         return customIntentMode;
     }
@@ -322,7 +321,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Identifies and extracts key entities from content in submitted audio
      */
-    @JsonIgnore
+    @JsonProperty("detect_entities")
     public Optional<Boolean> getDetectEntities() {
         return detectEntities;
     }
@@ -330,23 +329,23 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Identifies the dominant language spoken in submitted audio
      */
-    @JsonIgnore
+    @JsonProperty("detect_language")
     public Optional<Boolean> getDetectLanguage() {
         return detectLanguage;
     }
 
     /**
-     * @return Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0
+     * @return Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.
      */
-    @JsonIgnore
+    @JsonProperty("diarize")
     public Optional<Boolean> getDiarize() {
         return diarize;
     }
 
     /**
-     * @return Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.
+     * @return Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.
      */
-    @JsonIgnore
+    @JsonProperty("diarize_model")
     public Optional<MediaTranscribeRequestDiarizeModel> getDiarizeModel() {
         return diarizeModel;
     }
@@ -354,7 +353,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Dictation mode for controlling formatting with dictated speech
      */
-    @JsonIgnore
+    @JsonProperty("dictation")
     public Optional<Boolean> getDictation() {
         return dictation;
     }
@@ -362,7 +361,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Specify the expected encoding of your submitted audio
      */
-    @JsonIgnore
+    @JsonProperty("encoding")
     public Optional<MediaTranscribeRequestEncoding> getEncoding() {
         return encoding;
     }
@@ -370,7 +369,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Filler Words can help transcribe interruptions in your audio, like &quot;uh&quot; and &quot;um&quot;
      */
-    @JsonIgnore
+    @JsonProperty("filler_words")
     public Optional<Boolean> getFillerWords() {
         return fillerWords;
     }
@@ -378,7 +377,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return The <a href="https://tools.ietf.org/html/bcp47">BCP-47 language tag</a> that hints at the primary spoken language. Depending on the Model and API endpoint you choose only certain languages are available
      */
-    @JsonIgnore
+    @JsonProperty("language")
     public Optional<String> getLanguage() {
         return language;
     }
@@ -386,7 +385,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Spoken measurements will be converted to their corresponding abbreviations
      */
-    @JsonIgnore
+    @JsonProperty("measurements")
     public Optional<Boolean> getMeasurements() {
         return measurements;
     }
@@ -394,7 +393,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return AI model used to process submitted audio
      */
-    @JsonIgnore
+    @JsonProperty("model")
     public Optional<MediaTranscribeRequestModel> getModel() {
         return model;
     }
@@ -402,7 +401,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Transcribe each audio channel independently
      */
-    @JsonIgnore
+    @JsonProperty("multichannel")
     public Optional<Boolean> getMultichannel() {
         return multichannel;
     }
@@ -410,7 +409,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Numerals converts numbers from written format to numerical format
      */
-    @JsonIgnore
+    @JsonProperty("numerals")
     public Optional<Boolean> getNumerals() {
         return numerals;
     }
@@ -418,7 +417,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Splits audio into paragraphs to improve transcript readability
      */
-    @JsonIgnore
+    @JsonProperty("paragraphs")
     public Optional<Boolean> getParagraphs() {
         return paragraphs;
     }
@@ -426,7 +425,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Profanity Filter looks for recognized profanity and converts it to the nearest recognized non-profane word or removes it from the transcript completely
      */
-    @JsonIgnore
+    @JsonProperty("profanity_filter")
     public Optional<Boolean> getProfanityFilter() {
         return profanityFilter;
     }
@@ -434,7 +433,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Add punctuation and capitalization to the transcript
      */
-    @JsonIgnore
+    @JsonProperty("punctuate")
     public Optional<Boolean> getPunctuate() {
         return punctuate;
     }
@@ -442,7 +441,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Redaction removes sensitive information from your transcripts
      */
-    @JsonIgnore
+    @JsonProperty("redact")
     public Optional<String> getRedact() {
         return redact;
     }
@@ -450,7 +449,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Apply formatting to transcript output. When set to true, additional formatting will be applied to transcripts to improve readability
      */
-    @JsonIgnore
+    @JsonProperty("smart_format")
     public Optional<Boolean> getSmartFormat() {
         return smartFormat;
     }
@@ -458,7 +457,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Segments speech into meaningful semantic units
      */
-    @JsonIgnore
+    @JsonProperty("utterances")
     public Optional<Boolean> getUtterances() {
         return utterances;
     }
@@ -466,7 +465,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Seconds to wait before detecting a pause between words in submitted audio
      */
-    @JsonIgnore
+    @JsonProperty("utt_split")
     public Optional<Double> getUttSplit() {
         return uttSplit;
     }
@@ -474,7 +473,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Version of an AI model to use
      */
-    @JsonIgnore
+    @JsonProperty("version")
     public Optional<MediaTranscribeRequestVersion> getVersion() {
         return version;
     }
@@ -482,7 +481,7 @@ public final class MediaTranscribeRequestOctetStream {
     /**
      * @return Opts out requests from the Deepgram Model Improvement Program. Refer to our Docs for pricing impacts before setting this to true. https://dpgr.am/deepgram-mip
      */
-    @JsonIgnore
+    @JsonProperty("mip_opt_out")
     public Optional<Boolean> getMipOptOut() {
         return mipOptOut;
     }
@@ -752,14 +751,14 @@ public final class MediaTranscribeRequestOctetStream {
         _FinalStage detectLanguage(Boolean detectLanguage);
 
         /**
-         * <p>Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0</p>
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
          */
         _FinalStage diarize(Optional<Boolean> diarize);
 
         _FinalStage diarize(Boolean diarize);
 
         /**
-         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.</p>
          */
         _FinalStage diarizeModel(Optional<MediaTranscribeRequestDiarizeModel> diarizeModel);
 
@@ -1359,7 +1358,7 @@ public final class MediaTranscribeRequestOctetStream {
         }
 
         /**
-         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -1369,7 +1368,7 @@ public final class MediaTranscribeRequestOctetStream {
         }
 
         /**
-         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "diarize_model", nulls = Nulls.SKIP)
@@ -1379,7 +1378,7 @@ public final class MediaTranscribeRequestOctetStream {
         }
 
         /**
-         * <p>Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0</p>
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -1389,7 +1388,7 @@ public final class MediaTranscribeRequestOctetStream {
         }
 
         /**
-         * <p>Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0</p>
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "diarize", nulls = Nulls.SKIP)

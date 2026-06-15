@@ -7,6 +7,7 @@ import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.ReconnectingWebSocketListener;
+import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.types.ListenV2Configure;
@@ -131,6 +132,11 @@ public class V2WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "language_hint", String.valueOf(options.getLanguageHint().get()));
         }
+        if (options.getProfanityFilter() != null && options.getProfanityFilter().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "profanity_filter",
+                    String.valueOf(options.getProfanityFilter().get()));
+        }
         if (options.getMipOptOut() != null && options.getMipOptOut().isPresent()) {
             urlBuilder.addQueryParameter(
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
@@ -139,7 +145,7 @@ public class V2WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
-        clientOptions.headers(null).forEach(requestBuilder::addHeader);
+        clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
         final Request request = requestBuilder.build();
         this.readyState = WebSocketReadyState.CONNECTING;
         ReconnectingWebSocketListener.ReconnectOptions reconnectOpts = this.reconnectOptions != null
