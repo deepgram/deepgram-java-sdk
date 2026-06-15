@@ -25,15 +25,20 @@ import okio.ByteString;
  * Provides production-ready resilience for WebSocket connections.
  */
 public abstract class ReconnectingWebSocketListener extends WebSocketListener {
-    private final long minReconnectionDelayMs;
+    // Option-derived fields are volatile (not final) so {@link #applyOptionsOverride} can rewire them
+    // after construction — used by {@code TransportWebSocketFactory} to honour
+    // {@code DeepgramTransportFactory.reconnectOptions()} without editing the generated WS clients.
+    private volatile long minReconnectionDelayMs;
 
-    private final long maxReconnectionDelayMs;
+    private volatile long maxReconnectionDelayMs;
 
-    private final double reconnectionDelayGrowFactor;
+    private volatile double reconnectionDelayGrowFactor;
 
-    private final int maxRetries;
+    private volatile int maxRetries;
 
     private final int maxEnqueuedMessages;
+
+    private volatile long connectionTimeoutMs;
 
     private final AtomicInteger retryCount = new AtomicInteger(0);
 
@@ -66,16 +71,44 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         this.reconnectionDelayGrowFactor = options.reconnectionDelayGrowFactor;
         this.maxRetries = options.maxRetries;
         this.maxEnqueuedMessages = options.maxEnqueuedMessages;
+        this.connectionTimeoutMs = options.connectionTimeoutMs;
         this.connectionSupplier = connectionSupplier;
+    }
+
+    /**
+     * Replaces the option-derived parameters on this listener at runtime. Used by
+     * {@code TransportWebSocketFactory} to apply {@code DeepgramTransportFactory.reconnectOptions()}
+     * without requiring edits to the generated per-resource WebSocket clients. {@code maxEnqueuedMessages}
+     * is intentionally not overridden — the message queue is sized at construction.
+     *
+     * <p>Thread-safety: option-derived fields are volatile; reads observe the latest write. The
+     * initial connect() call may have already started before the override lands, so for the very
+     * first attempt the original options apply; the override takes effect from the next attempt
+     * onwards. For the SageMaker storm-suppression case ({@code maxRetries(0)}) this is fine
+     * because the initial attempt's gate ({@code retryCount > maxRetries} with {@code retryCount=0})
+     * always passes regardless.
+     *
+     * @param options replacement options; {@code null} is a no-op.
+     */
+    public void applyOptionsOverride(ReconnectOptions options) {
+        if (options == null) {
+            return;
+        }
+        this.minReconnectionDelayMs = options.minReconnectionDelayMs;
+        this.maxReconnectionDelayMs = options.maxReconnectionDelayMs;
+        this.reconnectionDelayGrowFactor = options.reconnectionDelayGrowFactor;
+        this.maxRetries = options.maxRetries;
+        this.connectionTimeoutMs = options.connectionTimeoutMs;
     }
 
     /**
      * Initiates a WebSocket connection with automatic reconnection enabled.
      *
      * Connection behavior:
-     * - Times out after 4000 milliseconds
+     * - Times out after {@code ReconnectOptions.connectionTimeoutMs} (default 4000ms)
      * - Thread-safe via atomic lock (returns immediately if connection in progress)
-     * - Retry count not incremented for initial connection attempt
+     * - {@code maxRetries} counts retries only — the initial attempt always proceeds.
+     *   {@code maxRetries(0)} means "connect once, don't retry" (not "refuse to connect").
      *
      * Error handling:
      * - TimeoutException: Includes retry attempt context
@@ -86,18 +119,21 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         if (!connectLock.compareAndSet(false, true)) {
             return;
         }
-        if (retryCount.get() >= maxRetries) {
+        // retryCount is incremented inside scheduleReconnect() before re-entering connect(),
+        // so on the initial call retryCount == 0 and we always proceed. The cap applies to
+        // retries only — maxRetries(0) blocks retries but allows the initial attempt.
+        if (retryCount.get() > maxRetries) {
             connectLock.set(false);
             return;
         }
         try {
             CompletableFuture<? extends WebSocket> connectionFuture = CompletableFuture.supplyAsync(connectionSupplier);
             try {
-                webSocket = connectionFuture.get(4000, MILLISECONDS);
+                webSocket = connectionFuture.get(connectionTimeoutMs, MILLISECONDS);
             } catch (TimeoutException e) {
                 connectionFuture.cancel(true);
                 TimeoutException timeoutError =
-                        new TimeoutException("WebSocket connection timeout after " + 4000 + " milliseconds"
+                        new TimeoutException("WebSocket connection timeout after " + connectionTimeoutMs + " milliseconds"
                                 + (retryCount.get() > 0
                                         ? " (retry attempt #" + retryCount.get()
                                         : " (initial connection attempt)"));
@@ -399,12 +435,15 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
         public final int maxEnqueuedMessages;
 
+        public final long connectionTimeoutMs;
+
         private ReconnectOptions(Builder builder) {
             this.minReconnectionDelayMs = builder.minReconnectionDelayMs;
             this.maxReconnectionDelayMs = builder.maxReconnectionDelayMs;
             this.reconnectionDelayGrowFactor = builder.reconnectionDelayGrowFactor;
             this.maxRetries = builder.maxRetries;
             this.maxEnqueuedMessages = builder.maxEnqueuedMessages;
+            this.connectionTimeoutMs = builder.connectionTimeoutMs;
         }
 
         public static Builder builder() {
@@ -422,12 +461,15 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
             private int maxEnqueuedMessages;
 
+            private long connectionTimeoutMs;
+
             public Builder() {
                 this.minReconnectionDelayMs = 1000;
                 this.maxReconnectionDelayMs = 10000;
                 this.reconnectionDelayGrowFactor = 1.3;
                 this.maxRetries = 2147483647;
                 this.maxEnqueuedMessages = 1000;
+                this.connectionTimeoutMs = 4000;
             }
 
             public Builder minReconnectionDelayMs(long minReconnectionDelayMs) {
@@ -456,6 +498,16 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
             }
 
             /**
+             * Sets the per-attempt connection timeout in milliseconds. Defaults to {@code 4000}.
+             * Each call to {@link ReconnectingWebSocketListener#connect()} will wait at most
+             * this long for the underlying WebSocket factory to produce a connected socket.
+             */
+            public Builder connectionTimeoutMs(long connectionTimeoutMs) {
+                this.connectionTimeoutMs = connectionTimeoutMs;
+                return this;
+            }
+
+            /**
              * Builds the ReconnectOptions with validation.
              *
              * Validates that:
@@ -463,6 +515,7 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
              * - minReconnectionDelayMs <= maxReconnectionDelayMs
              * - reconnectionDelayGrowFactor >= 1.0
              * - maxRetries and maxEnqueuedMessages are non-negative
+             * - connectionTimeoutMs is positive
              *
              * @return The validated ReconnectOptions instance
              * @throws IllegalArgumentException if configuration is invalid
@@ -486,6 +539,9 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 }
                 if (maxEnqueuedMessages < 0) {
                     throw new IllegalArgumentException("maxEnqueuedMessages must be non-negative");
+                }
+                if (connectionTimeoutMs <= 0) {
+                    throw new IllegalArgumentException("connectionTimeoutMs must be positive");
                 }
                 return new ReconnectOptions(this);
             }
