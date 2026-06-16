@@ -14,7 +14,7 @@ src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 # Contains User-Agent, X-Fern-SDK-Name, and X-Fern-SDK-Version headers
 # with // x-release-please-version comments for automated version bumps.
 # Fern regen overwrites these with incorrect SDK names and strips the markers.
-src/main/java/com/deepgram/core/ClientOptions.java.bak
+src/main/java/com/deepgram/core/ClientOptions.java
 
 # Transport abstraction (pluggable transport for SageMaker, etc.)
 src/main/java/com/deepgram/core/transport/
@@ -22,7 +22,7 @@ src/main/java/com/deepgram/core/transport/
 # Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
 # configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
 # Pull this back out once the fixes are upstreamed into the Fern generator.
-src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java.bak
+src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 
 # Build and project configuration
 build.gradle
