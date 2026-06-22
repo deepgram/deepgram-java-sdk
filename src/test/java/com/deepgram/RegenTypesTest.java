@@ -1,0 +1,108 @@
+package com.deepgram;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.deepgram.core.ObjectMappers;
+import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
+import com.deepgram.types.DeepgramListenProviderV2;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Coverage for type-shape changes introduced by the 2026-06-15 regeneration:
+ *
+ * <ul>
+ *   <li>{@link ListenV2TurnInfoWordsItem} {@code start}/{@code end} became {@code Optional<Double>} (were required
+ *       {@code double}) — the client must tolerate words that omit timestamps.
+ *   <li>{@link ListenV2CloseStream} {@code type} is now a fixed {@code "CloseStream"} constant, and its manually
+ *       patched {@code equals}/{@code hashCode} pair must honour the {@link Object} contract.
+ *   <li>{@link DeepgramListenProviderV2} {@code language_hint} was renamed to {@code language_hints} (a list).
+ * </ul>
+ */
+public class RegenTypesTest {
+
+    private static final ObjectMapper MAPPER = ObjectMappers.JSON_MAPPER;
+
+    @Nested
+    @DisplayName("ListenV2TurnInfoWordsItem optional start/end")
+    class TurnInfoWordsItem {
+
+        @Test
+        @DisplayName("round-trips when start and end are present")
+        void roundTripsWithTimestamps() throws Exception {
+            ListenV2TurnInfoWordsItem word = ListenV2TurnInfoWordsItem.builder()
+                    .word("hello")
+                    .confidence(0.97f)
+                    .start(1.5)
+                    .end(2.25)
+                    .build();
+
+            String json = MAPPER.writeValueAsString(word);
+            ListenV2TurnInfoWordsItem parsed = MAPPER.readValue(json, ListenV2TurnInfoWordsItem.class);
+
+            assertThat(parsed.getStart()).contains(1.5);
+            assertThat(parsed.getEnd()).contains(2.25);
+            assertThat(parsed).isEqualTo(word);
+        }
+
+        @Test
+        @DisplayName("deserializes with start and end absent (no longer required)")
+        void toleratesMissingTimestamps() throws Exception {
+            String json = "{\"word\":\"hello\",\"confidence\":0.97}";
+
+            ListenV2TurnInfoWordsItem parsed = MAPPER.readValue(json, ListenV2TurnInfoWordsItem.class);
+
+            assertThat(parsed.getWord()).isEqualTo("hello");
+            assertThat(parsed.getStart()).isEmpty();
+            assertThat(parsed.getEnd()).isEmpty();
+        }
+    }
+
+    @Nested
+    @DisplayName("ListenV2CloseStream")
+    class CloseStream {
+
+        @Test
+        @DisplayName("type is the fixed CloseStream constant")
+        void typeIsFixedConstant() throws Exception {
+            ListenV2CloseStream message = ListenV2CloseStream.builder().build();
+
+            assertThat(message.getType()).isEqualTo("CloseStream");
+            assertThat(MAPPER.writeValueAsString(message)).contains("\"type\":\"CloseStream\"");
+        }
+
+        @Test
+        @DisplayName("equals and hashCode honour the Object contract")
+        void equalsHashCodeContract() {
+            ListenV2CloseStream a = ListenV2CloseStream.builder().build();
+            ListenV2CloseStream b = ListenV2CloseStream.builder().build();
+
+            assertThat(a).isEqualTo(b);
+            assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        }
+    }
+
+    @Nested
+    @DisplayName("DeepgramListenProviderV2 languageHints")
+    class ListenProviderV2 {
+
+        @Test
+        @DisplayName("language_hints round-trips as a list")
+        void languageHintsRoundTrip() throws Exception {
+            DeepgramListenProviderV2 provider = DeepgramListenProviderV2.builder()
+                    .model("flux-general-multi")
+                    .languageHints(Arrays.asList("en", "es"))
+                    .build();
+
+            String json = MAPPER.writeValueAsString(provider);
+            assertThat(json).contains("\"language_hints\"");
+
+            DeepgramListenProviderV2 parsed = MAPPER.readValue(json, DeepgramListenProviderV2.class);
+            assertThat(parsed.getLanguageHints()).contains(Arrays.asList("en", "es"));
+        }
+    }
+}

@@ -24,6 +24,11 @@ src/main/java/com/deepgram/core/transport/
 # Pull this back out once the fixes are upstreamed into the Fern generator.
 src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 
+# Manual equals/hashCode contract fix: Fern generates equals() but no hashCode() for this
+# fields-less message type. We add a consistent hashCode(). Unfreeze and drop the patch once
+# the generator emits a matching equals/hashCode pair.
+src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java
+
 # Build and project configuration
 build.gradle
 settings.gradle
