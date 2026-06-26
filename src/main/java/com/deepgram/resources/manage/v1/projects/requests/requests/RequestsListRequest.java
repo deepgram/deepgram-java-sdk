@@ -10,9 +10,9 @@ import com.deepgram.resources.manage.v1.projects.requests.types.RequestsListRequ
 import com.deepgram.resources.manage.v1.projects.requests.types.RequestsListRequestStatus;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -75,7 +75,7 @@ public final class RequestsListRequest {
     /**
      * @return Start date of the requested date range. Formats accepted are YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS, or YYYY-MM-DDTHH:MM:SS+HH:MM
      */
-    @JsonIgnore
+    @JsonProperty("start")
     public Optional<OffsetDateTime> getStart() {
         return start;
     }
@@ -83,7 +83,7 @@ public final class RequestsListRequest {
     /**
      * @return End date of the requested date range. Formats accepted are YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS, or YYYY-MM-DDTHH:MM:SS+HH:MM
      */
-    @JsonIgnore
+    @JsonProperty("end")
     public Optional<OffsetDateTime> getEnd() {
         return end;
     }
@@ -91,7 +91,7 @@ public final class RequestsListRequest {
     /**
      * @return Number of results to return per page. Default 10. Range [1,1000]
      */
-    @JsonIgnore
+    @JsonProperty("limit")
     public Optional<Double> getLimit() {
         return limit;
     }
@@ -99,7 +99,7 @@ public final class RequestsListRequest {
     /**
      * @return Navigate and return the results to retrieve specific portions of information of the response
      */
-    @JsonIgnore
+    @JsonProperty("page")
     public Optional<Double> getPage() {
         return page;
     }
@@ -107,7 +107,7 @@ public final class RequestsListRequest {
     /**
      * @return Filter for requests where a specific accessor was used
      */
-    @JsonIgnore
+    @JsonProperty("accessor")
     public Optional<String> getAccessor() {
         return accessor;
     }
@@ -115,7 +115,7 @@ public final class RequestsListRequest {
     /**
      * @return Filter for a specific request id
      */
-    @JsonIgnore
+    @JsonProperty("request_id")
     public Optional<String> getRequestId() {
         return requestId;
     }
@@ -123,7 +123,7 @@ public final class RequestsListRequest {
     /**
      * @return Filter for requests where a specific deployment was used
      */
-    @JsonIgnore
+    @JsonProperty("deployment")
     public Optional<RequestsListRequestDeployment> getDeployment() {
         return deployment;
     }
@@ -131,7 +131,7 @@ public final class RequestsListRequest {
     /**
      * @return Filter for requests where a specific endpoint was used
      */
-    @JsonIgnore
+    @JsonProperty("endpoint")
     public Optional<RequestsListRequestEndpoint> getEndpoint() {
         return endpoint;
     }
@@ -139,7 +139,7 @@ public final class RequestsListRequest {
     /**
      * @return Filter for requests where a specific method was used
      */
-    @JsonIgnore
+    @JsonProperty("method")
     public Optional<RequestsListRequestMethod> getMethod() {
         return method;
     }
@@ -147,7 +147,7 @@ public final class RequestsListRequest {
     /**
      * @return Filter for requests that succeeded (status code &lt; 300) or failed (status code &gt;=400)
      */
-    @JsonIgnore
+    @JsonProperty("status")
     public Optional<RequestsListRequestStatus> getStatus() {
         return status;
     }

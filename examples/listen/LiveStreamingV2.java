@@ -1,6 +1,5 @@
 import com.deepgram.DeepgramClient;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
-import com.deepgram.resources.listen.v2.types.ListenV2CloseStreamType;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
@@ -78,9 +77,7 @@ public class LiveStreamingV2 {
             // wsClient.sendMedia(audioChunk);
 
             // Close the stream
-            wsClient.sendCloseStream(ListenV2CloseStream.builder()
-                    .type(ListenV2CloseStreamType.CLOSE_STREAM)
-                    .build());
+            wsClient.sendCloseStream(ListenV2CloseStream.builder().build());
 
             // Wait for disconnection
             closeLatch.await(15, TimeUnit.SECONDS);

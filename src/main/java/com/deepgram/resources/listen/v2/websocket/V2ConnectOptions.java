@@ -12,6 +12,7 @@ import com.deepgram.types.ListenV2Keyterm;
 import com.deepgram.types.ListenV2LanguageHint;
 import com.deepgram.types.ListenV2MipOptOut;
 import com.deepgram.types.ListenV2Model;
+import com.deepgram.types.ListenV2ProfanityFilter;
 import com.deepgram.types.ListenV2SampleRate;
 import com.deepgram.types.ListenV2Tag;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -47,6 +48,8 @@ public final class V2ConnectOptions {
 
     private final Optional<ListenV2LanguageHint> languageHint;
 
+    private final Optional<ListenV2ProfanityFilter> profanityFilter;
+
     private final Optional<ListenV2MipOptOut> mipOptOut;
 
     private final Optional<ListenV2Tag> tag;
@@ -62,6 +65,7 @@ public final class V2ConnectOptions {
             Optional<ListenV2EotTimeoutMs> eotTimeoutMs,
             Optional<ListenV2Keyterm> keyterm,
             Optional<ListenV2LanguageHint> languageHint,
+            Optional<ListenV2ProfanityFilter> profanityFilter,
             Optional<ListenV2MipOptOut> mipOptOut,
             Optional<ListenV2Tag> tag,
             Map<String, Object> additionalProperties) {
@@ -73,6 +77,7 @@ public final class V2ConnectOptions {
         this.eotTimeoutMs = eotTimeoutMs;
         this.keyterm = keyterm;
         this.languageHint = languageHint;
+        this.profanityFilter = profanityFilter;
         this.mipOptOut = mipOptOut;
         this.tag = tag;
         this.additionalProperties = additionalProperties;
@@ -118,6 +123,11 @@ public final class V2ConnectOptions {
         return languageHint;
     }
 
+    @JsonProperty("profanity_filter")
+    public Optional<ListenV2ProfanityFilter> getProfanityFilter() {
+        return profanityFilter;
+    }
+
     @JsonProperty("mip_opt_out")
     public Optional<ListenV2MipOptOut> getMipOptOut() {
         return mipOptOut;
@@ -148,6 +158,7 @@ public final class V2ConnectOptions {
                 && eotTimeoutMs.equals(other.eotTimeoutMs)
                 && keyterm.equals(other.keyterm)
                 && languageHint.equals(other.languageHint)
+                && profanityFilter.equals(other.profanityFilter)
                 && mipOptOut.equals(other.mipOptOut)
                 && tag.equals(other.tag);
     }
@@ -163,6 +174,7 @@ public final class V2ConnectOptions {
                 this.eotTimeoutMs,
                 this.keyterm,
                 this.languageHint,
+                this.profanityFilter,
                 this.mipOptOut,
                 this.tag);
     }
@@ -217,6 +229,10 @@ public final class V2ConnectOptions {
 
         _FinalStage languageHint(ListenV2LanguageHint languageHint);
 
+        _FinalStage profanityFilter(Optional<ListenV2ProfanityFilter> profanityFilter);
+
+        _FinalStage profanityFilter(ListenV2ProfanityFilter profanityFilter);
+
         _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut);
 
         _FinalStage mipOptOut(ListenV2MipOptOut mipOptOut);
@@ -233,6 +249,8 @@ public final class V2ConnectOptions {
         private Optional<ListenV2Tag> tag = Optional.empty();
 
         private Optional<ListenV2MipOptOut> mipOptOut = Optional.empty();
+
+        private Optional<ListenV2ProfanityFilter> profanityFilter = Optional.empty();
 
         private Optional<ListenV2LanguageHint> languageHint = Optional.empty();
 
@@ -263,6 +281,7 @@ public final class V2ConnectOptions {
             eotTimeoutMs(other.getEotTimeoutMs());
             keyterm(other.getKeyterm());
             languageHint(other.getLanguageHint());
+            profanityFilter(other.getProfanityFilter());
             mipOptOut(other.getMipOptOut());
             tag(other.getTag());
             return this;
@@ -298,6 +317,19 @@ public final class V2ConnectOptions {
         @JsonSetter(value = "mip_opt_out", nulls = Nulls.SKIP)
         public _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut) {
             this.mipOptOut = mipOptOut;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage profanityFilter(ListenV2ProfanityFilter profanityFilter) {
+            this.profanityFilter = Optional.ofNullable(profanityFilter);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "profanity_filter", nulls = Nulls.SKIP)
+        public _FinalStage profanityFilter(Optional<ListenV2ProfanityFilter> profanityFilter) {
+            this.profanityFilter = profanityFilter;
             return this;
         }
 
@@ -403,6 +435,7 @@ public final class V2ConnectOptions {
                     eotTimeoutMs,
                     keyterm,
                     languageHint,
+                    profanityFilter,
                     mipOptOut,
                     tag,
                     additionalProperties);

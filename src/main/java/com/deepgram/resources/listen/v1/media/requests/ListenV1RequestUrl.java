@@ -336,7 +336,7 @@ public final class ListenV1RequestUrl {
     }
 
     /**
-     * @return Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0
+     * @return Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.
      */
     @JsonIgnore
     public Optional<Boolean> getDiarize() {
@@ -344,7 +344,7 @@ public final class ListenV1RequestUrl {
     }
 
     /**
-     * @return Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.
+     * @return Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.
      */
     @JsonIgnore
     public Optional<MediaTranscribeRequestDiarizeModel> getDiarizeModel() {
@@ -752,14 +752,14 @@ public final class ListenV1RequestUrl {
         _FinalStage detectLanguage(Boolean detectLanguage);
 
         /**
-         * <p>Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0</p>
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
          */
         _FinalStage diarize(Optional<Boolean> diarize);
 
         _FinalStage diarize(Boolean diarize);
 
         /**
-         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.</p>
          */
         _FinalStage diarizeModel(Optional<MediaTranscribeRequestDiarizeModel> diarizeModel);
 
@@ -1359,7 +1359,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -1369,7 +1369,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Select and enable a specific batch diarization model version. If specifying this parameter, you should not set the deprecated <code>diarize=true</code> parameter. Not accepted on streaming requests.</p>
+         * <p>Select and enable a specific diarization model version. Specifying this parameter enables diarization and selects the model — you do not need to also set the deprecated <code>diarize=true</code> parameter. For batch, supported values are <code>latest</code> (currently v2), <code>v1</code>, and <code>v2</code>. For streaming, supported values are <code>latest</code> (currently v1) and <code>v1</code>; <code>v2</code> returns a validation error on streaming requests.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "diarize_model", nulls = Nulls.SKIP)
@@ -1379,7 +1379,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0</p>
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -1389,7 +1389,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0</p>
+         * <p>Deprecated: use <code>diarize_model</code> instead. Recognize speaker changes. Each word in the transcript will be assigned a speaker number starting at 0.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "diarize", nulls = Nulls.SKIP)

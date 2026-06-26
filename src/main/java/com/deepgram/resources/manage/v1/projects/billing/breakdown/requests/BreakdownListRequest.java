@@ -8,9 +8,9 @@ import com.deepgram.resources.manage.v1.projects.billing.breakdown.types.Breakdo
 import com.deepgram.resources.manage.v1.projects.billing.breakdown.types.BreakdownListRequestGroupingItem;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -62,7 +62,7 @@ public final class BreakdownListRequest {
     /**
      * @return Group billing breakdown by one or more dimensions (accessor, deployment, line_item, tags)
      */
-    @JsonIgnore
+    @JsonProperty("grouping")
     public Optional<List<BreakdownListRequestGroupingItem>> getGrouping() {
         return grouping;
     }
@@ -70,7 +70,7 @@ public final class BreakdownListRequest {
     /**
      * @return Start date of the requested date range. Format accepted is YYYY-MM-DD
      */
-    @JsonIgnore
+    @JsonProperty("start")
     public Optional<String> getStart() {
         return start;
     }
@@ -78,7 +78,7 @@ public final class BreakdownListRequest {
     /**
      * @return End date of the requested date range. Format accepted is YYYY-MM-DD
      */
-    @JsonIgnore
+    @JsonProperty("end")
     public Optional<String> getEnd() {
         return end;
     }
@@ -86,7 +86,7 @@ public final class BreakdownListRequest {
     /**
      * @return Filter for requests where a specific accessor was used
      */
-    @JsonIgnore
+    @JsonProperty("accessor")
     public Optional<String> getAccessor() {
         return accessor;
     }
@@ -94,7 +94,7 @@ public final class BreakdownListRequest {
     /**
      * @return Filter for requests where a specific deployment was used
      */
-    @JsonIgnore
+    @JsonProperty("deployment")
     public Optional<BreakdownListRequestDeployment> getDeployment() {
         return deployment;
     }
@@ -102,7 +102,7 @@ public final class BreakdownListRequest {
     /**
      * @return Filter for requests where a specific tag was used
      */
-    @JsonIgnore
+    @JsonProperty("tag")
     public Optional<String> getTag() {
         return tag;
     }
@@ -110,7 +110,7 @@ public final class BreakdownListRequest {
     /**
      * @return Filter requests by line item (e.g. streaming::nova-3)
      */
-    @JsonIgnore
+    @JsonProperty("line_item")
     public Optional<String> getLineItem() {
         return lineItem;
     }

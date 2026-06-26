@@ -6,9 +6,9 @@ package com.deepgram.resources.manage.v1.projects.requests;
 import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -36,7 +36,7 @@ public final class ProjectsGetRequest {
     /**
      * @return Number of results to return per page. Default 10. Range [1,1000]
      */
-    @JsonIgnore
+    @JsonProperty("limit")
     public Optional<Double> getLimit() {
         return limit;
     }
@@ -44,7 +44,7 @@ public final class ProjectsGetRequest {
     /**
      * @return Navigate and return the results to retrieve specific portions of information of the response
      */
-    @JsonIgnore
+    @JsonProperty("page")
     public Optional<Double> getPage() {
         return page;
     }
