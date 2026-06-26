@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.5.0...v0.6.0) (2026-06-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* (regen) breaking flux timestamps req-double + close-stream/hints; diarize_model, profanity ([#66](https://github.com/deepgram/deepgram-java-sdk/issues/66))
+
+### Features
+
+* (regen) breaking flux timestamps req-double + close-stream/hints; diarize_model, profanity ([#66](https://github.com/deepgram/deepgram-java-sdk/issues/66)) ([a1b9e9a](https://github.com/deepgram/deepgram-java-sdk/commit/a1b9e9a49995248cc5b18770f5ca2a3adf382209))
+
 ## [0.5.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.4.0...v0.5.0) (2026-05-18)
 
 
