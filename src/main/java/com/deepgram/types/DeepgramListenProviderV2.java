@@ -28,6 +28,12 @@ public final class DeepgramListenProviderV2 {
 
     private final Optional<List<String>> languageHints;
 
+    private final Optional<Double> eotThreshold;
+
+    private final Optional<Double> eagerEotThreshold;
+
+    private final Optional<Integer> eotTimeoutMs;
+
     private final Optional<List<String>> keyterms;
 
     private final Map<String, Object> additionalProperties;
@@ -36,11 +42,17 @@ public final class DeepgramListenProviderV2 {
             Optional<String> version,
             String model,
             Optional<List<String>> languageHints,
+            Optional<Double> eotThreshold,
+            Optional<Double> eagerEotThreshold,
+            Optional<Integer> eotTimeoutMs,
             Optional<List<String>> keyterms,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.model = model;
         this.languageHints = languageHints;
+        this.eotThreshold = eotThreshold;
+        this.eagerEotThreshold = eagerEotThreshold;
+        this.eotTimeoutMs = eotTimeoutMs;
         this.keyterms = keyterms;
         this.additionalProperties = additionalProperties;
     }
@@ -78,6 +90,30 @@ public final class DeepgramListenProviderV2 {
     }
 
     /**
+     * @return End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.
+     */
+    @JsonProperty("eot_threshold")
+    public Optional<Double> getEotThreshold() {
+        return eotThreshold;
+    }
+
+    /**
+     * @return End-of-turn confidence required to fire an eager end-of-turn event. When set, enables EagerEndOfTurn and TurnResumed events. Valid range: 0.3 - 0.9.
+     */
+    @JsonProperty("eager_eot_threshold")
+    public Optional<Double> getEagerEotThreshold() {
+        return eagerEotThreshold;
+    }
+
+    /**
+     * @return A turn will be finished when this much time in milliseconds has passed after speech, regardless of EOT confidence. Defaults to 5000.
+     */
+    @JsonProperty("eot_timeout_ms")
+    public Optional<Integer> getEotTimeoutMs() {
+        return eotTimeoutMs;
+    }
+
+    /**
      * @return Prompt keyterm recognition to improve Keyword Recall Rate
      */
     @JsonProperty("keyterms")
@@ -100,12 +136,22 @@ public final class DeepgramListenProviderV2 {
         return version.equals(other.version)
                 && model.equals(other.model)
                 && languageHints.equals(other.languageHints)
+                && eotThreshold.equals(other.eotThreshold)
+                && eagerEotThreshold.equals(other.eagerEotThreshold)
+                && eotTimeoutMs.equals(other.eotTimeoutMs)
                 && keyterms.equals(other.keyterms);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model, this.languageHints, this.keyterms);
+        return Objects.hash(
+                this.version,
+                this.model,
+                this.languageHints,
+                this.eotThreshold,
+                this.eagerEotThreshold,
+                this.eotTimeoutMs,
+                this.keyterms);
     }
 
     @java.lang.Override
@@ -148,6 +194,27 @@ public final class DeepgramListenProviderV2 {
         _FinalStage languageHints(List<String> languageHints);
 
         /**
+         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.</p>
+         */
+        _FinalStage eotThreshold(Optional<Double> eotThreshold);
+
+        _FinalStage eotThreshold(Double eotThreshold);
+
+        /**
+         * <p>End-of-turn confidence required to fire an eager end-of-turn event. When set, enables EagerEndOfTurn and TurnResumed events. Valid range: 0.3 - 0.9.</p>
+         */
+        _FinalStage eagerEotThreshold(Optional<Double> eagerEotThreshold);
+
+        _FinalStage eagerEotThreshold(Double eagerEotThreshold);
+
+        /**
+         * <p>A turn will be finished when this much time in milliseconds has passed after speech, regardless of EOT confidence. Defaults to 5000.</p>
+         */
+        _FinalStage eotTimeoutMs(Optional<Integer> eotTimeoutMs);
+
+        _FinalStage eotTimeoutMs(Integer eotTimeoutMs);
+
+        /**
          * <p>Prompt keyterm recognition to improve Keyword Recall Rate</p>
          */
         _FinalStage keyterms(Optional<List<String>> keyterms);
@@ -160,6 +227,12 @@ public final class DeepgramListenProviderV2 {
         private String model;
 
         private Optional<List<String>> keyterms = Optional.empty();
+
+        private Optional<Integer> eotTimeoutMs = Optional.empty();
+
+        private Optional<Double> eagerEotThreshold = Optional.empty();
+
+        private Optional<Double> eotThreshold = Optional.empty();
 
         private Optional<List<String>> languageHints = Optional.empty();
 
@@ -175,6 +248,9 @@ public final class DeepgramListenProviderV2 {
             version(other.getVersion());
             model(other.getModel());
             languageHints(other.getLanguageHints());
+            eotThreshold(other.getEotThreshold());
+            eagerEotThreshold(other.getEagerEotThreshold());
+            eotTimeoutMs(other.getEotTimeoutMs());
             keyterms(other.getKeyterms());
             return this;
         }
@@ -208,6 +284,66 @@ public final class DeepgramListenProviderV2 {
         @JsonSetter(value = "keyterms", nulls = Nulls.SKIP)
         public _FinalStage keyterms(Optional<List<String>> keyterms) {
             this.keyterms = keyterms;
+            return this;
+        }
+
+        /**
+         * <p>A turn will be finished when this much time in milliseconds has passed after speech, regardless of EOT confidence. Defaults to 5000.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage eotTimeoutMs(Integer eotTimeoutMs) {
+            this.eotTimeoutMs = Optional.ofNullable(eotTimeoutMs);
+            return this;
+        }
+
+        /**
+         * <p>A turn will be finished when this much time in milliseconds has passed after speech, regardless of EOT confidence. Defaults to 5000.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "eot_timeout_ms", nulls = Nulls.SKIP)
+        public _FinalStage eotTimeoutMs(Optional<Integer> eotTimeoutMs) {
+            this.eotTimeoutMs = eotTimeoutMs;
+            return this;
+        }
+
+        /**
+         * <p>End-of-turn confidence required to fire an eager end-of-turn event. When set, enables EagerEndOfTurn and TurnResumed events. Valid range: 0.3 - 0.9.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage eagerEotThreshold(Double eagerEotThreshold) {
+            this.eagerEotThreshold = Optional.ofNullable(eagerEotThreshold);
+            return this;
+        }
+
+        /**
+         * <p>End-of-turn confidence required to fire an eager end-of-turn event. When set, enables EagerEndOfTurn and TurnResumed events. Valid range: 0.3 - 0.9.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "eager_eot_threshold", nulls = Nulls.SKIP)
+        public _FinalStage eagerEotThreshold(Optional<Double> eagerEotThreshold) {
+            this.eagerEotThreshold = eagerEotThreshold;
+            return this;
+        }
+
+        /**
+         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage eotThreshold(Double eotThreshold) {
+            this.eotThreshold = Optional.ofNullable(eotThreshold);
+            return this;
+        }
+
+        /**
+         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "eot_threshold", nulls = Nulls.SKIP)
+        public _FinalStage eotThreshold(Optional<Double> eotThreshold) {
+            this.eotThreshold = eotThreshold;
             return this;
         }
 
@@ -253,7 +389,15 @@ public final class DeepgramListenProviderV2 {
 
         @java.lang.Override
         public DeepgramListenProviderV2 build() {
-            return new DeepgramListenProviderV2(version, model, languageHints, keyterms, additionalProperties);
+            return new DeepgramListenProviderV2(
+                    version,
+                    model,
+                    languageHints,
+                    eotThreshold,
+                    eagerEotThreshold,
+                    eotTimeoutMs,
+                    keyterms,
+                    additionalProperties);
         }
 
         @java.lang.Override

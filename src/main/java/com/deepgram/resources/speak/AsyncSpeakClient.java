@@ -6,6 +6,7 @@ package com.deepgram.resources.speak;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.Suppliers;
 import com.deepgram.resources.speak.v1.AsyncV1Client;
+import com.deepgram.resources.speak.v2.AsyncV2Client;
 import java.util.function.Supplier;
 
 public class AsyncSpeakClient {
@@ -13,12 +14,19 @@ public class AsyncSpeakClient {
 
     protected final Supplier<AsyncV1Client> v1Client;
 
+    protected final Supplier<AsyncV2Client> v2Client;
+
     public AsyncSpeakClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
         this.v1Client = Suppliers.memoize(() -> new AsyncV1Client(clientOptions));
+        this.v2Client = Suppliers.memoize(() -> new AsyncV2Client(clientOptions));
     }
 
     public AsyncV1Client v1() {
         return this.v1Client.get();
+    }
+
+    public AsyncV2Client v2() {
+        return this.v2Client.get();
     }
 }
