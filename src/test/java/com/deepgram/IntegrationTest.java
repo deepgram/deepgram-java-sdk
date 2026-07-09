@@ -9,6 +9,13 @@ import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOct
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
 import com.deepgram.resources.speak.v1.audio.requests.SpeakV1Request;
+import com.deepgram.resources.speak.v2.types.SpeakV2Close;
+import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
+import com.deepgram.resources.speak.v2.types.SpeakV2Speak;
+import com.deepgram.resources.speak.v2.websocket.V2ConnectOptions;
+import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
+import com.deepgram.types.SpeakV2Encoding;
+import com.deepgram.types.SpeakV2SampleRate;
 import com.deepgram.types.ListProjectsV1Response;
 import com.deepgram.types.ListProjectsV1ResponseProjectsItem;
 import com.deepgram.types.ListenV1AcceptedResponse;
@@ -23,6 +30,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -220,6 +231,58 @@ public class IntegrationTest {
                     result.getProjects().get();
             assertThat(projects).as("expected at least one project").isNotEmpty();
             System.out.println("Found " + projects.size() + " projects");
+        }
+
+        @Test
+        @DisplayName("SpeakV2WebSocket - stream TTS audio over the Speak v2 WebSocket")
+        void testIntegration_SpeakV2WebSocket() throws Exception {
+            // The Speak v2 WebSocket endpoint is not yet generally available on the production URL
+            // this key targets, so this test is opt-in: set DEEPGRAM_SPEAK_V2_WS=1 in an environment
+            // with access (e.g. staging). Otherwise it is skipped rather than failing the build.
+            String enabled = System.getenv("DEEPGRAM_SPEAK_V2_WS");
+            org.junit.jupiter.api.Assumptions.assumeTrue(
+                    enabled != null && !enabled.isEmpty(),
+                    "DEEPGRAM_SPEAK_V2_WS not set, skipping Speak v2 WebSocket integration test");
+
+            V2WebSocketClient wsClient = client.speak().v2().v2WebSocket();
+
+            CountDownLatch flushedLatch = new CountDownLatch(1);
+            AtomicLong totalAudioBytes = new AtomicLong(0);
+            AtomicReference<String> serverError = new AtomicReference<>();
+
+            wsClient.onSpeakV2Audio(audio -> totalAudioBytes.addAndGet(audio.size()));
+            wsClient.onFlushed(flushed -> flushedLatch.countDown());
+            wsClient.onErrorMessage(error -> serverError.set(String.valueOf(error)));
+            wsClient.onError(error -> serverError.set(error.getMessage()));
+
+            try {
+                V2ConnectOptions options = V2ConnectOptions.builder()
+                        .model("aura-2-thalia-en")
+                        .encoding(SpeakV2Encoding.LINEAR16)
+                        .sampleRate(SpeakV2SampleRate.SIXTEEN_THOUSAND)
+                        .build();
+                wsClient.connect(options).get(15, TimeUnit.SECONDS);
+
+                wsClient.sendSpeak(SpeakV2Speak.builder()
+                        .text("Hello from the Deepgram Java SDK integration test.")
+                        .build());
+                wsClient.sendFlush(SpeakV2Flush.builder().build());
+
+                boolean flushed = flushedLatch.await(20, TimeUnit.SECONDS);
+
+                wsClient.sendClose(SpeakV2Close.builder().build());
+
+                assertThat(serverError.get())
+                        .as("no server/transport error during streaming")
+                        .isNull();
+                assertThat(flushed).as("received a Flushed message").isTrue();
+                assertThat(totalAudioBytes.get())
+                        .as("expected streamed audio bytes")
+                        .isGreaterThan(0);
+                System.out.println("Speak v2 WS returned " + totalAudioBytes.get() + " bytes of audio");
+            } finally {
+                wsClient.disconnect();
+            }
         }
     }
 }
