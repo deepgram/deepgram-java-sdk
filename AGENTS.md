@@ -49,10 +49,11 @@ Current temporarily frozen files:
 
 - `src/main/java/com/deepgram/core/ClientOptions.java` - preserves release-please version markers and correct SDK header constants that Fern currently overwrites; use the standard `.bak` swap/restore workflow during regen review
 - `src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java` - carries bug fixes for `maxRetries(0)` semantics ("connect once, don't retry") and a configurable `connectionTimeoutMs` field (was hardcoded 4000ms), plus an `applyOptionsOverride(...)` hook used by `TransportWebSocketFactory` to apply per-transport reconnect policy; pull this back out once the fixes are upstreamed into the Fern generator. Use the standard `.bak` swap/restore workflow during regen review.
+- Fields-less message types carrying a manual `hashCode()` patch (Fern generates `equals()` but no `hashCode()` for these, violating the Object contract): `src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java`, `src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Close.java`, `src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Flush.java`, and the `AgentV1*` event types `src/main/java/com/deepgram/resources/agent/v1/types/{AgentV1ListenUpdated,AgentV1SpeakUpdated,AgentV1AgentAudioDone,AgentV1SettingsApplied,AgentV1UserStartedSpeaking,AgentV1KeepAlive,AgentV1ThinkUpdated,AgentV1PromptUpdated}.java`. Use the standard `.bak` swap/restore workflow during regen review; drop the patches and unfreeze all of them once the generator emits a matching equals/hashCode pair for fields-less types (tracked as an upstream Fern request).
 
 ### Prepare repo for regeneration
 
-1. Create a new branch off `main` named `lo/sdk-gen-<YYYY-MM-DD>`.
+1. Create a new branch off `main` named `<YOUR_INITIALS>/sdk-gen-<YYYY-MM-DD>` (e.g. `gh/sdk-gen-2026-07-09`). Use your own initials as the prefix.
 2. Push the branch and create a PR titled `chore: SDK regeneration <YYYY-MM-DD>` (empty commit if needed).
 3. Read `.fernignore` and classify each entry using the rules above.
 4. For each temporarily frozen file only:

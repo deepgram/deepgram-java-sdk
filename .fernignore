@@ -24,10 +24,21 @@ src/main/java/com/deepgram/core/transport/
 # Pull this back out once the fixes are upstreamed into the Fern generator.
 src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 
-# Manual equals/hashCode contract fix: Fern generates equals() but no hashCode() for this
-# fields-less message type. We add a consistent hashCode(). Unfreeze and drop the patch once
-# the generator emits a matching equals/hashCode pair.
+# Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
+# hashCode() for fields-less message types, violating the Object contract. We add a consistent
+# hashCode() to each. Unfreeze and drop these patches once the generator emits a matching
+# equals/hashCode pair for fields-less types (tracked as an upstream Fern request).
 src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java
+src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Close.java
+src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Flush.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ListenUpdated.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SpeakUpdated.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1AgentAudioDone.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsApplied.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UserStartedSpeaking.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1KeepAlive.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkUpdated.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java
 
 # Build and project configuration
 build.gradle
