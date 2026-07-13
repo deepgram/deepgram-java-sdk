@@ -6,6 +6,7 @@ package com.deepgram.resources.speak;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.Suppliers;
 import com.deepgram.resources.speak.v1.V1Client;
+import com.deepgram.resources.speak.v2.V2Client;
 import java.util.function.Supplier;
 
 public class SpeakClient {
@@ -13,12 +14,19 @@ public class SpeakClient {
 
     protected final Supplier<V1Client> v1Client;
 
+    protected final Supplier<V2Client> v2Client;
+
     public SpeakClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
         this.v1Client = Suppliers.memoize(() -> new V1Client(clientOptions));
+        this.v2Client = Suppliers.memoize(() -> new V2Client(clientOptions));
     }
 
     public V1Client v1() {
         return this.v1Client.get();
+    }
+
+    public V2Client v2() {
+        return this.v2Client.get();
     }
 }

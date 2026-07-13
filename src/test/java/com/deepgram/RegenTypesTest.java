@@ -3,8 +3,18 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.resources.agent.v1.types.AgentV1AgentAudioDone;
+import com.deepgram.resources.agent.v1.types.AgentV1KeepAlive;
+import com.deepgram.resources.agent.v1.types.AgentV1ListenUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1PromptUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1SettingsApplied;
+import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
+import com.deepgram.resources.speak.v2.types.SpeakV2Close;
+import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -21,6 +31,9 @@ import org.junit.jupiter.api.Test;
  *   <li>{@link ListenV2CloseStream} {@code type} is now a fixed {@code "CloseStream"} constant, and its manually
  *       patched {@code equals}/{@code hashCode} pair must honour the {@link Object} contract.
  *   <li>{@link DeepgramListenProviderV2} {@code language_hint} was renamed to {@code language_hints} (a list).
+ *   <li>Fields-less message types generate {@code equals()} but no {@code hashCode()}; we patch a consistent
+ *       {@code hashCode()} onto each (frozen in {@code .fernignore}). This test guards those patches against a
+ *       future regen silently dropping them again — see {@code FieldsLessMessageContract}.
  * </ul>
  */
 public class RegenTypesTest {
@@ -81,6 +94,35 @@ public class RegenTypesTest {
             ListenV2CloseStream a = ListenV2CloseStream.builder().build();
             ListenV2CloseStream b = ListenV2CloseStream.builder().build();
 
+            assertThat(a).isEqualTo(b);
+            assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        }
+    }
+
+    @Nested
+    @DisplayName("Fields-less message types: manual hashCode() patch honours the Object contract")
+    class FieldsLessMessageContract {
+
+        @Test
+        @DisplayName("equal instances share a hash code across all patched fields-less types")
+        void equalsHashCodeContract() {
+            // Each type generates equals() (all instances equal) but no hashCode(); we patch a
+            // consistent hashCode(). Two freshly-built instances must be equal AND share a hash.
+            assertContract(SpeakV2Close.builder().build(), SpeakV2Close.builder().build());
+            assertContract(SpeakV2Flush.builder().build(), SpeakV2Flush.builder().build());
+            assertContract(AgentV1ListenUpdated.builder().build(), AgentV1ListenUpdated.builder().build());
+            assertContract(AgentV1SpeakUpdated.builder().build(), AgentV1SpeakUpdated.builder().build());
+            assertContract(AgentV1AgentAudioDone.builder().build(), AgentV1AgentAudioDone.builder().build());
+            assertContract(AgentV1SettingsApplied.builder().build(), AgentV1SettingsApplied.builder().build());
+            assertContract(
+                    AgentV1UserStartedSpeaking.builder().build(),
+                    AgentV1UserStartedSpeaking.builder().build());
+            assertContract(AgentV1KeepAlive.builder().build(), AgentV1KeepAlive.builder().build());
+            assertContract(AgentV1ThinkUpdated.builder().build(), AgentV1ThinkUpdated.builder().build());
+            assertContract(AgentV1PromptUpdated.builder().build(), AgentV1PromptUpdated.builder().build());
+        }
+
+        private void assertContract(Object a, Object b) {
             assertThat(a).isEqualTo(b);
             assertThat(a.hashCode()).isEqualTo(b.hashCode());
         }

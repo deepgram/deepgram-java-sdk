@@ -14,26 +14,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = AgentV1KeepAlive.Builder.class)
-public final class AgentV1KeepAlive {
+@JsonDeserialize(builder = AgentV1ListenUpdated.Builder.class)
+public final class AgentV1ListenUpdated {
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1KeepAlive(Map<String, Object> additionalProperties) {
+    private AgentV1ListenUpdated(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
     }
 
     /**
-     * @return Message type identifier
+     * @return Message type identifier for listen update confirmation
      */
     @JsonProperty("type")
     public String getType() {
-        return "KeepAlive";
+        return "ListenUpdated";
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1KeepAlive;
+        return other instanceof AgentV1ListenUpdated;
     }
 
     @java.lang.Override
@@ -65,12 +65,12 @@ public final class AgentV1KeepAlive {
 
         private Builder() {}
 
-        public Builder from(AgentV1KeepAlive other) {
+        public Builder from(AgentV1ListenUpdated other) {
             return this;
         }
 
-        public AgentV1KeepAlive build() {
-            return new AgentV1KeepAlive(additionalProperties);
+        public AgentV1ListenUpdated build() {
+            return new AgentV1ListenUpdated(additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

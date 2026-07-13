@@ -25,20 +25,16 @@ import okio.ByteString;
  * Provides production-ready resilience for WebSocket connections.
  */
 public abstract class ReconnectingWebSocketListener extends WebSocketListener {
-    // Option-derived fields are volatile (not final) so {@link #applyOptionsOverride} can rewire them
-    // after construction — used by {@code TransportWebSocketFactory} to honour
+    // Overridable options are held behind a single volatile reference (not five separate volatile
+    // fields) so {@link #applyOptionsOverride} swaps them atomically — a reader that snapshots the
+    // reference once sees a mutually-consistent set (e.g. getNextDelay() cannot observe a new min
+    // paired with an old max). Rewiring is used by {@code TransportWebSocketFactory} to honour
     // {@code DeepgramTransportFactory.reconnectOptions()} without editing the generated WS clients.
-    private volatile long minReconnectionDelayMs;
+    private volatile ReconnectOptions activeOptions;
 
-    private volatile long maxReconnectionDelayMs;
-
-    private volatile double reconnectionDelayGrowFactor;
-
-    private volatile int maxRetries;
-
+    // maxEnqueuedMessages is fixed at construction (the queue is sized once) and intentionally not
+    // overridable, so it stays a separate final field rather than being read from activeOptions.
     private final int maxEnqueuedMessages;
-
-    private volatile long connectionTimeoutMs;
 
     private final AtomicInteger retryCount = new AtomicInteger(0);
 
@@ -66,12 +62,8 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     public ReconnectingWebSocketListener(
             ReconnectingWebSocketListener.ReconnectOptions options, Supplier<? extends WebSocket> connectionSupplier) {
-        this.minReconnectionDelayMs = options.minReconnectionDelayMs;
-        this.maxReconnectionDelayMs = options.maxReconnectionDelayMs;
-        this.reconnectionDelayGrowFactor = options.reconnectionDelayGrowFactor;
-        this.maxRetries = options.maxRetries;
+        this.activeOptions = options;
         this.maxEnqueuedMessages = options.maxEnqueuedMessages;
-        this.connectionTimeoutMs = options.connectionTimeoutMs;
         this.connectionSupplier = connectionSupplier;
     }
 
@@ -81,12 +73,13 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * without requiring edits to the generated per-resource WebSocket clients. {@code maxEnqueuedMessages}
      * is intentionally not overridden — the message queue is sized at construction.
      *
-     * <p>Thread-safety: option-derived fields are volatile; reads observe the latest write. The
-     * initial connect() call may have already started before the override lands, so for the very
-     * first attempt the original options apply; the override takes effect from the next attempt
-     * onwards. For the SageMaker storm-suppression case ({@code maxRetries(0)}) this is fine
-     * because the initial attempt's gate ({@code retryCount > maxRetries} with {@code retryCount=0})
-     * always passes regardless.
+     * <p>Thread-safety: the override is a single atomic write to a {@code volatile} reference, so a
+     * reader that snapshots {@link #activeOptions} once sees a mutually-consistent set of values
+     * (never a new min paired with an old max). The initial connect() call may have already started
+     * before the override lands, so for the very first attempt the original options apply; the
+     * override takes effect from the next attempt onwards. For the SageMaker storm-suppression case
+     * ({@code maxRetries(0)}) this is fine because the initial attempt's gate
+     * ({@code retryCount > maxRetries} with {@code retryCount=0}) always passes regardless.
      *
      * @param options replacement options; {@code null} is a no-op.
      */
@@ -94,11 +87,7 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         if (options == null) {
             return;
         }
-        this.minReconnectionDelayMs = options.minReconnectionDelayMs;
-        this.maxReconnectionDelayMs = options.maxReconnectionDelayMs;
-        this.reconnectionDelayGrowFactor = options.reconnectionDelayGrowFactor;
-        this.maxRetries = options.maxRetries;
-        this.connectionTimeoutMs = options.connectionTimeoutMs;
+        this.activeOptions = options;
     }
 
     /**
@@ -119,23 +108,26 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         if (!connectLock.compareAndSet(false, true)) {
             return;
         }
+        // Snapshot the overridable options once so the gate and timeout below use a consistent set.
+        ReconnectOptions opts = this.activeOptions;
         // retryCount is incremented inside scheduleReconnect() before re-entering connect(),
         // so on the initial call retryCount == 0 and we always proceed. The cap applies to
         // retries only — maxRetries(0) blocks retries but allows the initial attempt.
-        if (retryCount.get() > maxRetries) {
+        if (retryCount.get() > opts.maxRetries) {
             connectLock.set(false);
             return;
         }
         try {
             CompletableFuture<? extends WebSocket> connectionFuture = CompletableFuture.supplyAsync(connectionSupplier);
             try {
-                webSocket = connectionFuture.get(connectionTimeoutMs, MILLISECONDS);
+                webSocket = connectionFuture.get(opts.connectionTimeoutMs, MILLISECONDS);
             } catch (TimeoutException e) {
                 connectionFuture.cancel(true);
                 TimeoutException timeoutError =
-                        new TimeoutException("WebSocket connection timeout after " + connectionTimeoutMs + " milliseconds"
+                        new TimeoutException("WebSocket connection timeout after " + opts.connectionTimeoutMs
+                                + " milliseconds"
                                 + (retryCount.get() > 0
-                                        ? " (retry attempt #" + retryCount.get()
+                                        ? " (retry attempt #" + retryCount.get() + ")"
                                         : " (initial connection attempt)"));
                 onWebSocketFailure(null, timeoutError, null);
                 if (shouldReconnect.get()) {
@@ -350,11 +342,14 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * - 2+ = exponential backoff up to maxReconnectionDelayMs
      */
     private long getNextDelay() {
+        // Single volatile read → a consistent (min, growFactor, max) snapshot even if
+        // applyOptionsOverride swaps the options concurrently.
+        ReconnectOptions opts = this.activeOptions;
         if (retryCount.get() == 1) {
-            return minReconnectionDelayMs;
+            return opts.minReconnectionDelayMs;
         }
-        long delay = (long) (minReconnectionDelayMs * Math.pow(reconnectionDelayGrowFactor, retryCount.get() - 1));
-        return Math.min(delay, maxReconnectionDelayMs);
+        long delay = (long) (opts.minReconnectionDelayMs * Math.pow(opts.reconnectionDelayGrowFactor, retryCount.get() - 1));
+        return Math.min(delay, opts.maxReconnectionDelayMs);
     }
 
     /**
