@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.deepgram.core.DeepgramHttpException;
+import com.deepgram.core.Environment;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
@@ -58,7 +59,22 @@ public class IntegrationTest {
         apiKey = System.getenv("DEEPGRAM_API_KEY");
         org.junit.jupiter.api.Assumptions.assumeTrue(
                 apiKey != null && !apiKey.isEmpty(), "DEEPGRAM_API_KEY not set, skipping integration test");
-        client = DeepgramClient.builder().apiKey(apiKey).build();
+        DeepgramClientBuilder builder = DeepgramClient.builder().apiKey(apiKey);
+        // TEST ONLY: target a non-prod host (e.g. staging) by setting DEEPGRAM_BASE_URL
+        // (wss://... or https://...). Defaults to production when unset.
+        String baseUrl = System.getenv("DEEPGRAM_BASE_URL");
+        if (baseUrl != null && !baseUrl.isEmpty()) {
+            String https = baseUrl.startsWith("wss://")
+                    ? "https://" + baseUrl.substring("wss://".length())
+                    : baseUrl.startsWith("ws://") ? "http://" + baseUrl.substring("ws://".length()) : baseUrl;
+            builder.environment(Environment.custom()
+                    .base(https)
+                    .production(baseUrl)
+                    .agent(baseUrl)
+                    .agentRest(https)
+                    .build());
+        }
+        client = builder.build();
     }
 
     // --- Tier 1: Must pass before release ---
@@ -247,10 +263,14 @@ public class IntegrationTest {
             V2WebSocketClient wsClient = client.speak().v2().v2WebSocket();
 
             CountDownLatch flushedLatch = new CountDownLatch(1);
+            CountDownLatch audioLatch = new CountDownLatch(1);
             AtomicLong totalAudioBytes = new AtomicLong(0);
             AtomicReference<String> serverError = new AtomicReference<>();
 
-            wsClient.onSpeakV2Audio(audio -> totalAudioBytes.addAndGet(audio.size()));
+            wsClient.onSpeakV2Audio(audio -> {
+                totalAudioBytes.addAndGet(audio.size());
+                audioLatch.countDown();
+            });
             wsClient.onFlushed(flushed -> flushedLatch.countDown());
             wsClient.onErrorMessage(error -> serverError.set(String.valueOf(error)));
             wsClient.onError(error -> serverError.set(error.getMessage()));
@@ -269,6 +289,10 @@ public class IntegrationTest {
                 wsClient.sendFlush(SpeakV2Flush.builder().build());
 
                 boolean flushed = flushedLatch.await(20, TimeUnit.SECONDS);
+                // Flux streams audio frames *after* the Flushed control message, so wait for at
+                // least one audio frame before closing — otherwise Close races ahead of the audio
+                // and truncates the stream (observed against staging: Flushed arrives, then audio).
+                boolean gotAudio = audioLatch.await(20, TimeUnit.SECONDS);
 
                 wsClient.sendClose(SpeakV2Close.builder().build());
 
@@ -276,6 +300,7 @@ public class IntegrationTest {
                         .as("no server/transport error during streaming")
                         .isNull();
                 assertThat(flushed).as("received a Flushed message").isTrue();
+                assertThat(gotAudio).as("received at least one audio frame").isTrue();
                 assertThat(totalAudioBytes.get())
                         .as("expected streamed audio bytes")
                         .isGreaterThan(0);
