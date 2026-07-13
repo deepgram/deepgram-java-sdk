@@ -24,6 +24,13 @@ src/main/java/com/deepgram/core/transport/
 # Pull this back out once the fixes are upstreamed into the Fern generator.
 src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 
+# Forward-compat patch: Fern's generated dispatcher routes any unrecognized message
+# type to the error handler ("Update your SDK version..."), which makes benign new
+# server control frames look fatal to deployed clients. Patched to a no-op (the raw
+# frame is still delivered via onMessage(String)); mirrors the JS/Python SDKs. Re-apply
+# after regen. Unfreeze once the generator stops treating unknown frames as errors.
+src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
+
 # Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
 # hashCode() for fields-less message types, violating the Object contract. We add a consistent
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching

@@ -257,7 +257,7 @@ public class IntegrationTest {
 
             try {
                 V2ConnectOptions options = V2ConnectOptions.builder()
-                        .model("aura-2-thalia-en")
+                        .model("flux-alexis-en")
                         .encoding(SpeakV2Encoding.LINEAR16)
                         .sampleRate(SpeakV2SampleRate.SIXTEEN_THOUSAND)
                         .build();

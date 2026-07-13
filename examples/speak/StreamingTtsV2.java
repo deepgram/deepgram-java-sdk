@@ -96,7 +96,7 @@ public class StreamingTtsV2 {
 
             // Connect to the WebSocket. Model is required; encoding and sample rate are optional.
             V2ConnectOptions connectOptions = V2ConnectOptions.builder()
-                    .model("aura-2-thalia-en")
+                    .model("flux-alexis-en")
                     .encoding(SpeakV2Encoding.LINEAR16)
                     .sampleRate(SpeakV2SampleRate.SIXTEEN_THOUSAND)
                     .build();
