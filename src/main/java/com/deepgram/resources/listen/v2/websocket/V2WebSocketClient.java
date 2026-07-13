@@ -469,11 +469,11 @@ public class V2WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
-            if (onErrorHandler != null) {
-                onErrorHandler.accept(new RuntimeException(
-                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
-                                + "... Update your SDK version to support new message types."));
-            }
+            // Unrecognized message type: forward-compatible no-op. The raw frame was
+            // already delivered to onMessage(String) above, so a newer server adding a
+            // benign control frame (e.g. a GA addition to this endpoint) must not surface
+            // as a fatal error to deployed clients. Routing it to onError would make a
+            // harmless frame look fatal; mirrors the speak v2 client and the JS/Python SDKs.
         } catch (Exception e) {
             if (onErrorHandler != null) {
                 onErrorHandler.accept(e);

@@ -30,6 +30,7 @@ src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 # frame is still delivered via onMessage(String)); mirrors the JS/Python SDKs. Re-apply
 # after regen. Unfreeze once the generator stops treating unknown frames as errors.
 src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
+src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 
 # Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
 # hashCode() for fields-less message types, violating the Object contract. We add a consistent
