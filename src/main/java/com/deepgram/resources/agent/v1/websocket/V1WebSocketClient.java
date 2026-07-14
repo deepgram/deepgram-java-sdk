@@ -20,6 +20,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectionRefused;
 import com.deepgram.resources.agent.v1.types.AgentV1KeepAlive;
+import com.deepgram.resources.agent.v1.types.AgentV1LatencyReport;
 import com.deepgram.resources.agent.v1.types.AgentV1ListenUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1PromptUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ReceiveFunctionCallResponse;
@@ -97,6 +98,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<AgentV1UserStartedSpeaking> userStartedSpeakingHandler;
 
     private volatile Consumer<AgentV1AgentThinking> agentThinkingHandler;
+
+    private volatile Consumer<AgentV1LatencyReport> latencyReportHandler;
 
     private volatile Consumer<AgentV1FunctionCallRequest> functionCallRequestHandler;
 
@@ -409,6 +412,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onAgentThinking(Consumer<AgentV1AgentThinking> handler) {
         this.agentThinkingHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1LatencyReport messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onLatencyReport(Consumer<AgentV1LatencyReport> handler) {
+        this.latencyReportHandler = handler;
     }
 
     /**
@@ -762,6 +773,19 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (userStartedSpeakingHandlerEvent != null) {
                     if (userStartedSpeakingHandler != null) {
                         userStartedSpeakingHandler.accept(userStartedSpeakingHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("LatencyReport".equals(node.path("type").asText())) {
+                AgentV1LatencyReport latencyReportHandlerEvent = null;
+                try {
+                    latencyReportHandlerEvent = objectMapper.treeToValue(node, AgentV1LatencyReport.class);
+                } catch (Exception e) {
+                }
+                if (latencyReportHandlerEvent != null) {
+                    if (latencyReportHandler != null) {
+                        latencyReportHandler.accept(latencyReportHandlerEvent);
                     }
                     return;
                 }
