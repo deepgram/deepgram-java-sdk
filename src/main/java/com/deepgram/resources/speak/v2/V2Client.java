@@ -4,13 +4,19 @@
 package com.deepgram.resources.speak.v2;
 
 import com.deepgram.core.ClientOptions;
+import com.deepgram.core.Suppliers;
+import com.deepgram.resources.speak.v2.audio.AudioClient;
 import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
+import java.util.function.Supplier;
 
 public class V2Client {
     protected final ClientOptions clientOptions;
 
+    protected final Supplier<AudioClient> audioClient;
+
     public V2Client(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
+        this.audioClient = Suppliers.memoize(() -> new AudioClient(clientOptions));
     }
 
     /**
@@ -18,5 +24,9 @@ public class V2Client {
      */
     public V2WebSocketClient v2WebSocket() {
         return new V2WebSocketClient(clientOptions);
+    }
+
+    public AudioClient audio() {
+        return this.audioClient.get();
     }
 }

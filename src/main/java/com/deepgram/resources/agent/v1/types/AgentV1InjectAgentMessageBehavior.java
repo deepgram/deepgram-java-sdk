@@ -10,6 +10,9 @@ public final class AgentV1InjectAgentMessageBehavior {
     public static final AgentV1InjectAgentMessageBehavior DEFAULT =
             new AgentV1InjectAgentMessageBehavior(Value.DEFAULT, "default");
 
+    public static final AgentV1InjectAgentMessageBehavior INTERRUPT =
+            new AgentV1InjectAgentMessageBehavior(Value.INTERRUPT, "interrupt");
+
     public static final AgentV1InjectAgentMessageBehavior QUEUE =
             new AgentV1InjectAgentMessageBehavior(Value.QUEUE, "queue");
 
@@ -48,6 +51,8 @@ public final class AgentV1InjectAgentMessageBehavior {
         switch (value) {
             case DEFAULT:
                 return visitor.visitDefault();
+            case INTERRUPT:
+                return visitor.visitInterrupt();
             case QUEUE:
                 return visitor.visitQueue();
             case UNKNOWN:
@@ -61,6 +66,8 @@ public final class AgentV1InjectAgentMessageBehavior {
         switch (value) {
             case "default":
                 return DEFAULT;
+            case "interrupt":
+                return INTERRUPT;
             case "queue":
                 return QUEUE;
             default:
@@ -73,6 +80,8 @@ public final class AgentV1InjectAgentMessageBehavior {
 
         QUEUE,
 
+        INTERRUPT,
+
         UNKNOWN
     }
 
@@ -80,6 +89,8 @@ public final class AgentV1InjectAgentMessageBehavior {
         T visitDefault();
 
         T visitQueue();
+
+        T visitInterrupt();
 
         T visitUnknown(String unknownType);
     }

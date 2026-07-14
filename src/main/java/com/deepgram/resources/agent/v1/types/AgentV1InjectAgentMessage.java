@@ -57,6 +57,7 @@ public final class AgentV1InjectAgentMessage {
      * <ul>
      * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
      * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+     * <li><code>interrupt</code> — The agent immediately speaks. If the agent was already speaking, it interrupts the current speech and replaces it with the new message. If the user is speaking, the agent interrupts with the new message, but the user's continued speech triggers <code>UserStartedSpeaking</code>, which quickly interrupts the agent.</li>
      * </ul>
      */
     @JsonProperty("behavior")
@@ -114,6 +115,7 @@ public final class AgentV1InjectAgentMessage {
          * <ul>
          * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
          * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+         * <li><code>interrupt</code> — The agent immediately speaks. If the agent was already speaking, it interrupts the current speech and replaces it with the new message. If the user is speaking, the agent interrupts with the new message, but the user's continued speech triggers <code>UserStartedSpeaking</code>, which quickly interrupts the agent.</li>
          * </ul>
          */
         _FinalStage behavior(Optional<AgentV1InjectAgentMessageBehavior> behavior);
@@ -156,6 +158,7 @@ public final class AgentV1InjectAgentMessage {
          * <ul>
          * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
          * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+         * <li><code>interrupt</code> — The agent immediately speaks. If the agent was already speaking, it interrupts the current speech and replaces it with the new message. If the user is speaking, the agent interrupts with the new message, but the user's continued speech triggers <code>UserStartedSpeaking</code>, which quickly interrupts the agent.</li>
          * </ul>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -170,6 +173,7 @@ public final class AgentV1InjectAgentMessage {
          * <ul>
          * <li><code>default</code> — The agent speaks only if neither the user nor the agent is mid-turn. If a turn is in progress, the server replies with <code>InjectionRefused</code>.</li>
          * <li><code>queue</code> — The message is appended after any already-queued <code>ConversationText</code> without interrupting the current agent turn or think response. If nothing is queued, the message plays immediately.</li>
+         * <li><code>interrupt</code> — The agent immediately speaks. If the agent was already speaking, it interrupts the current speech and replaces it with the new message. If the user is speaking, the agent interrupts with the new message, but the user's continued speech triggers <code>UserStartedSpeaking</code>, which quickly interrupts the agent.</li>
          * </ul>
          */
         @java.lang.Override
