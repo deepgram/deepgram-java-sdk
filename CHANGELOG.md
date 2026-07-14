@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.6.0...v0.6.1) (2026-07-14)
+
+
+### Features
+
+* **regen:** add Flux TTS batch (REST) endpoint and agent latency report ([#75](https://github.com/deepgram/deepgram-java-sdk/issues/75)) ([5bfaf73](https://github.com/deepgram/deepgram-java-sdk/commit/5bfaf739108c5e71350cda601839e2beec4c1579))
+* **regen:** add Speak V2 streaming, agent update-listen, and Flux EOT tuning ([#73](https://github.com/deepgram/deepgram-java-sdk/issues/73)) ([a2b15aa](https://github.com/deepgram/deepgram-java-sdk/commit/a2b15aaa1c8e439c4a795fd77f82eaaaa97a0428))
+
 ## [0.6.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.5.0...v0.6.0) (2026-06-26)
 
 
