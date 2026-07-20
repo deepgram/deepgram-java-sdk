@@ -12,6 +12,7 @@ import com.deepgram.types.ListenV2Keyterm;
 import com.deepgram.types.ListenV2LanguageHint;
 import com.deepgram.types.ListenV2MipOptOut;
 import com.deepgram.types.ListenV2Model;
+import com.deepgram.types.ListenV2Numerals;
 import com.deepgram.types.ListenV2ProfanityFilter;
 import com.deepgram.types.ListenV2SampleRate;
 import com.deepgram.types.ListenV2Tag;
@@ -50,6 +51,8 @@ public final class V2ConnectOptions {
 
     private final Optional<ListenV2ProfanityFilter> profanityFilter;
 
+    private final Optional<ListenV2Numerals> numerals;
+
     private final Optional<ListenV2MipOptOut> mipOptOut;
 
     private final Optional<ListenV2Tag> tag;
@@ -66,6 +69,7 @@ public final class V2ConnectOptions {
             Optional<ListenV2Keyterm> keyterm,
             Optional<ListenV2LanguageHint> languageHint,
             Optional<ListenV2ProfanityFilter> profanityFilter,
+            Optional<ListenV2Numerals> numerals,
             Optional<ListenV2MipOptOut> mipOptOut,
             Optional<ListenV2Tag> tag,
             Map<String, Object> additionalProperties) {
@@ -78,6 +82,7 @@ public final class V2ConnectOptions {
         this.keyterm = keyterm;
         this.languageHint = languageHint;
         this.profanityFilter = profanityFilter;
+        this.numerals = numerals;
         this.mipOptOut = mipOptOut;
         this.tag = tag;
         this.additionalProperties = additionalProperties;
@@ -128,6 +133,11 @@ public final class V2ConnectOptions {
         return profanityFilter;
     }
 
+    @JsonProperty("numerals")
+    public Optional<ListenV2Numerals> getNumerals() {
+        return numerals;
+    }
+
     @JsonProperty("mip_opt_out")
     public Optional<ListenV2MipOptOut> getMipOptOut() {
         return mipOptOut;
@@ -159,6 +169,7 @@ public final class V2ConnectOptions {
                 && keyterm.equals(other.keyterm)
                 && languageHint.equals(other.languageHint)
                 && profanityFilter.equals(other.profanityFilter)
+                && numerals.equals(other.numerals)
                 && mipOptOut.equals(other.mipOptOut)
                 && tag.equals(other.tag);
     }
@@ -175,6 +186,7 @@ public final class V2ConnectOptions {
                 this.keyterm,
                 this.languageHint,
                 this.profanityFilter,
+                this.numerals,
                 this.mipOptOut,
                 this.tag);
     }
@@ -233,6 +245,10 @@ public final class V2ConnectOptions {
 
         _FinalStage profanityFilter(ListenV2ProfanityFilter profanityFilter);
 
+        _FinalStage numerals(Optional<ListenV2Numerals> numerals);
+
+        _FinalStage numerals(ListenV2Numerals numerals);
+
         _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut);
 
         _FinalStage mipOptOut(ListenV2MipOptOut mipOptOut);
@@ -249,6 +265,8 @@ public final class V2ConnectOptions {
         private Optional<ListenV2Tag> tag = Optional.empty();
 
         private Optional<ListenV2MipOptOut> mipOptOut = Optional.empty();
+
+        private Optional<ListenV2Numerals> numerals = Optional.empty();
 
         private Optional<ListenV2ProfanityFilter> profanityFilter = Optional.empty();
 
@@ -282,6 +300,7 @@ public final class V2ConnectOptions {
             keyterm(other.getKeyterm());
             languageHint(other.getLanguageHint());
             profanityFilter(other.getProfanityFilter());
+            numerals(other.getNumerals());
             mipOptOut(other.getMipOptOut());
             tag(other.getTag());
             return this;
@@ -317,6 +336,19 @@ public final class V2ConnectOptions {
         @JsonSetter(value = "mip_opt_out", nulls = Nulls.SKIP)
         public _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut) {
             this.mipOptOut = mipOptOut;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage numerals(ListenV2Numerals numerals) {
+            this.numerals = Optional.ofNullable(numerals);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "numerals", nulls = Nulls.SKIP)
+        public _FinalStage numerals(Optional<ListenV2Numerals> numerals) {
+            this.numerals = numerals;
             return this;
         }
 
@@ -436,6 +468,7 @@ public final class V2ConnectOptions {
                     keyterm,
                     languageHint,
                     profanityFilter,
+                    numerals,
                     mipOptOut,
                     tag,
                     additionalProperties);
