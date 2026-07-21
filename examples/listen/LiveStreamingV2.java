@@ -4,6 +4,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 import com.deepgram.types.ListenV2Model;
+import com.deepgram.types.ListenV2Numerals;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -65,6 +66,8 @@ public class LiveStreamingV2 {
             // Connect to the WebSocket
             CompletableFuture<Void> connectFuture = wsClient.connect(V2ConnectOptions.builder()
                     .model(ListenV2Model.FLUX_GENERAL_EN)
+                    // Render spoken numbers as digits in the transcript (e.g. "twenty three" -> "23").
+                    .numerals(ListenV2Numerals.TRUE)
                     .build());
             connectFuture.get(10, TimeUnit.SECONDS);
 
