@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.6.1...v0.7.0) (2026-07-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **regen:** flux stt numerals + aura-2 voices; remove AgentV1LatencyReport.stt_latency ([#78](https://github.com/deepgram/deepgram-java-sdk/issues/78))
+
+### Features
+
+* **regen:** flux stt numerals + aura-2 voices; remove AgentV1LatencyReport.stt_latency ([#78](https://github.com/deepgram/deepgram-java-sdk/issues/78)) ([5cafdac](https://github.com/deepgram/deepgram-java-sdk/commit/5cafdacc3323cc199167c77941d15a1cfaf270ba))
+
 ## [0.6.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.6.0...v0.6.1) (2026-07-14)
 
 
