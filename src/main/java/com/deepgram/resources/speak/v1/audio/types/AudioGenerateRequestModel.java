@@ -13,8 +13,8 @@ public final class AudioGenerateRequestModel {
     public static final AudioGenerateRequestModel AURA2HERA_EN =
             new AudioGenerateRequestModel(Value.AURA2HERA_EN, "aura-2-hera-en");
 
-    public static final AudioGenerateRequestModel AURA2ASTERIA_EN =
-            new AudioGenerateRequestModel(Value.AURA2ASTERIA_EN, "aura-2-asteria-en");
+    public static final AudioGenerateRequestModel AURA2KARA_DE =
+            new AudioGenerateRequestModel(Value.AURA2KARA_DE, "aura-2-kara-de");
 
     public static final AudioGenerateRequestModel AURA2HARMONIA_EN =
             new AudioGenerateRequestModel(Value.AURA2HARMONIA_EN, "aura-2-harmonia-en");
@@ -28,14 +28,17 @@ public final class AudioGenerateRequestModel {
     public static final AudioGenerateRequestModel AURA2HERMES_EN =
             new AudioGenerateRequestModel(Value.AURA2HERMES_EN, "aura-2-hermes-en");
 
-    public static final AudioGenerateRequestModel AURA2SELENA_ES =
-            new AudioGenerateRequestModel(Value.AURA2SELENA_ES, "aura-2-selena-es");
-
     public static final AudioGenerateRequestModel AURA2NEPTUNE_EN =
             new AudioGenerateRequestModel(Value.AURA2NEPTUNE_EN, "aura-2-neptune-en");
 
     public static final AudioGenerateRequestModel AURA2CALLISTA_EN =
             new AudioGenerateRequestModel(Value.AURA2CALLISTA_EN, "aura-2-callista-en");
+
+    public static final AudioGenerateRequestModel AURA2CORNELIA_NL =
+            new AudioGenerateRequestModel(Value.AURA2CORNELIA_NL, "aura-2-cornelia-nl");
+
+    public static final AudioGenerateRequestModel AURA2RHEA_NL =
+            new AudioGenerateRequestModel(Value.AURA2RHEA_NL, "aura-2-rhea-nl");
 
     public static final AudioGenerateRequestModel AURA2AURORA_EN =
             new AudioGenerateRequestModel(Value.AURA2AURORA_EN, "aura-2-aurora-en");
@@ -46,26 +49,23 @@ public final class AudioGenerateRequestModel {
     public static final AudioGenerateRequestModel AURA2APOLLO_EN =
             new AudioGenerateRequestModel(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
 
-    public static final AudioGenerateRequestModel AURA_LUNA_EN =
-            new AudioGenerateRequestModel(Value.AURA_LUNA_EN, "aura-luna-en");
-
-    public static final AudioGenerateRequestModel AURA_ORPHEUS_EN =
-            new AudioGenerateRequestModel(Value.AURA_ORPHEUS_EN, "aura-orpheus-en");
-
     public static final AudioGenerateRequestModel AURA2DELIA_EN =
             new AudioGenerateRequestModel(Value.AURA2DELIA_EN, "aura-2-delia-en");
 
     public static final AudioGenerateRequestModel AURA2MARS_EN =
             new AudioGenerateRequestModel(Value.AURA2MARS_EN, "aura-2-mars-en");
 
-    public static final AudioGenerateRequestModel AURA2AMALTHEA_EN =
-            new AudioGenerateRequestModel(Value.AURA2AMALTHEA_EN, "aura-2-amalthea-en");
+    public static final AudioGenerateRequestModel AURA2AURELIA_DE =
+            new AudioGenerateRequestModel(Value.AURA2AURELIA_DE, "aura-2-aurelia-de");
+
+    public static final AudioGenerateRequestModel AURA2AGATHE_FR =
+            new AudioGenerateRequestModel(Value.AURA2AGATHE_FR, "aura-2-agathe-fr");
 
     public static final AudioGenerateRequestModel AURA_HERA_EN =
             new AudioGenerateRequestModel(Value.AURA_HERA_EN, "aura-hera-en");
 
-    public static final AudioGenerateRequestModel AURA2SELENE_EN =
-            new AudioGenerateRequestModel(Value.AURA2SELENE_EN, "aura-2-selene-en");
+    public static final AudioGenerateRequestModel AURA2CINZIA_IT =
+            new AudioGenerateRequestModel(Value.AURA2CINZIA_IT, "aura-2-cinzia-it");
 
     public static final AudioGenerateRequestModel AURA2ARIES_EN =
             new AudioGenerateRequestModel(Value.AURA2ARIES_EN, "aura-2-aries-en");
@@ -73,77 +73,65 @@ public final class AudioGenerateRequestModel {
     public static final AudioGenerateRequestModel AURA2JUNO_EN =
             new AudioGenerateRequestModel(Value.AURA2JUNO_EN, "aura-2-juno-en");
 
-    public static final AudioGenerateRequestModel AURA2LUNA_EN =
-            new AudioGenerateRequestModel(Value.AURA2LUNA_EN, "aura-2-luna-en");
+    public static final AudioGenerateRequestModel AURA2MAIA_IT =
+            new AudioGenerateRequestModel(Value.AURA2MAIA_IT, "aura-2-maia-it");
 
     public static final AudioGenerateRequestModel AURA2JAVIER_ES =
             new AudioGenerateRequestModel(Value.AURA2JAVIER_ES, "aura-2-javier-es");
 
-    public static final AudioGenerateRequestModel AURA2PHOEBE_EN =
-            new AudioGenerateRequestModel(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
-
-    public static final AudioGenerateRequestModel AURA2DIANA_ES =
-            new AudioGenerateRequestModel(Value.AURA2DIANA_ES, "aura-2-diana-es");
-
-    public static final AudioGenerateRequestModel AURA_ORION_EN =
-            new AudioGenerateRequestModel(Value.AURA_ORION_EN, "aura-orion-en");
-
     public static final AudioGenerateRequestModel AURA2ANDROMEDA_EN =
             new AudioGenerateRequestModel(Value.AURA2ANDROMEDA_EN, "aura-2-andromeda-en");
-
-    public static final AudioGenerateRequestModel AURA2ATHENA_EN =
-            new AudioGenerateRequestModel(Value.AURA2ATHENA_EN, "aura-2-athena-en");
 
     public static final AudioGenerateRequestModel AURA2SATURN_EN =
             new AudioGenerateRequestModel(Value.AURA2SATURN_EN, "aura-2-saturn-en");
 
-    public static final AudioGenerateRequestModel AURA_ARCAS_EN =
-            new AudioGenerateRequestModel(Value.AURA_ARCAS_EN, "aura-arcas-en");
-
-    public static final AudioGenerateRequestModel AURA2THEIA_EN =
-            new AudioGenerateRequestModel(Value.AURA2THEIA_EN, "aura-2-theia-en");
-
     public static final AudioGenerateRequestModel AURA2IRIS_EN =
             new AudioGenerateRequestModel(Value.AURA2IRIS_EN, "aura-2-iris-en");
+
+    public static final AudioGenerateRequestModel AURA2DIONISIO_IT =
+            new AudioGenerateRequestModel(Value.AURA2DIONISIO_IT, "aura-2-dionisio-it");
 
     public static final AudioGenerateRequestModel AURA_ANGUS_EN =
             new AudioGenerateRequestModel(Value.AURA_ANGUS_EN, "aura-angus-en");
 
-    public static final AudioGenerateRequestModel AURA2JUPITER_EN =
-            new AudioGenerateRequestModel(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
+    public static final AudioGenerateRequestModel AURA2HESTIA_NL =
+            new AudioGenerateRequestModel(Value.AURA2HESTIA_NL, "aura-2-hestia-nl");
 
-    public static final AudioGenerateRequestModel AURA2AQUILA_ES =
-            new AudioGenerateRequestModel(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
+    public static final AudioGenerateRequestModel AURA2HECTOR_FR =
+            new AudioGenerateRequestModel(Value.AURA2HECTOR_FR, "aura-2-hector-fr");
 
-    public static final AudioGenerateRequestModel AURA2CORA_EN =
-            new AudioGenerateRequestModel(Value.AURA2CORA_EN, "aura-2-cora-en");
+    public static final AudioGenerateRequestModel AURA2PERSEO_IT =
+            new AudioGenerateRequestModel(Value.AURA2PERSEO_IT, "aura-2-perseo-it");
 
-    public static final AudioGenerateRequestModel AURA2CORDELIA_EN =
-            new AudioGenerateRequestModel(Value.AURA2CORDELIA_EN, "aura-2-cordelia-en");
+    public static final AudioGenerateRequestModel AURA2ELARA_DE =
+            new AudioGenerateRequestModel(Value.AURA2ELARA_DE, "aura-2-elara-de");
 
-    public static final AudioGenerateRequestModel AURA2ATLAS_EN =
-            new AudioGenerateRequestModel(Value.AURA2ATLAS_EN, "aura-2-atlas-en");
+    public static final AudioGenerateRequestModel AURA2DAPHNE_NL =
+            new AudioGenerateRequestModel(Value.AURA2DAPHNE_NL, "aura-2-daphne-nl");
+
+    public static final AudioGenerateRequestModel AURA2LARA_DE =
+            new AudioGenerateRequestModel(Value.AURA2LARA_DE, "aura-2-lara-de");
 
     public static final AudioGenerateRequestModel AURA2HELENA_EN =
             new AudioGenerateRequestModel(Value.AURA2HELENA_EN, "aura-2-helena-en");
 
+    public static final AudioGenerateRequestModel AURA2JULIUS_DE =
+            new AudioGenerateRequestModel(Value.AURA2JULIUS_DE, "aura-2-julius-de");
+
     public static final AudioGenerateRequestModel AURA_STELLA_EN =
             new AudioGenerateRequestModel(Value.AURA_STELLA_EN, "aura-stella-en");
+
+    public static final AudioGenerateRequestModel AURA2ANTONIA_ES =
+            new AudioGenerateRequestModel(Value.AURA2ANTONIA_ES, "aura-2-antonia-es");
 
     public static final AudioGenerateRequestModel AURA2DRACO_EN =
             new AudioGenerateRequestModel(Value.AURA2DRACO_EN, "aura-2-draco-en");
 
-    public static final AudioGenerateRequestModel AURA2HYPERION_EN =
-            new AudioGenerateRequestModel(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
-
-    public static final AudioGenerateRequestModel AURA2CELESTE_ES =
-            new AudioGenerateRequestModel(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
-
     public static final AudioGenerateRequestModel AURA_HELIOS_EN =
             new AudioGenerateRequestModel(Value.AURA_HELIOS_EN, "aura-helios-en");
 
-    public static final AudioGenerateRequestModel AURA2PLUTO_EN =
-            new AudioGenerateRequestModel(Value.AURA2PLUTO_EN, "aura-2-pluto-en");
+    public static final AudioGenerateRequestModel AURA2FABIAN_DE =
+            new AudioGenerateRequestModel(Value.AURA2FABIAN_DE, "aura-2-fabian-de");
 
     public static final AudioGenerateRequestModel AURA2JANUS_EN =
             new AudioGenerateRequestModel(Value.AURA2JANUS_EN, "aura-2-janus-en");
@@ -151,20 +139,14 @@ public final class AudioGenerateRequestModel {
     public static final AudioGenerateRequestModel AURA2NESTOR_ES =
             new AudioGenerateRequestModel(Value.AURA2NESTOR_ES, "aura-2-nestor-es");
 
-    public static final AudioGenerateRequestModel AURA2ARCAS_EN =
-            new AudioGenerateRequestModel(Value.AURA2ARCAS_EN, "aura-2-arcas-en");
+    public static final AudioGenerateRequestModel AURA2VALERIO_ES =
+            new AudioGenerateRequestModel(Value.AURA2VALERIO_ES, "aura-2-valerio-es");
 
     public static final AudioGenerateRequestModel AURA2ORION_EN =
             new AudioGenerateRequestModel(Value.AURA2ORION_EN, "aura-2-orion-en");
 
-    public static final AudioGenerateRequestModel AURA_ATHENA_EN =
-            new AudioGenerateRequestModel(Value.AURA_ATHENA_EN, "aura-athena-en");
-
-    public static final AudioGenerateRequestModel AURA2ODYSSEUS_EN =
-            new AudioGenerateRequestModel(Value.AURA2ODYSSEUS_EN, "aura-2-odysseus-en");
-
-    public static final AudioGenerateRequestModel AURA2PANDORA_EN =
-            new AudioGenerateRequestModel(Value.AURA2PANDORA_EN, "aura-2-pandora-en");
+    public static final AudioGenerateRequestModel AURA2SILVIA_ES =
+            new AudioGenerateRequestModel(Value.AURA2SILVIA_ES, "aura-2-silvia-es");
 
     public static final AudioGenerateRequestModel AURA2MINERVA_EN =
             new AudioGenerateRequestModel(Value.AURA2MINERVA_EN, "aura-2-minerva-en");
@@ -178,23 +160,161 @@ public final class AudioGenerateRequestModel {
     public static final AudioGenerateRequestModel AURA2VESTA_EN =
             new AudioGenerateRequestModel(Value.AURA2VESTA_EN, "aura-2-vesta-en");
 
-    public static final AudioGenerateRequestModel AURA_ASTERIA_EN =
-            new AudioGenerateRequestModel(Value.AURA_ASTERIA_EN, "aura-asteria-en");
-
     public static final AudioGenerateRequestModel AURA2ZEUS_EN =
             new AudioGenerateRequestModel(Value.AURA2ZEUS_EN, "aura-2-zeus-en");
-
-    public static final AudioGenerateRequestModel AURA2ELECTRA_EN =
-            new AudioGenerateRequestModel(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
 
     public static final AudioGenerateRequestModel AURA2ORPHEUS_EN =
             new AudioGenerateRequestModel(Value.AURA2ORPHEUS_EN, "aura-2-orpheus-en");
 
-    public static final AudioGenerateRequestModel AURA2ESTRELLA_ES =
-            new AudioGenerateRequestModel(Value.AURA2ESTRELLA_ES, "aura-2-estrella-es");
-
     public static final AudioGenerateRequestModel AURA2THALIA_EN =
             new AudioGenerateRequestModel(Value.AURA2THALIA_EN, "aura-2-thalia-en");
+
+    public static final AudioGenerateRequestModel AURA2IZANAMI_JA =
+            new AudioGenerateRequestModel(Value.AURA2IZANAMI_JA, "aura-2-izanami-ja");
+
+    public static final AudioGenerateRequestModel AURA2ASTERIA_EN =
+            new AudioGenerateRequestModel(Value.AURA2ASTERIA_EN, "aura-2-asteria-en");
+
+    public static final AudioGenerateRequestModel AURA2LUCIANO_ES =
+            new AudioGenerateRequestModel(Value.AURA2LUCIANO_ES, "aura-2-luciano-es");
+
+    public static final AudioGenerateRequestModel AURA2UZUME_JA =
+            new AudioGenerateRequestModel(Value.AURA2UZUME_JA, "aura-2-uzume-ja");
+
+    public static final AudioGenerateRequestModel AURA2SELENA_ES =
+            new AudioGenerateRequestModel(Value.AURA2SELENA_ES, "aura-2-selena-es");
+
+    public static final AudioGenerateRequestModel AURA2GLORIA_ES =
+            new AudioGenerateRequestModel(Value.AURA2GLORIA_ES, "aura-2-gloria-es");
+
+    public static final AudioGenerateRequestModel AURA2ELIO_IT =
+            new AudioGenerateRequestModel(Value.AURA2ELIO_IT, "aura-2-elio-it");
+
+    public static final AudioGenerateRequestModel AURA2AMA_JA =
+            new AudioGenerateRequestModel(Value.AURA2AMA_JA, "aura-2-ama-ja");
+
+    public static final AudioGenerateRequestModel AURA_LUNA_EN =
+            new AudioGenerateRequestModel(Value.AURA_LUNA_EN, "aura-luna-en");
+
+    public static final AudioGenerateRequestModel AURA_ORPHEUS_EN =
+            new AudioGenerateRequestModel(Value.AURA_ORPHEUS_EN, "aura-orpheus-en");
+
+    public static final AudioGenerateRequestModel AURA2AMALTHEA_EN =
+            new AudioGenerateRequestModel(Value.AURA2AMALTHEA_EN, "aura-2-amalthea-en");
+
+    public static final AudioGenerateRequestModel AURA2OLIVIA_ES =
+            new AudioGenerateRequestModel(Value.AURA2OLIVIA_ES, "aura-2-olivia-es");
+
+    public static final AudioGenerateRequestModel AURA2DEMETRA_IT =
+            new AudioGenerateRequestModel(Value.AURA2DEMETRA_IT, "aura-2-demetra-it");
+
+    public static final AudioGenerateRequestModel AURA2BEATRIX_NL =
+            new AudioGenerateRequestModel(Value.AURA2BEATRIX_NL, "aura-2-beatrix-nl");
+
+    public static final AudioGenerateRequestModel AURA2SELENE_EN =
+            new AudioGenerateRequestModel(Value.AURA2SELENE_EN, "aura-2-selene-en");
+
+    public static final AudioGenerateRequestModel AURA2EBISU_JA =
+            new AudioGenerateRequestModel(Value.AURA2EBISU_JA, "aura-2-ebisu-ja");
+
+    public static final AudioGenerateRequestModel AURA2LUNA_EN =
+            new AudioGenerateRequestModel(Value.AURA2LUNA_EN, "aura-2-luna-en");
+
+    public static final AudioGenerateRequestModel AURA2PHOEBE_EN =
+            new AudioGenerateRequestModel(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
+
+    public static final AudioGenerateRequestModel AURA2FLAVIO_IT =
+            new AudioGenerateRequestModel(Value.AURA2FLAVIO_IT, "aura-2-flavio-it");
+
+    public static final AudioGenerateRequestModel AURA2DIANA_ES =
+            new AudioGenerateRequestModel(Value.AURA2DIANA_ES, "aura-2-diana-es");
+
+    public static final AudioGenerateRequestModel AURA_ORION_EN =
+            new AudioGenerateRequestModel(Value.AURA_ORION_EN, "aura-orion-en");
+
+    public static final AudioGenerateRequestModel AURA2ATHENA_EN =
+            new AudioGenerateRequestModel(Value.AURA2ATHENA_EN, "aura-2-athena-en");
+
+    public static final AudioGenerateRequestModel AURA2LARS_NL =
+            new AudioGenerateRequestModel(Value.AURA2LARS_NL, "aura-2-lars-nl");
+
+    public static final AudioGenerateRequestModel AURA2FUJIN_JA =
+            new AudioGenerateRequestModel(Value.AURA2FUJIN_JA, "aura-2-fujin-ja");
+
+    public static final AudioGenerateRequestModel AURA_ARCAS_EN =
+            new AudioGenerateRequestModel(Value.AURA_ARCAS_EN, "aura-arcas-en");
+
+    public static final AudioGenerateRequestModel AURA2THEIA_EN =
+            new AudioGenerateRequestModel(Value.AURA2THEIA_EN, "aura-2-theia-en");
+
+    public static final AudioGenerateRequestModel AURA2LIVIA_IT =
+            new AudioGenerateRequestModel(Value.AURA2LIVIA_IT, "aura-2-livia-it");
+
+    public static final AudioGenerateRequestModel AURA2LEDA_NL =
+            new AudioGenerateRequestModel(Value.AURA2LEDA_NL, "aura-2-leda-nl");
+
+    public static final AudioGenerateRequestModel AURA2JUPITER_EN =
+            new AudioGenerateRequestModel(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
+
+    public static final AudioGenerateRequestModel AURA2MELIA_IT =
+            new AudioGenerateRequestModel(Value.AURA2MELIA_IT, "aura-2-melia-it");
+
+    public static final AudioGenerateRequestModel AURA2AQUILA_ES =
+            new AudioGenerateRequestModel(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
+
+    public static final AudioGenerateRequestModel AURA2CORA_EN =
+            new AudioGenerateRequestModel(Value.AURA2CORA_EN, "aura-2-cora-en");
+
+    public static final AudioGenerateRequestModel AURA2AGUSTINA_ES =
+            new AudioGenerateRequestModel(Value.AURA2AGUSTINA_ES, "aura-2-agustina-es");
+
+    public static final AudioGenerateRequestModel AURA2ROMAN_NL =
+            new AudioGenerateRequestModel(Value.AURA2ROMAN_NL, "aura-2-roman-nl");
+
+    public static final AudioGenerateRequestModel AURA2CORDELIA_EN =
+            new AudioGenerateRequestModel(Value.AURA2CORDELIA_EN, "aura-2-cordelia-en");
+
+    public static final AudioGenerateRequestModel AURA2ATLAS_EN =
+            new AudioGenerateRequestModel(Value.AURA2ATLAS_EN, "aura-2-atlas-en");
+
+    public static final AudioGenerateRequestModel AURA2VIKTORIA_DE =
+            new AudioGenerateRequestModel(Value.AURA2VIKTORIA_DE, "aura-2-viktoria-de");
+
+    public static final AudioGenerateRequestModel AURA2HYPERION_EN =
+            new AudioGenerateRequestModel(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
+
+    public static final AudioGenerateRequestModel AURA2CELESTE_ES =
+            new AudioGenerateRequestModel(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
+
+    public static final AudioGenerateRequestModel AURA2PLUTO_EN =
+            new AudioGenerateRequestModel(Value.AURA2PLUTO_EN, "aura-2-pluto-en");
+
+    public static final AudioGenerateRequestModel AURA2SANDER_NL =
+            new AudioGenerateRequestModel(Value.AURA2SANDER_NL, "aura-2-sander-nl");
+
+    public static final AudioGenerateRequestModel AURA2ARCAS_EN =
+            new AudioGenerateRequestModel(Value.AURA2ARCAS_EN, "aura-2-arcas-en");
+
+    public static final AudioGenerateRequestModel AURA2CESARE_IT =
+            new AudioGenerateRequestModel(Value.AURA2CESARE_IT, "aura-2-cesare-it");
+
+    public static final AudioGenerateRequestModel AURA_ATHENA_EN =
+            new AudioGenerateRequestModel(Value.AURA_ATHENA_EN, "aura-athena-en");
+
+    public static final AudioGenerateRequestModel AURA2ODYSSEUS_EN =
+            new AudioGenerateRequestModel(Value.AURA2ODYSSEUS_EN, "aura-2-odysseus-en");
+
+    public static final AudioGenerateRequestModel AURA2PANDORA_EN =
+            new AudioGenerateRequestModel(Value.AURA2PANDORA_EN, "aura-2-pandora-en");
+
+    public static final AudioGenerateRequestModel AURA_ASTERIA_EN =
+            new AudioGenerateRequestModel(Value.AURA_ASTERIA_EN, "aura-asteria-en");
+
+    public static final AudioGenerateRequestModel AURA2ELECTRA_EN =
+            new AudioGenerateRequestModel(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
+
+    public static final AudioGenerateRequestModel AURA2ESTRELLA_ES =
+            new AudioGenerateRequestModel(Value.AURA2ESTRELLA_ES, "aura-2-estrella-es");
 
     private final Value value;
 
@@ -233,8 +353,8 @@ public final class AudioGenerateRequestModel {
                 return visitor.visitAura2SirioEs();
             case AURA2HERA_EN:
                 return visitor.visitAura2HeraEn();
-            case AURA2ASTERIA_EN:
-                return visitor.visitAura2AsteriaEn();
+            case AURA2KARA_DE:
+                return visitor.visitAura2KaraDe();
             case AURA2HARMONIA_EN:
                 return visitor.visitAura2HarmoniaEn();
             case AURA2CARINA_ES:
@@ -243,98 +363,86 @@ public final class AudioGenerateRequestModel {
                 return visitor.visitAuraZeusEn();
             case AURA2HERMES_EN:
                 return visitor.visitAura2HermesEn();
-            case AURA2SELENA_ES:
-                return visitor.visitAura2SelenaEs();
             case AURA2NEPTUNE_EN:
                 return visitor.visitAura2NeptuneEn();
             case AURA2CALLISTA_EN:
                 return visitor.visitAura2CallistaEn();
+            case AURA2CORNELIA_NL:
+                return visitor.visitAura2CorneliaNl();
+            case AURA2RHEA_NL:
+                return visitor.visitAura2RheaNl();
             case AURA2AURORA_EN:
                 return visitor.visitAura2AuroraEn();
             case AURA2OPHELIA_EN:
                 return visitor.visitAura2OpheliaEn();
             case AURA2APOLLO_EN:
                 return visitor.visitAura2ApolloEn();
-            case AURA_LUNA_EN:
-                return visitor.visitAuraLunaEn();
-            case AURA_ORPHEUS_EN:
-                return visitor.visitAuraOrpheusEn();
             case AURA2DELIA_EN:
                 return visitor.visitAura2DeliaEn();
             case AURA2MARS_EN:
                 return visitor.visitAura2MarsEn();
-            case AURA2AMALTHEA_EN:
-                return visitor.visitAura2AmaltheaEn();
+            case AURA2AURELIA_DE:
+                return visitor.visitAura2AureliaDe();
+            case AURA2AGATHE_FR:
+                return visitor.visitAura2AgatheFr();
             case AURA_HERA_EN:
                 return visitor.visitAuraHeraEn();
-            case AURA2SELENE_EN:
-                return visitor.visitAura2SeleneEn();
+            case AURA2CINZIA_IT:
+                return visitor.visitAura2CinziaIt();
             case AURA2ARIES_EN:
                 return visitor.visitAura2AriesEn();
             case AURA2JUNO_EN:
                 return visitor.visitAura2JunoEn();
-            case AURA2LUNA_EN:
-                return visitor.visitAura2LunaEn();
+            case AURA2MAIA_IT:
+                return visitor.visitAura2MaiaIt();
             case AURA2JAVIER_ES:
                 return visitor.visitAura2JavierEs();
-            case AURA2PHOEBE_EN:
-                return visitor.visitAura2PhoebeEn();
-            case AURA2DIANA_ES:
-                return visitor.visitAura2DianaEs();
-            case AURA_ORION_EN:
-                return visitor.visitAuraOrionEn();
             case AURA2ANDROMEDA_EN:
                 return visitor.visitAura2AndromedaEn();
-            case AURA2ATHENA_EN:
-                return visitor.visitAura2AthenaEn();
             case AURA2SATURN_EN:
                 return visitor.visitAura2SaturnEn();
-            case AURA_ARCAS_EN:
-                return visitor.visitAuraArcasEn();
-            case AURA2THEIA_EN:
-                return visitor.visitAura2TheiaEn();
             case AURA2IRIS_EN:
                 return visitor.visitAura2IrisEn();
+            case AURA2DIONISIO_IT:
+                return visitor.visitAura2DionisioIt();
             case AURA_ANGUS_EN:
                 return visitor.visitAuraAngusEn();
-            case AURA2JUPITER_EN:
-                return visitor.visitAura2JupiterEn();
-            case AURA2AQUILA_ES:
-                return visitor.visitAura2AquilaEs();
-            case AURA2CORA_EN:
-                return visitor.visitAura2CoraEn();
-            case AURA2CORDELIA_EN:
-                return visitor.visitAura2CordeliaEn();
-            case AURA2ATLAS_EN:
-                return visitor.visitAura2AtlasEn();
+            case AURA2HESTIA_NL:
+                return visitor.visitAura2HestiaNl();
+            case AURA2HECTOR_FR:
+                return visitor.visitAura2HectorFr();
+            case AURA2PERSEO_IT:
+                return visitor.visitAura2PerseoIt();
+            case AURA2ELARA_DE:
+                return visitor.visitAura2ElaraDe();
+            case AURA2DAPHNE_NL:
+                return visitor.visitAura2DaphneNl();
+            case AURA2LARA_DE:
+                return visitor.visitAura2LaraDe();
             case AURA2HELENA_EN:
                 return visitor.visitAura2HelenaEn();
+            case AURA2JULIUS_DE:
+                return visitor.visitAura2JuliusDe();
             case AURA_STELLA_EN:
                 return visitor.visitAuraStellaEn();
+            case AURA2ANTONIA_ES:
+                return visitor.visitAura2AntoniaEs();
             case AURA2DRACO_EN:
                 return visitor.visitAura2DracoEn();
-            case AURA2HYPERION_EN:
-                return visitor.visitAura2HyperionEn();
-            case AURA2CELESTE_ES:
-                return visitor.visitAura2CelesteEs();
             case AURA_HELIOS_EN:
                 return visitor.visitAuraHeliosEn();
-            case AURA2PLUTO_EN:
-                return visitor.visitAura2PlutoEn();
+            case AURA2FABIAN_DE:
+                return visitor.visitAura2FabianDe();
             case AURA2JANUS_EN:
                 return visitor.visitAura2JanusEn();
             case AURA2NESTOR_ES:
                 return visitor.visitAura2NestorEs();
-            case AURA2ARCAS_EN:
-                return visitor.visitAura2ArcasEn();
+            case AURA2VALERIO_ES:
+                return visitor.visitAura2ValerioEs();
             case AURA2ORION_EN:
                 return visitor.visitAura2OrionEn();
-            case AURA_ATHENA_EN:
-                return visitor.visitAuraAthenaEn();
-            case AURA2ODYSSEUS_EN:
-                return visitor.visitAura2OdysseusEn();
-            case AURA2PANDORA_EN:
-                return visitor.visitAura2PandoraEn();
+            case AURA2SILVIA_ES:
+                return visitor.visitAura2SilviaEs();
             case AURA2MINERVA_EN:
                 return visitor.visitAura2MinervaEn();
             case AURA2ALVARO_ES:
@@ -343,18 +451,110 @@ public final class AudioGenerateRequestModel {
                 return visitor.visitAuraPerseusEn();
             case AURA2VESTA_EN:
                 return visitor.visitAura2VestaEn();
-            case AURA_ASTERIA_EN:
-                return visitor.visitAuraAsteriaEn();
             case AURA2ZEUS_EN:
                 return visitor.visitAura2ZeusEn();
-            case AURA2ELECTRA_EN:
-                return visitor.visitAura2ElectraEn();
             case AURA2ORPHEUS_EN:
                 return visitor.visitAura2OrpheusEn();
-            case AURA2ESTRELLA_ES:
-                return visitor.visitAura2EstrellaEs();
             case AURA2THALIA_EN:
                 return visitor.visitAura2ThaliaEn();
+            case AURA2IZANAMI_JA:
+                return visitor.visitAura2IzanamiJa();
+            case AURA2ASTERIA_EN:
+                return visitor.visitAura2AsteriaEn();
+            case AURA2LUCIANO_ES:
+                return visitor.visitAura2LucianoEs();
+            case AURA2UZUME_JA:
+                return visitor.visitAura2UzumeJa();
+            case AURA2SELENA_ES:
+                return visitor.visitAura2SelenaEs();
+            case AURA2GLORIA_ES:
+                return visitor.visitAura2GloriaEs();
+            case AURA2ELIO_IT:
+                return visitor.visitAura2ElioIt();
+            case AURA2AMA_JA:
+                return visitor.visitAura2AmaJa();
+            case AURA_LUNA_EN:
+                return visitor.visitAuraLunaEn();
+            case AURA_ORPHEUS_EN:
+                return visitor.visitAuraOrpheusEn();
+            case AURA2AMALTHEA_EN:
+                return visitor.visitAura2AmaltheaEn();
+            case AURA2OLIVIA_ES:
+                return visitor.visitAura2OliviaEs();
+            case AURA2DEMETRA_IT:
+                return visitor.visitAura2DemetraIt();
+            case AURA2BEATRIX_NL:
+                return visitor.visitAura2BeatrixNl();
+            case AURA2SELENE_EN:
+                return visitor.visitAura2SeleneEn();
+            case AURA2EBISU_JA:
+                return visitor.visitAura2EbisuJa();
+            case AURA2LUNA_EN:
+                return visitor.visitAura2LunaEn();
+            case AURA2PHOEBE_EN:
+                return visitor.visitAura2PhoebeEn();
+            case AURA2FLAVIO_IT:
+                return visitor.visitAura2FlavioIt();
+            case AURA2DIANA_ES:
+                return visitor.visitAura2DianaEs();
+            case AURA_ORION_EN:
+                return visitor.visitAuraOrionEn();
+            case AURA2ATHENA_EN:
+                return visitor.visitAura2AthenaEn();
+            case AURA2LARS_NL:
+                return visitor.visitAura2LarsNl();
+            case AURA2FUJIN_JA:
+                return visitor.visitAura2FujinJa();
+            case AURA_ARCAS_EN:
+                return visitor.visitAuraArcasEn();
+            case AURA2THEIA_EN:
+                return visitor.visitAura2TheiaEn();
+            case AURA2LIVIA_IT:
+                return visitor.visitAura2LiviaIt();
+            case AURA2LEDA_NL:
+                return visitor.visitAura2LedaNl();
+            case AURA2JUPITER_EN:
+                return visitor.visitAura2JupiterEn();
+            case AURA2MELIA_IT:
+                return visitor.visitAura2MeliaIt();
+            case AURA2AQUILA_ES:
+                return visitor.visitAura2AquilaEs();
+            case AURA2CORA_EN:
+                return visitor.visitAura2CoraEn();
+            case AURA2AGUSTINA_ES:
+                return visitor.visitAura2AgustinaEs();
+            case AURA2ROMAN_NL:
+                return visitor.visitAura2RomanNl();
+            case AURA2CORDELIA_EN:
+                return visitor.visitAura2CordeliaEn();
+            case AURA2ATLAS_EN:
+                return visitor.visitAura2AtlasEn();
+            case AURA2VIKTORIA_DE:
+                return visitor.visitAura2ViktoriaDe();
+            case AURA2HYPERION_EN:
+                return visitor.visitAura2HyperionEn();
+            case AURA2CELESTE_ES:
+                return visitor.visitAura2CelesteEs();
+            case AURA2PLUTO_EN:
+                return visitor.visitAura2PlutoEn();
+            case AURA2SANDER_NL:
+                return visitor.visitAura2SanderNl();
+            case AURA2ARCAS_EN:
+                return visitor.visitAura2ArcasEn();
+            case AURA2CESARE_IT:
+                return visitor.visitAura2CesareIt();
+            case AURA_ATHENA_EN:
+                return visitor.visitAuraAthenaEn();
+            case AURA2ODYSSEUS_EN:
+                return visitor.visitAura2OdysseusEn();
+            case AURA2PANDORA_EN:
+                return visitor.visitAura2PandoraEn();
+            case AURA_ASTERIA_EN:
+                return visitor.visitAuraAsteriaEn();
+            case AURA2ELECTRA_EN:
+                return visitor.visitAura2ElectraEn();
+            case AURA2ESTRELLA_ES:
+                return visitor.visitAura2EstrellaEs();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -368,8 +568,8 @@ public final class AudioGenerateRequestModel {
                 return AURA2SIRIO_ES;
             case "aura-2-hera-en":
                 return AURA2HERA_EN;
-            case "aura-2-asteria-en":
-                return AURA2ASTERIA_EN;
+            case "aura-2-kara-de":
+                return AURA2KARA_DE;
             case "aura-2-harmonia-en":
                 return AURA2HARMONIA_EN;
             case "aura-2-carina-es":
@@ -378,98 +578,86 @@ public final class AudioGenerateRequestModel {
                 return AURA_ZEUS_EN;
             case "aura-2-hermes-en":
                 return AURA2HERMES_EN;
-            case "aura-2-selena-es":
-                return AURA2SELENA_ES;
             case "aura-2-neptune-en":
                 return AURA2NEPTUNE_EN;
             case "aura-2-callista-en":
                 return AURA2CALLISTA_EN;
+            case "aura-2-cornelia-nl":
+                return AURA2CORNELIA_NL;
+            case "aura-2-rhea-nl":
+                return AURA2RHEA_NL;
             case "aura-2-aurora-en":
                 return AURA2AURORA_EN;
             case "aura-2-ophelia-en":
                 return AURA2OPHELIA_EN;
             case "aura-2-apollo-en":
                 return AURA2APOLLO_EN;
-            case "aura-luna-en":
-                return AURA_LUNA_EN;
-            case "aura-orpheus-en":
-                return AURA_ORPHEUS_EN;
             case "aura-2-delia-en":
                 return AURA2DELIA_EN;
             case "aura-2-mars-en":
                 return AURA2MARS_EN;
-            case "aura-2-amalthea-en":
-                return AURA2AMALTHEA_EN;
+            case "aura-2-aurelia-de":
+                return AURA2AURELIA_DE;
+            case "aura-2-agathe-fr":
+                return AURA2AGATHE_FR;
             case "aura-hera-en":
                 return AURA_HERA_EN;
-            case "aura-2-selene-en":
-                return AURA2SELENE_EN;
+            case "aura-2-cinzia-it":
+                return AURA2CINZIA_IT;
             case "aura-2-aries-en":
                 return AURA2ARIES_EN;
             case "aura-2-juno-en":
                 return AURA2JUNO_EN;
-            case "aura-2-luna-en":
-                return AURA2LUNA_EN;
+            case "aura-2-maia-it":
+                return AURA2MAIA_IT;
             case "aura-2-javier-es":
                 return AURA2JAVIER_ES;
-            case "aura-2-phoebe-en":
-                return AURA2PHOEBE_EN;
-            case "aura-2-diana-es":
-                return AURA2DIANA_ES;
-            case "aura-orion-en":
-                return AURA_ORION_EN;
             case "aura-2-andromeda-en":
                 return AURA2ANDROMEDA_EN;
-            case "aura-2-athena-en":
-                return AURA2ATHENA_EN;
             case "aura-2-saturn-en":
                 return AURA2SATURN_EN;
-            case "aura-arcas-en":
-                return AURA_ARCAS_EN;
-            case "aura-2-theia-en":
-                return AURA2THEIA_EN;
             case "aura-2-iris-en":
                 return AURA2IRIS_EN;
+            case "aura-2-dionisio-it":
+                return AURA2DIONISIO_IT;
             case "aura-angus-en":
                 return AURA_ANGUS_EN;
-            case "aura-2-jupiter-en":
-                return AURA2JUPITER_EN;
-            case "aura-2-aquila-es":
-                return AURA2AQUILA_ES;
-            case "aura-2-cora-en":
-                return AURA2CORA_EN;
-            case "aura-2-cordelia-en":
-                return AURA2CORDELIA_EN;
-            case "aura-2-atlas-en":
-                return AURA2ATLAS_EN;
+            case "aura-2-hestia-nl":
+                return AURA2HESTIA_NL;
+            case "aura-2-hector-fr":
+                return AURA2HECTOR_FR;
+            case "aura-2-perseo-it":
+                return AURA2PERSEO_IT;
+            case "aura-2-elara-de":
+                return AURA2ELARA_DE;
+            case "aura-2-daphne-nl":
+                return AURA2DAPHNE_NL;
+            case "aura-2-lara-de":
+                return AURA2LARA_DE;
             case "aura-2-helena-en":
                 return AURA2HELENA_EN;
+            case "aura-2-julius-de":
+                return AURA2JULIUS_DE;
             case "aura-stella-en":
                 return AURA_STELLA_EN;
+            case "aura-2-antonia-es":
+                return AURA2ANTONIA_ES;
             case "aura-2-draco-en":
                 return AURA2DRACO_EN;
-            case "aura-2-hyperion-en":
-                return AURA2HYPERION_EN;
-            case "aura-2-celeste-es":
-                return AURA2CELESTE_ES;
             case "aura-helios-en":
                 return AURA_HELIOS_EN;
-            case "aura-2-pluto-en":
-                return AURA2PLUTO_EN;
+            case "aura-2-fabian-de":
+                return AURA2FABIAN_DE;
             case "aura-2-janus-en":
                 return AURA2JANUS_EN;
             case "aura-2-nestor-es":
                 return AURA2NESTOR_ES;
-            case "aura-2-arcas-en":
-                return AURA2ARCAS_EN;
+            case "aura-2-valerio-es":
+                return AURA2VALERIO_ES;
             case "aura-2-orion-en":
                 return AURA2ORION_EN;
-            case "aura-athena-en":
-                return AURA_ATHENA_EN;
-            case "aura-2-odysseus-en":
-                return AURA2ODYSSEUS_EN;
-            case "aura-2-pandora-en":
-                return AURA2PANDORA_EN;
+            case "aura-2-silvia-es":
+                return AURA2SILVIA_ES;
             case "aura-2-minerva-en":
                 return AURA2MINERVA_EN;
             case "aura-2-alvaro-es":
@@ -478,45 +666,137 @@ public final class AudioGenerateRequestModel {
                 return AURA_PERSEUS_EN;
             case "aura-2-vesta-en":
                 return AURA2VESTA_EN;
-            case "aura-asteria-en":
-                return AURA_ASTERIA_EN;
             case "aura-2-zeus-en":
                 return AURA2ZEUS_EN;
-            case "aura-2-electra-en":
-                return AURA2ELECTRA_EN;
             case "aura-2-orpheus-en":
                 return AURA2ORPHEUS_EN;
-            case "aura-2-estrella-es":
-                return AURA2ESTRELLA_ES;
             case "aura-2-thalia-en":
                 return AURA2THALIA_EN;
+            case "aura-2-izanami-ja":
+                return AURA2IZANAMI_JA;
+            case "aura-2-asteria-en":
+                return AURA2ASTERIA_EN;
+            case "aura-2-luciano-es":
+                return AURA2LUCIANO_ES;
+            case "aura-2-uzume-ja":
+                return AURA2UZUME_JA;
+            case "aura-2-selena-es":
+                return AURA2SELENA_ES;
+            case "aura-2-gloria-es":
+                return AURA2GLORIA_ES;
+            case "aura-2-elio-it":
+                return AURA2ELIO_IT;
+            case "aura-2-ama-ja":
+                return AURA2AMA_JA;
+            case "aura-luna-en":
+                return AURA_LUNA_EN;
+            case "aura-orpheus-en":
+                return AURA_ORPHEUS_EN;
+            case "aura-2-amalthea-en":
+                return AURA2AMALTHEA_EN;
+            case "aura-2-olivia-es":
+                return AURA2OLIVIA_ES;
+            case "aura-2-demetra-it":
+                return AURA2DEMETRA_IT;
+            case "aura-2-beatrix-nl":
+                return AURA2BEATRIX_NL;
+            case "aura-2-selene-en":
+                return AURA2SELENE_EN;
+            case "aura-2-ebisu-ja":
+                return AURA2EBISU_JA;
+            case "aura-2-luna-en":
+                return AURA2LUNA_EN;
+            case "aura-2-phoebe-en":
+                return AURA2PHOEBE_EN;
+            case "aura-2-flavio-it":
+                return AURA2FLAVIO_IT;
+            case "aura-2-diana-es":
+                return AURA2DIANA_ES;
+            case "aura-orion-en":
+                return AURA_ORION_EN;
+            case "aura-2-athena-en":
+                return AURA2ATHENA_EN;
+            case "aura-2-lars-nl":
+                return AURA2LARS_NL;
+            case "aura-2-fujin-ja":
+                return AURA2FUJIN_JA;
+            case "aura-arcas-en":
+                return AURA_ARCAS_EN;
+            case "aura-2-theia-en":
+                return AURA2THEIA_EN;
+            case "aura-2-livia-it":
+                return AURA2LIVIA_IT;
+            case "aura-2-leda-nl":
+                return AURA2LEDA_NL;
+            case "aura-2-jupiter-en":
+                return AURA2JUPITER_EN;
+            case "aura-2-melia-it":
+                return AURA2MELIA_IT;
+            case "aura-2-aquila-es":
+                return AURA2AQUILA_ES;
+            case "aura-2-cora-en":
+                return AURA2CORA_EN;
+            case "aura-2-agustina-es":
+                return AURA2AGUSTINA_ES;
+            case "aura-2-roman-nl":
+                return AURA2ROMAN_NL;
+            case "aura-2-cordelia-en":
+                return AURA2CORDELIA_EN;
+            case "aura-2-atlas-en":
+                return AURA2ATLAS_EN;
+            case "aura-2-viktoria-de":
+                return AURA2VIKTORIA_DE;
+            case "aura-2-hyperion-en":
+                return AURA2HYPERION_EN;
+            case "aura-2-celeste-es":
+                return AURA2CELESTE_ES;
+            case "aura-2-pluto-en":
+                return AURA2PLUTO_EN;
+            case "aura-2-sander-nl":
+                return AURA2SANDER_NL;
+            case "aura-2-arcas-en":
+                return AURA2ARCAS_EN;
+            case "aura-2-cesare-it":
+                return AURA2CESARE_IT;
+            case "aura-athena-en":
+                return AURA_ATHENA_EN;
+            case "aura-2-odysseus-en":
+                return AURA2ODYSSEUS_EN;
+            case "aura-2-pandora-en":
+                return AURA2PANDORA_EN;
+            case "aura-asteria-en":
+                return AURA_ASTERIA_EN;
+            case "aura-2-electra-en":
+                return AURA2ELECTRA_EN;
+            case "aura-2-estrella-es":
+                return AURA2ESTRELLA_ES;
             default:
                 return new AudioGenerateRequestModel(Value.UNKNOWN, value);
         }
     }
 
     public enum Value {
-        AURA_ASTERIA_EN,
-
-        AURA_LUNA_EN,
-
-        AURA_STELLA_EN,
-
-        AURA_ATHENA_EN,
-
-        AURA_HERA_EN,
-
-        AURA_ORION_EN,
+        AURA_ANGUS_EN,
 
         AURA_ARCAS_EN,
 
-        AURA_PERSEUS_EN,
+        AURA_ASTERIA_EN,
 
-        AURA_ANGUS_EN,
+        AURA_ATHENA_EN,
+
+        AURA_HELIOS_EN,
+
+        AURA_HERA_EN,
+
+        AURA_LUNA_EN,
+
+        AURA_ORION_EN,
 
         AURA_ORPHEUS_EN,
 
-        AURA_HELIOS_EN,
+        AURA_PERSEUS_EN,
+
+        AURA_STELLA_EN,
 
         AURA_ZEUS_EN,
 
@@ -540,9 +820,9 @@ public final class AudioGenerateRequestModel {
 
         AURA2CALLISTA_EN,
 
-        AURA2CORDELIA_EN,
-
         AURA2CORA_EN,
+
+        AURA2CORDELIA_EN,
 
         AURA2DELIA_EN,
 
@@ -602,51 +882,131 @@ public final class AudioGenerateRequestModel {
 
         AURA2ZEUS_EN,
 
-        AURA2SIRIO_ES,
+        AURA2AGUSTINA_ES,
 
-        AURA2NESTOR_ES,
+        AURA2ALVARO_ES,
+
+        AURA2ANTONIA_ES,
+
+        AURA2AQUILA_ES,
 
         AURA2CARINA_ES,
 
         AURA2CELESTE_ES,
 
-        AURA2ALVARO_ES,
-
         AURA2DIANA_ES,
-
-        AURA2AQUILA_ES,
-
-        AURA2SELENA_ES,
 
         AURA2ESTRELLA_ES,
 
+        AURA2GLORIA_ES,
+
         AURA2JAVIER_ES,
+
+        AURA2LUCIANO_ES,
+
+        AURA2NESTOR_ES,
+
+        AURA2OLIVIA_ES,
+
+        AURA2SELENA_ES,
+
+        AURA2SILVIA_ES,
+
+        AURA2SIRIO_ES,
+
+        AURA2VALERIO_ES,
+
+        AURA2AURELIA_DE,
+
+        AURA2ELARA_DE,
+
+        AURA2FABIAN_DE,
+
+        AURA2JULIUS_DE,
+
+        AURA2KARA_DE,
+
+        AURA2LARA_DE,
+
+        AURA2VIKTORIA_DE,
+
+        AURA2BEATRIX_NL,
+
+        AURA2CORNELIA_NL,
+
+        AURA2DAPHNE_NL,
+
+        AURA2HESTIA_NL,
+
+        AURA2LARS_NL,
+
+        AURA2LEDA_NL,
+
+        AURA2RHEA_NL,
+
+        AURA2ROMAN_NL,
+
+        AURA2SANDER_NL,
+
+        AURA2AGATHE_FR,
+
+        AURA2HECTOR_FR,
+
+        AURA2CESARE_IT,
+
+        AURA2CINZIA_IT,
+
+        AURA2DEMETRA_IT,
+
+        AURA2DIONISIO_IT,
+
+        AURA2ELIO_IT,
+
+        AURA2FLAVIO_IT,
+
+        AURA2LIVIA_IT,
+
+        AURA2MAIA_IT,
+
+        AURA2MELIA_IT,
+
+        AURA2PERSEO_IT,
+
+        AURA2AMA_JA,
+
+        AURA2EBISU_JA,
+
+        AURA2FUJIN_JA,
+
+        AURA2IZANAMI_JA,
+
+        AURA2UZUME_JA,
 
         UNKNOWN
     }
 
     public interface Visitor<T> {
-        T visitAuraAsteriaEn();
-
-        T visitAuraLunaEn();
-
-        T visitAuraStellaEn();
-
-        T visitAuraAthenaEn();
-
-        T visitAuraHeraEn();
-
-        T visitAuraOrionEn();
+        T visitAuraAngusEn();
 
         T visitAuraArcasEn();
 
-        T visitAuraPerseusEn();
+        T visitAuraAsteriaEn();
 
-        T visitAuraAngusEn();
+        T visitAuraAthenaEn();
+
+        T visitAuraHeliosEn();
+
+        T visitAuraHeraEn();
+
+        T visitAuraLunaEn();
+
+        T visitAuraOrionEn();
 
         T visitAuraOrpheusEn();
 
-        T visitAuraHeliosEn();
+        T visitAuraPerseusEn();
+
+        T visitAuraStellaEn();
 
         T visitAuraZeusEn();
 
@@ -670,9 +1030,9 @@ public final class AudioGenerateRequestModel {
 
         T visitAura2CallistaEn();
 
-        T visitAura2CordeliaEn();
-
         T visitAura2CoraEn();
+
+        T visitAura2CordeliaEn();
 
         T visitAura2DeliaEn();
 
@@ -732,25 +1092,105 @@ public final class AudioGenerateRequestModel {
 
         T visitAura2ZeusEn();
 
-        T visitAura2SirioEs();
+        T visitAura2AgustinaEs();
 
-        T visitAura2NestorEs();
+        T visitAura2AlvaroEs();
+
+        T visitAura2AntoniaEs();
+
+        T visitAura2AquilaEs();
 
         T visitAura2CarinaEs();
 
         T visitAura2CelesteEs();
 
-        T visitAura2AlvaroEs();
-
         T visitAura2DianaEs();
-
-        T visitAura2AquilaEs();
-
-        T visitAura2SelenaEs();
 
         T visitAura2EstrellaEs();
 
+        T visitAura2GloriaEs();
+
         T visitAura2JavierEs();
+
+        T visitAura2LucianoEs();
+
+        T visitAura2NestorEs();
+
+        T visitAura2OliviaEs();
+
+        T visitAura2SelenaEs();
+
+        T visitAura2SilviaEs();
+
+        T visitAura2SirioEs();
+
+        T visitAura2ValerioEs();
+
+        T visitAura2AureliaDe();
+
+        T visitAura2ElaraDe();
+
+        T visitAura2FabianDe();
+
+        T visitAura2JuliusDe();
+
+        T visitAura2KaraDe();
+
+        T visitAura2LaraDe();
+
+        T visitAura2ViktoriaDe();
+
+        T visitAura2BeatrixNl();
+
+        T visitAura2CorneliaNl();
+
+        T visitAura2DaphneNl();
+
+        T visitAura2HestiaNl();
+
+        T visitAura2LarsNl();
+
+        T visitAura2LedaNl();
+
+        T visitAura2RheaNl();
+
+        T visitAura2RomanNl();
+
+        T visitAura2SanderNl();
+
+        T visitAura2AgatheFr();
+
+        T visitAura2HectorFr();
+
+        T visitAura2CesareIt();
+
+        T visitAura2CinziaIt();
+
+        T visitAura2DemetraIt();
+
+        T visitAura2DionisioIt();
+
+        T visitAura2ElioIt();
+
+        T visitAura2FlavioIt();
+
+        T visitAura2LiviaIt();
+
+        T visitAura2MaiaIt();
+
+        T visitAura2MeliaIt();
+
+        T visitAura2PerseoIt();
+
+        T visitAura2AmaJa();
+
+        T visitAura2EbisuJa();
+
+        T visitAura2FujinJa();
+
+        T visitAura2IzanamiJa();
+
+        T visitAura2UzumeJa();
 
         T visitUnknown(String unknownType);
     }

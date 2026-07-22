@@ -135,7 +135,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch. The voice catalog is not yet finalized, so this is typed as a free-form string rather than a closed enum; it can be locked to an enum (matching STT Flux <code>ListenV2Model</code>) once the GA catalog is confirmed.
+     * @return Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.
      */
     @JsonIgnore
     public String getModel() {
@@ -218,7 +218,7 @@ public final class SpeakV2Request {
 
     public interface ModelStage {
         /**
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch. The voice catalog is not yet finalized, so this is typed as a free-form string rather than a closed enum; it can be locked to an enum (matching STT Flux <code>ListenV2Model</code>) once the GA catalog is confirmed.</p>
+         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
          */
         TextStage model(@NotNull String model);
 
@@ -351,8 +351,8 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch. The voice catalog is not yet finalized, so this is typed as a free-form string rather than a closed enum; it can be locked to an enum (matching STT Flux <code>ListenV2Model</code>) once the GA catalog is confirmed.</p>
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch. The voice catalog is not yet finalized, so this is typed as a free-form string rather than a closed enum; it can be locked to an enum (matching STT Flux <code>ListenV2Model</code>) once the GA catalog is confirmed.</p>
+         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
+         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

@@ -137,6 +137,10 @@ public class V2WebSocketClient implements AutoCloseable {
                     "profanity_filter",
                     String.valueOf(options.getProfanityFilter().get()));
         }
+        if (options.getNumerals() != null && options.getNumerals().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "numerals", String.valueOf(options.getNumerals().get()));
+        }
         if (options.getMipOptOut() != null && options.getMipOptOut().isPresent()) {
             urlBuilder.addQueryParameter(
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
