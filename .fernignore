@@ -32,6 +32,14 @@ src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 
+# Multi-keyterm serialization fix: the generated streaming clients stringified a
+# List<String> keyterm into a single query param (keyterm=[a, b]) instead of
+# repeated params (keyterm=a&keyterm=b), which the server treats as one nonsense
+# term and which degrades recognition. Patched to emit one param per term. The v2
+# listen client is already frozen above; freeze the v1 listen client here too so the
+# fix survives regen. Re-apply after regen; unfreeze once fixed in the generator.
+src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
+
 # Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
 # hashCode() for fields-less message types, violating the Object contract. We add a consistent
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching
