@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.Environment;
 import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
+import com.deepgram.types.ListenV2Keyterm;
 import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2Numerals;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import okhttp3.HttpUrl;
 import okhttp3.WebSocket;
@@ -19,8 +21,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Hand-written connect-handshake wire coverage for the Flux STT {@code numerals} query param on
- * {@code listen().v2().v2WebSocket().connect(...)} (GET /v2/listen upgrade).
+ * Hand-written connect-handshake wire coverage for Flux STT connect query params ({@code numerals}
+ * and {@code keyterm}) on {@code listen().v2().v2WebSocket().connect(...)} (GET /v2/listen upgrade).
  *
  * <p>The Fern generator did not emit a wire test for the /v2/listen handshake, so this fills the
  * gap for the 2026-07-20 regen's new {@code numerals} option: it pins that {@code numerals=true}
@@ -87,5 +89,27 @@ class ListenV2ConnectWireTest {
                 V2ConnectOptions.builder().model(ListenV2Model.FLUX_GENERAL_EN).build());
 
         assertThat(url.queryParameterNames()).doesNotContain("numerals");
+    }
+
+    @Test
+    @DisplayName("multiple keyterms are sent as repeated params, not a stringified list")
+    void keytermListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model(ListenV2Model.FLUX_GENERAL_EN)
+                .keyterm(ListenV2Keyterm.of(List.of("a", "b")))
+                .build());
+
+        assertThat(url.queryParameterValues("keyterm")).containsExactly("a", "b");
+    }
+
+    @Test
+    @DisplayName("a single string keyterm is sent as one param")
+    void keytermStringSentAsOneParam() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model(ListenV2Model.FLUX_GENERAL_EN)
+                .keyterm(ListenV2Keyterm.of("a"))
+                .build());
+
+        assertThat(url.queryParameterValues("keyterm")).containsExactly("a");
     }
 }

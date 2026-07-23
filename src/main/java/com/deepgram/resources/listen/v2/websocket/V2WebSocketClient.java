@@ -125,8 +125,17 @@ public class V2WebSocketClient implements AutoCloseable {
                     "eot_timeout_ms", String.valueOf(options.getEotTimeoutMs().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "keyterm", String.valueOf(options.getKeyterm().get()));
+            // keyterm is a String | List<String> union. Emit one query param per term
+            // (keyterm=a&keyterm=b) rather than stringifying the whole list into a single
+            // param, which the server would treat as one nonsense term.
+            Object keytermValue = options.getKeyterm().get().get();
+            if (keytermValue instanceof Iterable) {
+                for (Object term : (Iterable<?>) keytermValue) {
+                    urlBuilder.addQueryParameter("keyterm", String.valueOf(term));
+                }
+            } else {
+                urlBuilder.addQueryParameter("keyterm", String.valueOf(keytermValue));
+            }
         }
         if (options.getLanguageHint() != null && options.getLanguageHint().isPresent()) {
             urlBuilder.addQueryParameter(
