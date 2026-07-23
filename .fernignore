@@ -29,6 +29,8 @@ src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 # server control frames look fatal to deployed clients. Patched to a no-op (the raw
 # frame is still delivered via onMessage(String)); mirrors the JS/Python SDKs. Re-apply
 # after regen. Unfreeze once the generator stops treating unknown frames as errors.
+# NOTE: the listen v2 client below also carries the multi-keyterm fix documented lower down
+# (keep it frozen until BOTH that fix and this one are upstreamed).
 src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 
