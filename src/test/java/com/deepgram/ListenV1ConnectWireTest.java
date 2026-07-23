@@ -4,8 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.Environment;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.types.ListenV1Extra;
 import com.deepgram.types.ListenV1Keyterm;
+import com.deepgram.types.ListenV1Keywords;
 import com.deepgram.types.ListenV1Model;
+import com.deepgram.types.ListenV1Replace;
+import com.deepgram.types.ListenV1Search;
+import com.deepgram.types.ListenV1Tag;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import okhttp3.HttpUrl;
@@ -20,12 +25,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Hand-written connect-handshake wire coverage for the {@code keyterm} query param on
+ * Hand-written connect-handshake wire coverage for the array-valued query params on
  * {@code listen().v1().v1WebSocket().connect(...)} (GET /v1/listen upgrade).
  *
- * <p>Guards that a multi-value keyterm serializes as repeated params ({@code keyterm=a&keyterm=b})
+ * <p>Guards that every {@code String | List<String>} query param (keyterm, keywords, replace,
+ * search, tag, extra) serializes a multi-value list as repeated params ({@code keyterm=a&keyterm=b})
  * rather than a single stringified list ({@code keyterm=[a, b]}), which the server would treat as
- * one nonsense term. Frozen via {@code src/test/} in .fernignore.
+ * one nonsense term, while a scalar string stays a single param. Frozen via {@code src/test/} in
+ * .fernignore.
  */
 class ListenV1ConnectWireTest {
     private MockWebServer server;
@@ -75,5 +82,71 @@ class ListenV1ConnectWireTest {
                 .build());
 
         assertThat(url.queryParameterValues("keyterm")).containsExactly("a", "b");
+    }
+
+    @Test
+    @DisplayName("a single string keyterm is sent as one param")
+    void keytermStringSentAsOneParam() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .keyterm(ListenV1Keyterm.of("a"))
+                .build());
+
+        assertThat(url.queryParameterValues("keyterm")).containsExactly("a");
+    }
+
+    @Test
+    @DisplayName("multiple keywords are sent as repeated params")
+    void keywordsListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .keywords(ListenV1Keywords.of(List.of("a:2", "b")))
+                .build());
+
+        assertThat(url.queryParameterValues("keywords")).containsExactly("a:2", "b");
+    }
+
+    @Test
+    @DisplayName("multiple replace terms are sent as repeated params")
+    void replaceListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .replace(ListenV1Replace.of(List.of("a:b", "c:d")))
+                .build());
+
+        assertThat(url.queryParameterValues("replace")).containsExactly("a:b", "c:d");
+    }
+
+    @Test
+    @DisplayName("multiple search terms are sent as repeated params")
+    void searchListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .search(ListenV1Search.of(List.of("a", "b")))
+                .build());
+
+        assertThat(url.queryParameterValues("search")).containsExactly("a", "b");
+    }
+
+    @Test
+    @DisplayName("multiple tags are sent as repeated params")
+    void tagListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .tag(ListenV1Tag.of(List.of("a", "b")))
+                .build());
+
+        assertThat(url.queryParameterValues("tag")).containsExactly("a", "b");
+    }
+
+    @Test
+    @DisplayName("multiple extra values are sent as repeated params")
+    void extraListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .extra(ListenV1Extra.of(List.of("a:1", "b:2")))
+                .build());
+
+        assertThat(url.queryParameterValues("extra")).containsExactly("a:1", "b:2");
     }
 }

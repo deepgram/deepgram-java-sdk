@@ -6,6 +6,7 @@ package com.deepgram.resources.listen.v2.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -125,21 +126,16 @@ public class V2WebSocketClient implements AutoCloseable {
                     "eot_timeout_ms", String.valueOf(options.getEotTimeoutMs().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            // keyterm is a String | List<String> union. Emit one query param per term
-            // (keyterm=a&keyterm=b) rather than stringifying the whole list into a single
-            // param, which the server would treat as one nonsense term.
-            Object keytermValue = options.getKeyterm().get().get();
-            if (keytermValue instanceof Iterable) {
-                for (Object term : (Iterable<?>) keytermValue) {
-                    urlBuilder.addQueryParameter("keyterm", String.valueOf(term));
-                }
-            } else {
-                urlBuilder.addQueryParameter("keyterm", String.valueOf(keytermValue));
-            }
+            // Array-valued query params (String | List<String> unions) must serialize as repeated
+            // params (keyterm=a&keyterm=b), not a stringified list. The generated streaming template
+            // uses String.valueOf(...), which mangles a List into "[a, b]"; route these through
+            // QueryStringMapper (arraysAsRepeats=true) so the wire format matches the REST path.
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
         }
         if (options.getLanguageHint() != null && options.getLanguageHint().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "language_hint", String.valueOf(options.getLanguageHint().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "language_hint", options.getLanguageHint().get().get(), true);
         }
         if (options.getProfanityFilter() != null && options.getProfanityFilter().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -155,7 +151,8 @@ public class V2WebSocketClient implements AutoCloseable {
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "tag", options.getTag().get().get(), true);
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);

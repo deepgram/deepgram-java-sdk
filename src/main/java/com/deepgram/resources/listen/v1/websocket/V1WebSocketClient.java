@@ -6,6 +6,7 @@ package com.deepgram.resources.listen.v1.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -138,8 +139,12 @@ public class V1WebSocketClient implements AutoCloseable {
                     "endpointing", String.valueOf(options.getEndpointing().get()));
         }
         if (options.getExtra() != null && options.getExtra().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "extra", String.valueOf(options.getExtra().get()));
+            // Array-valued query params (String | List<String> unions) must serialize as repeated
+            // params (extra=a&extra=b), not a stringified list. The generated streaming template
+            // uses String.valueOf(...), which mangles a List into "[a, b]"; route these through
+            // QueryStringMapper (arraysAsRepeats=true) so the wire format matches the REST path.
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "extra", options.getExtra().get().get(), true);
         }
         if (options.getInterimResults() != null && options.getInterimResults().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -147,21 +152,12 @@ public class V1WebSocketClient implements AutoCloseable {
                     String.valueOf(options.getInterimResults().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            // keyterm is a String | List<String> union. Emit one query param per term
-            // (keyterm=a&keyterm=b) rather than stringifying the whole list into a single
-            // param, which the server would treat as one nonsense term.
-            Object keytermValue = options.getKeyterm().get().get();
-            if (keytermValue instanceof Iterable) {
-                for (Object term : (Iterable<?>) keytermValue) {
-                    urlBuilder.addQueryParameter("keyterm", String.valueOf(term));
-                }
-            } else {
-                urlBuilder.addQueryParameter("keyterm", String.valueOf(keytermValue));
-            }
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
         }
         if (options.getKeywords() != null && options.getKeywords().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "keywords", String.valueOf(options.getKeywords().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "keywords", options.getKeywords().get().get(), true);
         }
         if (options.getLanguage() != null && options.getLanguage().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -194,23 +190,24 @@ public class V1WebSocketClient implements AutoCloseable {
                     "redact", String.valueOf(options.getRedact().get()));
         }
         if (options.getReplace() != null && options.getReplace().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "replace", String.valueOf(options.getReplace().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "replace", options.getReplace().get().get(), true);
         }
         if (options.getSampleRate() != null && options.getSampleRate().isPresent()) {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
         }
         if (options.getSearch() != null && options.getSearch().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "search", String.valueOf(options.getSearch().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "search", options.getSearch().get().get(), true);
         }
         if (options.getSmartFormat() != null && options.getSmartFormat().isPresent()) {
             urlBuilder.addQueryParameter(
                     "smart_format", String.valueOf(options.getSmartFormat().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "tag", options.getTag().get().get(), true);
         }
         if (options.getUtteranceEndMs() != null && options.getUtteranceEndMs().isPresent()) {
             urlBuilder.addQueryParameter(
