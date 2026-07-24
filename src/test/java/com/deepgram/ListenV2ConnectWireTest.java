@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.deepgram.core.Environment;
 import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
 import com.deepgram.types.ListenV2Keyterm;
+import com.deepgram.types.ListenV2LanguageHint;
 import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2Numerals;
+import com.deepgram.types.ListenV2Tag;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import okhttp3.HttpUrl;
@@ -22,7 +24,8 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Hand-written connect-handshake wire coverage for Flux STT connect query params ({@code numerals}
- * and {@code keyterm}) on {@code listen().v2().v2WebSocket().connect(...)} (GET /v2/listen upgrade).
+ * plus the array-valued {@code keyterm}, {@code tag}, and {@code language_hint}) on
+ * {@code listen().v2().v2WebSocket().connect(...)} (GET /v2/listen upgrade).
  *
  * <p>The Fern generator did not emit a wire test for the /v2/listen handshake, so this fills the
  * gap for the 2026-07-20 regen's new {@code numerals} option: it pins that {@code numerals=true}
@@ -111,5 +114,38 @@ class ListenV2ConnectWireTest {
                 .build());
 
         assertThat(url.queryParameterValues("keyterm")).containsExactly("a");
+    }
+
+    @Test
+    @DisplayName("multiple tags are sent as repeated params")
+    void tagListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model(ListenV2Model.FLUX_GENERAL_EN)
+                .tag(ListenV2Tag.of(List.of("a", "b")))
+                .build());
+
+        assertThat(url.queryParameterValues("tag")).containsExactly("a", "b");
+    }
+
+    @Test
+    @DisplayName("multiple language hints are sent as repeated params")
+    void languageHintListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model(ListenV2Model.FLUX_GENERAL_EN)
+                .languageHint(ListenV2LanguageHint.of(List.of("en", "es")))
+                .build());
+
+        assertThat(url.queryParameterValues("language_hint")).containsExactly("en", "es");
+    }
+
+    @Test
+    @DisplayName("a single string language hint is sent as one param")
+    void languageHintStringSentAsOneParam() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model(ListenV2Model.FLUX_GENERAL_EN)
+                .languageHint(ListenV2LanguageHint.of("en"))
+                .build());
+
+        assertThat(url.queryParameterValues("language_hint")).containsExactly("en");
     }
 }
