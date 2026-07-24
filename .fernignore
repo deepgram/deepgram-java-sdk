@@ -29,20 +29,26 @@ src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 # server control frames look fatal to deployed clients. Patched to a no-op (the raw
 # frame is still delivered via onMessage(String)); mirrors the JS/Python SDKs. Re-apply
 # after regen. Unfreeze once the generator stops treating unknown frames as errors.
-# NOTE: both the speak v2 and listen v2 clients below also carry the multi-value query param fix
-# documented lower down (keep them frozen until BOTH that fix and this one are upstreamed).
+# NOTE: the listen v2 and speak v2 clients below also carry the streaming query-param patches
+# (multi-value serialization + the additionalProperties escape hatch) documented lower down —
+# keep them frozen until those fixes are upstreamed too.
 src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 
-# Multi-value query param serialization fix: the generated streaming clients serialize every
-# array-valued query param (listen: keyterm, keywords, replace, search, tag, extra, language_hint;
-# speak: tag) with String.valueOf(union.get()), which stringifies a List<String> into a single
-# param (keyterm=[a, b]) instead of repeated params (keyterm=a&keyterm=b) — the server treats the
-# former as one nonsense term. Patched to route these through QueryStringMapper(arraysAsRepeats=
-# true), matching the REST path. The v2 listen and speak clients are already frozen above; freeze
-# the v1 listen client here too so the fix survives regen. Re-apply after regen; unfreeze once the
-# generator serializes streaming array query params as repeats (tracked as an upstream Fern request).
+# Streaming query-param patches on the generated WS connect() builders. Two fixes:
+#  (1) Multi-value serialization: array-valued params (listen: keyterm, keywords, replace, search,
+#      tag, extra, language_hint; speak: tag) were serialized with String.valueOf(union.get()),
+#      collapsing a List into one param (keyterm=[a, b]) instead of repeats (keyterm=a&keyterm=b),
+#      which the server treats as one nonsense value.
+#  (2) additionalProperties escape hatch: the builder exposes additionalProperty(key, value) for
+#      unmodeled params (e.g. no_delay), but connect() never emitted them to the URL, so they were
+#      silently dropped.
+# Both patched to route through QueryStringMapper(arraysAsRepeats=true), matching the REST path. The
+# listen v2 and speak v2 clients are frozen above; freeze the listen v1 and speak v1 clients here too
+# so the fixes survive regen. Re-apply after regen; unfreeze once the generator emits array params as
+# repeats and serializes additionalProperties on the WS connect path (tracked as an upstream Fern request).
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
+src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 
 # Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
 # hashCode() for fields-less message types, violating the Object contract. We add a consistent
