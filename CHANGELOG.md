@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.7.0...v0.7.1) (2026-07-24)
+
+
+### Bug Fixes
+
+* emit additionalProperties as query params on streaming connect ([#86](https://github.com/deepgram/deepgram-java-sdk/issues/86)) ([28229fc](https://github.com/deepgram/deepgram-java-sdk/commit/28229fcd420e2f0d9442ba3d4cde58c13d8a22e3))
+* emit repeated query params for all multi-value streaming options ([#82](https://github.com/deepgram/deepgram-java-sdk/issues/82)) ([746be15](https://github.com/deepgram/deepgram-java-sdk/commit/746be15b8ef2a6d3b70ccb809d9b8a02f01cd6f7)), closes [#77](https://github.com/deepgram/deepgram-java-sdk/issues/77)
+* emit repeated tag query params for multi-value speak v2 streaming ([#85](https://github.com/deepgram/deepgram-java-sdk/issues/85)) ([e748619](https://github.com/deepgram/deepgram-java-sdk/commit/e748619e57d80a3e0114f75f46b90f9deefa5552))
+
 ## [0.7.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.6.1...v0.7.0) (2026-07-22)
 
 
