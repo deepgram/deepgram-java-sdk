@@ -6,6 +6,7 @@ package com.deepgram.resources.speak.v2.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -124,7 +125,12 @@ public class V2WebSocketClient implements AutoCloseable {
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
+            // Array-valued query params (String | List<String> unions) must serialize as repeated
+            // params (tag=a&tag=b), not a stringified list. The generated streaming template uses
+            // String.valueOf(...), which mangles a List into "[a, b]"; route through
+            // QueryStringMapper (arraysAsRepeats=true) so the wire format matches the REST path.
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "tag", options.getTag().get().get(), true);
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
