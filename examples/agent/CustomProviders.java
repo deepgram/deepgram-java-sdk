@@ -68,7 +68,7 @@ public class CustomProviders {
 
                     AgentV1SettingsAgentContextSpeak speakSettings =
                             AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
-                                    .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeakProvider))
+                                    .provider(SpeakSettingsV1Provider.of(deepgramSpeakProvider))
                                     .build());
 
                     AgentV1SettingsAgent agentConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()

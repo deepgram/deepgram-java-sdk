@@ -32,7 +32,7 @@ public class ProviderCombinations {
                 .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
                 .build();
         AgentV1SettingsAgentContextSpeak speakSettings = AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
-                .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeak))
+                .provider(SpeakSettingsV1Provider.of(deepgramSpeak))
                 .build());
 
         // Combination 1: OpenAI GPT-4o Mini + Deepgram
