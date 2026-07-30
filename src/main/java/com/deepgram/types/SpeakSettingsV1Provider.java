@@ -3,396 +3,162 @@
  */
 package com.deepgram.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
+@JsonDeserialize(using = SpeakSettingsV1Provider.Deserializer.class)
 public final class SpeakSettingsV1Provider {
-    private final Value value;
+    private final Object value;
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    private SpeakSettingsV1Provider(Value value) {
+    private final int type;
+
+    private SpeakSettingsV1Provider(Object value, int type) {
         this.value = value;
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        return value.visit(visitor);
-    }
-
-    public static SpeakSettingsV1Provider deepgram(Deepgram value) {
-        return new SpeakSettingsV1Provider(new DeepgramValue(value));
-    }
-
-    public static SpeakSettingsV1Provider elevenLabs(ElevenLabsSpeakProvider value) {
-        return new SpeakSettingsV1Provider(new ElevenLabsValue(value));
-    }
-
-    public static SpeakSettingsV1Provider cartesia(Cartesia value) {
-        return new SpeakSettingsV1Provider(new CartesiaValue(value));
-    }
-
-    public static SpeakSettingsV1Provider openAi(OpenAiSpeakProvider value) {
-        return new SpeakSettingsV1Provider(new OpenAiValue(value));
-    }
-
-    public static SpeakSettingsV1Provider awsPolly(AwsPollySpeakProvider value) {
-        return new SpeakSettingsV1Provider(new AwsPollyValue(value));
-    }
-
-    public boolean isDeepgram() {
-        return value instanceof DeepgramValue;
-    }
-
-    public boolean isElevenLabs() {
-        return value instanceof ElevenLabsValue;
-    }
-
-    public boolean isCartesia() {
-        return value instanceof CartesiaValue;
-    }
-
-    public boolean isOpenAi() {
-        return value instanceof OpenAiValue;
-    }
-
-    public boolean isAwsPolly() {
-        return value instanceof AwsPollyValue;
-    }
-
-    public boolean _isUnknown() {
-        return value instanceof _UnknownValue;
-    }
-
-    public Optional<Deepgram> getDeepgram() {
-        if (isDeepgram()) {
-            return Optional.of(((DeepgramValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<ElevenLabsSpeakProvider> getElevenLabs() {
-        if (isElevenLabs()) {
-            return Optional.of(((ElevenLabsValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Cartesia> getCartesia() {
-        if (isCartesia()) {
-            return Optional.of(((CartesiaValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<OpenAiSpeakProvider> getOpenAi() {
-        if (isOpenAi()) {
-            return Optional.of(((OpenAiValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<AwsPollySpeakProvider> getAwsPolly() {
-        if (isAwsPolly()) {
-            return Optional.of(((AwsPollyValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Object> _getUnknown() {
-        if (_isUnknown()) {
-            return Optional.of(((_UnknownValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        return other instanceof SpeakSettingsV1Provider && value.equals(((SpeakSettingsV1Provider) other).value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
-    }
-
-    @Override
-    public String toString() {
-        return value.toString();
+        this.type = type;
     }
 
     @JsonValue
-    private Value getValue() {
+    public Object get() {
         return this.value;
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T visit(Visitor<T> visitor) {
+        if (this.type == 0) {
+            return visitor.visit((Deepgram) this.value);
+        } else if (this.type == 1) {
+            return visitor.visit((SpeakSettingsV1ProviderModel) this.value);
+        } else if (this.type == 2) {
+            return visitor.visit((ElevenLabsSpeakProvider) this.value);
+        } else if (this.type == 3) {
+            return visitor.visit((Cartesia) this.value);
+        } else if (this.type == 4) {
+            return visitor.visit((OpenAiSpeakProvider) this.value);
+        } else if (this.type == 5) {
+            return visitor.visit((AwsPollySpeakProvider) this.value);
+        }
+        throw new IllegalStateException("Failed to visit value. This should never happen.");
+    }
+
+    @java.lang.Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        return other instanceof SpeakSettingsV1Provider && equalTo((SpeakSettingsV1Provider) other);
+    }
+
+    private boolean equalTo(SpeakSettingsV1Provider other) {
+        return value.equals(other.value);
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @java.lang.Override
+    public String toString() {
+        return this.value.toString();
+    }
+
+    public static SpeakSettingsV1Provider of(Deepgram value) {
+        return new SpeakSettingsV1Provider(value, 0);
+    }
+
+    public static SpeakSettingsV1Provider of(SpeakSettingsV1ProviderModel value) {
+        return new SpeakSettingsV1Provider(value, 1);
+    }
+
+    public static SpeakSettingsV1Provider of(ElevenLabsSpeakProvider value) {
+        return new SpeakSettingsV1Provider(value, 2);
+    }
+
+    public static SpeakSettingsV1Provider of(Cartesia value) {
+        return new SpeakSettingsV1Provider(value, 3);
+    }
+
+    public static SpeakSettingsV1Provider of(OpenAiSpeakProvider value) {
+        return new SpeakSettingsV1Provider(value, 4);
+    }
+
+    public static SpeakSettingsV1Provider of(AwsPollySpeakProvider value) {
+        return new SpeakSettingsV1Provider(value, 5);
+    }
+
     public interface Visitor<T> {
-        T visitDeepgram(Deepgram deepgram);
+        T visit(Deepgram value);
 
-        T visitElevenLabs(ElevenLabsSpeakProvider elevenLabs);
+        T visit(SpeakSettingsV1ProviderModel value);
 
-        T visitCartesia(Cartesia cartesia);
+        T visit(ElevenLabsSpeakProvider value);
 
-        T visitOpenAi(OpenAiSpeakProvider openAi);
+        T visit(Cartesia value);
 
-        T visitAwsPolly(AwsPollySpeakProvider awsPolly);
+        T visit(OpenAiSpeakProvider value);
 
-        T _visitUnknown(Object unknownType);
+        T visit(AwsPollySpeakProvider value);
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true, defaultImpl = _UnknownValue.class)
-    @JsonSubTypes({
-        @JsonSubTypes.Type(DeepgramValue.class),
-        @JsonSubTypes.Type(ElevenLabsValue.class),
-        @JsonSubTypes.Type(CartesiaValue.class),
-        @JsonSubTypes.Type(OpenAiValue.class),
-        @JsonSubTypes.Type(AwsPollyValue.class)
-    })
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private interface Value {
-        <T> T visit(Visitor<T> visitor);
-    }
-
-    @JsonTypeName("deepgram")
-    @JsonIgnoreProperties("type")
-    private static final class DeepgramValue implements Value {
-        @JsonUnwrapped
-        @JsonIgnoreProperties(value = "type", allowSetters = true)
-        private Deepgram value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private DeepgramValue() {}
-
-        private DeepgramValue(Deepgram value) {
-            this.value = value;
+    static final class Deserializer extends StdDeserializer<SpeakSettingsV1Provider> {
+        Deserializer() {
+            super(SpeakSettingsV1Provider.class);
         }
 
         @java.lang.Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitDeepgram(value);
-        }
-
-        @java.lang.Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof DeepgramValue && equalTo((DeepgramValue) other);
-        }
-
-        private boolean equalTo(DeepgramValue other) {
-            return value.equals(other.value);
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @java.lang.Override
-        public String toString() {
-            return "SpeakSettingsV1Provider{" + "value: " + value + "}";
-        }
-    }
-
-    @JsonTypeName("eleven_labs")
-    @JsonIgnoreProperties("type")
-    private static final class ElevenLabsValue implements Value {
-        @JsonUnwrapped
-        @JsonIgnoreProperties(value = "type", allowSetters = true)
-        private ElevenLabsSpeakProvider value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private ElevenLabsValue() {}
-
-        private ElevenLabsValue(ElevenLabsSpeakProvider value) {
-            this.value = value;
-        }
-
-        @java.lang.Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitElevenLabs(value);
-        }
-
-        @java.lang.Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof ElevenLabsValue && equalTo((ElevenLabsValue) other);
-        }
-
-        private boolean equalTo(ElevenLabsValue other) {
-            return value.equals(other.value);
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @java.lang.Override
-        public String toString() {
-            return "SpeakSettingsV1Provider{" + "value: " + value + "}";
-        }
-    }
-
-    @JsonTypeName("cartesia")
-    @JsonIgnoreProperties("type")
-    private static final class CartesiaValue implements Value {
-        @JsonUnwrapped
-        @JsonIgnoreProperties(value = "type", allowSetters = true)
-        private Cartesia value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private CartesiaValue() {}
-
-        private CartesiaValue(Cartesia value) {
-            this.value = value;
-        }
-
-        @java.lang.Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitCartesia(value);
-        }
-
-        @java.lang.Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof CartesiaValue && equalTo((CartesiaValue) other);
-        }
-
-        private boolean equalTo(CartesiaValue other) {
-            return value.equals(other.value);
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @java.lang.Override
-        public String toString() {
-            return "SpeakSettingsV1Provider{" + "value: " + value + "}";
-        }
-    }
-
-    @JsonTypeName("open_ai")
-    @JsonIgnoreProperties("type")
-    private static final class OpenAiValue implements Value {
-        @JsonUnwrapped
-        @JsonIgnoreProperties(value = "type", allowSetters = true)
-        private OpenAiSpeakProvider value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private OpenAiValue() {}
-
-        private OpenAiValue(OpenAiSpeakProvider value) {
-            this.value = value;
-        }
-
-        @java.lang.Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitOpenAi(value);
-        }
-
-        @java.lang.Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof OpenAiValue && equalTo((OpenAiValue) other);
-        }
-
-        private boolean equalTo(OpenAiValue other) {
-            return value.equals(other.value);
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @java.lang.Override
-        public String toString() {
-            return "SpeakSettingsV1Provider{" + "value: " + value + "}";
-        }
-    }
-
-    @JsonTypeName("aws_polly")
-    @JsonIgnoreProperties("type")
-    private static final class AwsPollyValue implements Value {
-        @JsonUnwrapped
-        @JsonIgnoreProperties(value = "type", allowSetters = true)
-        private AwsPollySpeakProvider value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private AwsPollyValue() {}
-
-        private AwsPollyValue(AwsPollySpeakProvider value) {
-            this.value = value;
-        }
-
-        @java.lang.Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitAwsPolly(value);
-        }
-
-        @java.lang.Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof AwsPollyValue && equalTo((AwsPollyValue) other);
-        }
-
-        private boolean equalTo(AwsPollyValue other) {
-            return value.equals(other.value);
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @java.lang.Override
-        public String toString() {
-            return "SpeakSettingsV1Provider{" + "value: " + value + "}";
-        }
-    }
-
-    @JsonIgnoreProperties("type")
-    private static final class _UnknownValue implements Value {
-        private String type;
-
-        @JsonValue
-        private Object value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private _UnknownValue(@JsonProperty("value") Object value) {}
-
-        @java.lang.Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor._visitUnknown(value);
-        }
-
-        @java.lang.Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof _UnknownValue && equalTo((_UnknownValue) other);
-        }
-
-        private boolean equalTo(_UnknownValue other) {
-            return type.equals(other.type) && value.equals(other.value);
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            return Objects.hash(this.type, this.value);
-        }
-
-        @java.lang.Override
-        public String toString() {
-            return "SpeakSettingsV1Provider{" + "type: " + type + ", value: " + value + "}";
+        public SpeakSettingsV1Provider deserialize(JsonParser p, DeserializationContext context) throws IOException {
+            Object value = p.readValueAs(Object.class);
+            if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("model")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, Deepgram.class));
+                } catch (RuntimeException e) {
+                }
+            }
+            if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("model")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, SpeakSettingsV1ProviderModel.class));
+                } catch (RuntimeException e) {
+                }
+            }
+            if (value instanceof Map<?, ?> && ((Map<?, ?>) value).containsKey("model_id")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, ElevenLabsSpeakProvider.class));
+                } catch (RuntimeException e) {
+                }
+            }
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("model_id")
+                    && ((Map<?, ?>) value).containsKey("voice")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, Cartesia.class));
+                } catch (RuntimeException e) {
+                }
+            }
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("model")
+                    && ((Map<?, ?>) value).containsKey("voice")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, OpenAiSpeakProvider.class));
+                } catch (RuntimeException e) {
+                }
+            }
+            if (value instanceof Map<?, ?>
+                    && ((Map<?, ?>) value).containsKey("voice")
+                    && ((Map<?, ?>) value).containsKey("language")
+                    && ((Map<?, ?>) value).containsKey("engine")
+                    && ((Map<?, ?>) value).containsKey("credentials")) {
+                try {
+                    return of(ObjectMappers.JSON_MAPPER.convertValue(value, AwsPollySpeakProvider.class));
+                } catch (RuntimeException e) {
+                }
+            }
+            throw new JsonParseException(p, "Failed to deserialize");
         }
     }
 }

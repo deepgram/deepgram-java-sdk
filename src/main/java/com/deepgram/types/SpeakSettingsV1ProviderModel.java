@@ -19,34 +19,33 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = Anthropic.Builder.class)
-public final class Anthropic {
+@JsonDeserialize(builder = SpeakSettingsV1ProviderModel.Builder.class)
+public final class SpeakSettingsV1ProviderModel {
     private final Optional<String> version;
 
-    private final AnthropicThinkProviderModel model;
-
-    private final Optional<Double> temperature;
+    private final SpeakSettingsV1ProviderModelModel model;
 
     private final Map<String, Object> additionalProperties;
 
-    private Anthropic(
+    private SpeakSettingsV1ProviderModel(
             Optional<String> version,
-            AnthropicThinkProviderModel model,
-            Optional<Double> temperature,
+            SpeakSettingsV1ProviderModelModel model,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.model = model;
-        this.temperature = temperature;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Provider type for text-to-speech
+     */
     @JsonProperty("type")
     public String getType() {
-        return "anthropic";
+        return "deepgram";
     }
 
     /**
-     * @return The REST API version for the Anthropic Messages API
+     * @return Selects the Deepgram Flux TTS model family
      */
     @JsonProperty("version")
     public Optional<String> getVersion() {
@@ -54,25 +53,17 @@ public final class Anthropic {
     }
 
     /**
-     * @return Anthropic model to use
+     * @return Flux TTS model to use, in the format flux-{voice}-{language} (e.g. flux-alexis-en). See the Flux TTS voice catalog for the full list.
      */
     @JsonProperty("model")
-    public AnthropicThinkProviderModel getModel() {
+    public SpeakSettingsV1ProviderModelModel getModel() {
         return model;
-    }
-
-    /**
-     * @return Anthropic temperature (0-1)
-     */
-    @JsonProperty("temperature")
-    public Optional<Double> getTemperature() {
-        return temperature;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof Anthropic && equalTo((Anthropic) other);
+        return other instanceof SpeakSettingsV1ProviderModel && equalTo((SpeakSettingsV1ProviderModel) other);
     }
 
     @JsonAnyGetter
@@ -80,13 +71,13 @@ public final class Anthropic {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(Anthropic other) {
-        return version.equals(other.version) && model.equals(other.model) && temperature.equals(other.temperature);
+    private boolean equalTo(SpeakSettingsV1ProviderModel other) {
+        return version.equals(other.version) && model.equals(other.model);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model, this.temperature);
+        return Objects.hash(this.version, this.model);
     }
 
     @java.lang.Override
@@ -100,40 +91,31 @@ public final class Anthropic {
 
     public interface ModelStage {
         /**
-         * <p>Anthropic model to use</p>
+         * <p>Flux TTS model to use, in the format flux-{voice}-{language} (e.g. flux-alexis-en). See the Flux TTS voice catalog for the full list.</p>
          */
-        _FinalStage model(@NotNull AnthropicThinkProviderModel model);
+        _FinalStage model(@NotNull SpeakSettingsV1ProviderModelModel model);
 
-        Builder from(Anthropic other);
+        Builder from(SpeakSettingsV1ProviderModel other);
     }
 
     public interface _FinalStage {
-        Anthropic build();
+        SpeakSettingsV1ProviderModel build();
 
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
-         * <p>The REST API version for the Anthropic Messages API</p>
+         * <p>Selects the Deepgram Flux TTS model family</p>
          */
         _FinalStage version(Optional<String> version);
 
         _FinalStage version(String version);
-
-        /**
-         * <p>Anthropic temperature (0-1)</p>
-         */
-        _FinalStage temperature(Optional<Double> temperature);
-
-        _FinalStage temperature(Double temperature);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private AnthropicThinkProviderModel model;
-
-        private Optional<Double> temperature = Optional.empty();
+        private SpeakSettingsV1ProviderModelModel model;
 
         private Optional<String> version = Optional.empty();
 
@@ -143,46 +125,25 @@ public final class Anthropic {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(Anthropic other) {
+        public Builder from(SpeakSettingsV1ProviderModel other) {
             version(other.getVersion());
             model(other.getModel());
-            temperature(other.getTemperature());
             return this;
         }
 
         /**
-         * <p>Anthropic model to use</p>
+         * <p>Flux TTS model to use, in the format flux-{voice}-{language} (e.g. flux-alexis-en). See the Flux TTS voice catalog for the full list.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull AnthropicThinkProviderModel model) {
+        public _FinalStage model(@NotNull SpeakSettingsV1ProviderModelModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }
 
         /**
-         * <p>Anthropic temperature (0-1)</p>
-         * @return Reference to {@code this} so that method calls can be chained together.
-         */
-        @java.lang.Override
-        public _FinalStage temperature(Double temperature) {
-            this.temperature = Optional.ofNullable(temperature);
-            return this;
-        }
-
-        /**
-         * <p>Anthropic temperature (0-1)</p>
-         */
-        @java.lang.Override
-        @JsonSetter(value = "temperature", nulls = Nulls.SKIP)
-        public _FinalStage temperature(Optional<Double> temperature) {
-            this.temperature = temperature;
-            return this;
-        }
-
-        /**
-         * <p>The REST API version for the Anthropic Messages API</p>
+         * <p>Selects the Deepgram Flux TTS model family</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -192,7 +153,7 @@ public final class Anthropic {
         }
 
         /**
-         * <p>The REST API version for the Anthropic Messages API</p>
+         * <p>Selects the Deepgram Flux TTS model family</p>
          */
         @java.lang.Override
         @JsonSetter(value = "version", nulls = Nulls.SKIP)
@@ -202,8 +163,8 @@ public final class Anthropic {
         }
 
         @java.lang.Override
-        public Anthropic build() {
-            return new Anthropic(version, model, temperature, additionalProperties);
+        public SpeakSettingsV1ProviderModel build() {
+            return new SpeakSettingsV1ProviderModel(version, model, additionalProperties);
         }
 
         @java.lang.Override

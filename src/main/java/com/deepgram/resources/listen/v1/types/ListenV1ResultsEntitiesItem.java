@@ -223,7 +223,6 @@ public final class ListenV1ResultsEntitiesItem {
 
         /**
          * <p>The type/category of the entity (e.g., NAME, PHONE_NUMBER, EMAIL_ADDRESS, ORGANIZATION, CARDINAL)</p>
-         * <p>The type/category of the entity (e.g., NAME, PHONE_NUMBER, EMAIL_ADDRESS, ORGANIZATION, CARDINAL)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -234,7 +233,6 @@ public final class ListenV1ResultsEntitiesItem {
         }
 
         /**
-         * <p>The formatted text representation of the entity</p>
          * <p>The formatted text representation of the entity</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -247,7 +245,6 @@ public final class ListenV1ResultsEntitiesItem {
 
         /**
          * <p>The original spoken text of the entity (present when formatting is enabled)</p>
-         * <p>The original spoken text of the entity (present when formatting is enabled)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -258,7 +255,6 @@ public final class ListenV1ResultsEntitiesItem {
         }
 
         /**
-         * <p>The confidence score of the entity detection</p>
          * <p>The confidence score of the entity detection</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -271,7 +267,6 @@ public final class ListenV1ResultsEntitiesItem {
 
         /**
          * <p>The index of the first word of the entity in the transcript (inclusive)</p>
-         * <p>The index of the first word of the entity in the transcript (inclusive)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -282,7 +277,6 @@ public final class ListenV1ResultsEntitiesItem {
         }
 
         /**
-         * <p>The index of the last word of the entity in the transcript (exclusive)</p>
          * <p>The index of the last word of the entity in the transcript (exclusive)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

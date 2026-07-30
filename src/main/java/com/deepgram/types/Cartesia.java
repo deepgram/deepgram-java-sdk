@@ -194,7 +194,6 @@ public final class Cartesia {
 
         /**
          * <p>Cartesia model ID</p>
-         * <p>Cartesia model ID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

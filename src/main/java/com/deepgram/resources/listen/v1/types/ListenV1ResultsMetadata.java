@@ -141,7 +141,6 @@ public final class ListenV1ResultsMetadata {
 
         /**
          * <p>The request ID</p>
-         * <p>The request ID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -159,7 +158,6 @@ public final class ListenV1ResultsMetadata {
         }
 
         /**
-         * <p>The model UUID</p>
          * <p>The model UUID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

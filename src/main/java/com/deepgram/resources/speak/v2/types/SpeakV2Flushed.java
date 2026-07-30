@@ -107,7 +107,6 @@ public final class SpeakV2Flushed {
 
         /**
          * <p>Server-assigned turn identifier</p>
-         * <p>Server-assigned turn identifier</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

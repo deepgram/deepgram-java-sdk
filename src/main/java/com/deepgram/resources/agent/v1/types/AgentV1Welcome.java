@@ -107,7 +107,6 @@ public final class AgentV1Welcome {
 
         /**
          * <p>Unique identifier for the request</p>
-         * <p>Unique identifier for the request</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

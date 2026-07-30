@@ -107,7 +107,6 @@ public final class AgentV1AgentThinking {
 
         /**
          * <p>The text of the agent's thought process</p>
-         * <p>The text of the agent's thought process</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

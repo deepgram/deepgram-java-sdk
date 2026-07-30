@@ -46,7 +46,7 @@ public final class Deepgram {
     }
 
     /**
-     * @return The REST API version for the Deepgram text-to-speech API
+     * @return The Deepgram text-to-speech model family. Aura models use v1 (default). For Flux TTS, use v2. Defaults to v1 when omitted.
      */
     @JsonProperty("version")
     public Optional<String> getVersion() {
@@ -115,7 +115,7 @@ public final class Deepgram {
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
-         * <p>The REST API version for the Deepgram text-to-speech API</p>
+         * <p>The Deepgram text-to-speech model family. Aura models use v1 (default). For Flux TTS, use v2. Defaults to v1 when omitted.</p>
          */
         _FinalStage version(Optional<String> version);
 
@@ -152,7 +152,6 @@ public final class Deepgram {
 
         /**
          * <p>Deepgram TTS model</p>
-         * <p>Deepgram TTS model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -183,7 +182,7 @@ public final class Deepgram {
         }
 
         /**
-         * <p>The REST API version for the Deepgram text-to-speech API</p>
+         * <p>The Deepgram text-to-speech model family. Aura models use v1 (default). For Flux TTS, use v2. Defaults to v1 when omitted.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -193,7 +192,7 @@ public final class Deepgram {
         }
 
         /**
-         * <p>The REST API version for the Deepgram text-to-speech API</p>
+         * <p>The Deepgram text-to-speech model family. Aura models use v1 (default). For Flux TTS, use v2. Defaults to v1 when omitted.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "version", nulls = Nulls.SKIP)

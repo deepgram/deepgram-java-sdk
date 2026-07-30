@@ -352,7 +352,6 @@ public final class SpeakV2Request {
 
         /**
          * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -363,7 +362,6 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text (e.g. stripping inline controls) before synthesis.</p>
          * <p>The text content to be converted to speech. The server normalizes and preprocesses the text (e.g. stripping inline controls) before synthesis.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

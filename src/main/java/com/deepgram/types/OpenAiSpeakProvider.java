@@ -152,7 +152,6 @@ public final class OpenAiSpeakProvider {
 
         /**
          * <p>OpenAI TTS model</p>
-         * <p>OpenAI TTS model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -163,7 +162,6 @@ public final class OpenAiSpeakProvider {
         }
 
         /**
-         * <p>OpenAI voice</p>
          * <p>OpenAI voice</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

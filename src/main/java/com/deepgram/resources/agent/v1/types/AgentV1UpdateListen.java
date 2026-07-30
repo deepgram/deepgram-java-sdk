@@ -107,7 +107,6 @@ public final class AgentV1UpdateListen {
 
         /**
          * <p>Listen configuration to update. Contains a provider object with the same schema as Settings. The provider identity (type, version, model) is required and must match the current session.</p>
-         * <p>Listen configuration to update. Contains a provider object with the same schema as Settings. The provider identity (type, version, model) is required and must match the current session.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

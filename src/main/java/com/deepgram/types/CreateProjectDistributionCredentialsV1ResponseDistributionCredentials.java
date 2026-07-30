@@ -202,7 +202,6 @@ public final class CreateProjectDistributionCredentialsV1ResponseDistributionCre
 
         /**
          * <p>Unique identifier for the distribution credentials</p>
-         * <p>Unique identifier for the distribution credentials</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -215,7 +214,6 @@ public final class CreateProjectDistributionCredentialsV1ResponseDistributionCre
 
         /**
          * <p>The provider of the distribution service</p>
-         * <p>The provider of the distribution service</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -226,7 +224,6 @@ public final class CreateProjectDistributionCredentialsV1ResponseDistributionCre
         }
 
         /**
-         * <p>Timestamp when the credentials were created</p>
          * <p>Timestamp when the credentials were created</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
