@@ -24,14 +24,14 @@ public final class Groq {
 
     private final Optional<Double> temperature;
 
-    private final Optional<GroqReasoningMode> reasoningMode;
+    private final Optional<GroqThinkProviderReasoningMode> reasoningMode;
 
     private final Map<String, Object> additionalProperties;
 
     private Groq(
             Optional<String> version,
             Optional<Double> temperature,
-            Optional<GroqReasoningMode> reasoningMode,
+            Optional<GroqThinkProviderReasoningMode> reasoningMode,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.temperature = temperature;
@@ -72,7 +72,7 @@ public final class Groq {
      * @return OpenAI reasoning_effort
      */
     @JsonProperty("reasoning_mode")
-    public Optional<GroqReasoningMode> getReasoningMode() {
+    public Optional<GroqThinkProviderReasoningMode> getReasoningMode() {
         return reasoningMode;
     }
 
@@ -113,7 +113,7 @@ public final class Groq {
 
         private Optional<Double> temperature = Optional.empty();
 
-        private Optional<GroqReasoningMode> reasoningMode = Optional.empty();
+        private Optional<GroqThinkProviderReasoningMode> reasoningMode = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -159,12 +159,12 @@ public final class Groq {
          * <p>OpenAI reasoning_effort</p>
          */
         @JsonSetter(value = "reasoning_mode", nulls = Nulls.SKIP)
-        public Builder reasoningMode(Optional<GroqReasoningMode> reasoningMode) {
+        public Builder reasoningMode(Optional<GroqThinkProviderReasoningMode> reasoningMode) {
             this.reasoningMode = reasoningMode;
             return this;
         }
 
-        public Builder reasoningMode(GroqReasoningMode reasoningMode) {
+        public Builder reasoningMode(GroqThinkProviderReasoningMode reasoningMode) {
             this.reasoningMode = Optional.ofNullable(reasoningMode);
             return this;
         }

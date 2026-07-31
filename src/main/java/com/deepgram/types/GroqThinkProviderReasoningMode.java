@@ -6,22 +6,22 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class GroqReasoningMode {
-    public static final GroqReasoningMode MEDIUM = new GroqReasoningMode(Value.MEDIUM, "medium");
+public final class GroqThinkProviderReasoningMode {
+    public static final GroqThinkProviderReasoningMode MEDIUM = new GroqThinkProviderReasoningMode(Value.MEDIUM, "medium");
 
-    public static final GroqReasoningMode LOW = new GroqReasoningMode(Value.LOW, "low");
+    public static final GroqThinkProviderReasoningMode LOW = new GroqThinkProviderReasoningMode(Value.LOW, "low");
 
-    public static final GroqReasoningMode MINIMAL = new GroqReasoningMode(Value.MINIMAL, "minimal");
+    public static final GroqThinkProviderReasoningMode MINIMAL = new GroqThinkProviderReasoningMode(Value.MINIMAL, "minimal");
 
-    public static final GroqReasoningMode HIGH = new GroqReasoningMode(Value.HIGH, "high");
+    public static final GroqThinkProviderReasoningMode HIGH = new GroqThinkProviderReasoningMode(Value.HIGH, "high");
 
-    public static final GroqReasoningMode NONE = new GroqReasoningMode(Value.NONE, "none");
+    public static final GroqThinkProviderReasoningMode NONE = new GroqThinkProviderReasoningMode(Value.NONE, "none");
 
     private final Value value;
 
     private final String string;
 
-    GroqReasoningMode(Value value, String string) {
+    GroqThinkProviderReasoningMode(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -39,7 +39,7 @@ public final class GroqReasoningMode {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof GroqReasoningMode && this.string.equals(((GroqReasoningMode) other).string));
+                || (other instanceof GroqThinkProviderReasoningMode && this.string.equals(((GroqThinkProviderReasoningMode) other).string));
     }
 
     @java.lang.Override
@@ -66,7 +66,7 @@ public final class GroqReasoningMode {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static GroqReasoningMode valueOf(String value) {
+    public static GroqThinkProviderReasoningMode valueOf(String value) {
         switch (value) {
             case "medium":
                 return MEDIUM;
@@ -79,7 +79,7 @@ public final class GroqReasoningMode {
             case "none":
                 return NONE;
             default:
-                return new GroqReasoningMode(Value.UNKNOWN, value);
+                return new GroqThinkProviderReasoningMode(Value.UNKNOWN, value);
         }
     }
 

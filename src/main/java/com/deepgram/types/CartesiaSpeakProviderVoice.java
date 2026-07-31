@@ -17,15 +17,15 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = CartesiaVoice.Builder.class)
-public final class CartesiaVoice {
+@JsonDeserialize(builder = CartesiaSpeakProviderVoice.Builder.class)
+public final class CartesiaSpeakProviderVoice {
     private final String mode;
 
     private final String id;
 
     private final Map<String, Object> additionalProperties;
 
-    private CartesiaVoice(String mode, String id, Map<String, Object> additionalProperties) {
+    private CartesiaSpeakProviderVoice(String mode, String id, Map<String, Object> additionalProperties) {
         this.mode = mode;
         this.id = id;
         this.additionalProperties = additionalProperties;
@@ -50,7 +50,7 @@ public final class CartesiaVoice {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof CartesiaVoice && equalTo((CartesiaVoice) other);
+        return other instanceof CartesiaSpeakProviderVoice && equalTo((CartesiaSpeakProviderVoice) other);
     }
 
     @JsonAnyGetter
@@ -58,7 +58,7 @@ public final class CartesiaVoice {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(CartesiaVoice other) {
+    private boolean equalTo(CartesiaSpeakProviderVoice other) {
         return mode.equals(other.mode) && id.equals(other.id);
     }
 
@@ -82,7 +82,7 @@ public final class CartesiaVoice {
          */
         IdStage mode(@NotNull String mode);
 
-        Builder from(CartesiaVoice other);
+        Builder from(CartesiaSpeakProviderVoice other);
     }
 
     public interface IdStage {
@@ -93,7 +93,7 @@ public final class CartesiaVoice {
     }
 
     public interface _FinalStage {
-        CartesiaVoice build();
+        CartesiaSpeakProviderVoice build();
 
         _FinalStage additionalProperty(String key, Object value);
 
@@ -112,7 +112,7 @@ public final class CartesiaVoice {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(CartesiaVoice other) {
+        public Builder from(CartesiaSpeakProviderVoice other) {
             mode(other.getMode());
             id(other.getId());
             return this;
@@ -141,8 +141,8 @@ public final class CartesiaVoice {
         }
 
         @java.lang.Override
-        public CartesiaVoice build() {
-            return new CartesiaVoice(mode, id, additionalProperties);
+        public CartesiaSpeakProviderVoice build() {
+            return new CartesiaSpeakProviderVoice(mode, id, additionalProperties);
         }
 
         @java.lang.Override

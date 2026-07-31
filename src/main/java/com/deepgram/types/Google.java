@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public final class Google {
     private final Optional<String> version;
 
-    private final GoogleModel model;
+    private final GoogleThinkProviderModel model;
 
     private final Optional<Double> temperature;
 
@@ -31,7 +31,7 @@ public final class Google {
 
     private Google(
             Optional<String> version,
-            GoogleModel model,
+            GoogleThinkProviderModel model,
             Optional<Double> temperature,
             Map<String, Object> additionalProperties) {
         this.version = version;
@@ -57,7 +57,7 @@ public final class Google {
      * @return Google model to use
      */
     @JsonProperty("model")
-    public GoogleModel getModel() {
+    public GoogleThinkProviderModel getModel() {
         return model;
     }
 
@@ -102,7 +102,7 @@ public final class Google {
         /**
          * <p>Google model to use</p>
          */
-        _FinalStage model(@NotNull GoogleModel model);
+        _FinalStage model(@NotNull GoogleThinkProviderModel model);
 
         Builder from(Google other);
     }
@@ -131,7 +131,7 @@ public final class Google {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private GoogleModel model;
+        private GoogleThinkProviderModel model;
 
         private Optional<Double> temperature = Optional.empty();
 
@@ -156,7 +156,7 @@ public final class Google {
          */
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull GoogleModel model) {
+        public _FinalStage model(@NotNull GoogleThinkProviderModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }

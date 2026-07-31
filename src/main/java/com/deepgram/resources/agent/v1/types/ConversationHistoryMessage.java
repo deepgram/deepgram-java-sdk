@@ -19,14 +19,14 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ConversationHistoryMessage.Builder.class)
 public final class ConversationHistoryMessage {
-    private final ConversationHistoryMessageRole role;
+    private final AgentV1HistoryContentRole role;
 
     private final String content;
 
     private final Map<String, Object> additionalProperties;
 
     private ConversationHistoryMessage(
-            ConversationHistoryMessageRole role, String content, Map<String, Object> additionalProperties) {
+            AgentV1HistoryContentRole role, String content, Map<String, Object> additionalProperties) {
         this.role = role;
         this.content = content;
         this.additionalProperties = additionalProperties;
@@ -44,7 +44,7 @@ public final class ConversationHistoryMessage {
      * @return Identifies who spoke the statement
      */
     @JsonProperty("role")
-    public ConversationHistoryMessageRole getRole() {
+    public AgentV1HistoryContentRole getRole() {
         return role;
     }
 
@@ -89,7 +89,7 @@ public final class ConversationHistoryMessage {
         /**
          * <p>Identifies who spoke the statement</p>
          */
-        ContentStage role(@NotNull ConversationHistoryMessageRole role);
+        ContentStage role(@NotNull AgentV1HistoryContentRole role);
 
         Builder from(ConversationHistoryMessage other);
     }
@@ -111,7 +111,7 @@ public final class ConversationHistoryMessage {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements RoleStage, ContentStage, _FinalStage {
-        private ConversationHistoryMessageRole role;
+        private AgentV1HistoryContentRole role;
 
         private String content;
 
@@ -133,7 +133,7 @@ public final class ConversationHistoryMessage {
          */
         @java.lang.Override
         @JsonSetter("role")
-        public ContentStage role(@NotNull ConversationHistoryMessageRole role) {
+        public ContentStage role(@NotNull AgentV1HistoryContentRole role) {
             this.role = Objects.requireNonNull(role, "role must not be null");
             return this;
         }

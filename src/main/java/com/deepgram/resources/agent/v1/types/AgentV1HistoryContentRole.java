@@ -6,17 +6,17 @@ package com.deepgram.resources.agent.v1.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class ConversationHistoryMessageRole {
-    public static final ConversationHistoryMessageRole USER = new ConversationHistoryMessageRole(Value.USER, "user");
+public final class AgentV1HistoryContentRole {
+    public static final AgentV1HistoryContentRole USER = new AgentV1HistoryContentRole(Value.USER, "user");
 
-    public static final ConversationHistoryMessageRole ASSISTANT =
-            new ConversationHistoryMessageRole(Value.ASSISTANT, "assistant");
+    public static final AgentV1HistoryContentRole ASSISTANT =
+            new AgentV1HistoryContentRole(Value.ASSISTANT, "assistant");
 
     private final Value value;
 
     private final String string;
 
-    ConversationHistoryMessageRole(Value value, String string) {
+    AgentV1HistoryContentRole(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -34,8 +34,8 @@ public final class ConversationHistoryMessageRole {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof ConversationHistoryMessageRole
-                        && this.string.equals(((ConversationHistoryMessageRole) other).string));
+                || (other instanceof AgentV1HistoryContentRole
+                        && this.string.equals(((AgentV1HistoryContentRole) other).string));
     }
 
     @java.lang.Override
@@ -56,14 +56,14 @@ public final class ConversationHistoryMessageRole {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static ConversationHistoryMessageRole valueOf(String value) {
+    public static AgentV1HistoryContentRole valueOf(String value) {
         switch (value) {
             case "user":
                 return USER;
             case "assistant":
                 return ASSISTANT;
             default:
-                return new ConversationHistoryMessageRole(Value.UNKNOWN, value);
+                return new AgentV1HistoryContentRole(Value.UNKNOWN, value);
         }
     }
 

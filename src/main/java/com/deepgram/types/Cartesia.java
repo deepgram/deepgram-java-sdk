@@ -23,9 +23,9 @@ import org.jetbrains.annotations.NotNull;
 public final class Cartesia {
     private final Optional<String> version;
 
-    private final CartesiaModelId modelId;
+    private final CartesiaSpeakProviderModelId modelId;
 
-    private final CartesiaVoice voice;
+    private final CartesiaSpeakProviderVoice voice;
 
     private final Optional<String> language;
 
@@ -35,8 +35,8 @@ public final class Cartesia {
 
     private Cartesia(
             Optional<String> version,
-            CartesiaModelId modelId,
-            CartesiaVoice voice,
+            CartesiaSpeakProviderModelId modelId,
+            CartesiaSpeakProviderVoice voice,
             Optional<String> language,
             Optional<Double> volume,
             Map<String, Object> additionalProperties) {
@@ -65,12 +65,12 @@ public final class Cartesia {
      * @return Cartesia model ID
      */
     @JsonProperty("model_id")
-    public CartesiaModelId getModelId() {
+    public CartesiaSpeakProviderModelId getModelId() {
         return modelId;
     }
 
     @JsonProperty("voice")
-    public CartesiaVoice getVoice() {
+    public CartesiaSpeakProviderVoice getVoice() {
         return voice;
     }
 
@@ -127,13 +127,13 @@ public final class Cartesia {
         /**
          * <p>Cartesia model ID</p>
          */
-        VoiceStage modelId(@NotNull CartesiaModelId modelId);
+        VoiceStage modelId(@NotNull CartesiaSpeakProviderModelId modelId);
 
         Builder from(Cartesia other);
     }
 
     public interface VoiceStage {
-        _FinalStage voice(@NotNull CartesiaVoice voice);
+        _FinalStage voice(@NotNull CartesiaSpeakProviderVoice voice);
     }
 
     public interface _FinalStage {
@@ -167,9 +167,9 @@ public final class Cartesia {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelIdStage, VoiceStage, _FinalStage {
-        private CartesiaModelId modelId;
+        private CartesiaSpeakProviderModelId modelId;
 
-        private CartesiaVoice voice;
+        private CartesiaSpeakProviderVoice voice;
 
         private Optional<Double> volume = Optional.empty();
 
@@ -198,14 +198,14 @@ public final class Cartesia {
          */
         @java.lang.Override
         @JsonSetter("model_id")
-        public VoiceStage modelId(@NotNull CartesiaModelId modelId) {
+        public VoiceStage modelId(@NotNull CartesiaSpeakProviderModelId modelId) {
             this.modelId = Objects.requireNonNull(modelId, "modelId must not be null");
             return this;
         }
 
         @java.lang.Override
         @JsonSetter("voice")
-        public _FinalStage voice(@NotNull CartesiaVoice voice) {
+        public _FinalStage voice(@NotNull CartesiaSpeakProviderVoice voice) {
             this.voice = Objects.requireNonNull(voice, "voice must not be null");
             return this;
         }

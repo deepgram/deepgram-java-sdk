@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public final class Deepgram {
     private final Optional<String> version;
 
-    private final DeepgramModel model;
+    private final DeepgramSpeakProviderModel model;
 
     private final Optional<Double> speed;
 
@@ -31,7 +31,7 @@ public final class Deepgram {
 
     private Deepgram(
             Optional<String> version,
-            DeepgramModel model,
+            DeepgramSpeakProviderModel model,
             Optional<Double> speed,
             Map<String, Object> additionalProperties) {
         this.version = version;
@@ -57,7 +57,7 @@ public final class Deepgram {
      * @return Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2, Early Access) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).
      */
     @JsonProperty("model")
-    public DeepgramModel getModel() {
+    public DeepgramSpeakProviderModel getModel() {
         return model;
     }
 
@@ -102,7 +102,7 @@ public final class Deepgram {
         /**
          * <p>Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2, Early Access) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).</p>
          */
-        _FinalStage model(@NotNull DeepgramModel model);
+        _FinalStage model(@NotNull DeepgramSpeakProviderModel model);
 
         Builder from(Deepgram other);
     }
@@ -131,7 +131,7 @@ public final class Deepgram {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private DeepgramModel model;
+        private DeepgramSpeakProviderModel model;
 
         private Optional<Double> speed = Optional.empty();
 
@@ -156,7 +156,7 @@ public final class Deepgram {
          */
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull DeepgramModel model) {
+        public _FinalStage model(@NotNull DeepgramSpeakProviderModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }

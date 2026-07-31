@@ -6,170 +6,170 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class DeepgramModel {
-    public static final DeepgramModel AURA2SIRIO_ES = new DeepgramModel(Value.AURA2SIRIO_ES, "aura-2-sirio-es");
+public final class DeepgramSpeakProviderModel {
+    public static final DeepgramSpeakProviderModel AURA2SIRIO_ES = new DeepgramSpeakProviderModel(Value.AURA2SIRIO_ES, "aura-2-sirio-es");
 
-    public static final DeepgramModel AURA2HERA_EN = new DeepgramModel(Value.AURA2HERA_EN, "aura-2-hera-en");
+    public static final DeepgramSpeakProviderModel AURA2HERA_EN = new DeepgramSpeakProviderModel(Value.AURA2HERA_EN, "aura-2-hera-en");
 
-    public static final DeepgramModel AURA2ASTERIA_EN = new DeepgramModel(Value.AURA2ASTERIA_EN, "aura-2-asteria-en");
+    public static final DeepgramSpeakProviderModel AURA2ASTERIA_EN = new DeepgramSpeakProviderModel(Value.AURA2ASTERIA_EN, "aura-2-asteria-en");
 
-    public static final DeepgramModel AURA2HARMONIA_EN =
-            new DeepgramModel(Value.AURA2HARMONIA_EN, "aura-2-harmonia-en");
+    public static final DeepgramSpeakProviderModel AURA2HARMONIA_EN =
+            new DeepgramSpeakProviderModel(Value.AURA2HARMONIA_EN, "aura-2-harmonia-en");
 
-    public static final DeepgramModel AURA2CARINA_ES = new DeepgramModel(Value.AURA2CARINA_ES, "aura-2-carina-es");
+    public static final DeepgramSpeakProviderModel AURA2CARINA_ES = new DeepgramSpeakProviderModel(Value.AURA2CARINA_ES, "aura-2-carina-es");
 
-    public static final DeepgramModel AURA_ZEUS_EN = new DeepgramModel(Value.AURA_ZEUS_EN, "aura-zeus-en");
+    public static final DeepgramSpeakProviderModel AURA_ZEUS_EN = new DeepgramSpeakProviderModel(Value.AURA_ZEUS_EN, "aura-zeus-en");
 
-    public static final DeepgramModel AURA2HERMES_EN = new DeepgramModel(Value.AURA2HERMES_EN, "aura-2-hermes-en");
+    public static final DeepgramSpeakProviderModel AURA2HERMES_EN = new DeepgramSpeakProviderModel(Value.AURA2HERMES_EN, "aura-2-hermes-en");
 
-    public static final DeepgramModel AURA2SELENA_ES = new DeepgramModel(Value.AURA2SELENA_ES, "aura-2-selena-es");
+    public static final DeepgramSpeakProviderModel AURA2SELENA_ES = new DeepgramSpeakProviderModel(Value.AURA2SELENA_ES, "aura-2-selena-es");
 
-    public static final DeepgramModel AURA2NEPTUNE_EN = new DeepgramModel(Value.AURA2NEPTUNE_EN, "aura-2-neptune-en");
+    public static final DeepgramSpeakProviderModel AURA2NEPTUNE_EN = new DeepgramSpeakProviderModel(Value.AURA2NEPTUNE_EN, "aura-2-neptune-en");
 
-    public static final DeepgramModel FLUX_RUFUS_EN = new DeepgramModel(Value.FLUX_RUFUS_EN, "flux-rufus-en");
+    public static final DeepgramSpeakProviderModel FLUX_RUFUS_EN = new DeepgramSpeakProviderModel(Value.FLUX_RUFUS_EN, "flux-rufus-en");
 
-    public static final DeepgramModel AURA2CALLISTA_EN =
-            new DeepgramModel(Value.AURA2CALLISTA_EN, "aura-2-callista-en");
+    public static final DeepgramSpeakProviderModel AURA2CALLISTA_EN =
+            new DeepgramSpeakProviderModel(Value.AURA2CALLISTA_EN, "aura-2-callista-en");
 
-    public static final DeepgramModel AURA2AURORA_EN = new DeepgramModel(Value.AURA2AURORA_EN, "aura-2-aurora-en");
+    public static final DeepgramSpeakProviderModel AURA2AURORA_EN = new DeepgramSpeakProviderModel(Value.AURA2AURORA_EN, "aura-2-aurora-en");
 
-    public static final DeepgramModel AURA2OPHELIA_EN = new DeepgramModel(Value.AURA2OPHELIA_EN, "aura-2-ophelia-en");
+    public static final DeepgramSpeakProviderModel AURA2OPHELIA_EN = new DeepgramSpeakProviderModel(Value.AURA2OPHELIA_EN, "aura-2-ophelia-en");
 
-    public static final DeepgramModel FLUX_BRUCE_EN = new DeepgramModel(Value.FLUX_BRUCE_EN, "flux-bruce-en");
+    public static final DeepgramSpeakProviderModel FLUX_BRUCE_EN = new DeepgramSpeakProviderModel(Value.FLUX_BRUCE_EN, "flux-bruce-en");
 
-    public static final DeepgramModel AURA2APOLLO_EN = new DeepgramModel(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
+    public static final DeepgramSpeakProviderModel AURA2APOLLO_EN = new DeepgramSpeakProviderModel(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
 
-    public static final DeepgramModel FLUX_ALEXIS_EN = new DeepgramModel(Value.FLUX_ALEXIS_EN, "flux-alexis-en");
+    public static final DeepgramSpeakProviderModel FLUX_ALEXIS_EN = new DeepgramSpeakProviderModel(Value.FLUX_ALEXIS_EN, "flux-alexis-en");
 
-    public static final DeepgramModel AURA_LUNA_EN = new DeepgramModel(Value.AURA_LUNA_EN, "aura-luna-en");
+    public static final DeepgramSpeakProviderModel AURA_LUNA_EN = new DeepgramSpeakProviderModel(Value.AURA_LUNA_EN, "aura-luna-en");
 
-    public static final DeepgramModel AURA_ORPHEUS_EN = new DeepgramModel(Value.AURA_ORPHEUS_EN, "aura-orpheus-en");
+    public static final DeepgramSpeakProviderModel AURA_ORPHEUS_EN = new DeepgramSpeakProviderModel(Value.AURA_ORPHEUS_EN, "aura-orpheus-en");
 
-    public static final DeepgramModel AURA2DELIA_EN = new DeepgramModel(Value.AURA2DELIA_EN, "aura-2-delia-en");
+    public static final DeepgramSpeakProviderModel AURA2DELIA_EN = new DeepgramSpeakProviderModel(Value.AURA2DELIA_EN, "aura-2-delia-en");
 
-    public static final DeepgramModel AURA2MARS_EN = new DeepgramModel(Value.AURA2MARS_EN, "aura-2-mars-en");
+    public static final DeepgramSpeakProviderModel AURA2MARS_EN = new DeepgramSpeakProviderModel(Value.AURA2MARS_EN, "aura-2-mars-en");
 
-    public static final DeepgramModel AURA2AMALTHEA_EN =
-            new DeepgramModel(Value.AURA2AMALTHEA_EN, "aura-2-amalthea-en");
+    public static final DeepgramSpeakProviderModel AURA2AMALTHEA_EN =
+            new DeepgramSpeakProviderModel(Value.AURA2AMALTHEA_EN, "aura-2-amalthea-en");
 
-    public static final DeepgramModel AURA_HERA_EN = new DeepgramModel(Value.AURA_HERA_EN, "aura-hera-en");
+    public static final DeepgramSpeakProviderModel AURA_HERA_EN = new DeepgramSpeakProviderModel(Value.AURA_HERA_EN, "aura-hera-en");
 
-    public static final DeepgramModel AURA2SELENE_EN = new DeepgramModel(Value.AURA2SELENE_EN, "aura-2-selene-en");
+    public static final DeepgramSpeakProviderModel AURA2SELENE_EN = new DeepgramSpeakProviderModel(Value.AURA2SELENE_EN, "aura-2-selene-en");
 
-    public static final DeepgramModel FLUX_MARCUS_EN = new DeepgramModel(Value.FLUX_MARCUS_EN, "flux-marcus-en");
+    public static final DeepgramSpeakProviderModel FLUX_MARCUS_EN = new DeepgramSpeakProviderModel(Value.FLUX_MARCUS_EN, "flux-marcus-en");
 
-    public static final DeepgramModel FLUX_SHARON_EN = new DeepgramModel(Value.FLUX_SHARON_EN, "flux-sharon-en");
+    public static final DeepgramSpeakProviderModel FLUX_SHARON_EN = new DeepgramSpeakProviderModel(Value.FLUX_SHARON_EN, "flux-sharon-en");
 
-    public static final DeepgramModel AURA2ARIES_EN = new DeepgramModel(Value.AURA2ARIES_EN, "aura-2-aries-en");
+    public static final DeepgramSpeakProviderModel AURA2ARIES_EN = new DeepgramSpeakProviderModel(Value.AURA2ARIES_EN, "aura-2-aries-en");
 
-    public static final DeepgramModel AURA2JUNO_EN = new DeepgramModel(Value.AURA2JUNO_EN, "aura-2-juno-en");
+    public static final DeepgramSpeakProviderModel AURA2JUNO_EN = new DeepgramSpeakProviderModel(Value.AURA2JUNO_EN, "aura-2-juno-en");
 
-    public static final DeepgramModel AURA2LUNA_EN = new DeepgramModel(Value.AURA2LUNA_EN, "aura-2-luna-en");
+    public static final DeepgramSpeakProviderModel AURA2LUNA_EN = new DeepgramSpeakProviderModel(Value.AURA2LUNA_EN, "aura-2-luna-en");
 
-    public static final DeepgramModel FLUX_DREW_EN = new DeepgramModel(Value.FLUX_DREW_EN, "flux-drew-en");
+    public static final DeepgramSpeakProviderModel FLUX_DREW_EN = new DeepgramSpeakProviderModel(Value.FLUX_DREW_EN, "flux-drew-en");
 
-    public static final DeepgramModel AURA2JAVIER_ES = new DeepgramModel(Value.AURA2JAVIER_ES, "aura-2-javier-es");
+    public static final DeepgramSpeakProviderModel AURA2JAVIER_ES = new DeepgramSpeakProviderModel(Value.AURA2JAVIER_ES, "aura-2-javier-es");
 
-    public static final DeepgramModel AURA2PHOEBE_EN = new DeepgramModel(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
+    public static final DeepgramSpeakProviderModel AURA2PHOEBE_EN = new DeepgramSpeakProviderModel(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
 
-    public static final DeepgramModel AURA2DIANA_ES = new DeepgramModel(Value.AURA2DIANA_ES, "aura-2-diana-es");
+    public static final DeepgramSpeakProviderModel AURA2DIANA_ES = new DeepgramSpeakProviderModel(Value.AURA2DIANA_ES, "aura-2-diana-es");
 
-    public static final DeepgramModel AURA_ORION_EN = new DeepgramModel(Value.AURA_ORION_EN, "aura-orion-en");
+    public static final DeepgramSpeakProviderModel AURA_ORION_EN = new DeepgramSpeakProviderModel(Value.AURA_ORION_EN, "aura-orion-en");
 
-    public static final DeepgramModel AURA2ANDROMEDA_EN =
-            new DeepgramModel(Value.AURA2ANDROMEDA_EN, "aura-2-andromeda-en");
+    public static final DeepgramSpeakProviderModel AURA2ANDROMEDA_EN =
+            new DeepgramSpeakProviderModel(Value.AURA2ANDROMEDA_EN, "aura-2-andromeda-en");
 
-    public static final DeepgramModel AURA2ATHENA_EN = new DeepgramModel(Value.AURA2ATHENA_EN, "aura-2-athena-en");
+    public static final DeepgramSpeakProviderModel AURA2ATHENA_EN = new DeepgramSpeakProviderModel(Value.AURA2ATHENA_EN, "aura-2-athena-en");
 
-    public static final DeepgramModel AURA2SATURN_EN = new DeepgramModel(Value.AURA2SATURN_EN, "aura-2-saturn-en");
+    public static final DeepgramSpeakProviderModel AURA2SATURN_EN = new DeepgramSpeakProviderModel(Value.AURA2SATURN_EN, "aura-2-saturn-en");
 
-    public static final DeepgramModel AURA_ARCAS_EN = new DeepgramModel(Value.AURA_ARCAS_EN, "aura-arcas-en");
+    public static final DeepgramSpeakProviderModel AURA_ARCAS_EN = new DeepgramSpeakProviderModel(Value.AURA_ARCAS_EN, "aura-arcas-en");
 
-    public static final DeepgramModel AURA2THEIA_EN = new DeepgramModel(Value.AURA2THEIA_EN, "aura-2-theia-en");
+    public static final DeepgramSpeakProviderModel AURA2THEIA_EN = new DeepgramSpeakProviderModel(Value.AURA2THEIA_EN, "aura-2-theia-en");
 
-    public static final DeepgramModel AURA2IRIS_EN = new DeepgramModel(Value.AURA2IRIS_EN, "aura-2-iris-en");
+    public static final DeepgramSpeakProviderModel AURA2IRIS_EN = new DeepgramSpeakProviderModel(Value.AURA2IRIS_EN, "aura-2-iris-en");
 
-    public static final DeepgramModel AURA_ANGUS_EN = new DeepgramModel(Value.AURA_ANGUS_EN, "aura-angus-en");
+    public static final DeepgramSpeakProviderModel AURA_ANGUS_EN = new DeepgramSpeakProviderModel(Value.AURA_ANGUS_EN, "aura-angus-en");
 
-    public static final DeepgramModel FLUX_HEATHER_EN = new DeepgramModel(Value.FLUX_HEATHER_EN, "flux-heather-en");
+    public static final DeepgramSpeakProviderModel FLUX_HEATHER_EN = new DeepgramSpeakProviderModel(Value.FLUX_HEATHER_EN, "flux-heather-en");
 
-    public static final DeepgramModel AURA2JUPITER_EN = new DeepgramModel(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
+    public static final DeepgramSpeakProviderModel AURA2JUPITER_EN = new DeepgramSpeakProviderModel(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
 
-    public static final DeepgramModel AURA2AQUILA_ES = new DeepgramModel(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
+    public static final DeepgramSpeakProviderModel AURA2AQUILA_ES = new DeepgramSpeakProviderModel(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
 
-    public static final DeepgramModel AURA2CORA_EN = new DeepgramModel(Value.AURA2CORA_EN, "aura-2-cora-en");
+    public static final DeepgramSpeakProviderModel AURA2CORA_EN = new DeepgramSpeakProviderModel(Value.AURA2CORA_EN, "aura-2-cora-en");
 
-    public static final DeepgramModel AURA2CORDELIA_EN =
-            new DeepgramModel(Value.AURA2CORDELIA_EN, "aura-2-cordelia-en");
+    public static final DeepgramSpeakProviderModel AURA2CORDELIA_EN =
+            new DeepgramSpeakProviderModel(Value.AURA2CORDELIA_EN, "aura-2-cordelia-en");
 
-    public static final DeepgramModel AURA2ATLAS_EN = new DeepgramModel(Value.AURA2ATLAS_EN, "aura-2-atlas-en");
+    public static final DeepgramSpeakProviderModel AURA2ATLAS_EN = new DeepgramSpeakProviderModel(Value.AURA2ATLAS_EN, "aura-2-atlas-en");
 
-    public static final DeepgramModel AURA2HELENA_EN = new DeepgramModel(Value.AURA2HELENA_EN, "aura-2-helena-en");
+    public static final DeepgramSpeakProviderModel AURA2HELENA_EN = new DeepgramSpeakProviderModel(Value.AURA2HELENA_EN, "aura-2-helena-en");
 
-    public static final DeepgramModel FLUX_HALEY_EN = new DeepgramModel(Value.FLUX_HALEY_EN, "flux-haley-en");
+    public static final DeepgramSpeakProviderModel FLUX_HALEY_EN = new DeepgramSpeakProviderModel(Value.FLUX_HALEY_EN, "flux-haley-en");
 
-    public static final DeepgramModel AURA_STELLA_EN = new DeepgramModel(Value.AURA_STELLA_EN, "aura-stella-en");
+    public static final DeepgramSpeakProviderModel AURA_STELLA_EN = new DeepgramSpeakProviderModel(Value.AURA_STELLA_EN, "aura-stella-en");
 
-    public static final DeepgramModel FLUX_JACK_EN = new DeepgramModel(Value.FLUX_JACK_EN, "flux-jack-en");
+    public static final DeepgramSpeakProviderModel FLUX_JACK_EN = new DeepgramSpeakProviderModel(Value.FLUX_JACK_EN, "flux-jack-en");
 
-    public static final DeepgramModel AURA2DRACO_EN = new DeepgramModel(Value.AURA2DRACO_EN, "aura-2-draco-en");
+    public static final DeepgramSpeakProviderModel AURA2DRACO_EN = new DeepgramSpeakProviderModel(Value.AURA2DRACO_EN, "aura-2-draco-en");
 
-    public static final DeepgramModel AURA2HYPERION_EN =
-            new DeepgramModel(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
+    public static final DeepgramSpeakProviderModel AURA2HYPERION_EN =
+            new DeepgramSpeakProviderModel(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
 
-    public static final DeepgramModel AURA2CELESTE_ES = new DeepgramModel(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
+    public static final DeepgramSpeakProviderModel AURA2CELESTE_ES = new DeepgramSpeakProviderModel(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
 
-    public static final DeepgramModel FLUX_PRIYA_EN = new DeepgramModel(Value.FLUX_PRIYA_EN, "flux-priya-en");
+    public static final DeepgramSpeakProviderModel FLUX_PRIYA_EN = new DeepgramSpeakProviderModel(Value.FLUX_PRIYA_EN, "flux-priya-en");
 
-    public static final DeepgramModel AURA_HELIOS_EN = new DeepgramModel(Value.AURA_HELIOS_EN, "aura-helios-en");
+    public static final DeepgramSpeakProviderModel AURA_HELIOS_EN = new DeepgramSpeakProviderModel(Value.AURA_HELIOS_EN, "aura-helios-en");
 
-    public static final DeepgramModel AURA2PLUTO_EN = new DeepgramModel(Value.AURA2PLUTO_EN, "aura-2-pluto-en");
+    public static final DeepgramSpeakProviderModel AURA2PLUTO_EN = new DeepgramSpeakProviderModel(Value.AURA2PLUTO_EN, "aura-2-pluto-en");
 
-    public static final DeepgramModel AURA2JANUS_EN = new DeepgramModel(Value.AURA2JANUS_EN, "aura-2-janus-en");
+    public static final DeepgramSpeakProviderModel AURA2JANUS_EN = new DeepgramSpeakProviderModel(Value.AURA2JANUS_EN, "aura-2-janus-en");
 
-    public static final DeepgramModel AURA2NESTOR_ES = new DeepgramModel(Value.AURA2NESTOR_ES, "aura-2-nestor-es");
+    public static final DeepgramSpeakProviderModel AURA2NESTOR_ES = new DeepgramSpeakProviderModel(Value.AURA2NESTOR_ES, "aura-2-nestor-es");
 
-    public static final DeepgramModel AURA2ARCAS_EN = new DeepgramModel(Value.AURA2ARCAS_EN, "aura-2-arcas-en");
+    public static final DeepgramSpeakProviderModel AURA2ARCAS_EN = new DeepgramSpeakProviderModel(Value.AURA2ARCAS_EN, "aura-2-arcas-en");
 
-    public static final DeepgramModel AURA2ORION_EN = new DeepgramModel(Value.AURA2ORION_EN, "aura-2-orion-en");
+    public static final DeepgramSpeakProviderModel AURA2ORION_EN = new DeepgramSpeakProviderModel(Value.AURA2ORION_EN, "aura-2-orion-en");
 
-    public static final DeepgramModel FLUX_RENEE_EN = new DeepgramModel(Value.FLUX_RENEE_EN, "flux-renee-en");
+    public static final DeepgramSpeakProviderModel FLUX_RENEE_EN = new DeepgramSpeakProviderModel(Value.FLUX_RENEE_EN, "flux-renee-en");
 
-    public static final DeepgramModel AURA_ATHENA_EN = new DeepgramModel(Value.AURA_ATHENA_EN, "aura-athena-en");
+    public static final DeepgramSpeakProviderModel AURA_ATHENA_EN = new DeepgramSpeakProviderModel(Value.AURA_ATHENA_EN, "aura-athena-en");
 
-    public static final DeepgramModel AURA2ODYSSEUS_EN =
-            new DeepgramModel(Value.AURA2ODYSSEUS_EN, "aura-2-odysseus-en");
+    public static final DeepgramSpeakProviderModel AURA2ODYSSEUS_EN =
+            new DeepgramSpeakProviderModel(Value.AURA2ODYSSEUS_EN, "aura-2-odysseus-en");
 
-    public static final DeepgramModel AURA2PANDORA_EN = new DeepgramModel(Value.AURA2PANDORA_EN, "aura-2-pandora-en");
+    public static final DeepgramSpeakProviderModel AURA2PANDORA_EN = new DeepgramSpeakProviderModel(Value.AURA2PANDORA_EN, "aura-2-pandora-en");
 
-    public static final DeepgramModel AURA2MINERVA_EN = new DeepgramModel(Value.AURA2MINERVA_EN, "aura-2-minerva-en");
+    public static final DeepgramSpeakProviderModel AURA2MINERVA_EN = new DeepgramSpeakProviderModel(Value.AURA2MINERVA_EN, "aura-2-minerva-en");
 
-    public static final DeepgramModel AURA2ALVARO_ES = new DeepgramModel(Value.AURA2ALVARO_ES, "aura-2-alvaro-es");
+    public static final DeepgramSpeakProviderModel AURA2ALVARO_ES = new DeepgramSpeakProviderModel(Value.AURA2ALVARO_ES, "aura-2-alvaro-es");
 
-    public static final DeepgramModel AURA_PERSEUS_EN = new DeepgramModel(Value.AURA_PERSEUS_EN, "aura-perseus-en");
+    public static final DeepgramSpeakProviderModel AURA_PERSEUS_EN = new DeepgramSpeakProviderModel(Value.AURA_PERSEUS_EN, "aura-perseus-en");
 
-    public static final DeepgramModel AURA2VESTA_EN = new DeepgramModel(Value.AURA2VESTA_EN, "aura-2-vesta-en");
+    public static final DeepgramSpeakProviderModel AURA2VESTA_EN = new DeepgramSpeakProviderModel(Value.AURA2VESTA_EN, "aura-2-vesta-en");
 
-    public static final DeepgramModel FLUX_COLE_EN = new DeepgramModel(Value.FLUX_COLE_EN, "flux-cole-en");
+    public static final DeepgramSpeakProviderModel FLUX_COLE_EN = new DeepgramSpeakProviderModel(Value.FLUX_COLE_EN, "flux-cole-en");
 
-    public static final DeepgramModel AURA_ASTERIA_EN = new DeepgramModel(Value.AURA_ASTERIA_EN, "aura-asteria-en");
+    public static final DeepgramSpeakProviderModel AURA_ASTERIA_EN = new DeepgramSpeakProviderModel(Value.AURA_ASTERIA_EN, "aura-asteria-en");
 
-    public static final DeepgramModel AURA2ZEUS_EN = new DeepgramModel(Value.AURA2ZEUS_EN, "aura-2-zeus-en");
+    public static final DeepgramSpeakProviderModel AURA2ZEUS_EN = new DeepgramSpeakProviderModel(Value.AURA2ZEUS_EN, "aura-2-zeus-en");
 
-    public static final DeepgramModel AURA2ELECTRA_EN = new DeepgramModel(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
+    public static final DeepgramSpeakProviderModel AURA2ELECTRA_EN = new DeepgramSpeakProviderModel(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
 
-    public static final DeepgramModel AURA2ORPHEUS_EN = new DeepgramModel(Value.AURA2ORPHEUS_EN, "aura-2-orpheus-en");
+    public static final DeepgramSpeakProviderModel AURA2ORPHEUS_EN = new DeepgramSpeakProviderModel(Value.AURA2ORPHEUS_EN, "aura-2-orpheus-en");
 
-    public static final DeepgramModel AURA2ESTRELLA_ES =
-            new DeepgramModel(Value.AURA2ESTRELLA_ES, "aura-2-estrella-es");
+    public static final DeepgramSpeakProviderModel AURA2ESTRELLA_ES =
+            new DeepgramSpeakProviderModel(Value.AURA2ESTRELLA_ES, "aura-2-estrella-es");
 
-    public static final DeepgramModel AURA2THALIA_EN = new DeepgramModel(Value.AURA2THALIA_EN, "aura-2-thalia-en");
+    public static final DeepgramSpeakProviderModel AURA2THALIA_EN = new DeepgramSpeakProviderModel(Value.AURA2THALIA_EN, "aura-2-thalia-en");
 
     private final Value value;
 
     private final String string;
 
-    DeepgramModel(Value value, String string) {
+    DeepgramSpeakProviderModel(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -187,7 +187,7 @@ public final class DeepgramModel {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof DeepgramModel && this.string.equals(((DeepgramModel) other).string));
+                || (other instanceof DeepgramSpeakProviderModel && this.string.equals(((DeepgramSpeakProviderModel) other).string));
     }
 
     @java.lang.Override
@@ -354,7 +354,7 @@ public final class DeepgramModel {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static DeepgramModel valueOf(String value) {
+    public static DeepgramSpeakProviderModel valueOf(String value) {
         switch (value) {
             case "aura-2-sirio-es":
                 return AURA2SIRIO_ES;
@@ -507,7 +507,7 @@ public final class DeepgramModel {
             case "aura-2-thalia-en":
                 return AURA2THALIA_EN;
             default:
-                return new DeepgramModel(Value.UNKNOWN, value);
+                return new DeepgramSpeakProviderModel(Value.UNKNOWN, value);
         }
     }
 

@@ -19,8 +19,8 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = FunctionCallHistoryMessageFunctionCallsItem.Builder.class)
-public final class FunctionCallHistoryMessageFunctionCallsItem {
+@JsonDeserialize(builder = AgentV1HistoryFunctionCallsFunctionCallsItem.Builder.class)
+public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
     private final String id;
 
     private final String name;
@@ -35,7 +35,7 @@ public final class FunctionCallHistoryMessageFunctionCallsItem {
 
     private final Map<String, Object> additionalProperties;
 
-    private FunctionCallHistoryMessageFunctionCallsItem(
+    private AgentV1HistoryFunctionCallsFunctionCallsItem(
             String id,
             String name,
             boolean clientSide,
@@ -103,8 +103,8 @@ public final class FunctionCallHistoryMessageFunctionCallsItem {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof FunctionCallHistoryMessageFunctionCallsItem
-                && equalTo((FunctionCallHistoryMessageFunctionCallsItem) other);
+        return other instanceof AgentV1HistoryFunctionCallsFunctionCallsItem
+                && equalTo((AgentV1HistoryFunctionCallsFunctionCallsItem) other);
     }
 
     @JsonAnyGetter
@@ -112,7 +112,7 @@ public final class FunctionCallHistoryMessageFunctionCallsItem {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(FunctionCallHistoryMessageFunctionCallsItem other) {
+    private boolean equalTo(AgentV1HistoryFunctionCallsFunctionCallsItem other) {
         return id.equals(other.id)
                 && name.equals(other.name)
                 && clientSide == other.clientSide
@@ -141,7 +141,7 @@ public final class FunctionCallHistoryMessageFunctionCallsItem {
          */
         NameStage id(@NotNull String id);
 
-        Builder from(FunctionCallHistoryMessageFunctionCallsItem other);
+        Builder from(AgentV1HistoryFunctionCallsFunctionCallsItem other);
     }
 
     public interface NameStage {
@@ -173,7 +173,7 @@ public final class FunctionCallHistoryMessageFunctionCallsItem {
     }
 
     public interface _FinalStage {
-        FunctionCallHistoryMessageFunctionCallsItem build();
+        AgentV1HistoryFunctionCallsFunctionCallsItem build();
 
         _FinalStage additionalProperty(String key, Object value);
 
@@ -208,7 +208,7 @@ public final class FunctionCallHistoryMessageFunctionCallsItem {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(FunctionCallHistoryMessageFunctionCallsItem other) {
+        public Builder from(AgentV1HistoryFunctionCallsFunctionCallsItem other) {
             id(other.getId());
             name(other.getName());
             clientSide(other.getClientSide());
@@ -294,8 +294,8 @@ public final class FunctionCallHistoryMessageFunctionCallsItem {
         }
 
         @java.lang.Override
-        public FunctionCallHistoryMessageFunctionCallsItem build() {
-            return new FunctionCallHistoryMessageFunctionCallsItem(
+        public AgentV1HistoryFunctionCallsFunctionCallsItem build() {
+            return new AgentV1HistoryFunctionCallsFunctionCallsItem(
                     id, name, clientSide, arguments, response, thoughtSignature, additionalProperties);
         }
 

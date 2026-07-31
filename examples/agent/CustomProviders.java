@@ -7,9 +7,9 @@ import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.Anthropic;
-import com.deepgram.types.AnthropicModel;
+import com.deepgram.types.AnthropicThinkProviderModel;
 import com.deepgram.types.Deepgram;
-import com.deepgram.types.DeepgramModel;
+import com.deepgram.types.DeepgramSpeakProviderModel;
 import com.deepgram.types.SpeakSettingsV1;
 import com.deepgram.types.SpeakSettingsV1Provider;
 import com.deepgram.types.ThinkSettingsV1;
@@ -58,12 +58,12 @@ public class CustomProviders {
                 try {
                     // Configure Anthropic as the think provider
                     Anthropic anthropicProvider = Anthropic.builder()
-                            .model(AnthropicModel.CLAUDE_SONNET420250514)
+                            .model(AnthropicThinkProviderModel.CLAUDE_SONNET420250514)
                             .build();
 
                     // Configure Deepgram as the speak provider
                     Deepgram deepgramSpeakProvider = Deepgram.builder()
-                            .model(DeepgramModel.AURA2ASTERIA_EN)
+                            .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
                             .build();
 
                     AgentV1SettingsAgentContextSpeak speakSettings =

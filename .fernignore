@@ -60,6 +60,33 @@ src/main/java/com/deepgram/resources/agent/v1/types/AgentV1KeepAlive.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkUpdated.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java
 
+# Type-rename back-compat freeze (STOPGAP — remove once Fern fixes this upstream).
+# fern-java-sdk 4.16.0 introduced unconditional collision-based name shortening that
+# renamed public provider types that 0.7.x shipped (e.g. DeepgramSpeakProviderModel ->
+# DeepgramModel, AnthropicThinkProviderModel -> AnthropicModel). Single-role providers get
+# shortened; OpenAi keeps the long name only because it is both a think and speak provider
+# (a collision). This is a generator regression, not a spec change, and smart-casing:false
+# does NOT restore the old names. We patch the names back to preserve source compatibility.
+# Freeze both the renamed leaf types AND their referencing payloads so the reversal survives
+# regen. NOTE: a future regen will still emit the short-named files (e.g. DeepgramModel.java)
+# as unreferenced orphans until the generator is fixed; delete those and drop this whole block
+# once Fern stops renaming (tracked as an upstream Fern request).
+src/main/java/com/deepgram/types/DeepgramSpeakProviderModel.java
+src/main/java/com/deepgram/types/AnthropicThinkProviderModel.java
+src/main/java/com/deepgram/types/GoogleThinkProviderModel.java
+src/main/java/com/deepgram/types/GroqThinkProviderReasoningMode.java
+src/main/java/com/deepgram/types/CartesiaSpeakProviderModelId.java
+src/main/java/com/deepgram/types/CartesiaSpeakProviderVoice.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1HistoryContentRole.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1HistoryFunctionCallsFunctionCallsItem.java
+src/main/java/com/deepgram/types/Deepgram.java
+src/main/java/com/deepgram/types/Anthropic.java
+src/main/java/com/deepgram/types/Google.java
+src/main/java/com/deepgram/types/Groq.java
+src/main/java/com/deepgram/types/Cartesia.java
+src/main/java/com/deepgram/resources/agent/v1/types/ConversationHistoryMessage.java
+src/main/java/com/deepgram/resources/agent/v1/types/FunctionCallHistoryMessage.java
+
 # Build and project configuration
 build.gradle
 settings.gradle

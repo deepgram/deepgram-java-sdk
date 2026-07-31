@@ -6,18 +6,17 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class AnthropicModel {
-    public static final AnthropicModel CLAUDE_SONNET420250514 =
-            new AnthropicModel(Value.CLAUDE_SONNET420250514, "claude-sonnet-4-20250514");
+public final class CartesiaSpeakProviderModelId {
+    public static final CartesiaSpeakProviderModelId SONIC2 = new CartesiaSpeakProviderModelId(Value.SONIC2, "sonic-2");
 
-    public static final AnthropicModel CLAUDE35HAIKU_LATEST =
-            new AnthropicModel(Value.CLAUDE35HAIKU_LATEST, "claude-3-5-haiku-latest");
+    public static final CartesiaSpeakProviderModelId SONIC_MULTILINGUAL =
+            new CartesiaSpeakProviderModelId(Value.SONIC_MULTILINGUAL, "sonic-multilingual");
 
     private final Value value;
 
     private final String string;
 
-    AnthropicModel(Value value, String string) {
+    CartesiaSpeakProviderModelId(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -35,7 +34,7 @@ public final class AnthropicModel {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof AnthropicModel && this.string.equals(((AnthropicModel) other).string));
+                || (other instanceof CartesiaSpeakProviderModelId && this.string.equals(((CartesiaSpeakProviderModelId) other).string));
     }
 
     @java.lang.Override
@@ -45,10 +44,10 @@ public final class AnthropicModel {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case CLAUDE_SONNET420250514:
-                return visitor.visitClaudeSonnet420250514();
-            case CLAUDE35HAIKU_LATEST:
-                return visitor.visitClaude35HaikuLatest();
+            case SONIC2:
+                return visitor.visitSonic2();
+            case SONIC_MULTILINGUAL:
+                return visitor.visitSonicMultilingual();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -56,29 +55,29 @@ public final class AnthropicModel {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static AnthropicModel valueOf(String value) {
+    public static CartesiaSpeakProviderModelId valueOf(String value) {
         switch (value) {
-            case "claude-sonnet-4-20250514":
-                return CLAUDE_SONNET420250514;
-            case "claude-3-5-haiku-latest":
-                return CLAUDE35HAIKU_LATEST;
+            case "sonic-2":
+                return SONIC2;
+            case "sonic-multilingual":
+                return SONIC_MULTILINGUAL;
             default:
-                return new AnthropicModel(Value.UNKNOWN, value);
+                return new CartesiaSpeakProviderModelId(Value.UNKNOWN, value);
         }
     }
 
     public enum Value {
-        CLAUDE35HAIKU_LATEST,
+        SONIC2,
 
-        CLAUDE_SONNET420250514,
+        SONIC_MULTILINGUAL,
 
         UNKNOWN
     }
 
     public interface Visitor<T> {
-        T visitClaude35HaikuLatest();
+        T visitSonic2();
 
-        T visitClaudeSonnet420250514();
+        T visitSonicMultilingual();
 
         T visitUnknown(String unknownType);
     }
