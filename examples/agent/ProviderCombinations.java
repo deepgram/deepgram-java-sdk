@@ -3,11 +3,11 @@ import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContext;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextSpeak;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextThink;
 import com.deepgram.types.Anthropic;
-import com.deepgram.types.AnthropicThinkProviderModel;
+import com.deepgram.types.AnthropicModel;
 import com.deepgram.types.Deepgram;
-import com.deepgram.types.DeepgramSpeakProviderModel;
+import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.Google;
-import com.deepgram.types.GoogleThinkProviderModel;
+import com.deepgram.types.GoogleModel;
 import com.deepgram.types.OpenAiThinkProvider;
 import com.deepgram.types.OpenAiThinkProviderModel;
 import com.deepgram.types.SpeakSettingsV1;
@@ -29,7 +29,7 @@ public class ProviderCombinations {
 
         // Shared speak provider (Deepgram TTS)
         Deepgram deepgramSpeak = Deepgram.builder()
-                .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
+                .model(DeepgramModel.AURA2ASTERIA_EN)
                 .build();
         AgentV1SettingsAgentContextSpeak speakSettings = AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
                 .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeak))
@@ -57,7 +57,7 @@ public class ProviderCombinations {
         // Combination 2: Anthropic Claude + Deepgram
         System.out.println("=== Combination 2: Anthropic + Deepgram ===");
         Anthropic anthropicProvider = Anthropic.builder()
-                .model(AnthropicThinkProviderModel.CLAUDE_SONNET420250514)
+                .model(AnthropicModel.CLAUDE_SONNET420250514)
                 .build();
 
         AgentV1SettingsAgent anthropicConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
@@ -76,7 +76,7 @@ public class ProviderCombinations {
         // Combination 3: Google Gemini + Deepgram
         System.out.println("=== Combination 3: Google + Deepgram ===");
         Google googleProvider =
-                Google.builder().model(GoogleThinkProviderModel.GEMINI25FLASH).build();
+                Google.builder().model(GoogleModel.GEMINI25FLASH).build();
 
         AgentV1SettingsAgent googleConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
                 .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
