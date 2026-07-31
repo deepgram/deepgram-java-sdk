@@ -99,7 +99,21 @@ public final class AgentV1UpdateListenListenProvider {
         T _visitUnknown(Object unknownType);
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = _UnknownValue.class)
+    // Manual patch: Fern defaults a missing "version" discriminator to _UnknownValue, but
+    // "version" is optional on both provider variants, so a version-less provider object is a
+    // valid payload -- and is exactly what 0.7.x emitted and parsed as a V2. Defaulting to
+    // _UnknownValue made such a payload deserialize to an unknown variant whose value was never
+    // populated: getProvider() returned null and re-serializing emitted {"provider":null},
+    // silently dropping the caller's provider. Default to V2Value instead, matching both the
+    // 0.7.x shape and the server's own default.
+    //
+    // Note: Jackson applies defaultImpl when the discriminator is absent OR unrecognized, so an
+    // unknown future version (say "v3") now coerces to V2 and re-serializes as "v2" rather than
+    // landing in _UnknownValue. That is deliberate and still strictly better than the old
+    // behaviour, which dropped the whole provider and threw from _getUnknown(). It does leave
+    // _isUnknown()/_getUnknown() unreachable on this type. This message is client-sent, so the
+    // caller -- not the server -- chooses the version. Remove once Fern picks a real default.
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = V2Value.class)
     @JsonSubTypes({@JsonSubTypes.Type(V1Value.class), @JsonSubTypes.Type(V2Value.class)})
     @JsonIgnoreProperties(ignoreUnknown = true)
     private interface Value {

@@ -99,7 +99,16 @@ public final class AgentV1SettingsAgentListenProvider {
         T _visitUnknown(Object unknownType);
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = _UnknownValue.class)
+    // Manual patch: "version" is optional on both DeepgramListenProviderV1/V2, so a provider
+    // object without it is a valid payload. Fern points defaultImpl at _UnknownValue, whose
+    // @JsonCreator has an empty body, so such a payload deserialized to an unknown variant
+    // carrying null -- getV2() came back empty and re-serializing emitted null, silently dropping
+    // the caller's provider. Default to V2Value, matching the server's own default. Kept
+    // consistent with AgentV1UpdateListenListenProvider. Remove once Fern defaults to a real
+    // variant. Note this also coerces an unrecognized future version to V2, which is deliberate:
+    // Settings is client-sent, so the caller chooses the version, and preserving the provider
+    // beats dropping it.
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = V2Value.class)
     @JsonSubTypes({@JsonSubTypes.Type(V1Value.class), @JsonSubTypes.Type(V2Value.class)})
     @JsonIgnoreProperties(ignoreUnknown = true)
     private interface Value {

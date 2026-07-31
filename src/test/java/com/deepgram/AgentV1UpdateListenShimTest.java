@@ -129,4 +129,43 @@ public class AgentV1UpdateListenShimTest {
         assertThat(back.getProviderValue().isV1()).isTrue();
         assertThat(back).isEqualTo(msg);
     }
+
+    @Test
+    @DisplayName("0.7.x compat: a provider with no \"version\" key parses as V2, not an unknown variant")
+    void legacyVersionlessProviderParsesAsV2() throws Exception {
+        // Exactly what 0.7.x emitted and parsed as a V2: "version" is optional on the provider, so
+        // a version-less object is a valid payload. Fern defaulted a missing discriminator to
+        // _UnknownValue, whose value was never populated -- getProvider() came back null and
+        // re-serializing emitted {"provider":null}, silently dropping the caller's provider.
+        // Patched via defaultImpl = V2Value (see AgentV1UpdateListenListenProvider).
+        String legacy = "{\"provider\":{\"type\":\"deepgram\",\"model\":\"nova-3\"}}";
+
+        AgentV1UpdateListenListen back = ObjectMappers.JSON_MAPPER.readValue(legacy, AgentV1UpdateListenListen.class);
+
+        assertThat(back.getProviderValue().isV2()).isTrue();
+        assertThat(back.getProviderValue()._isUnknown()).isFalse();
+        assertThat(back.getProvider()).isNotNull();
+        assertThat(back.getProvider().getModel()).isEqualTo("nova-3");
+
+        // and it must survive re-serialization rather than becoming {"provider":null}
+        String again = ObjectMappers.JSON_MAPPER.writeValueAsString(back);
+        assertThat(again).doesNotContain("\"provider\":null");
+        assertThat(again).contains("\"model\":\"nova-3\"");
+    }
+
+    @Test
+    @DisplayName("forward-compat: an unrecognized \"version\" coerces to V2 rather than losing the provider")
+    void unknownVersionCoercesToV2() throws Exception {
+        // Jackson applies defaultImpl for an absent OR unrecognized discriminator, so a future
+        // "v3" lands on V2 and re-serializes as "v2". Deliberate: this message is client-sent, and
+        // preserving the provider beats dropping it (the old behaviour returned null and threw
+        // from _getUnknown()). Locking this in so the trade-off is not silently reverted.
+        String future = "{\"provider\":{\"version\":\"v3\",\"type\":\"deepgram\",\"model\":\"nova-9\"}}";
+
+        AgentV1UpdateListenListen back = ObjectMappers.JSON_MAPPER.readValue(future, AgentV1UpdateListenListen.class);
+
+        assertThat(back.getProvider()).isNotNull();
+        assertThat(back.getProvider().getModel()).isEqualTo("nova-9");
+        assertThat(ObjectMappers.JSON_MAPPER.writeValueAsString(back)).doesNotContain("\"provider\":null");
+    }
 }
