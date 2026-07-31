@@ -49,6 +49,7 @@ src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching
 # equals/hashCode pair for fields-less types (tracked as an upstream Fern request).
 src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java
+src/main/java/com/deepgram/resources/listen/v2/types/ListenV2ForceEndTurn.java
 src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Close.java
 src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Flush.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ListenUpdated.java
@@ -102,6 +103,21 @@ src/main/java/com/deepgram/resources/agent/v1/types/FunctionCallHistoryMessage.j
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListen.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextContextMessagesItemContentRole.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem.java
+
+# Union default-variant fix for the same UpdateListen shim (STOPGAP).
+# "version" is optional on both DeepgramListenProviderV1/V2, so a provider object without it is a
+# valid payload -- and is exactly what 0.7.x emitted and parsed as a V2. Fern points the union's
+# @JsonTypeInfo defaultImpl at _UnknownValue, whose @JsonCreator has an empty body, so a version-less
+# provider deserialized to an unknown variant carrying null: getProvider() returned null and
+# re-serializing emitted {"provider":null}, silently dropping the caller's provider (and
+# _getUnknown()/equals() threw NPE). Patched to defaultImpl = V2Value, restoring 0.7.x behaviour.
+# Guarded by AgentV1UpdateListenShimTest. Unfreeze once Fern defaults to a real variant.
+# The two Settings providers carry the identical defect (both shipped in 0.7.1, so a pre-existing
+# bug rather than a regression) and are patched the same way, so all three agent listen-provider
+# unions behave consistently -- a version-less provider is a V2 everywhere, not silently dropped.
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListenProvider.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentListenProvider.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextListenProvider.java
 
 # Build and project configuration
 build.gradle
