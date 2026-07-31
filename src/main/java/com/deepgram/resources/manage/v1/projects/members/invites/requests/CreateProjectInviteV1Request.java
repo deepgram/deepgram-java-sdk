@@ -120,7 +120,6 @@ public final class CreateProjectInviteV1Request {
 
         /**
          * <p>The email address of the invitee</p>
-         * <p>The email address of the invitee</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -131,7 +130,6 @@ public final class CreateProjectInviteV1Request {
         }
 
         /**
-         * <p>The scope of the invitee</p>
          * <p>The scope of the invitee</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

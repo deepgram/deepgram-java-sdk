@@ -19,8 +19,8 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = AgentV1HistoryFunctionCallsFunctionCallsItem.Builder.class)
-public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
+@JsonDeserialize(builder = FunctionCallHistoryMessageFunctionCallsItem.Builder.class)
+public final class FunctionCallHistoryMessageFunctionCallsItem {
     private final String id;
 
     private final String name;
@@ -35,7 +35,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
 
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1HistoryFunctionCallsFunctionCallsItem(
+    private FunctionCallHistoryMessageFunctionCallsItem(
             String id,
             String name,
             boolean clientSide,
@@ -103,8 +103,8 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1HistoryFunctionCallsFunctionCallsItem
-                && equalTo((AgentV1HistoryFunctionCallsFunctionCallsItem) other);
+        return other instanceof FunctionCallHistoryMessageFunctionCallsItem
+                && equalTo((FunctionCallHistoryMessageFunctionCallsItem) other);
     }
 
     @JsonAnyGetter
@@ -112,7 +112,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(AgentV1HistoryFunctionCallsFunctionCallsItem other) {
+    private boolean equalTo(FunctionCallHistoryMessageFunctionCallsItem other) {
         return id.equals(other.id)
                 && name.equals(other.name)
                 && clientSide == other.clientSide
@@ -141,7 +141,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
          */
         NameStage id(@NotNull String id);
 
-        Builder from(AgentV1HistoryFunctionCallsFunctionCallsItem other);
+        Builder from(FunctionCallHistoryMessageFunctionCallsItem other);
     }
 
     public interface NameStage {
@@ -173,7 +173,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
     }
 
     public interface _FinalStage {
-        AgentV1HistoryFunctionCallsFunctionCallsItem build();
+        FunctionCallHistoryMessageFunctionCallsItem build();
 
         _FinalStage additionalProperty(String key, Object value);
 
@@ -208,7 +208,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(AgentV1HistoryFunctionCallsFunctionCallsItem other) {
+        public Builder from(FunctionCallHistoryMessageFunctionCallsItem other) {
             id(other.getId());
             name(other.getName());
             clientSide(other.getClientSide());
@@ -219,7 +219,6 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         }
 
         /**
-         * <p>Unique identifier for the function call</p>
          * <p>Unique identifier for the function call</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -232,7 +231,6 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
 
         /**
          * <p>Name of the function called</p>
-         * <p>Name of the function called</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -243,7 +241,6 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         }
 
         /**
-         * <p>Indicates if the call was client-side or server-side</p>
          * <p>Indicates if the call was client-side or server-side</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -256,7 +253,6 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
 
         /**
          * <p>Arguments passed to the function</p>
-         * <p>Arguments passed to the function</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -267,7 +263,6 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         }
 
         /**
-         * <p>Response from the function call</p>
          * <p>Response from the function call</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -299,8 +294,8 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         }
 
         @java.lang.Override
-        public AgentV1HistoryFunctionCallsFunctionCallsItem build() {
-            return new AgentV1HistoryFunctionCallsFunctionCallsItem(
+        public FunctionCallHistoryMessageFunctionCallsItem build() {
+            return new FunctionCallHistoryMessageFunctionCallsItem(
                     id, name, clientSide, arguments, response, thoughtSignature, additionalProperties);
         }
 

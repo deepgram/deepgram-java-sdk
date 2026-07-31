@@ -6,17 +6,17 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class CartesiaSpeakProviderModelId {
-    public static final CartesiaSpeakProviderModelId SONIC2 = new CartesiaSpeakProviderModelId(Value.SONIC2, "sonic-2");
+public final class ListenV2Redact {
+    public static final ListenV2Redact NUMBERS = new ListenV2Redact(Value.NUMBERS, "numbers");
 
-    public static final CartesiaSpeakProviderModelId SONIC_MULTILINGUAL =
-            new CartesiaSpeakProviderModelId(Value.SONIC_MULTILINGUAL, "sonic-multilingual");
+    public static final ListenV2Redact AGGRESSIVE_NUMBERS =
+            new ListenV2Redact(Value.AGGRESSIVE_NUMBERS, "aggressive_numbers");
 
     private final Value value;
 
     private final String string;
 
-    CartesiaSpeakProviderModelId(Value value, String string) {
+    ListenV2Redact(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -34,8 +34,7 @@ public final class CartesiaSpeakProviderModelId {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof CartesiaSpeakProviderModelId
-                        && this.string.equals(((CartesiaSpeakProviderModelId) other).string));
+                || (other instanceof ListenV2Redact && this.string.equals(((ListenV2Redact) other).string));
     }
 
     @java.lang.Override
@@ -45,10 +44,10 @@ public final class CartesiaSpeakProviderModelId {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case SONIC2:
-                return visitor.visitSonic2();
-            case SONIC_MULTILINGUAL:
-                return visitor.visitSonicMultilingual();
+            case NUMBERS:
+                return visitor.visitNumbers();
+            case AGGRESSIVE_NUMBERS:
+                return visitor.visitAggressiveNumbers();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -56,29 +55,29 @@ public final class CartesiaSpeakProviderModelId {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static CartesiaSpeakProviderModelId valueOf(String value) {
+    public static ListenV2Redact valueOf(String value) {
         switch (value) {
-            case "sonic-2":
-                return SONIC2;
-            case "sonic-multilingual":
-                return SONIC_MULTILINGUAL;
+            case "numbers":
+                return NUMBERS;
+            case "aggressive_numbers":
+                return AGGRESSIVE_NUMBERS;
             default:
-                return new CartesiaSpeakProviderModelId(Value.UNKNOWN, value);
+                return new ListenV2Redact(Value.UNKNOWN, value);
         }
     }
 
     public enum Value {
-        SONIC2,
+        NUMBERS,
 
-        SONIC_MULTILINGUAL,
+        AGGRESSIVE_NUMBERS,
 
         UNKNOWN
     }
 
     public interface Visitor<T> {
-        T visitSonic2();
+        T visitNumbers();
 
-        T visitSonicMultilingual();
+        T visitAggressiveNumbers();
 
         T visitUnknown(String unknownType);
     }

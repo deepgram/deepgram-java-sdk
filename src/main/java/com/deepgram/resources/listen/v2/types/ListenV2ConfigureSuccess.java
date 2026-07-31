@@ -206,7 +206,6 @@ public final class ListenV2ConfigureSuccess {
 
         /**
          * <p>The unique identifier of the request</p>
-         * <p>The unique identifier of the request</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -217,8 +216,6 @@ public final class ListenV2ConfigureSuccess {
         }
 
         /**
-         * <p>Updates each parameter, if it is supplied. If a particular threshold parameter
-         * is not supplied, the configuration continues using the currently configured value.</p>
          * <p>Updates each parameter, if it is supplied. If a particular threshold parameter
          * is not supplied, the configuration continues using the currently configured value.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
@@ -238,9 +235,6 @@ public final class ListenV2ConfigureSuccess {
         }
 
         /**
-         * <p>Starts at <code>0</code> and increments for each message the server sends
-         * to the client.  This includes messages of other types, like
-         * <code>TurnInfo</code> messages.</p>
          * <p>Starts at <code>0</code> and increments for each message the server sends
          * to the client.  This includes messages of other types, like
          * <code>TurnInfo</code> messages.</p>

@@ -6,18 +6,17 @@ package com.deepgram.resources.agent.v1.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class AgentV1SettingsAgentContextContextMessagesItemContentRole {
-    public static final AgentV1SettingsAgentContextContextMessagesItemContentRole USER =
-            new AgentV1SettingsAgentContextContextMessagesItemContentRole(Value.USER, "user");
+public final class ConversationHistoryMessageRole {
+    public static final ConversationHistoryMessageRole USER = new ConversationHistoryMessageRole(Value.USER, "user");
 
-    public static final AgentV1SettingsAgentContextContextMessagesItemContentRole ASSISTANT =
-            new AgentV1SettingsAgentContextContextMessagesItemContentRole(Value.ASSISTANT, "assistant");
+    public static final ConversationHistoryMessageRole ASSISTANT =
+            new ConversationHistoryMessageRole(Value.ASSISTANT, "assistant");
 
     private final Value value;
 
     private final String string;
 
-    AgentV1SettingsAgentContextContextMessagesItemContentRole(Value value, String string) {
+    ConversationHistoryMessageRole(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -35,9 +34,8 @@ public final class AgentV1SettingsAgentContextContextMessagesItemContentRole {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof AgentV1SettingsAgentContextContextMessagesItemContentRole
-                        && this.string.equals(
-                                ((AgentV1SettingsAgentContextContextMessagesItemContentRole) other).string));
+                || (other instanceof ConversationHistoryMessageRole
+                        && this.string.equals(((ConversationHistoryMessageRole) other).string));
     }
 
     @java.lang.Override
@@ -58,14 +56,14 @@ public final class AgentV1SettingsAgentContextContextMessagesItemContentRole {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static AgentV1SettingsAgentContextContextMessagesItemContentRole valueOf(String value) {
+    public static ConversationHistoryMessageRole valueOf(String value) {
         switch (value) {
             case "user":
                 return USER;
             case "assistant":
                 return ASSISTANT;
             default:
-                return new AgentV1SettingsAgentContextContextMessagesItemContentRole(Value.UNKNOWN, value);
+                return new ConversationHistoryMessageRole(Value.UNKNOWN, value);
         }
     }
 

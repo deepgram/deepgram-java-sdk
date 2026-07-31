@@ -10,6 +10,7 @@ import com.deepgram.core.DeepgramHttpException;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.RequestOptions;
+import com.deepgram.core.RetryInterceptor;
 import com.deepgram.errors.BadRequestError;
 import com.deepgram.resources.manage.v1.projects.requests.requests.RequestsListRequest;
 import com.deepgram.types.GetProjectRequestV1Response;
@@ -121,6 +122,15 @@ public class AsyncRawRequestsClient {
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
         }
+        if (requestOptions != null && requestOptions.getMaxRetries().isPresent()) {
+            okhttpRequest = okhttpRequest
+                    .newBuilder()
+                    .tag(
+                            RetryInterceptor.MaxRetriesOverride.class,
+                            new RetryInterceptor.MaxRetriesOverride(
+                                    requestOptions.getMaxRetries().get()))
+                    .build();
+        }
         CompletableFuture<DeepgramApiHttpResponse<ListProjectRequestsV1Response>> future = new CompletableFuture<>();
         client.newCall(okhttpRequest).enqueue(new Callback() {
             @Override
@@ -147,6 +157,9 @@ public class AsyncRawRequestsClient {
                     future.completeExceptionally(new DeepgramHttpException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
+                } catch (JsonProcessingException e) {
+                    future.completeExceptionally(
+                            new DeepgramApiException("Failed to deserialize response: " + e.getMessage(), e));
                 } catch (IOException e) {
                     future.completeExceptionally(new DeepgramApiException("Network error executing HTTP request", e));
                 }
@@ -194,6 +207,15 @@ public class AsyncRawRequestsClient {
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
         }
+        if (requestOptions != null && requestOptions.getMaxRetries().isPresent()) {
+            okhttpRequest = okhttpRequest
+                    .newBuilder()
+                    .tag(
+                            RetryInterceptor.MaxRetriesOverride.class,
+                            new RetryInterceptor.MaxRetriesOverride(
+                                    requestOptions.getMaxRetries().get()))
+                    .build();
+        }
         CompletableFuture<DeepgramApiHttpResponse<GetProjectRequestV1Response>> future = new CompletableFuture<>();
         client.newCall(okhttpRequest).enqueue(new Callback() {
             @Override
@@ -220,6 +242,9 @@ public class AsyncRawRequestsClient {
                     future.completeExceptionally(new DeepgramHttpException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
+                } catch (JsonProcessingException e) {
+                    future.completeExceptionally(
+                            new DeepgramApiException("Failed to deserialize response: " + e.getMessage(), e));
                 } catch (IOException e) {
                     future.completeExceptionally(new DeepgramApiException("Network error executing HTTP request", e));
                 }

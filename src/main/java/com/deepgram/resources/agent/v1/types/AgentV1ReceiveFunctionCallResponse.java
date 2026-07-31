@@ -161,7 +161,6 @@ public final class AgentV1ReceiveFunctionCallResponse {
 
         /**
          * <p>The name of the function being called</p>
-         * <p>The name of the function being called</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -172,7 +171,6 @@ public final class AgentV1ReceiveFunctionCallResponse {
         }
 
         /**
-         * <p>The content or result of the function call</p>
          * <p>The content or result of the function call</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

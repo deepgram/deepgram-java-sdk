@@ -147,7 +147,6 @@ public final class CreateAgentConfigurationV1Request {
 
         /**
          * <p>A valid JSON string representing the agent block of a Settings message</p>
-         * <p>A valid JSON string representing the agent block of a Settings message</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

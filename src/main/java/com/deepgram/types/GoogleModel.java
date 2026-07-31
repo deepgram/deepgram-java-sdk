@@ -6,21 +6,19 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class GoogleThinkProviderModel {
-    public static final GoogleThinkProviderModel GEMINI20FLASH_LITE =
-            new GoogleThinkProviderModel(Value.GEMINI20FLASH_LITE, "gemini-2.0-flash-lite");
+public final class GoogleModel {
+    public static final GoogleModel GEMINI20FLASH_LITE =
+            new GoogleModel(Value.GEMINI20FLASH_LITE, "gemini-2.0-flash-lite");
 
-    public static final GoogleThinkProviderModel GEMINI25FLASH =
-            new GoogleThinkProviderModel(Value.GEMINI25FLASH, "gemini-2.5-flash");
+    public static final GoogleModel GEMINI25FLASH = new GoogleModel(Value.GEMINI25FLASH, "gemini-2.5-flash");
 
-    public static final GoogleThinkProviderModel GEMINI20FLASH =
-            new GoogleThinkProviderModel(Value.GEMINI20FLASH, "gemini-2.0-flash");
+    public static final GoogleModel GEMINI20FLASH = new GoogleModel(Value.GEMINI20FLASH, "gemini-2.0-flash");
 
     private final Value value;
 
     private final String string;
 
-    GoogleThinkProviderModel(Value value, String string) {
+    GoogleModel(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -37,9 +35,7 @@ public final class GoogleThinkProviderModel {
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof GoogleThinkProviderModel
-                        && this.string.equals(((GoogleThinkProviderModel) other).string));
+        return (this == other) || (other instanceof GoogleModel && this.string.equals(((GoogleModel) other).string));
     }
 
     @java.lang.Override
@@ -62,7 +58,7 @@ public final class GoogleThinkProviderModel {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static GoogleThinkProviderModel valueOf(String value) {
+    public static GoogleModel valueOf(String value) {
         switch (value) {
             case "gemini-2.0-flash-lite":
                 return GEMINI20FLASH_LITE;
@@ -71,7 +67,7 @@ public final class GoogleThinkProviderModel {
             case "gemini-2.0-flash":
                 return GEMINI20FLASH;
             default:
-                return new GoogleThinkProviderModel(Value.UNKNOWN, value);
+                return new GoogleModel(Value.UNKNOWN, value);
         }
     }
 
