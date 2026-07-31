@@ -87,6 +87,22 @@ src/main/java/com/deepgram/types/Cartesia.java
 src/main/java/com/deepgram/resources/agent/v1/types/ConversationHistoryMessage.java
 src/main/java/com/deepgram/resources/agent/v1/types/FunctionCallHistoryMessage.java
 
+# Return-type back-compat shims (STOPGAP — remove once these ship in a major).
+# fern-java-sdk 4.16.0 made source-breaking return-type/shape changes to types 0.7.x shipped.
+# Java cannot shim a return-type change additively (no return-type overloading; can't subclass
+# final enums), so these are handled two ways:
+#  - AgentV1UpdateListenListen.getProvider() widened from DeepgramListenProviderV2 to a V1|V2 union
+#    (docs #1066, to allow model/language changes). Hand-shimmed ADDITIVELY: getProvider() still
+#    returns DeepgramListenProviderV2 and provider(DeepgramListenProviderV2) still builds; the union
+#    is exposed via getProviderValue() and provider(DeepgramListenProviderV1) for the new capability.
+#  - ConversationHistoryMessage.getRole() and FunctionCallHistoryMessage.getFunctionCalls() (frozen
+#    above) were reparented onto history-specific types with the shared ContextMessagesItem types
+#    deleted; restored to their 0.7.x shapes with the two deleted types re-added below.
+# Drop these once the new shapes ship in a major (tracked as an upstream Fern request).
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListen.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextContextMessagesItemContentRole.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem.java
+
 # Build and project configuration
 build.gradle
 settings.gradle

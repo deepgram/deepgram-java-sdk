@@ -19,14 +19,16 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ConversationHistoryMessage.Builder.class)
 public final class ConversationHistoryMessage {
-    private final AgentV1HistoryContentRole role;
+    private final AgentV1SettingsAgentContextContextMessagesItemContentRole role;
 
     private final String content;
 
     private final Map<String, Object> additionalProperties;
 
     private ConversationHistoryMessage(
-            AgentV1HistoryContentRole role, String content, Map<String, Object> additionalProperties) {
+            AgentV1SettingsAgentContextContextMessagesItemContentRole role,
+            String content,
+            Map<String, Object> additionalProperties) {
         this.role = role;
         this.content = content;
         this.additionalProperties = additionalProperties;
@@ -44,7 +46,7 @@ public final class ConversationHistoryMessage {
      * @return Identifies who spoke the statement
      */
     @JsonProperty("role")
-    public AgentV1HistoryContentRole getRole() {
+    public AgentV1SettingsAgentContextContextMessagesItemContentRole getRole() {
         return role;
     }
 
@@ -89,7 +91,7 @@ public final class ConversationHistoryMessage {
         /**
          * <p>Identifies who spoke the statement</p>
          */
-        ContentStage role(@NotNull AgentV1HistoryContentRole role);
+        ContentStage role(@NotNull AgentV1SettingsAgentContextContextMessagesItemContentRole role);
 
         Builder from(ConversationHistoryMessage other);
     }
@@ -111,7 +113,7 @@ public final class ConversationHistoryMessage {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements RoleStage, ContentStage, _FinalStage {
-        private AgentV1HistoryContentRole role;
+        private AgentV1SettingsAgentContextContextMessagesItemContentRole role;
 
         private String content;
 
@@ -129,16 +131,18 @@ public final class ConversationHistoryMessage {
 
         /**
          * <p>Identifies who spoke the statement</p>
+         * <p>Identifies who spoke the statement</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
         @JsonSetter("role")
-        public ContentStage role(@NotNull AgentV1HistoryContentRole role) {
+        public ContentStage role(@NotNull AgentV1SettingsAgentContextContextMessagesItemContentRole role) {
             this.role = Objects.requireNonNull(role, "role must not be null");
             return this;
         }
 
         /**
+         * <p>The actual statement that was spoken</p>
          * <p>The actual statement that was spoken</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
