@@ -10,11 +10,9 @@ public final class GoogleThinkProviderModel {
     public static final GoogleThinkProviderModel GEMINI20FLASH_LITE =
             new GoogleThinkProviderModel(Value.GEMINI20FLASH_LITE, "gemini-2.0-flash-lite");
 
-    public static final GoogleThinkProviderModel GEMINI25FLASH =
-            new GoogleThinkProviderModel(Value.GEMINI25FLASH, "gemini-2.5-flash");
+    public static final GoogleThinkProviderModel GEMINI25FLASH = new GoogleThinkProviderModel(Value.GEMINI25FLASH, "gemini-2.5-flash");
 
-    public static final GoogleThinkProviderModel GEMINI20FLASH =
-            new GoogleThinkProviderModel(Value.GEMINI20FLASH, "gemini-2.0-flash");
+    public static final GoogleThinkProviderModel GEMINI20FLASH = new GoogleThinkProviderModel(Value.GEMINI20FLASH, "gemini-2.0-flash");
 
     private final Value value;
 
@@ -37,9 +35,7 @@ public final class GoogleThinkProviderModel {
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof GoogleThinkProviderModel
-                        && this.string.equals(((GoogleThinkProviderModel) other).string));
+        return (this == other) || (other instanceof GoogleThinkProviderModel && this.string.equals(((GoogleThinkProviderModel) other).string));
     }
 
     @java.lang.Override

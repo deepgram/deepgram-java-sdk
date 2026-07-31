@@ -100,7 +100,6 @@ public final class UpdateProjectMemberScopesV1Request {
 
         /**
          * <p>A scope to update</p>
-         * <p>A scope to update</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

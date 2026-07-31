@@ -10,12 +10,6 @@ src/main/java/com/deepgram/AsyncDeepgramClient.java
 src/main/java/com/deepgram/DeepgramClientBuilder.java
 src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 
-# Core files with release-please version markers
-# Contains User-Agent, X-Fern-SDK-Name, and X-Fern-SDK-Version headers
-# with // x-release-please-version comments for automated version bumps.
-# Fern regen overwrites these with incorrect SDK names and strips the markers.
-src/main/java/com/deepgram/core/ClientOptions.java
-
 # Transport abstraction (pluggable transport for SageMaker, etc.)
 src/main/java/com/deepgram/core/transport/
 
@@ -55,6 +49,7 @@ src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching
 # equals/hashCode pair for fields-less types (tracked as an upstream Fern request).
 src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java
+src/main/java/com/deepgram/resources/listen/v2/types/ListenV2ForceEndTurn.java
 src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Close.java
 src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Flush.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ListenUpdated.java
@@ -65,6 +60,64 @@ src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UserStartedSpeaking.j
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1KeepAlive.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkUpdated.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java
+
+# Type-rename back-compat freeze (STOPGAP — remove once Fern fixes this upstream).
+# fern-java-sdk 4.16.0 introduced unconditional collision-based name shortening that
+# renamed public provider types that 0.7.x shipped (e.g. DeepgramSpeakProviderModel ->
+# DeepgramModel, AnthropicThinkProviderModel -> AnthropicModel). Single-role providers get
+# shortened; OpenAi keeps the long name only because it is both a think and speak provider
+# (a collision). This is a generator regression, not a spec change, and smart-casing:false
+# does NOT restore the old names. We patch the names back to preserve source compatibility.
+# Freeze both the renamed leaf types AND their referencing payloads so the reversal survives
+# regen. NOTE: a future regen will still emit the short-named files (e.g. DeepgramModel.java)
+# as unreferenced orphans until the generator is fixed; delete those and drop this whole block
+# once Fern stops renaming (tracked as an upstream Fern request).
+src/main/java/com/deepgram/types/DeepgramSpeakProviderModel.java
+src/main/java/com/deepgram/types/AnthropicThinkProviderModel.java
+src/main/java/com/deepgram/types/GoogleThinkProviderModel.java
+src/main/java/com/deepgram/types/GroqThinkProviderReasoningMode.java
+src/main/java/com/deepgram/types/CartesiaSpeakProviderModelId.java
+src/main/java/com/deepgram/types/CartesiaSpeakProviderVoice.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1HistoryContentRole.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1HistoryFunctionCallsFunctionCallsItem.java
+src/main/java/com/deepgram/types/Deepgram.java
+src/main/java/com/deepgram/types/Anthropic.java
+src/main/java/com/deepgram/types/Google.java
+src/main/java/com/deepgram/types/Groq.java
+src/main/java/com/deepgram/types/Cartesia.java
+src/main/java/com/deepgram/resources/agent/v1/types/ConversationHistoryMessage.java
+src/main/java/com/deepgram/resources/agent/v1/types/FunctionCallHistoryMessage.java
+
+# Return-type back-compat shims (STOPGAP — remove once these ship in a major).
+# fern-java-sdk 4.16.0 made source-breaking return-type/shape changes to types 0.7.x shipped.
+# Java cannot shim a return-type change additively (no return-type overloading; can't subclass
+# final enums), so these are handled two ways:
+#  - AgentV1UpdateListenListen.getProvider() widened from DeepgramListenProviderV2 to a V1|V2 union
+#    (docs #1066, to allow model/language changes). Hand-shimmed ADDITIVELY: getProvider() still
+#    returns DeepgramListenProviderV2 and provider(DeepgramListenProviderV2) still builds; the union
+#    is exposed via getProviderValue() and provider(DeepgramListenProviderV1) for the new capability.
+#  - ConversationHistoryMessage.getRole() and FunctionCallHistoryMessage.getFunctionCalls() (frozen
+#    above) were reparented onto history-specific types with the shared ContextMessagesItem types
+#    deleted; restored to their 0.7.x shapes with the two deleted types re-added below.
+# Drop these once the new shapes ship in a major (tracked as an upstream Fern request).
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListen.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextContextMessagesItemContentRole.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem.java
+
+# Union default-variant fix for the same UpdateListen shim (STOPGAP).
+# "version" is optional on both DeepgramListenProviderV1/V2, so a provider object without it is a
+# valid payload -- and is exactly what 0.7.x emitted and parsed as a V2. Fern points the union's
+# @JsonTypeInfo defaultImpl at _UnknownValue, whose @JsonCreator has an empty body, so a version-less
+# provider deserialized to an unknown variant carrying null: getProvider() returned null and
+# re-serializing emitted {"provider":null}, silently dropping the caller's provider (and
+# _getUnknown()/equals() threw NPE). Patched to defaultImpl = V2Value, restoring 0.7.x behaviour.
+# Guarded by AgentV1UpdateListenShimTest. Unfreeze once Fern defaults to a real variant.
+# The two Settings providers carry the identical defect (both shipped in 0.7.1, so a pre-existing
+# bug rather than a regression) and are patched the same way, so all three agent listen-provider
+# unions behave consistently -- a version-less provider is a V2 everywhere, not silently dropped.
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListenProvider.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentListenProvider.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextListenProvider.java
 
 # Build and project configuration
 build.gradle

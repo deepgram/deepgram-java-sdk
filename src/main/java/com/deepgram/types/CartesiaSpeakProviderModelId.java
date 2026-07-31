@@ -34,8 +34,7 @@ public final class CartesiaSpeakProviderModelId {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof CartesiaSpeakProviderModelId
-                        && this.string.equals(((CartesiaSpeakProviderModelId) other).string));
+                || (other instanceof CartesiaSpeakProviderModelId && this.string.equals(((CartesiaSpeakProviderModelId) other).string));
     }
 
     @java.lang.Override

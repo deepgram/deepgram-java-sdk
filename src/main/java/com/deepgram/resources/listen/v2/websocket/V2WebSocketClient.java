@@ -16,6 +16,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2ConfigureFailure;
 import com.deepgram.resources.listen.v2.types.ListenV2ConfigureSuccess;
 import com.deepgram.resources.listen.v2.types.ListenV2Connected;
 import com.deepgram.resources.listen.v2.types.ListenV2FatalError;
+import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -146,6 +147,10 @@ public class V2WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "numerals", String.valueOf(options.getNumerals().get()));
         }
+        if (options.getRedact() != null && options.getRedact().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "redact", String.valueOf(options.getRedact().get()));
+        }
         if (options.getMipOptOut() != null && options.getMipOptOut().isPresent()) {
             urlBuilder.addQueryParameter(
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
@@ -264,6 +269,15 @@ public class V2WebSocketClient implements AutoCloseable {
      * @return a CompletableFuture that completes when the message is sent
      */
     public CompletableFuture<Void> sendCloseStream(ListenV2CloseStream message) {
+        return sendMessage(message);
+    }
+
+    /**
+     * Sends a ListenV2ForceEndTurn message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendForceEndTurn(ListenV2ForceEndTurn message) {
         return sendMessage(message);
     }
 

@@ -4,9 +4,11 @@
 package com.deepgram.resources.agent.v1.types;
 
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.types.DeepgramListenProviderV1;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,20 +19,41 @@ import java.util.Map;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
+// MANUAL PATCH (back-compat shim): fern-java-sdk 4.16.0 widened `provider` from
+// DeepgramListenProviderV2 to the AgentV1UpdateListenListenProvider (V1|V2) union so that
+// UpdateListen can change model/language (docs #1066). That return-type change is source-breaking
+// for 0.7.x consumers. This shim keeps the union on the wire and as the new API surface, while
+// preserving the old typed API additively: getProvider() still returns DeepgramListenProviderV2,
+// and provider(DeepgramListenProviderV2) still builds. New callers use getProviderValue()/the
+// union and provider(DeepgramListenProviderV1). Drop this patch once the union ships in a major.
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = AgentV1UpdateListenListen.Builder.class)
 public final class AgentV1UpdateListenListen {
-    private final DeepgramListenProviderV2 provider;
+    private final AgentV1UpdateListenListenProvider provider;
 
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1UpdateListenListen(DeepgramListenProviderV2 provider, Map<String, Object> additionalProperties) {
+    private AgentV1UpdateListenListen(
+            AgentV1UpdateListenListenProvider provider, Map<String, Object> additionalProperties) {
         this.provider = provider;
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("provider")
+    /**
+     * @return the listen provider as a {@link DeepgramListenProviderV2}, or {@code null} if a V1
+     *     provider was set. Preserved for source compatibility with 0.7.x; new code should use
+     *     {@link #getProviderValue()} to read either variant.
+     */
+    @JsonIgnore
     public DeepgramListenProviderV2 getProvider() {
+        return provider == null ? null : provider.getV2().orElse(null);
+    }
+
+    /**
+     * @return the full provider union (V1 or V2). V1 is used to change model/language on the fly.
+     */
+    @JsonProperty("provider")
+    public AgentV1UpdateListenListenProvider getProviderValue() {
         return provider;
     }
 
@@ -64,7 +87,13 @@ public final class AgentV1UpdateListenListen {
     }
 
     public interface ProviderStage {
+        _FinalStage provider(@NotNull AgentV1UpdateListenListenProvider provider);
+
+        /** Back-compat overload: sets a V2 provider. Preserved for 0.7.x source compatibility. */
         _FinalStage provider(@NotNull DeepgramListenProviderV2 provider);
+
+        /** New: sets a V1 provider (used to change model/language). */
+        _FinalStage provider(@NotNull DeepgramListenProviderV1 provider);
 
         Builder from(AgentV1UpdateListenListen other);
     }
@@ -79,7 +108,7 @@ public final class AgentV1UpdateListenListen {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ProviderStage, _FinalStage {
-        private DeepgramListenProviderV2 provider;
+        private AgentV1UpdateListenListenProvider provider;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -88,14 +117,28 @@ public final class AgentV1UpdateListenListen {
 
         @java.lang.Override
         public Builder from(AgentV1UpdateListenListen other) {
-            provider(other.getProvider());
+            provider(other.getProviderValue());
             return this;
         }
 
         @java.lang.Override
         @JsonSetter("provider")
-        public _FinalStage provider(@NotNull DeepgramListenProviderV2 provider) {
+        public _FinalStage provider(@NotNull AgentV1UpdateListenListenProvider provider) {
             this.provider = Objects.requireNonNull(provider, "provider must not be null");
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage provider(@NotNull DeepgramListenProviderV2 provider) {
+            this.provider = AgentV1UpdateListenListenProvider.v2(
+                    Objects.requireNonNull(provider, "provider must not be null"));
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage provider(@NotNull DeepgramListenProviderV1 provider) {
+            this.provider = AgentV1UpdateListenListenProvider.v1(
+                    Objects.requireNonNull(provider, "provider must not be null"));
             return this;
         }
 

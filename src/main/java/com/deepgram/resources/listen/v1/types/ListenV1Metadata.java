@@ -232,7 +232,6 @@ public final class ListenV1Metadata {
 
         /**
          * <p>The transaction key</p>
-         * <p>The transaction key</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -243,7 +242,6 @@ public final class ListenV1Metadata {
         }
 
         /**
-         * <p>The request ID</p>
          * <p>The request ID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -256,7 +254,6 @@ public final class ListenV1Metadata {
 
         /**
          * <p>The sha256</p>
-         * <p>The sha256</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -267,7 +264,6 @@ public final class ListenV1Metadata {
         }
 
         /**
-         * <p>The created</p>
          * <p>The created</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -280,7 +276,6 @@ public final class ListenV1Metadata {
 
         /**
          * <p>The duration</p>
-         * <p>The duration</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -291,7 +286,6 @@ public final class ListenV1Metadata {
         }
 
         /**
-         * <p>The channels</p>
          * <p>The channels</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

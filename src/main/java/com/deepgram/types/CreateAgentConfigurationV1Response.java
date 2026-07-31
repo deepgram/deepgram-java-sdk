@@ -151,7 +151,6 @@ public final class CreateAgentConfigurationV1Response {
 
         /**
          * <p>The unique identifier of the newly created agent configuration</p>
-         * <p>The unique identifier of the newly created agent configuration</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

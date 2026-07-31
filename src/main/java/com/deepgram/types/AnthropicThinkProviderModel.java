@@ -35,8 +35,7 @@ public final class AnthropicThinkProviderModel {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof AnthropicThinkProviderModel
-                        && this.string.equals(((AnthropicThinkProviderModel) other).string));
+                || (other instanceof AnthropicThinkProviderModel && this.string.equals(((AnthropicThinkProviderModel) other).string));
     }
 
     @java.lang.Override

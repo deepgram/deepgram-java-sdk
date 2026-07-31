@@ -158,7 +158,6 @@ public final class SpeakV2SessionMetadata {
 
         /**
          * <p>Cumulative audio duration produced across the session, in milliseconds</p>
-         * <p>Cumulative audio duration produced across the session, in milliseconds</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -170,7 +169,6 @@ public final class SpeakV2SessionMetadata {
 
         /**
          * <p>Cumulative raw input character count across the session</p>
-         * <p>Cumulative raw input character count across the session</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -181,7 +179,6 @@ public final class SpeakV2SessionMetadata {
         }
 
         /**
-         * <p>Cumulative billable character count across the session</p>
          * <p>Cumulative billable character count across the session</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

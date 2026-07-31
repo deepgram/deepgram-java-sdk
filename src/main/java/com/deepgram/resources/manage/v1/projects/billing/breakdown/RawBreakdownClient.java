@@ -10,6 +10,7 @@ import com.deepgram.core.DeepgramHttpException;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.RequestOptions;
+import com.deepgram.core.RetryInterceptor;
 import com.deepgram.errors.BadRequestError;
 import com.deepgram.resources.manage.v1.projects.billing.breakdown.requests.BreakdownListRequest;
 import com.deepgram.types.BillingBreakdownV1Response;
@@ -102,6 +103,15 @@ public class RawBreakdownClient {
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
         }
+        if (requestOptions != null && requestOptions.getMaxRetries().isPresent()) {
+            okhttpRequest = okhttpRequest
+                    .newBuilder()
+                    .tag(
+                            RetryInterceptor.MaxRetriesOverride.class,
+                            new RetryInterceptor.MaxRetriesOverride(
+                                    requestOptions.getMaxRetries().get()))
+                    .build();
+        }
         try (Response response = client.newCall(okhttpRequest).execute()) {
             ResponseBody responseBody = response.body();
             String responseBodyString = responseBody != null ? responseBody.string() : "{}";
@@ -121,6 +131,8 @@ public class RawBreakdownClient {
             Object errorBody = ObjectMappers.parseErrorBody(responseBodyString);
             throw new DeepgramHttpException(
                     "Error with status code " + response.code(), response.code(), errorBody, response);
+        } catch (JsonProcessingException e) {
+            throw new DeepgramApiException("Failed to deserialize response: " + e.getMessage(), e);
         } catch (IOException e) {
             throw new DeepgramApiException("Network error executing HTTP request", e);
         }

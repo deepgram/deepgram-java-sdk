@@ -122,7 +122,6 @@ public final class SpeakV2SpeechMetadataControlsApplied {
 
         /**
          * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Always <code>0</code> during Early Access.</p>
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Always <code>0</code> during Early Access.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -133,7 +132,6 @@ public final class SpeakV2SpeechMetadataControlsApplied {
         }
 
         /**
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Always <code>0</code> during Early Access.</p>
          * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Always <code>0</code> during Early Access.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

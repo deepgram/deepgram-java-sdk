@@ -107,7 +107,6 @@ public final class SpeakV1Text {
 
         /**
          * <p>The input text to be converted to speech</p>
-         * <p>The input text to be converted to speech</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
