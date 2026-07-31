@@ -28,8 +28,9 @@ public class ProviderCombinations {
         System.out.println();
 
         // Shared speak provider (Deepgram TTS)
-        Deepgram deepgramSpeak =
-                Deepgram.builder().model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN).build();
+        Deepgram deepgramSpeak = Deepgram.builder()
+                .model(DeepgramSpeakProviderModel.AURA2ASTERIA_EN)
+                .build();
         AgentV1SettingsAgentContextSpeak speakSettings = AgentV1SettingsAgentContextSpeak.of(SpeakSettingsV1.builder()
                 .provider(SpeakSettingsV1Provider.deepgram(deepgramSpeak))
                 .build());
@@ -55,8 +56,9 @@ public class ProviderCombinations {
 
         // Combination 2: Anthropic Claude + Deepgram
         System.out.println("=== Combination 2: Anthropic + Deepgram ===");
-        Anthropic anthropicProvider =
-                Anthropic.builder().model(AnthropicThinkProviderModel.CLAUDE_SONNET420250514).build();
+        Anthropic anthropicProvider = Anthropic.builder()
+                .model(AnthropicThinkProviderModel.CLAUDE_SONNET420250514)
+                .build();
 
         AgentV1SettingsAgent anthropicConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
                 .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
