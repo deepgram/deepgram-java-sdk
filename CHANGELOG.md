@@ -5,7 +5,7 @@
 
 ### Features
 
-* **regen:** add diarize_info, Flux force-end-turn, update-listen, word speaker confidence ([#89](https://github.com/deepgram/deepgram-java-sdk/issues/89)) ([5b6323a](https://github.com/deepgram/deepgram-java-sdk/commit/5b6323ae23ead0e68c4823286c9a18a2a015b47c))
+* **Listen v2 streaming: turn control & redaction** — new `ForceEndTurn` client message (`sendForceEndTurn(...)` on the listen v2 WebSocket client) forces the model to finalize the current turn on demand, plus a `redact` connect option (`ListenV2Redact.NUMBERS` / `AGGRESSIVE_NUMBERS`) that removes sensitive information from live transcripts; `TurnInfo` also gains a `trigger` field indicating what ended the turn. Also adds **Listen v1 diarization metadata** (`diarizeInfo` on response metadata plus per-word `speaker` / `speakerConfidence`), the mid-session agent `UpdateListen` provider selection, and **12 new Flux (`flux-*-en`) text-to-speech voices**. ([#89](https://github.com/deepgram/deepgram-java-sdk/issues/89)) ([5b6323a](https://github.com/deepgram/deepgram-java-sdk/commit/5b6323ae23ead0e68c4823286c9a18a2a015b47c))
 
 ## [0.7.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.7.0...v0.7.1) (2026-07-24)
 
