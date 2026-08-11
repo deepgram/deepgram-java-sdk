@@ -105,7 +105,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
     }
 
     /**
-     * @return The speaker of the word, present when diarization is enabled
+     * @return The speaker of the word
      */
     @JsonProperty("speaker")
     public Optional<Integer> getSpeaker() {
@@ -201,7 +201,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         _FinalStage punctuatedWord(String punctuatedWord);
 
         /**
-         * <p>The speaker of the word, present when diarization is enabled</p>
+         * <p>The speaker of the word</p>
          */
         _FinalStage speaker(Optional<Integer> speaker);
 
@@ -243,6 +243,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
 
         /**
          * <p>The word of the transcription</p>
+         * <p>The word of the transcription</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -253,6 +254,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         }
 
         /**
+         * <p>The start time of the word</p>
          * <p>The start time of the word</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -265,6 +267,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
 
         /**
          * <p>The end time of the word</p>
+         * <p>The end time of the word</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -276,6 +279,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
 
         /**
          * <p>The confidence of the word</p>
+         * <p>The confidence of the word</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -286,7 +290,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         }
 
         /**
-         * <p>The speaker of the word, present when diarization is enabled</p>
+         * <p>The speaker of the word</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -296,7 +300,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         }
 
         /**
-         * <p>The speaker of the word, present when diarization is enabled</p>
+         * <p>The speaker of the word</p>
          */
         @java.lang.Override
         @JsonSetter(value = "speaker", nulls = Nulls.SKIP)

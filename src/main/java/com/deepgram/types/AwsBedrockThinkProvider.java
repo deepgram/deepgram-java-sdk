@@ -154,6 +154,7 @@ public final class AwsBedrockThinkProvider {
 
         /**
          * <p>AWS Bedrock model to use</p>
+         * <p>AWS Bedrock model to use</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

@@ -163,6 +163,7 @@ public final class BillingBreakdownV1Response {
 
         /**
          * <p>Start date of the billing summmary period</p>
+         * <p>Start date of the billing summmary period</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -173,6 +174,7 @@ public final class BillingBreakdownV1Response {
         }
 
         /**
+         * <p>End date of the billing summary period</p>
          * <p>End date of the billing summary period</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

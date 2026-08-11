@@ -188,6 +188,7 @@ public final class AwsPollySpeakProvider {
 
         /**
          * <p>AWS Polly voice name</p>
+         * <p>AWS Polly voice name</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -198,6 +199,7 @@ public final class AwsPollySpeakProvider {
         }
 
         /**
+         * <p>Language code to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the AWS Polly API</p>
          * <p>Language code to use, e.g. 'en-US'. Corresponds to the <code>language_code</code> parameter in the AWS Polly API</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

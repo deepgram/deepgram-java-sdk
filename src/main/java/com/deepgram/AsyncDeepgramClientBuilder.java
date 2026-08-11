@@ -86,24 +86,6 @@ public class AsyncDeepgramClientBuilder extends AsyncDeepgramApiClientBuilder {
     }
 
     @Override
-    public AsyncDeepgramClientBuilder initialRetryDelayMillis(long initialRetryDelayMillis) {
-        super.initialRetryDelayMillis(initialRetryDelayMillis);
-        return this;
-    }
-
-    @Override
-    public AsyncDeepgramClientBuilder maxRetryDelayMillis(long maxRetryDelayMillis) {
-        super.maxRetryDelayMillis(maxRetryDelayMillis);
-        return this;
-    }
-
-    @Override
-    public AsyncDeepgramClientBuilder retryJitterFactor(double retryJitterFactor) {
-        super.retryJitterFactor(retryJitterFactor);
-        return this;
-    }
-
-    @Override
     public AsyncDeepgramClientBuilder httpClient(OkHttpClient httpClient) {
         super.httpClient(httpClient);
         return this;

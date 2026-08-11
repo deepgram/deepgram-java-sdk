@@ -122,6 +122,7 @@ public final class GetProjectDistributionCredentialsV1ResponseMember {
 
         /**
          * <p>Unique identifier for the member</p>
+         * <p>Unique identifier for the member</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -132,6 +133,7 @@ public final class GetProjectDistributionCredentialsV1ResponseMember {
         }
 
         /**
+         * <p>Email address of the member</p>
          * <p>Email address of the member</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

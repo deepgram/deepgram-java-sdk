@@ -121,6 +121,7 @@ public final class AgentV1SettingsAudioInput {
 
         /**
          * <p>Audio encoding format</p>
+         * <p>Audio encoding format</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -131,6 +132,7 @@ public final class AgentV1SettingsAudioInput {
         }
 
         /**
+         * <p>Sample rate in Hz. Common values are 16000, 24000, 44100, 48000</p>
          * <p>Sample rate in Hz. Common values are 16000, 24000, 44100, 48000</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

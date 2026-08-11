@@ -143,6 +143,7 @@ public final class AgentV1InjectAgentMessage {
 
         /**
          * <p>The statement that the agent should say</p>
+         * <p>The statement that the agent should say</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

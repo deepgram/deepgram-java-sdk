@@ -128,6 +128,7 @@ public final class SpeakV2Error {
 
         /**
          * <p>A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>.</p>
+         * <p>A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -138,6 +139,7 @@ public final class SpeakV2Error {
         }
 
         /**
+         * <p>Prose description of the error</p>
          * <p>Prose description of the error</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

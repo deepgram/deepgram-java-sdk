@@ -107,6 +107,7 @@ public final class AgentV1UpdatePrompt {
 
         /**
          * <p>The new system prompt to be used by the agent</p>
+         * <p>The new system prompt to be used by the agent</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

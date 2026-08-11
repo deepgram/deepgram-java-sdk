@@ -484,36 +484,11 @@ DeepgramClient client = DeepgramClient.builder()
 
 ### Retry Configuration
 
-The SDK retries `408`, `429`, and `5xx` responses with exponential backoff and jitter, honouring
-`Retry-After` and `X-RateLimit-Reset` when the server sends them.
-
 ```java
 DeepgramClient client = DeepgramClient.builder()
     .apiKey("YOUR_DEEPGRAM_API_KEY")
     .maxRetries(3)
     .build();
-```
-
-Tune the backoff curve if the defaults do not suit your traffic:
-
-```java
-DeepgramClient client = DeepgramClient.builder()
-    .apiKey("YOUR_DEEPGRAM_API_KEY")
-    .maxRetries(3)
-    .initialRetryDelayMillis(500)   // first backoff, doubles each attempt (default 1000)
-    .maxRetryDelayMillis(10_000)    // ceiling for any single wait (default 60000)
-    .retryJitterFactor(0.5)         // randomness applied to each delay, 0-1 (default 0.2)
-    .build();
-```
-
-To override the retry count for a single call, pass it via `RequestOptions`:
-
-```java
-import com.deepgram.core.RequestOptions;
-
-client.listen().v1().media().transcribeUrl(request, RequestOptions.builder()
-    .maxRetries(0)  // this call only; leaves the client-wide setting untouched
-    .build());
 ```
 
 ### Custom HTTP Client

@@ -165,6 +165,7 @@ public final class ListenV1ResultsChannelAlternativesItem {
 
         /**
          * <p>The transcript of the transcription</p>
+         * <p>The transcript of the transcription</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -175,6 +176,7 @@ public final class ListenV1ResultsChannelAlternativesItem {
         }
 
         /**
+         * <p>The confidence of the transcription</p>
          * <p>The confidence of the transcription</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

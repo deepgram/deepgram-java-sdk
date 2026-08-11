@@ -142,6 +142,7 @@ public final class ListenV1ResultsMetadataModelInfo {
 
         /**
          * <p>The name of the model</p>
+         * <p>The name of the model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -153,6 +154,7 @@ public final class ListenV1ResultsMetadataModelInfo {
 
         /**
          * <p>The version of the model</p>
+         * <p>The version of the model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -163,6 +165,7 @@ public final class ListenV1ResultsMetadataModelInfo {
         }
 
         /**
+         * <p>The arch of the model</p>
          * <p>The arch of the model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

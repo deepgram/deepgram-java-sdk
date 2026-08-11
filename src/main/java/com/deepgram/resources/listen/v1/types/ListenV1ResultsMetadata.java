@@ -10,12 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -27,20 +25,16 @@ public final class ListenV1ResultsMetadata {
 
     private final String modelUuid;
 
-    private final Optional<ListenV1ResultsMetadataDiarizeInfo> diarizeInfo;
-
     private final Map<String, Object> additionalProperties;
 
     private ListenV1ResultsMetadata(
             String requestId,
             ListenV1ResultsMetadataModelInfo modelInfo,
             String modelUuid,
-            Optional<ListenV1ResultsMetadataDiarizeInfo> diarizeInfo,
             Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.modelInfo = modelInfo;
         this.modelUuid = modelUuid;
-        this.diarizeInfo = diarizeInfo;
         this.additionalProperties = additionalProperties;
     }
 
@@ -65,14 +59,6 @@ public final class ListenV1ResultsMetadata {
         return modelUuid;
     }
 
-    /**
-     * @return The diarizer that produced the speaker labels. Present only when a diarizer ran.
-     */
-    @JsonProperty("diarize_info")
-    public Optional<ListenV1ResultsMetadataDiarizeInfo> getDiarizeInfo() {
-        return diarizeInfo;
-    }
-
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -87,13 +73,12 @@ public final class ListenV1ResultsMetadata {
     private boolean equalTo(ListenV1ResultsMetadata other) {
         return requestId.equals(other.requestId)
                 && modelInfo.equals(other.modelInfo)
-                && modelUuid.equals(other.modelUuid)
-                && diarizeInfo.equals(other.diarizeInfo);
+                && modelUuid.equals(other.modelUuid);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.requestId, this.modelInfo, this.modelUuid, this.diarizeInfo);
+        return Objects.hash(this.requestId, this.modelInfo, this.modelUuid);
     }
 
     @java.lang.Override
@@ -131,13 +116,6 @@ public final class ListenV1ResultsMetadata {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
-
-        /**
-         * <p>The diarizer that produced the speaker labels. Present only when a diarizer ran.</p>
-         */
-        _FinalStage diarizeInfo(Optional<ListenV1ResultsMetadataDiarizeInfo> diarizeInfo);
-
-        _FinalStage diarizeInfo(ListenV1ResultsMetadataDiarizeInfo diarizeInfo);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -147,8 +125,6 @@ public final class ListenV1ResultsMetadata {
         private ListenV1ResultsMetadataModelInfo modelInfo;
 
         private String modelUuid;
-
-        private Optional<ListenV1ResultsMetadataDiarizeInfo> diarizeInfo = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -160,11 +136,11 @@ public final class ListenV1ResultsMetadata {
             requestId(other.getRequestId());
             modelInfo(other.getModelInfo());
             modelUuid(other.getModelUuid());
-            diarizeInfo(other.getDiarizeInfo());
             return this;
         }
 
         /**
+         * <p>The request ID</p>
          * <p>The request ID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -184,6 +160,7 @@ public final class ListenV1ResultsMetadata {
 
         /**
          * <p>The model UUID</p>
+         * <p>The model UUID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -193,29 +170,9 @@ public final class ListenV1ResultsMetadata {
             return this;
         }
 
-        /**
-         * <p>The diarizer that produced the speaker labels. Present only when a diarizer ran.</p>
-         * @return Reference to {@code this} so that method calls can be chained together.
-         */
-        @java.lang.Override
-        public _FinalStage diarizeInfo(ListenV1ResultsMetadataDiarizeInfo diarizeInfo) {
-            this.diarizeInfo = Optional.ofNullable(diarizeInfo);
-            return this;
-        }
-
-        /**
-         * <p>The diarizer that produced the speaker labels. Present only when a diarizer ran.</p>
-         */
-        @java.lang.Override
-        @JsonSetter(value = "diarize_info", nulls = Nulls.SKIP)
-        public _FinalStage diarizeInfo(Optional<ListenV1ResultsMetadataDiarizeInfo> diarizeInfo) {
-            this.diarizeInfo = diarizeInfo;
-            return this;
-        }
-
         @java.lang.Override
         public ListenV1ResultsMetadata build() {
-            return new ListenV1ResultsMetadata(requestId, modelInfo, modelUuid, diarizeInfo, additionalProperties);
+            return new ListenV1ResultsMetadata(requestId, modelInfo, modelUuid, additionalProperties);
         }
 
         @java.lang.Override

@@ -128,6 +128,7 @@ public final class AgentV1Warning {
 
         /**
          * <p>Description of the warning</p>
+         * <p>Description of the warning</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -138,6 +139,7 @@ public final class AgentV1Warning {
         }
 
         /**
+         * <p>Warning code identifier</p>
          * <p>Warning code identifier</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

@@ -132,6 +132,7 @@ public final class ListenV1UtteranceEnd {
 
         /**
          * <p>The last word end</p>
+         * <p>The last word end</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

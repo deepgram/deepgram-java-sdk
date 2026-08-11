@@ -296,6 +296,7 @@ public final class ListenV1Results {
 
         /**
          * <p>The duration of the transcription</p>
+         * <p>The duration of the transcription</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -306,6 +307,7 @@ public final class ListenV1Results {
         }
 
         /**
+         * <p>The start time of the transcription</p>
          * <p>The start time of the transcription</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

@@ -220,6 +220,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
 
         /**
          * <p>Unique identifier for the function call</p>
+         * <p>Unique identifier for the function call</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -230,6 +231,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         }
 
         /**
+         * <p>Name of the function called</p>
          * <p>Name of the function called</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -242,6 +244,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
 
         /**
          * <p>Indicates if the call was client-side or server-side</p>
+         * <p>Indicates if the call was client-side or server-side</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -253,6 +256,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
 
         /**
          * <p>Arguments passed to the function</p>
+         * <p>Arguments passed to the function</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -263,6 +267,7 @@ public final class AgentV1HistoryFunctionCallsFunctionCallsItem {
         }
 
         /**
+         * <p>Response from the function call</p>
          * <p>Response from the function call</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

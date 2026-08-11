@@ -149,6 +149,7 @@ public final class AgentV1AgentStartedSpeaking {
 
         /**
          * <p>Seconds from receiving the user's utterance to producing the agent's reply</p>
+         * <p>Seconds from receiving the user's utterance to producing the agent's reply</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -160,6 +161,7 @@ public final class AgentV1AgentStartedSpeaking {
 
         /**
          * <p>The portion of total latency attributable to text-to-speech</p>
+         * <p>The portion of total latency attributable to text-to-speech</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -170,6 +172,7 @@ public final class AgentV1AgentStartedSpeaking {
         }
 
         /**
+         * <p>The portion of total latency attributable to text-to-text (usually an LLM)</p>
          * <p>The portion of total latency attributable to text-to-text (usually an LLM)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

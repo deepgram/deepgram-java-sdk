@@ -196,6 +196,7 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
 
         /**
          * <p>Unique identifier for the function call</p>
+         * <p>Unique identifier for the function call</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -206,6 +207,7 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
         }
 
         /**
+         * <p>The name of the function to call</p>
          * <p>The name of the function to call</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -218,6 +220,7 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
 
         /**
          * <p>JSON string containing the function arguments</p>
+         * <p>JSON string containing the function arguments</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -228,6 +231,7 @@ public final class AgentV1FunctionCallRequestFunctionsItem {
         }
 
         /**
+         * <p>Whether the function should be executed client-side</p>
          * <p>Whether the function should be executed client-side</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

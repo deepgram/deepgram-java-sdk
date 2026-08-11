@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class GroqThinkProviderReasoningMode {
-    public static final GroqThinkProviderReasoningMode MEDIUM = new GroqThinkProviderReasoningMode(Value.MEDIUM, "medium");
+    public static final GroqThinkProviderReasoningMode MEDIUM =
+            new GroqThinkProviderReasoningMode(Value.MEDIUM, "medium");
 
     public static final GroqThinkProviderReasoningMode LOW = new GroqThinkProviderReasoningMode(Value.LOW, "low");
 
-    public static final GroqThinkProviderReasoningMode MINIMAL = new GroqThinkProviderReasoningMode(Value.MINIMAL, "minimal");
+    public static final GroqThinkProviderReasoningMode MINIMAL =
+            new GroqThinkProviderReasoningMode(Value.MINIMAL, "minimal");
 
     public static final GroqThinkProviderReasoningMode HIGH = new GroqThinkProviderReasoningMode(Value.HIGH, "high");
 
@@ -39,7 +41,8 @@ public final class GroqThinkProviderReasoningMode {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof GroqThinkProviderReasoningMode && this.string.equals(((GroqThinkProviderReasoningMode) other).string));
+                || (other instanceof GroqThinkProviderReasoningMode
+                        && this.string.equals(((GroqThinkProviderReasoningMode) other).string));
     }
 
     @java.lang.Override

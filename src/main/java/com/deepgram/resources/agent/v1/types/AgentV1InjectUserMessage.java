@@ -107,6 +107,7 @@ public final class AgentV1InjectUserMessage {
 
         /**
          * <p>The specific phrase or statement the agent should respond to</p>
+         * <p>The specific phrase or statement the agent should respond to</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
