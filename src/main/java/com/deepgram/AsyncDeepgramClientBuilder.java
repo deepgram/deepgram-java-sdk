@@ -104,6 +104,24 @@ public class AsyncDeepgramClientBuilder extends AsyncDeepgramApiClientBuilder {
     }
 
     @Override
+    public AsyncDeepgramClientBuilder initialRetryDelayMillis(long initialRetryDelayMillis) {
+        super.initialRetryDelayMillis(initialRetryDelayMillis);
+        return this;
+    }
+
+    @Override
+    public AsyncDeepgramClientBuilder maxRetryDelayMillis(long maxRetryDelayMillis) {
+        super.maxRetryDelayMillis(maxRetryDelayMillis);
+        return this;
+    }
+
+    @Override
+    public AsyncDeepgramClientBuilder retryJitterFactor(double retryJitterFactor) {
+        super.retryJitterFactor(retryJitterFactor);
+        return this;
+    }
+
+    @Override
     protected void setAuthentication(ClientOptions.Builder builder) {
         if (accessToken != null) {
             builder.addHeader("Authorization", "Bearer " + accessToken);

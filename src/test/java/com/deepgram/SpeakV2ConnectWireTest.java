@@ -3,9 +3,15 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.Environment;
+import com.deepgram.resources.speak.v2.types.SpeakV2Configure;
+import com.deepgram.resources.speak.v2.types.SpeakV2Interrupt;
+import com.deepgram.resources.speak.v2.types.SpeakV2InterruptPlaybackOffset;
 import com.deepgram.resources.speak.v2.websocket.V2ConnectOptions;
+import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
 import com.deepgram.types.SpeakV2Tag;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import okhttp3.HttpUrl;
 import okhttp3.WebSocket;
@@ -85,5 +91,83 @@ class SpeakV2ConnectWireTest {
                 .build());
 
         assertThat(url.queryParameterValues("tag")).containsExactly("a");
+    }
+
+    @Test
+    @DisplayName("speed is sent on the connect URL as its raw numeric value when set")
+    void speedPresentWhenSet() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model("flux-alexis-en")
+                .speed(1.05)
+                .build());
+
+        assertThat(url.queryParameter("speed")).isEqualTo("1.05");
+    }
+
+    @Test
+    @DisplayName("expressivity is sent on the connect URL as its raw integer value when set")
+    void expressivityPresentWhenSet() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model("flux-alexis-en")
+                .expressivity(2)
+                .build());
+
+        assertThat(url.queryParameter("expressivity")).isEqualTo("2");
+    }
+
+    @Test
+    @DisplayName("speed/expressivity are omitted from the connect URL when not set")
+    void speedExpressivityOmittedWhenAbsent() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(
+                V2ConnectOptions.builder().model("flux-alexis-en").build());
+
+        assertThat(url.queryParameterNames()).doesNotContain("speed", "expressivity");
+    }
+
+    /** Connects, keeps the socket open, runs {@code action}, and returns the first frame the server received. */
+    private String connectAndCaptureSentFrame(java.util.function.Consumer<V2WebSocketClient> action) throws Exception {
+        BlockingQueue<String> received = new LinkedBlockingQueue<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                received.add(text);
+                // Close server-side once we've captured a frame so MockWebServer can shut down cleanly.
+                webSocket.close(1000, null);
+            }
+        }));
+        V2WebSocketClient ws = client.speak().v2().v2WebSocket();
+        try {
+            ws.connect(V2ConnectOptions.builder().model("flux-alexis-en").build()).get(5, TimeUnit.SECONDS);
+            action.accept(ws);
+            return received.poll(5, TimeUnit.SECONDS);
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    @DisplayName("sendInterrupt serializes an Interrupt frame carrying its playback_offset")
+    void sendInterruptFrame() throws Exception {
+        String frame = connectAndCaptureSentFrame(ws -> ws.sendInterrupt(SpeakV2Interrupt.builder()
+                .playbackOffset(SpeakV2InterruptPlaybackOffset.builder()
+                        .value(1200)
+                        .build())
+                .build()));
+
+        assertThat(frame).as("Interrupt frame reached the server").isNotNull();
+        assertThat(frame).contains("\"type\":\"Interrupt\"");
+        assertThat(frame).contains("\"playback_offset\"");
+        assertThat(frame).contains("\"value\":1200");
+    }
+
+    @Test
+    @DisplayName("sendConfigure serializes a Configure frame carrying the speed")
+    void sendConfigureFrame() throws Exception {
+        String frame = connectAndCaptureSentFrame(
+                ws -> ws.sendConfigure(SpeakV2Configure.builder().speed(1.05).build()));
+
+        assertThat(frame).as("Configure frame reached the server").isNotNull();
+        assertThat(frame).contains("\"type\":\"Configure\"");
+        assertThat(frame).contains("\"speed\":1.05");
     }
 }

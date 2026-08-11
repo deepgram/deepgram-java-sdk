@@ -100,7 +100,7 @@ import com.deepgram.types.DeepgramListenProviderV2;
 
 AgentV1UpdateListenListen listen = AgentV1UpdateListenListen.builder()
     .provider(DeepgramListenProviderV2.builder()
-        // ...provider fields...
+        .model("flux-general-en")
         .build())
     .build();
 
@@ -117,7 +117,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 AgentV1UpdateListenListen listen = AgentV1UpdateListenListen.builder()
     .provider(AgentV1UpdateListenListenProvider.v2(
         DeepgramListenProviderV2.builder()
-            // ...provider fields...
+            .model("flux-general-en")
             .build()))
     .build();
 
@@ -136,7 +136,10 @@ Available constants (with wire values): `GoogleThinkProviderVersion.V1BETA` (`v1
 **v0.7.x**
 
 ```java
+import com.deepgram.types.GoogleThinkProviderModel;
+
 Google google = Google.builder()
+    .model(GoogleThinkProviderModel.GEMINI25FLASH)
     .version("v1beta")
     .build();
 
@@ -146,9 +149,11 @@ Optional<String> version = google.getVersion();
 **v0.8.0**
 
 ```java
+import com.deepgram.types.GoogleThinkProviderModel;
 import com.deepgram.types.GoogleThinkProviderVersion;
 
 Google google = Google.builder()
+    .model(GoogleThinkProviderModel.GEMINI25FLASH)
     .version(GoogleThinkProviderVersion.V1BETA)
     .build();
 

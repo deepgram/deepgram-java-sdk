@@ -37,8 +37,11 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p>Usage: java StreamingTtsV2 [output-file]
  */
 public class StreamingTtsV2 {
-    // LINEAR16 mono @ 16 kHz = 2 bytes/sample * 16000 samples/sec = 32000 bytes/sec.
-    private static final long BYTES_PER_SECOND = 32000;
+    // Single source of truth for the audio format, shared by the connect() call and the
+    // playback-offset math below so the two can't drift.
+    private static final SpeakV2SampleRate SAMPLE_RATE = SpeakV2SampleRate.SIXTEEN_THOUSAND;
+    private static final int BYTES_PER_SAMPLE = 2; // LINEAR16 mono
+    private static final long BYTES_PER_SECOND = Long.parseLong(SAMPLE_RATE.toString()) * BYTES_PER_SAMPLE;
 
     public static void main(String[] args) {
         // Get API key from environment
@@ -139,7 +142,7 @@ public class StreamingTtsV2 {
             V2ConnectOptions connectOptions = V2ConnectOptions.builder()
                     .model("flux-alexis-en")
                     .encoding(SpeakV2Encoding.LINEAR16)
-                    .sampleRate(SpeakV2SampleRate.SIXTEEN_THOUSAND)
+                    .sampleRate(SAMPLE_RATE)
                     .build();
             CompletableFuture<Void> connectFuture = wsClient.connect(connectOptions);
             connectFuture.get(10, TimeUnit.SECONDS);
@@ -149,11 +152,15 @@ public class StreamingTtsV2 {
             System.out.println("Configuring speed = 1.05");
             wsClient.sendConfigure(SpeakV2Configure.builder().speed(1.05).build());
 
-            // Send a longer utterance we can barge in on.
-            String longUtterance = "This is a longer sentence that we will interrupt partway through "
-                    + "to demonstrate barge-in, where the caller starts speaking before playback finishes.";
-            System.out.println("Sending: \"" + longUtterance + "\"");
-            wsClient.sendSpeak(SpeakV2Speak.builder().text(longUtterance).build());
+            // Send a longer utterance, split across chunks, that we can barge in on.
+            String[] chunks = {
+                "This is a longer sentence that we will interrupt partway through ",
+                "to demonstrate barge-in, where the caller starts speaking before playback finishes."
+            };
+            for (String chunk : chunks) {
+                System.out.println("Sending: \"" + chunk + "\"");
+                wsClient.sendSpeak(SpeakV2Speak.builder().text(chunk).build());
+            }
             wsClient.sendFlush(SpeakV2Flush.builder().build());
 
             // Let some audio arrive, then barge in. In a real app you'd trigger this when the user starts
