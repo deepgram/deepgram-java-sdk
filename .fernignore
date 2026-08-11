@@ -66,6 +66,17 @@ src/main/java/com/deepgram/resources/agent/v1/types/AgentV1KeepAlive.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkUpdated.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java
 
+# Union default-variant fix (STOPGAP). The agent listen-provider unions declare `version` as an
+# optional discriminator, so a provider payload without it is valid (and is what 0.7.x emits). Fern
+# points @JsonTypeInfo defaultImpl at the empty-bodied _UnknownValue, so such a payload deserializes
+# to an unknown variant carrying null — getProvider() returns null and re-serialization emits
+# {"provider":null}, silently dropping the caller's provider on the wire. Patched to
+# defaultImpl = V2Value on each. Guarded by AgentSettingsProviderDefaultTest. Unfreeze and drop once
+# the generator stops defaulting unions to the empty _UnknownValue (tracked as an upstream Fern request).
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListenProvider.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentListenProvider.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextListenProvider.java
+
 # Build and project configuration
 build.gradle
 settings.gradle
