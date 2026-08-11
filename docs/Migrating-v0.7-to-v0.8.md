@@ -189,7 +189,7 @@ int breaks = controlsApplied.getBreaksApplied();
 
 - **Speak V2 interrupt & configure**: `SpeakV2Interrupt`, `SpeakV2InterruptPlaybackOffset`, `SpeakV2Configure`, `SpeakV2ConfigureSuccess`, `SpeakV2ConfigureFailure` (+ `...Code`), and `SpeakV2SpeechInterrupted` (+ `...Metadata`, `...MetadataControlsApplied`), wired to the new client send methods and handlers above.
 - **Listen V2 redaction**: `ListenV2Redact` and the `redact` V2 WebSocket query parameter (`V2ConnectOptions.redact(...)`).
-- **Listen V1 diarization metadata & word speaker confidence**: `ListenV1ResponseMetadataDiarizeInfo` (+ `...Arch`) on the response metadata, plus per-word speaker-confidence fields on the words items.
+- **Speak V2 `speed` / `expressivity`**: optional connect params on `V2ConnectOptions` and on the REST `SpeakV2Request`.
 - **New Deepgram Flux TTS voices**: `FLUX_*` constants added to `DeepgramSpeakProviderModel` (for example `FLUX_RUFUS_EN`). Purely additive — existing voice constants are unchanged.
 - **Client retry tuning**: `ClientOptions.Builder.initialRetryDelayMillis(...)`, `maxRetryDelayMillis(...)`, `retryJitterFactor(...)`.
 
@@ -211,7 +211,7 @@ int breaks = controlsApplied.getBreaksApplied();
 
 - **Speak V2 interrupt/configure**: send methods (`sendInterrupt`, `sendConfigure`) and handlers (`onSpeechInterrupted`, `onConfigureSuccess`, `onConfigureFailure`) plus their message types
 - **Listen V2 redaction**: `ListenV2Redact` and `V2ConnectOptions.redact(...)`
-- **Listen V1 diarize info & word speaker confidence** on response metadata/words
+- **Speak V2 `speed` / `expressivity`** connect params (`V2ConnectOptions`, `SpeakV2Request`)
 - **New Deepgram Flux TTS voices** (`DeepgramSpeakProviderModel.FLUX_*`)
 - **Client retry tuning** (`initialRetryDelayMillis`, `maxRetryDelayMillis`, `retryJitterFactor`) and automatic response decompression
 
