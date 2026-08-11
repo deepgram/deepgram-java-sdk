@@ -16,7 +16,8 @@ You can learn more about the Deepgram API at [developers.deepgram.com](https://d
 
 ### Migrating Between Versions
 
-- [v0.6 to v0.7](./docs/Migrating-v0.6-to-v0.7.md) (current)
+- [v0.7 to v0.8](./docs/Migrating-v0.7-to-v0.8.md) (current)
+- [v0.6 to v0.7](./docs/Migrating-v0.6-to-v0.7.md)
 - [v0.5 to v0.6](./docs/Migrating-v0.5-to-v0.6.md)
 - [v0.3 to v0.4](./docs/Migrating-v0.3-to-v0.4.md)
 - [v0.2 to v0.3](./docs/Migrating-v0.2-to-v0.3.md)
