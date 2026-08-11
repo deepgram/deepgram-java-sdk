@@ -333,6 +333,49 @@ ttsWs.sendClose(SpeakV1Close.builder()
 ttsWs.close();
 ```
 
+### Flux TTS Barge-in (Speak V2 WebSocket)
+
+The Speak V2 WebSocket adds Flux TTS barge-in and mid-stream controls. Open the connection with `V2ConnectOptions` (model required; `speed` and `expressivity` are optional connect params), then:
+
+- **`sendConfigure(...)`** adjusts the speech-rate multiplier mid-stream. Accepted speeds are `0.85`–`1.15` in `0.05` steps; the server replies via `onConfigureSuccess` or a typed `onConfigureFailure` (e.g. `SPEED_OUT_OF_RANGE`).
+- **`sendInterrupt(...)`** stops playback (barge-in). Pass a `SpeakV2InterruptPlaybackOffset` with the audio milliseconds played so the `onSpeechInterrupted` event can report `getTextSpoken()` / `getTextRemaining()`. The offset is cumulative from session start, and each interrupt must advance past the previous one.
+
+```java
+import com.deepgram.resources.speak.v2.types.SpeakV2Configure;
+import com.deepgram.resources.speak.v2.types.SpeakV2Interrupt;
+import com.deepgram.resources.speak.v2.types.SpeakV2InterruptPlaybackOffset;
+import com.deepgram.resources.speak.v2.types.SpeakV2Speak;
+import com.deepgram.resources.speak.v2.websocket.V2ConnectOptions;
+import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
+
+V2WebSocketClient ttsWs = client.speak().v2().v2WebSocket();
+
+// Mid-stream configure acknowledgements
+ttsWs.onConfigureSuccess(success -> System.out.println("configured: " + success.getApplied()));
+ttsWs.onConfigureFailure(failure ->
+    System.out.println("rejected [" + failure.getCode() + "]: " + failure.getDescription()));
+
+// Barge-in: reports where playback was cut off when the interrupt carried a playback offset
+ttsWs.onSpeechInterrupted(interrupted -> {
+    interrupted.getTextSpoken().ifPresent(spoken -> System.out.println("spoken: " + spoken));
+    interrupted.getTextRemaining().ifPresent(remaining -> System.out.println("remaining: " + remaining));
+});
+
+ttsWs.connect(V2ConnectOptions.builder().model("flux-alexis-en").build()).get(10, TimeUnit.SECONDS);
+
+ttsWs.sendConfigure(SpeakV2Configure.builder().speed(1.05).build());
+ttsWs.sendSpeak(SpeakV2Speak.builder().text("This is a longer sentence we can barge in on.").build());
+
+// Stop playback after ~1.2s of audio has played
+ttsWs.sendInterrupt(SpeakV2Interrupt.builder()
+    .playbackOffset(SpeakV2InterruptPlaybackOffset.builder().value(1200).build())
+    .build());
+
+ttsWs.close();
+```
+
+See [`examples/speak/StreamingTtsV2.java`](examples/speak/StreamingTtsV2.java) for a complete, runnable barge-in example.
+
 ### Agent WebSocket
 
 Connect to Deepgram's voice agent for real-time conversational AI.
