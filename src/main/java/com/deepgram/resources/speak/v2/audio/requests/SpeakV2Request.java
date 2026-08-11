@@ -143,7 +143,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.
+     * @return Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.
      */
     @JsonIgnore
     public Optional<Integer> getExpressivity() {
@@ -167,7 +167,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.
      */
     @JsonIgnore
     public Optional<Double> getSpeed() {
@@ -319,7 +319,7 @@ public final class SpeakV2Request {
         _FinalStage encoding(AudioGenerateRequestEncoding encoding);
 
         /**
-         * <p>Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         * <p>Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
          */
         _FinalStage expressivity(Optional<Integer> expressivity);
 
@@ -333,7 +333,7 @@ public final class SpeakV2Request {
         _FinalStage sampleRate(Integer sampleRate);
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.</p>
          */
         _FinalStage speed(Optional<Double> speed);
 
@@ -441,7 +441,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -451,7 +451,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)
@@ -481,7 +481,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         * <p>Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -491,7 +491,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         * <p>Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "expressivity", nulls = Nulls.SKIP)
