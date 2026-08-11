@@ -99,6 +99,7 @@ public final class SpeakV1Clear {
 
         /**
          * <p>Message type identifier</p>
+         * <p>Message type identifier</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

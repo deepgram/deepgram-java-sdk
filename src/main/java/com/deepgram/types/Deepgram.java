@@ -46,7 +46,7 @@ public final class Deepgram {
     }
 
     /**
-     * @return The Deepgram text-to-speech model family. Accepted values: <code>v1</code> (Aura, the default) and <code>v2</code> (Flux TTS, Early Access). Use <code>v1</code> with an aura-* model and <code>v2</code> with a flux-* model. Defaults to <code>v1</code> when omitted.
+     * @return The REST API version for the Deepgram text-to-speech API
      */
     @JsonProperty("version")
     public Optional<String> getVersion() {
@@ -54,7 +54,7 @@ public final class Deepgram {
     }
 
     /**
-     * @return Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2, Early Access) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).
+     * @return Deepgram TTS model
      */
     @JsonProperty("model")
     public DeepgramSpeakProviderModel getModel() {
@@ -100,7 +100,7 @@ public final class Deepgram {
 
     public interface ModelStage {
         /**
-         * <p>Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2, Early Access) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).</p>
+         * <p>Deepgram TTS model</p>
          */
         _FinalStage model(@NotNull DeepgramSpeakProviderModel model);
 
@@ -115,7 +115,7 @@ public final class Deepgram {
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
-         * <p>The Deepgram text-to-speech model family. Accepted values: <code>v1</code> (Aura, the default) and <code>v2</code> (Flux TTS, Early Access). Use <code>v1</code> with an aura-* model and <code>v2</code> with a flux-* model. Defaults to <code>v1</code> when omitted.</p>
+         * <p>The REST API version for the Deepgram text-to-speech API</p>
          */
         _FinalStage version(Optional<String> version);
 
@@ -151,7 +151,8 @@ public final class Deepgram {
         }
 
         /**
-         * <p>Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2, Early Access) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).</p>
+         * <p>Deepgram TTS model</p>
+         * <p>Deepgram TTS model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -182,7 +183,7 @@ public final class Deepgram {
         }
 
         /**
-         * <p>The Deepgram text-to-speech model family. Accepted values: <code>v1</code> (Aura, the default) and <code>v2</code> (Flux TTS, Early Access). Use <code>v1</code> with an aura-* model and <code>v2</code> with a flux-* model. Defaults to <code>v1</code> when omitted.</p>
+         * <p>The REST API version for the Deepgram text-to-speech API</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -192,7 +193,7 @@ public final class Deepgram {
         }
 
         /**
-         * <p>The Deepgram text-to-speech model family. Accepted values: <code>v1</code> (Aura, the default) and <code>v2</code> (Flux TTS, Early Access). Use <code>v1</code> with an aura-* model and <code>v2</code> with a flux-* model. Defaults to <code>v1</code> when omitted.</p>
+         * <p>The REST API version for the Deepgram text-to-speech API</p>
          */
         @java.lang.Override
         @JsonSetter(value = "version", nulls = Nulls.SKIP)

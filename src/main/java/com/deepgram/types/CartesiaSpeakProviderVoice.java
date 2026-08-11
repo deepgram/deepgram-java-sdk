@@ -120,6 +120,7 @@ public final class CartesiaSpeakProviderVoice {
 
         /**
          * <p>Cartesia voice mode</p>
+         * <p>Cartesia voice mode</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -130,6 +131,7 @@ public final class CartesiaSpeakProviderVoice {
         }
 
         /**
+         * <p>Cartesia voice ID</p>
          * <p>Cartesia voice ID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

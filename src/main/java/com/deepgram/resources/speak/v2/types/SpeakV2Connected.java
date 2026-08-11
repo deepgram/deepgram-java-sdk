@@ -183,6 +183,7 @@ public final class SpeakV2Connected {
 
         /**
          * <p>The unique identifier of the <code>/v2/speak</code> request</p>
+         * <p>The unique identifier of the <code>/v2/speak</code> request</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -194,6 +195,7 @@ public final class SpeakV2Connected {
 
         /**
          * <p>Resolved model name</p>
+         * <p>Resolved model name</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -204,6 +206,7 @@ public final class SpeakV2Connected {
         }
 
         /**
+         * <p>Resolved model version</p>
          * <p>Resolved model version</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

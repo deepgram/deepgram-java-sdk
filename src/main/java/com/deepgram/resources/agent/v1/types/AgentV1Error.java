@@ -128,6 +128,7 @@ public final class AgentV1Error {
 
         /**
          * <p>A description of what went wrong</p>
+         * <p>A description of what went wrong</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -138,6 +139,7 @@ public final class AgentV1Error {
         }
 
         /**
+         * <p>Error code identifying the type of error</p>
          * <p>Error code identifying the type of error</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

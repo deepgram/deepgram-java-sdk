@@ -172,6 +172,7 @@ public final class ListenV2TurnInfoWordsItem {
 
         /**
          * <p>The individual punctuated, properly-cased word from the transcript</p>
+         * <p>The individual punctuated, properly-cased word from the transcript</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -182,6 +183,7 @@ public final class ListenV2TurnInfoWordsItem {
         }
 
         /**
+         * <p>Confidence that this word was transcribed correctly</p>
          * <p>Confidence that this word was transcribed correctly</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

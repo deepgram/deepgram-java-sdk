@@ -224,9 +224,7 @@ public final class ListenV1RequestUrl {
     }
 
     /**
-     * @return Key term prompting improves recognition of specialized terminology and brands. Only compatible with Nova-3.
-     * <p><code>keyterm</code> accepts plain terms only. Unlike the legacy <code>keywords</code> feature, it does not support weights or intensifiers. Appending one (for example, <code>keyterm=term:0.15</code>) is not rejected—the weight is silently ignored and the entire value is treated as a literal keyterm.</p>
-     * <p>To boost multiple separate keyterms, repeat the <code>keyterm</code> parameter (for example, <code>keyterm=term1&amp;keyterm=term2</code>). To boost one multi-word phrase as a single keyterm, join the words with <code>%20</code> or <code>+</code> (for example, <code>keyterm=customer%20service</code>). Do not separate keyterms with commas, semicolons, or line breaks.</p>
+     * @return Key term prompting can boost or suppress specialized terminology and brands. Only compatible with Nova-3
      */
     @JsonIgnore
     public Optional<List<String>> getKeyterm() {
@@ -648,9 +646,7 @@ public final class ListenV1RequestUrl {
         _FinalStage customIntent(String customIntent);
 
         /**
-         * <p>Key term prompting improves recognition of specialized terminology and brands. Only compatible with Nova-3.</p>
-         * <p><code>keyterm</code> accepts plain terms only. Unlike the legacy <code>keywords</code> feature, it does not support weights or intensifiers. Appending one (for example, <code>keyterm=term:0.15</code>) is not rejected—the weight is silently ignored and the entire value is treated as a literal keyterm.</p>
-         * <p>To boost multiple separate keyterms, repeat the <code>keyterm</code> parameter (for example, <code>keyterm=term1&amp;keyterm=term2</code>). To boost one multi-word phrase as a single keyterm, join the words with <code>%20</code> or <code>+</code> (for example, <code>keyterm=customer%20service</code>). Do not separate keyterms with commas, semicolons, or line breaks.</p>
+         * <p>Key term prompting can boost or suppress specialized terminology and brands. Only compatible with Nova-3</p>
          */
         _FinalStage keyterm(Optional<List<String>> keyterm);
 
@@ -1687,9 +1683,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Key term prompting improves recognition of specialized terminology and brands. Only compatible with Nova-3.</p>
-         * <p><code>keyterm</code> accepts plain terms only. Unlike the legacy <code>keywords</code> feature, it does not support weights or intensifiers. Appending one (for example, <code>keyterm=term:0.15</code>) is not rejected—the weight is silently ignored and the entire value is treated as a literal keyterm.</p>
-         * <p>To boost multiple separate keyterms, repeat the <code>keyterm</code> parameter (for example, <code>keyterm=term1&amp;keyterm=term2</code>). To boost one multi-word phrase as a single keyterm, join the words with <code>%20</code> or <code>+</code> (for example, <code>keyterm=customer%20service</code>). Do not separate keyterms with commas, semicolons, or line breaks.</p>
+         * <p>Key term prompting can boost or suppress specialized terminology and brands. Only compatible with Nova-3</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -1699,9 +1693,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Key term prompting improves recognition of specialized terminology and brands. Only compatible with Nova-3.</p>
-         * <p><code>keyterm</code> accepts plain terms only. Unlike the legacy <code>keywords</code> feature, it does not support weights or intensifiers. Appending one (for example, <code>keyterm=term:0.15</code>) is not rejected—the weight is silently ignored and the entire value is treated as a literal keyterm.</p>
-         * <p>To boost multiple separate keyterms, repeat the <code>keyterm</code> parameter (for example, <code>keyterm=term1&amp;keyterm=term2</code>). To boost one multi-word phrase as a single keyterm, join the words with <code>%20</code> or <code>+</code> (for example, <code>keyterm=customer%20service</code>). Do not separate keyterms with commas, semicolons, or line breaks.</p>
+         * <p>Key term prompting can boost or suppress specialized terminology and brands. Only compatible with Nova-3</p>
          */
         @java.lang.Override
         @JsonSetter(value = "keyterm", nulls = Nulls.SKIP)

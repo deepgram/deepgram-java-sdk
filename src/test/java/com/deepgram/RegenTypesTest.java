@@ -12,7 +12,6 @@ import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
-import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
@@ -110,7 +109,6 @@ public class RegenTypesTest {
             // Each type generates equals() (all instances equal) but no hashCode(); we patch a
             // consistent hashCode(). Two freshly-built instances must be equal AND share a hash.
             assertContract(SpeakV2Close.builder().build(), SpeakV2Close.builder().build());
-            assertContract(ListenV2ForceEndTurn.builder().build(), ListenV2ForceEndTurn.builder().build());
             assertContract(SpeakV2Flush.builder().build(), SpeakV2Flush.builder().build());
             assertContract(AgentV1ListenUpdated.builder().build(), AgentV1ListenUpdated.builder().build());
             assertContract(AgentV1SpeakUpdated.builder().build(), AgentV1SpeakUpdated.builder().build());

@@ -181,6 +181,7 @@ public final class AgentV1ConversationText {
 
         /**
          * <p>Identifies who spoke the statement</p>
+         * <p>Identifies who spoke the statement</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -191,6 +192,7 @@ public final class AgentV1ConversationText {
         }
 
         /**
+         * <p>The actual statement that was spoken</p>
          * <p>The actual statement that was spoken</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

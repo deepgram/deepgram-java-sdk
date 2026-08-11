@@ -107,6 +107,7 @@ public final class SpeakV2Speak {
 
         /**
          * <p>The input text to synthesize</p>
+         * <p>The input text to synthesize</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

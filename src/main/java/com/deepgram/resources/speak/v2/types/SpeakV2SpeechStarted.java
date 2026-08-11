@@ -107,6 +107,7 @@ public final class SpeakV2SpeechStarted {
 
         /**
          * <p>Server-minted identifier for this turn, of the form <code>dg_sp_&lt;12 hex digits&gt;</code>. Informational.</p>
+         * <p>Server-minted identifier for this turn, of the form <code>dg_sp_&lt;12 hex digits&gt;</code>. Informational.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

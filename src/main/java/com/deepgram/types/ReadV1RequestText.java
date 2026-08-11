@@ -99,6 +99,7 @@ public final class ReadV1RequestText {
 
         /**
          * <p>The plain text to analyze</p>
+         * <p>The plain text to analyze</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

@@ -99,6 +99,7 @@ public final class ReadV1RequestUrl {
 
         /**
          * <p>A URL pointing to the text source</p>
+         * <p>A URL pointing to the text source</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

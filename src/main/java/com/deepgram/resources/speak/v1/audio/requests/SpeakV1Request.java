@@ -353,6 +353,7 @@ public final class SpeakV1Request {
 
         /**
          * <p>The text content to be converted to speech</p>
+         * <p>The text content to be converted to speech</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

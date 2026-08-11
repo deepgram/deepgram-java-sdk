@@ -28,10 +28,6 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
 
     private final Optional<Float> confidence;
 
-    private final Optional<Integer> speaker;
-
-    private final Optional<Float> speakerConfidence;
-
     private final Map<String, Object> additionalProperties;
 
     private ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem(
@@ -39,15 +35,11 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
             Optional<Float> start,
             Optional<Float> end,
             Optional<Float> confidence,
-            Optional<Integer> speaker,
-            Optional<Float> speakerConfidence,
             Map<String, Object> additionalProperties) {
         this.word = word;
         this.start = start;
         this.end = end;
         this.confidence = confidence;
-        this.speaker = speaker;
-        this.speakerConfidence = speakerConfidence;
         this.additionalProperties = additionalProperties;
     }
 
@@ -71,22 +63,6 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
         return confidence;
     }
 
-    /**
-     * @return The speaker of the word, present when diarization is enabled
-     */
-    @JsonProperty("speaker")
-    public Optional<Integer> getSpeaker() {
-        return speaker;
-    }
-
-    /**
-     * @return Confidence in the speaker assignment. Returned only for pre-recorded diarization; not available for streaming
-     */
-    @JsonProperty("speaker_confidence")
-    public Optional<Float> getSpeakerConfidence() {
-        return speakerConfidence;
-    }
-
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -103,14 +79,12 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
         return word.equals(other.word)
                 && start.equals(other.start)
                 && end.equals(other.end)
-                && confidence.equals(other.confidence)
-                && speaker.equals(other.speaker)
-                && speakerConfidence.equals(other.speakerConfidence);
+                && confidence.equals(other.confidence);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.word, this.start, this.end, this.confidence, this.speaker, this.speakerConfidence);
+        return Objects.hash(this.word, this.start, this.end, this.confidence);
     }
 
     @java.lang.Override
@@ -132,10 +106,6 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
 
         private Optional<Float> confidence = Optional.empty();
 
-        private Optional<Integer> speaker = Optional.empty();
-
-        private Optional<Float> speakerConfidence = Optional.empty();
-
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -146,8 +116,6 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
             start(other.getStart());
             end(other.getEnd());
             confidence(other.getConfidence());
-            speaker(other.getSpeaker());
-            speakerConfidence(other.getSpeakerConfidence());
             return this;
         }
 
@@ -195,37 +163,9 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
             return this;
         }
 
-        /**
-         * <p>The speaker of the word, present when diarization is enabled</p>
-         */
-        @JsonSetter(value = "speaker", nulls = Nulls.SKIP)
-        public Builder speaker(Optional<Integer> speaker) {
-            this.speaker = speaker;
-            return this;
-        }
-
-        public Builder speaker(Integer speaker) {
-            this.speaker = Optional.ofNullable(speaker);
-            return this;
-        }
-
-        /**
-         * <p>Confidence in the speaker assignment. Returned only for pre-recorded diarization; not available for streaming</p>
-         */
-        @JsonSetter(value = "speaker_confidence", nulls = Nulls.SKIP)
-        public Builder speakerConfidence(Optional<Float> speakerConfidence) {
-            this.speakerConfidence = speakerConfidence;
-            return this;
-        }
-
-        public Builder speakerConfidence(Float speakerConfidence) {
-            this.speakerConfidence = Optional.ofNullable(speakerConfidence);
-            return this;
-        }
-
         public ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem build() {
             return new ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem(
-                    word, start, end, confidence, speaker, speakerConfidence, additionalProperties);
+                    word, start, end, confidence, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

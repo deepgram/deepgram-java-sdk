@@ -130,6 +130,7 @@ public final class AgentThinkModelsV1ResponseModelsItemTwo {
 
         /**
          * <p>The unique identifier of the Google model</p>
+         * <p>The unique identifier of the Google model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -140,6 +141,7 @@ public final class AgentThinkModelsV1ResponseModelsItemTwo {
         }
 
         /**
+         * <p>The display name of the model</p>
          * <p>The display name of the model</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

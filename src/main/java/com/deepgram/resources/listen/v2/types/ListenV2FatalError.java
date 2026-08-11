@@ -156,6 +156,9 @@ public final class ListenV2FatalError {
          * <p>Starts at <code>0</code> and increments for each message the server sends
          * to the client.  This includes messages of other types, like
          * <code>Connected</code> messages.</p>
+         * <p>Starts at <code>0</code> and increments for each message the server sends
+         * to the client.  This includes messages of other types, like
+         * <code>Connected</code> messages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -167,6 +170,7 @@ public final class ListenV2FatalError {
 
         /**
          * <p>A string code describing the error, e.g. <code>INTERNAL_SERVER_ERROR</code></p>
+         * <p>A string code describing the error, e.g. <code>INTERNAL_SERVER_ERROR</code></p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -177,6 +181,7 @@ public final class ListenV2FatalError {
         }
 
         /**
+         * <p>Prose description of the error</p>
          * <p>Prose description of the error</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

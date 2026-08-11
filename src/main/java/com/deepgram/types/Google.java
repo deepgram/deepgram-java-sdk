@@ -152,6 +152,7 @@ public final class Google {
 
         /**
          * <p>Google model to use</p>
+         * <p>Google model to use</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

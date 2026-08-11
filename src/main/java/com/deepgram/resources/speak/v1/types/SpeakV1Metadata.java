@@ -206,6 +206,7 @@ public final class SpeakV1Metadata {
 
         /**
          * <p>Unique identifier for the request</p>
+         * <p>Unique identifier for the request</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -216,6 +217,7 @@ public final class SpeakV1Metadata {
         }
 
         /**
+         * <p>Name of the model being used</p>
          * <p>Name of the model being used</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -228,6 +230,7 @@ public final class SpeakV1Metadata {
 
         /**
          * <p>Version of the primary model being used</p>
+         * <p>Version of the primary model being used</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -238,6 +241,7 @@ public final class SpeakV1Metadata {
         }
 
         /**
+         * <p>Unique identifier for the primary model used</p>
          * <p>Unique identifier for the primary model used</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

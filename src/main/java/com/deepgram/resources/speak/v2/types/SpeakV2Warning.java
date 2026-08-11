@@ -128,6 +128,7 @@ public final class SpeakV2Warning {
 
         /**
          * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>. Early Access codes are <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn) and <code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
+         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>. Early Access codes are <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn) and <code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -138,6 +139,7 @@ public final class SpeakV2Warning {
         }
 
         /**
+         * <p>A human-readable description of the warning</p>
          * <p>A human-readable description of the warning</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

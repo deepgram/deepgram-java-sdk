@@ -274,6 +274,7 @@ public final class UsageBreakdownV1ResponseResultsItem {
 
         /**
          * <p>Audio hours processed</p>
+         * <p>Audio hours processed</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -284,6 +285,7 @@ public final class UsageBreakdownV1ResponseResultsItem {
         }
 
         /**
+         * <p>Total hours including all processing</p>
          * <p>Total hours including all processing</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -296,6 +298,7 @@ public final class UsageBreakdownV1ResponseResultsItem {
 
         /**
          * <p>Agent hours used</p>
+         * <p>Agent hours used</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -306,6 +309,7 @@ public final class UsageBreakdownV1ResponseResultsItem {
         }
 
         /**
+         * <p>Number of input tokens</p>
          * <p>Number of input tokens</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -318,6 +322,7 @@ public final class UsageBreakdownV1ResponseResultsItem {
 
         /**
          * <p>Number of output tokens</p>
+         * <p>Number of output tokens</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -329,6 +334,7 @@ public final class UsageBreakdownV1ResponseResultsItem {
 
         /**
          * <p>Number of text-to-speech characters processed</p>
+         * <p>Number of text-to-speech characters processed</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -339,6 +345,7 @@ public final class UsageBreakdownV1ResponseResultsItem {
         }
 
         /**
+         * <p>Number of requests</p>
          * <p>Number of requests</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

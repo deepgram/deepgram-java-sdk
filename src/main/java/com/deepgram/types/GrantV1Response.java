@@ -122,6 +122,7 @@ public final class GrantV1Response {
 
         /**
          * <p>JSON Web Token (JWT)</p>
+         * <p>JSON Web Token (JWT)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

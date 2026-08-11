@@ -20,19 +20,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-// Stamp the jar manifest so ClientOptions resolves the real SDK version at runtime via
-// Package.getImplementationVersion(), instead of falling back to its hardcoded literal.
-// Mirrors the published Maven artifact, where pom.xml's maven-jar-plugin sets
-// addDefaultImplementationEntries. Keep the title in sync with pom.xml's <name>.
-jar {
-    manifest {
-        attributes(
-            'Implementation-Title': 'Deepgram Java SDK',
-            'Implementation-Version': project.version
-        )
-    }
-}
-
 repositories {
     mavenCentral()
 }
