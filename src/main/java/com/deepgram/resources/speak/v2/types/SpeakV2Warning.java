@@ -40,7 +40,10 @@ public final class SpeakV2Warning {
     }
 
     /**
-     * @return Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>. Early Access codes are <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn) and <code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).
+     * @return Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>.
+     * <p>Turn-scoped codes: <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn), <code>NO_SYNTHESIZABLE_TEXT</code> (the turn's text was entirely whitespace or punctuation, so it produced no audio and is completed with a zero-duration <code>SpeechMetadata</code>).<code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
+     * <p>Inline-control codes. The offending control is dropped and the rest of the turn is synthesized: <code>PRONUNCIATION_WARNINGS</code> (one or more pronunciation overrides contained invalid IPA; the server falls back to a best-effort pronunciation and the <code>description</code> lists each offending sequence), <code>PRONUNCIATION_TOO_LONG</code> (an IPA string exceeded the length limit), <code>PRONUNCIATIONS_LIMIT_EXCEEDED</code> (too many pronunciation controls in one turn), <code>BREAKS_LIMIT_EXCEEDED</code> (too many pause controls, or two pauses with no intervening text), <code>BREAK_TOKENS_OUT_OF_RANGE</code> (pause durations outside the range the model supports), <code>BREAK_TOKENS_WITH_INVALID_INCREMENTS</code> (pause durations off the model's supported increment).</p>
+     * <p>Interrupt-scoped codes, each meaning the <code>Interrupt</code> was ignored: <code>NO_AUDIO_GENERATED</code> (the session has produced no audio yet, so there is nothing to interrupt), <code>INTERRUPT_IN_PROGRESS</code> (an earlier <code>Interrupt</code> is still being processed — at most one is handled at a time), <code>INVALID_INTERRUPT_OFFSET</code> (the <code>playback_offset</code> did not advance past the position a prior interrupt established).</p>
      */
     @JsonProperty("code")
     public String getCode() {
@@ -86,7 +89,10 @@ public final class SpeakV2Warning {
 
     public interface CodeStage {
         /**
-         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>. Early Access codes are <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn) and <code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
+         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>.</p>
+         * <p>Turn-scoped codes: <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn), <code>NO_SYNTHESIZABLE_TEXT</code> (the turn's text was entirely whitespace or punctuation, so it produced no audio and is completed with a zero-duration <code>SpeechMetadata</code>).<code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
+         * <p>Inline-control codes. The offending control is dropped and the rest of the turn is synthesized: <code>PRONUNCIATION_WARNINGS</code> (one or more pronunciation overrides contained invalid IPA; the server falls back to a best-effort pronunciation and the <code>description</code> lists each offending sequence), <code>PRONUNCIATION_TOO_LONG</code> (an IPA string exceeded the length limit), <code>PRONUNCIATIONS_LIMIT_EXCEEDED</code> (too many pronunciation controls in one turn), <code>BREAKS_LIMIT_EXCEEDED</code> (too many pause controls, or two pauses with no intervening text), <code>BREAK_TOKENS_OUT_OF_RANGE</code> (pause durations outside the range the model supports), <code>BREAK_TOKENS_WITH_INVALID_INCREMENTS</code> (pause durations off the model's supported increment).</p>
+         * <p>Interrupt-scoped codes, each meaning the <code>Interrupt</code> was ignored: <code>NO_AUDIO_GENERATED</code> (the session has produced no audio yet, so there is nothing to interrupt), <code>INTERRUPT_IN_PROGRESS</code> (an earlier <code>Interrupt</code> is still being processed — at most one is handled at a time), <code>INVALID_INTERRUPT_OFFSET</code> (the <code>playback_offset</code> did not advance past the position a prior interrupt established).</p>
          */
         DescriptionStage code(@NotNull String code);
 
@@ -127,8 +133,10 @@ public final class SpeakV2Warning {
         }
 
         /**
-         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>. Early Access codes are <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn) and <code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
-         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>. Early Access codes are <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn) and <code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
+         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>.</p>
+         * <p>Turn-scoped codes: <code>NO_ACTIVE_SPEECH</code> (a speech-scoped message arrived with no active turn), <code>NO_SYNTHESIZABLE_TEXT</code> (the turn's text was entirely whitespace or punctuation, so it produced no audio and is completed with a zero-duration <code>SpeechMetadata</code>).<code>SYNTHESIS_RETRYING</code> (a synthesis request failed and is being retried).</p>
+         * <p>Inline-control codes. The offending control is dropped and the rest of the turn is synthesized: <code>PRONUNCIATION_WARNINGS</code> (one or more pronunciation overrides contained invalid IPA; the server falls back to a best-effort pronunciation and the <code>description</code> lists each offending sequence), <code>PRONUNCIATION_TOO_LONG</code> (an IPA string exceeded the length limit), <code>PRONUNCIATIONS_LIMIT_EXCEEDED</code> (too many pronunciation controls in one turn), <code>BREAKS_LIMIT_EXCEEDED</code> (too many pause controls, or two pauses with no intervening text), <code>BREAK_TOKENS_OUT_OF_RANGE</code> (pause durations outside the range the model supports), <code>BREAK_TOKENS_WITH_INVALID_INCREMENTS</code> (pause durations off the model's supported increment).</p>
+         * <p>Interrupt-scoped codes, each meaning the <code>Interrupt</code> was ignored: <code>NO_AUDIO_GENERATED</code> (the session has produced no audio yet, so there is nothing to interrupt), <code>INTERRUPT_IN_PROGRESS</code> (an earlier <code>Interrupt</code> is still being processed — at most one is handled at a time), <code>INVALID_INTERRUPT_OFFSET</code> (the <code>playback_offset</code> did not advance past the position a prior interrupt established).</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -139,7 +147,6 @@ public final class SpeakV2Warning {
         }
 
         /**
-         * <p>A human-readable description of the warning</p>
          * <p>A human-readable description of the warning</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

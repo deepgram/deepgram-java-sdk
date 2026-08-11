@@ -41,9 +41,13 @@ public final class SpeakV2Request {
 
     private final Optional<AudioGenerateRequestEncoding> encoding;
 
+    private final Optional<Integer> expressivity;
+
     private final String model;
 
     private final Optional<Integer> sampleRate;
+
+    private final Optional<Double> speed;
 
     private final Optional<String> priority;
 
@@ -59,8 +63,10 @@ public final class SpeakV2Request {
             Optional<Integer> bitRate,
             Optional<AudioGenerateRequestContainer> container,
             Optional<AudioGenerateRequestEncoding> encoding,
+            Optional<Integer> expressivity,
             String model,
             Optional<Integer> sampleRate,
+            Optional<Double> speed,
             Optional<String> priority,
             String text,
             Map<String, Object> additionalProperties) {
@@ -71,8 +77,10 @@ public final class SpeakV2Request {
         this.bitRate = bitRate;
         this.container = container;
         this.encoding = encoding;
+        this.expressivity = expressivity;
         this.model = model;
         this.sampleRate = sampleRate;
+        this.speed = speed;
         this.priority = priority;
         this.text = text;
         this.additionalProperties = additionalProperties;
@@ -135,6 +143,14 @@ public final class SpeakV2Request {
     }
 
     /**
+     * @return Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.
+     */
+    @JsonIgnore
+    public Optional<Integer> getExpressivity() {
+        return expressivity;
+    }
+
+    /**
      * @return Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.
      */
     @JsonIgnore
@@ -151,6 +167,14 @@ public final class SpeakV2Request {
     }
 
     /**
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.
+     */
+    @JsonIgnore
+    public Optional<Double> getSpeed() {
+        return speed;
+    }
+
+    /**
      * @return Processing priority for asynchronous (callback) requests. The only supported value is low.
      */
     @JsonIgnore
@@ -159,7 +183,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return The text content to be converted to speech. The server normalizes and preprocesses the text (e.g. stripping inline controls) before synthesis.
+     * @return The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. Unlike the streaming transport, which drops an unusable pause control and warns, batch rejects the whole request with a 400.
      */
     @JsonProperty("text")
     public String getText() {
@@ -185,8 +209,10 @@ public final class SpeakV2Request {
                 && bitRate.equals(other.bitRate)
                 && container.equals(other.container)
                 && encoding.equals(other.encoding)
+                && expressivity.equals(other.expressivity)
                 && model.equals(other.model)
                 && sampleRate.equals(other.sampleRate)
+                && speed.equals(other.speed)
                 && priority.equals(other.priority)
                 && text.equals(other.text);
     }
@@ -201,8 +227,10 @@ public final class SpeakV2Request {
                 this.bitRate,
                 this.container,
                 this.encoding,
+                this.expressivity,
                 this.model,
                 this.sampleRate,
+                this.speed,
                 this.priority,
                 this.text);
     }
@@ -227,7 +255,7 @@ public final class SpeakV2Request {
 
     public interface TextStage {
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text (e.g. stripping inline controls) before synthesis.</p>
+         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. Unlike the streaming transport, which drops an unusable pause control and warns, batch rejects the whole request with a 400.</p>
          */
         _FinalStage text(@NotNull String text);
     }
@@ -291,11 +319,25 @@ public final class SpeakV2Request {
         _FinalStage encoding(AudioGenerateRequestEncoding encoding);
 
         /**
+         * <p>Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         */
+        _FinalStage expressivity(Optional<Integer> expressivity);
+
+        _FinalStage expressivity(Integer expressivity);
+
+        /**
          * <p>Sample Rate specifies the sample rate for the output audio. Based on the encoding, different sample rates are supported. For some encodings, the sample rate is not configurable</p>
          */
         _FinalStage sampleRate(Optional<Integer> sampleRate);
 
         _FinalStage sampleRate(Integer sampleRate);
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.</p>
+         */
+        _FinalStage speed(Optional<Double> speed);
+
+        _FinalStage speed(Double speed);
 
         /**
          * <p>Processing priority for asynchronous (callback) requests. The only supported value is low.</p>
@@ -313,7 +355,11 @@ public final class SpeakV2Request {
 
         private Optional<String> priority = Optional.empty();
 
+        private Optional<Double> speed = Optional.empty();
+
         private Optional<Integer> sampleRate = Optional.empty();
+
+        private Optional<Integer> expressivity = Optional.empty();
 
         private Optional<AudioGenerateRequestEncoding> encoding = Optional.empty();
 
@@ -343,15 +389,16 @@ public final class SpeakV2Request {
             bitRate(other.getBitRate());
             container(other.getContainer());
             encoding(other.getEncoding());
+            expressivity(other.getExpressivity());
             model(other.getModel());
             sampleRate(other.getSampleRate());
+            speed(other.getSpeed());
             priority(other.getPriority());
             text(other.getText());
             return this;
         }
 
         /**
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
          * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -363,8 +410,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text (e.g. stripping inline controls) before synthesis.</p>
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text (e.g. stripping inline controls) before synthesis.</p>
+         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. Unlike the streaming transport, which drops an unusable pause control and warns, batch rejects the whole request with a 400.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -395,6 +441,26 @@ public final class SpeakV2Request {
         }
 
         /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage speed(Double speed) {
+            this.speed = Optional.ofNullable(speed);
+            return this;
+        }
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Only the multipliers listed here are accepted — the range is 0.85 to 1.15 in 0.05 increments. Not yet supported in all languages.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "speed", nulls = Nulls.SKIP)
+        public _FinalStage speed(Optional<Double> speed) {
+            this.speed = speed;
+            return this;
+        }
+
+        /**
          * <p>Sample Rate specifies the sample rate for the output audio. Based on the encoding, different sample rates are supported. For some encodings, the sample rate is not configurable</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -411,6 +477,26 @@ public final class SpeakV2Request {
         @JsonSetter(value = "sample_rate", nulls = Nulls.SKIP)
         public _FinalStage sampleRate(Optional<Integer> sampleRate) {
             this.sampleRate = sampleRate;
+            return this;
+        }
+
+        /**
+         * <p>Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage expressivity(Integer expressivity) {
+            this.expressivity = Optional.ofNullable(expressivity);
+            return this;
+        }
+
+        /**
+         * <p>Expressive range of the generated speech. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "expressivity", nulls = Nulls.SKIP)
+        public _FinalStage expressivity(Optional<Integer> expressivity) {
+            this.expressivity = expressivity;
             return this;
         }
 
@@ -570,8 +656,10 @@ public final class SpeakV2Request {
                     bitRate,
                     container,
                     encoding,
+                    expressivity,
                     model,
                     sampleRate,
+                    speed,
                     priority,
                     text,
                     additionalProperties);

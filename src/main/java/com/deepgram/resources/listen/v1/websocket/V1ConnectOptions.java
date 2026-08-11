@@ -649,7 +649,6 @@ public final class V1ConnectOptions {
 
         /**
          * <p>AI model to use for the transcription</p>
-         * <p>AI model to use for the transcription</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

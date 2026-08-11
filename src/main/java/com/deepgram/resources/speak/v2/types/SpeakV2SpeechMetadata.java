@@ -87,7 +87,7 @@ public final class SpeakV2SpeechMetadata {
     }
 
     /**
-     * @return Controls applied during the turn. Inline pronunciation and pause controls are not available during Early Access, so every count is currently <code>0</code>.
+     * @return Counts of the inline controls the server acted on during the turn. A control that was rejected or ignored is reported through a <code>Warning</code> and does not count here.
      */
     @JsonProperty("controls_applied")
     public SpeakV2SpeechMetadataControlsApplied getControlsApplied() {
@@ -164,7 +164,7 @@ public final class SpeakV2SpeechMetadata {
 
     public interface ControlsAppliedStage {
         /**
-         * <p>Controls applied during the turn. Inline pronunciation and pause controls are not available during Early Access, so every count is currently <code>0</code>.</p>
+         * <p>Counts of the inline controls the server acted on during the turn. A control that was rejected or ignored is reported through a <code>Warning</code> and does not count here.</p>
          */
         _FinalStage controlsApplied(@NotNull SpeakV2SpeechMetadataControlsApplied controlsApplied);
     }
@@ -212,7 +212,6 @@ public final class SpeakV2SpeechMetadata {
 
         /**
          * <p>Server-assigned turn identifier</p>
-         * <p>Server-assigned turn identifier</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -223,7 +222,6 @@ public final class SpeakV2SpeechMetadata {
         }
 
         /**
-         * <p>Total audio duration produced for this turn, in milliseconds</p>
          * <p>Total audio duration produced for this turn, in milliseconds</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -236,7 +234,6 @@ public final class SpeakV2SpeechMetadata {
 
         /**
          * <p>Raw input character count for this turn, before text normalization</p>
-         * <p>Raw input character count for this turn, before text normalization</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -248,7 +245,6 @@ public final class SpeakV2SpeechMetadata {
 
         /**
          * <p>Billable character count for this turn — the input character count with stripped control characters removed. Always less than or equal to <code>input_character_count</code>.</p>
-         * <p>Billable character count for this turn — the input character count with stripped control characters removed. Always less than or equal to <code>input_character_count</code>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -259,8 +255,7 @@ public final class SpeakV2SpeechMetadata {
         }
 
         /**
-         * <p>Controls applied during the turn. Inline pronunciation and pause controls are not available during Early Access, so every count is currently <code>0</code>.</p>
-         * <p>Controls applied during the turn. Inline pronunciation and pause controls are not available during Early Access, so every count is currently <code>0</code>.</p>
+         * <p>Counts of the inline controls the server acted on during the turn. A control that was rejected or ignored is reported through a <code>Warning</code> and does not count here.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

@@ -20,19 +20,25 @@ import java.util.Objects;
 public final class SpeakV2SpeechMetadataControlsApplied {
     private final int pronunciationsApplied;
 
+    private final int breaksApplied;
+
     private final int pronunciationWarnings;
 
     private final Map<String, Object> additionalProperties;
 
     private SpeakV2SpeechMetadataControlsApplied(
-            int pronunciationsApplied, int pronunciationWarnings, Map<String, Object> additionalProperties) {
+            int pronunciationsApplied,
+            int breaksApplied,
+            int pronunciationWarnings,
+            Map<String, Object> additionalProperties) {
         this.pronunciationsApplied = pronunciationsApplied;
+        this.breaksApplied = breaksApplied;
         this.pronunciationWarnings = pronunciationWarnings;
         this.additionalProperties = additionalProperties;
     }
 
     /**
-     * @return Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Always <code>0</code> during Early Access.
+     * @return Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.
      */
     @JsonProperty("pronunciations_applied")
     public int getPronunciationsApplied() {
@@ -40,7 +46,15 @@ public final class SpeakV2SpeechMetadataControlsApplied {
     }
 
     /**
-     * @return Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Always <code>0</code> during Early Access.
+     * @return Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. A pause whose duration was out of range or off the supported increment is stripped rather than applied, so it is excluded from this count.
+     */
+    @JsonProperty("breaks_applied")
+    public int getBreaksApplied() {
+        return breaksApplied;
+    }
+
+    /**
+     * @return Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header.
      */
     @JsonProperty("pronunciation_warnings")
     public int getPronunciationWarnings() {
@@ -61,12 +75,13 @@ public final class SpeakV2SpeechMetadataControlsApplied {
 
     private boolean equalTo(SpeakV2SpeechMetadataControlsApplied other) {
         return pronunciationsApplied == other.pronunciationsApplied
+                && breaksApplied == other.breaksApplied
                 && pronunciationWarnings == other.pronunciationWarnings;
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.pronunciationsApplied, this.pronunciationWarnings);
+        return Objects.hash(this.pronunciationsApplied, this.breaksApplied, this.pronunciationWarnings);
     }
 
     @java.lang.Override
@@ -80,16 +95,23 @@ public final class SpeakV2SpeechMetadataControlsApplied {
 
     public interface PronunciationsAppliedStage {
         /**
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Always <code>0</code> during Early Access.</p>
+         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.</p>
          */
-        PronunciationWarningsStage pronunciationsApplied(int pronunciationsApplied);
+        BreaksAppliedStage pronunciationsApplied(int pronunciationsApplied);
 
         Builder from(SpeakV2SpeechMetadataControlsApplied other);
     }
 
+    public interface BreaksAppliedStage {
+        /**
+         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. A pause whose duration was out of range or off the supported increment is stripped rather than applied, so it is excluded from this count.</p>
+         */
+        PronunciationWarningsStage breaksApplied(int breaksApplied);
+    }
+
     public interface PronunciationWarningsStage {
         /**
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Always <code>0</code> during Early Access.</p>
+         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header.</p>
          */
         _FinalStage pronunciationWarnings(int pronunciationWarnings);
     }
@@ -103,8 +125,11 @@ public final class SpeakV2SpeechMetadataControlsApplied {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements PronunciationsAppliedStage, PronunciationWarningsStage, _FinalStage {
+    public static final class Builder
+            implements PronunciationsAppliedStage, BreaksAppliedStage, PronunciationWarningsStage, _FinalStage {
         private int pronunciationsApplied;
+
+        private int breaksApplied;
 
         private int pronunciationWarnings;
 
@@ -116,25 +141,35 @@ public final class SpeakV2SpeechMetadataControlsApplied {
         @java.lang.Override
         public Builder from(SpeakV2SpeechMetadataControlsApplied other) {
             pronunciationsApplied(other.getPronunciationsApplied());
+            breaksApplied(other.getBreaksApplied());
             pronunciationWarnings(other.getPronunciationWarnings());
             return this;
         }
 
         /**
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Always <code>0</code> during Early Access.</p>
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Always <code>0</code> during Early Access.</p>
+         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
         @JsonSetter("pronunciations_applied")
-        public PronunciationWarningsStage pronunciationsApplied(int pronunciationsApplied) {
+        public BreaksAppliedStage pronunciationsApplied(int pronunciationsApplied) {
             this.pronunciationsApplied = pronunciationsApplied;
             return this;
         }
 
         /**
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Always <code>0</code> during Early Access.</p>
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Always <code>0</code> during Early Access.</p>
+         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. A pause whose duration was out of range or off the supported increment is stripped rather than applied, so it is excluded from this count.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("breaks_applied")
+        public PronunciationWarningsStage breaksApplied(int breaksApplied) {
+            this.breaksApplied = breaksApplied;
+            return this;
+        }
+
+        /**
+         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -147,7 +182,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
         @java.lang.Override
         public SpeakV2SpeechMetadataControlsApplied build() {
             return new SpeakV2SpeechMetadataControlsApplied(
-                    pronunciationsApplied, pronunciationWarnings, additionalProperties);
+                    pronunciationsApplied, breaksApplied, pronunciationWarnings, additionalProperties);
         }
 
         @java.lang.Override

@@ -37,7 +37,7 @@ public final class SpeakV2Speak {
     }
 
     /**
-     * @return The input text to synthesize
+     * @return The input text to synthesize. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. A control that is rejected or ignored raises a <code>Warning</code>, while a malformed one is fatal (<code>DATA-0002</code>).
      */
     @JsonProperty("text")
     public String getText() {
@@ -75,7 +75,7 @@ public final class SpeakV2Speak {
 
     public interface TextStage {
         /**
-         * <p>The input text to synthesize</p>
+         * <p>The input text to synthesize. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. A control that is rejected or ignored raises a <code>Warning</code>, while a malformed one is fatal (<code>DATA-0002</code>).</p>
          */
         _FinalStage text(@NotNull String text);
 
@@ -106,8 +106,7 @@ public final class SpeakV2Speak {
         }
 
         /**
-         * <p>The input text to synthesize</p>
-         * <p>The input text to synthesize</p>
+         * <p>The input text to synthesize. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. A control that is rejected or ignored raises a <code>Warning</code>, while a malformed one is fatal (<code>DATA-0002</code>).</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

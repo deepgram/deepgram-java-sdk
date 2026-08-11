@@ -382,7 +382,6 @@ public final class ListenV2TurnInfo {
 
         /**
          * <p>The unique identifier of the request</p>
-         * <p>The unique identifier of the request</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -393,7 +392,6 @@ public final class ListenV2TurnInfo {
         }
 
         /**
-         * <p>Starts at <code>0</code> and increments for each message the server sends to the client.  This includes messages of other types, like <code>Connected</code> messages.</p>
          * <p>Starts at <code>0</code> and increments for each message the server sends to the client.  This includes messages of other types, like <code>Connected</code> messages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -413,14 +411,6 @@ public final class ListenV2TurnInfo {
          * <li><strong>TurnResumed</strong> - The system detected that speech had ended and therefore sent an <strong>EagerEndOfTurn</strong> event, but speech is actually continuing for this turn</li>
          * <li><strong>EndOfTurn</strong> - The user has finished speaking for the turn</li>
          * </ul>
-         * <p>The type of event being reported.</p>
-         * <ul>
-         * <li><strong>Update</strong> - Additional audio has been transcribed, but the turn state hasn't changed</li>
-         * <li><strong>StartOfTurn</strong> - The user has begun speaking for the first time in the turn</li>
-         * <li><strong>EagerEndOfTurn</strong> - The system has moderate confidence that the user has finished speaking for the turn. This is an opportunity to begin preparing an agent reply</li>
-         * <li><strong>TurnResumed</strong> - The system detected that speech had ended and therefore sent an <strong>EagerEndOfTurn</strong> event, but speech is actually continuing for this turn</li>
-         * <li><strong>EndOfTurn</strong> - The user has finished speaking for the turn</li>
-         * </ul>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -431,7 +421,6 @@ public final class ListenV2TurnInfo {
         }
 
         /**
-         * <p>The index of the current turn</p>
          * <p>The index of the current turn</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -444,7 +433,6 @@ public final class ListenV2TurnInfo {
 
         /**
          * <p>Start time in seconds of the audio range that was transcribed</p>
-         * <p>Start time in seconds of the audio range that was transcribed</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -455,7 +443,6 @@ public final class ListenV2TurnInfo {
         }
 
         /**
-         * <p>End time in seconds of the audio range that was transcribed</p>
          * <p>End time in seconds of the audio range that was transcribed</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -468,7 +455,6 @@ public final class ListenV2TurnInfo {
 
         /**
          * <p>Text that was said over the course of the current turn</p>
-         * <p>Text that was said over the course of the current turn</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -479,7 +465,6 @@ public final class ListenV2TurnInfo {
         }
 
         /**
-         * <p>Confidence that no more speech is coming in this turn</p>
          * <p>Confidence that no more speech is coming in this turn</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

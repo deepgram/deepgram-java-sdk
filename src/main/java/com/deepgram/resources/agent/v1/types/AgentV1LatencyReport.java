@@ -20,6 +20,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = AgentV1LatencyReport.Builder.class)
 public final class AgentV1LatencyReport {
+    private final Optional<Float> sttLatency;
+
     private final Optional<Float> tttTokenLatency;
 
     private final Optional<Float> tttTextLatency;
@@ -35,6 +37,7 @@ public final class AgentV1LatencyReport {
     private final Map<String, Object> additionalProperties;
 
     private AgentV1LatencyReport(
+            Optional<Float> sttLatency,
             Optional<Float> tttTokenLatency,
             Optional<Float> tttTextLatency,
             Optional<Float> tttToolLatency,
@@ -42,6 +45,7 @@ public final class AgentV1LatencyReport {
             Optional<Float> ttsLatency,
             Optional<Float> totalLatency,
             Map<String, Object> additionalProperties) {
+        this.sttLatency = sttLatency;
         this.tttTokenLatency = tttTokenLatency;
         this.tttTextLatency = tttTextLatency;
         this.tttToolLatency = tttToolLatency;
@@ -57,6 +61,14 @@ public final class AgentV1LatencyReport {
     @JsonProperty("type")
     public String getType() {
         return "LatencyReport";
+    }
+
+    /**
+     * @return Speech-to-text: time from audio received to transcript produced, in seconds
+     */
+    @JsonProperty("stt_latency")
+    public Optional<Float> getSttLatency() {
+        return sttLatency;
     }
 
     /**
@@ -119,7 +131,8 @@ public final class AgentV1LatencyReport {
     }
 
     private boolean equalTo(AgentV1LatencyReport other) {
-        return tttTokenLatency.equals(other.tttTokenLatency)
+        return sttLatency.equals(other.sttLatency)
+                && tttTokenLatency.equals(other.tttTokenLatency)
                 && tttTextLatency.equals(other.tttTextLatency)
                 && tttToolLatency.equals(other.tttToolLatency)
                 && tttThinkingLatency.equals(other.tttThinkingLatency)
@@ -130,6 +143,7 @@ public final class AgentV1LatencyReport {
     @java.lang.Override
     public int hashCode() {
         return Objects.hash(
+                this.sttLatency,
                 this.tttTokenLatency,
                 this.tttTextLatency,
                 this.tttToolLatency,
@@ -149,6 +163,8 @@ public final class AgentV1LatencyReport {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
+        private Optional<Float> sttLatency = Optional.empty();
+
         private Optional<Float> tttTokenLatency = Optional.empty();
 
         private Optional<Float> tttTextLatency = Optional.empty();
@@ -167,12 +183,27 @@ public final class AgentV1LatencyReport {
         private Builder() {}
 
         public Builder from(AgentV1LatencyReport other) {
+            sttLatency(other.getSttLatency());
             tttTokenLatency(other.getTttTokenLatency());
             tttTextLatency(other.getTttTextLatency());
             tttToolLatency(other.getTttToolLatency());
             tttThinkingLatency(other.getTttThinkingLatency());
             ttsLatency(other.getTtsLatency());
             totalLatency(other.getTotalLatency());
+            return this;
+        }
+
+        /**
+         * <p>Speech-to-text: time from audio received to transcript produced, in seconds</p>
+         */
+        @JsonSetter(value = "stt_latency", nulls = Nulls.SKIP)
+        public Builder sttLatency(Optional<Float> sttLatency) {
+            this.sttLatency = sttLatency;
+            return this;
+        }
+
+        public Builder sttLatency(Float sttLatency) {
+            this.sttLatency = Optional.ofNullable(sttLatency);
             return this;
         }
 
@@ -262,6 +293,7 @@ public final class AgentV1LatencyReport {
 
         public AgentV1LatencyReport build() {
             return new AgentV1LatencyReport(
+                    sttLatency,
                     tttTokenLatency,
                     tttTextLatency,
                     tttToolLatency,

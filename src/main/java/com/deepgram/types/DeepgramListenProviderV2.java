@@ -257,7 +257,6 @@ public final class DeepgramListenProviderV2 {
 
         /**
          * <p>Model to use for speech to text using the V2 API (e.g. flux-general-en, flux-general-multi)</p>
-         * <p>Model to use for speech to text using the V2 API (e.g. flux-general-en, flux-general-multi)</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class SpeakV2ErrorCode {
+    public static final SpeakV2ErrorCode DATA0002 = new SpeakV2ErrorCode(Value.DATA0002, "DATA-0002");
+
     public static final SpeakV2ErrorCode NET0002 = new SpeakV2ErrorCode(Value.NET0002, "NET-0002");
 
     public static final SpeakV2ErrorCode NET0003 = new SpeakV2ErrorCode(Value.NET0003, "NET-0003");
@@ -55,6 +57,8 @@ public final class SpeakV2ErrorCode {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
+            case DATA0002:
+                return visitor.visitData0002();
             case NET0002:
                 return visitor.visitNet0002();
             case NET0003:
@@ -80,6 +84,8 @@ public final class SpeakV2ErrorCode {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static SpeakV2ErrorCode valueOf(String value) {
         switch (value) {
+            case "DATA-0002":
+                return DATA0002;
             case "NET-0002":
                 return NET0002;
             case "NET-0003":
@@ -106,6 +112,8 @@ public final class SpeakV2ErrorCode {
 
         DATA0000,
 
+        DATA0002,
+
         BIG0000,
 
         NET0000,
@@ -125,6 +133,8 @@ public final class SpeakV2ErrorCode {
         T visitMessage0000();
 
         T visitData0000();
+
+        T visitData0002();
 
         T visitBig0000();
 

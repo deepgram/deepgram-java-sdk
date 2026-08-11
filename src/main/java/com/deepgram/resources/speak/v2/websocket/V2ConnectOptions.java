@@ -31,6 +31,10 @@ public final class V2ConnectOptions {
 
     private final Optional<SpeakV2SampleRate> sampleRate;
 
+    private final Optional<Double> speed;
+
+    private final Optional<Integer> expressivity;
+
     private final Optional<SpeakV2MipOptOut> mipOptOut;
 
     private final Optional<SpeakV2Tag> tag;
@@ -41,12 +45,16 @@ public final class V2ConnectOptions {
             String model,
             Optional<SpeakV2Encoding> encoding,
             Optional<SpeakV2SampleRate> sampleRate,
+            Optional<Double> speed,
+            Optional<Integer> expressivity,
             Optional<SpeakV2MipOptOut> mipOptOut,
             Optional<SpeakV2Tag> tag,
             Map<String, Object> additionalProperties) {
         this.model = model;
         this.encoding = encoding;
         this.sampleRate = sampleRate;
+        this.speed = speed;
+        this.expressivity = expressivity;
         this.mipOptOut = mipOptOut;
         this.tag = tag;
         this.additionalProperties = additionalProperties;
@@ -65,6 +73,16 @@ public final class V2ConnectOptions {
     @JsonProperty("sample_rate")
     public Optional<SpeakV2SampleRate> getSampleRate() {
         return sampleRate;
+    }
+
+    @JsonProperty("speed")
+    public Optional<Double> getSpeed() {
+        return speed;
+    }
+
+    @JsonProperty("expressivity")
+    public Optional<Integer> getExpressivity() {
+        return expressivity;
     }
 
     @JsonProperty("mip_opt_out")
@@ -92,13 +110,16 @@ public final class V2ConnectOptions {
         return model.equals(other.model)
                 && encoding.equals(other.encoding)
                 && sampleRate.equals(other.sampleRate)
+                && speed.equals(other.speed)
+                && expressivity.equals(other.expressivity)
                 && mipOptOut.equals(other.mipOptOut)
                 && tag.equals(other.tag);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.model, this.encoding, this.sampleRate, this.mipOptOut, this.tag);
+        return Objects.hash(
+                this.model, this.encoding, this.sampleRate, this.speed, this.expressivity, this.mipOptOut, this.tag);
     }
 
     @java.lang.Override
@@ -131,6 +152,14 @@ public final class V2ConnectOptions {
 
         _FinalStage sampleRate(SpeakV2SampleRate sampleRate);
 
+        _FinalStage speed(Optional<Double> speed);
+
+        _FinalStage speed(Double speed);
+
+        _FinalStage expressivity(Optional<Integer> expressivity);
+
+        _FinalStage expressivity(Integer expressivity);
+
         _FinalStage mipOptOut(Optional<SpeakV2MipOptOut> mipOptOut);
 
         _FinalStage mipOptOut(SpeakV2MipOptOut mipOptOut);
@@ -148,6 +177,10 @@ public final class V2ConnectOptions {
 
         private Optional<SpeakV2MipOptOut> mipOptOut = Optional.empty();
 
+        private Optional<Integer> expressivity = Optional.empty();
+
+        private Optional<Double> speed = Optional.empty();
+
         private Optional<SpeakV2SampleRate> sampleRate = Optional.empty();
 
         private Optional<SpeakV2Encoding> encoding = Optional.empty();
@@ -162,6 +195,8 @@ public final class V2ConnectOptions {
             model(other.getModel());
             encoding(other.getEncoding());
             sampleRate(other.getSampleRate());
+            speed(other.getSpeed());
+            expressivity(other.getExpressivity());
             mipOptOut(other.getMipOptOut());
             tag(other.getTag());
             return this;
@@ -201,6 +236,32 @@ public final class V2ConnectOptions {
         }
 
         @java.lang.Override
+        public _FinalStage expressivity(Integer expressivity) {
+            this.expressivity = Optional.ofNullable(expressivity);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "expressivity", nulls = Nulls.SKIP)
+        public _FinalStage expressivity(Optional<Integer> expressivity) {
+            this.expressivity = expressivity;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage speed(Double speed) {
+            this.speed = Optional.ofNullable(speed);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "speed", nulls = Nulls.SKIP)
+        public _FinalStage speed(Optional<Double> speed) {
+            this.speed = speed;
+            return this;
+        }
+
+        @java.lang.Override
         public _FinalStage sampleRate(SpeakV2SampleRate sampleRate) {
             this.sampleRate = Optional.ofNullable(sampleRate);
             return this;
@@ -228,7 +289,8 @@ public final class V2ConnectOptions {
 
         @java.lang.Override
         public V2ConnectOptions build() {
-            return new V2ConnectOptions(model, encoding, sampleRate, mipOptOut, tag, additionalProperties);
+            return new V2ConnectOptions(
+                    model, encoding, sampleRate, speed, expressivity, mipOptOut, tag, additionalProperties);
         }
 
         @java.lang.Override

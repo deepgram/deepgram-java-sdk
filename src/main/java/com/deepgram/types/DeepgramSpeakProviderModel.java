@@ -34,6 +34,9 @@ public final class DeepgramSpeakProviderModel {
     public static final DeepgramSpeakProviderModel AURA2NEPTUNE_EN =
             new DeepgramSpeakProviderModel(Value.AURA2NEPTUNE_EN, "aura-2-neptune-en");
 
+    public static final DeepgramSpeakProviderModel FLUX_RUFUS_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_RUFUS_EN, "flux-rufus-en");
+
     public static final DeepgramSpeakProviderModel AURA2CALLISTA_EN =
             new DeepgramSpeakProviderModel(Value.AURA2CALLISTA_EN, "aura-2-callista-en");
 
@@ -43,8 +46,14 @@ public final class DeepgramSpeakProviderModel {
     public static final DeepgramSpeakProviderModel AURA2OPHELIA_EN =
             new DeepgramSpeakProviderModel(Value.AURA2OPHELIA_EN, "aura-2-ophelia-en");
 
+    public static final DeepgramSpeakProviderModel FLUX_BRUCE_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_BRUCE_EN, "flux-bruce-en");
+
     public static final DeepgramSpeakProviderModel AURA2APOLLO_EN =
             new DeepgramSpeakProviderModel(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
+
+    public static final DeepgramSpeakProviderModel FLUX_ALEXIS_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_ALEXIS_EN, "flux-alexis-en");
 
     public static final DeepgramSpeakProviderModel AURA_LUNA_EN =
             new DeepgramSpeakProviderModel(Value.AURA_LUNA_EN, "aura-luna-en");
@@ -67,6 +76,12 @@ public final class DeepgramSpeakProviderModel {
     public static final DeepgramSpeakProviderModel AURA2SELENE_EN =
             new DeepgramSpeakProviderModel(Value.AURA2SELENE_EN, "aura-2-selene-en");
 
+    public static final DeepgramSpeakProviderModel FLUX_MARCUS_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_MARCUS_EN, "flux-marcus-en");
+
+    public static final DeepgramSpeakProviderModel FLUX_SHARON_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_SHARON_EN, "flux-sharon-en");
+
     public static final DeepgramSpeakProviderModel AURA2ARIES_EN =
             new DeepgramSpeakProviderModel(Value.AURA2ARIES_EN, "aura-2-aries-en");
 
@@ -75,6 +90,9 @@ public final class DeepgramSpeakProviderModel {
 
     public static final DeepgramSpeakProviderModel AURA2LUNA_EN =
             new DeepgramSpeakProviderModel(Value.AURA2LUNA_EN, "aura-2-luna-en");
+
+    public static final DeepgramSpeakProviderModel FLUX_DREW_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_DREW_EN, "flux-drew-en");
 
     public static final DeepgramSpeakProviderModel AURA2JAVIER_ES =
             new DeepgramSpeakProviderModel(Value.AURA2JAVIER_ES, "aura-2-javier-es");
@@ -109,6 +127,9 @@ public final class DeepgramSpeakProviderModel {
     public static final DeepgramSpeakProviderModel AURA_ANGUS_EN =
             new DeepgramSpeakProviderModel(Value.AURA_ANGUS_EN, "aura-angus-en");
 
+    public static final DeepgramSpeakProviderModel FLUX_HEATHER_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_HEATHER_EN, "flux-heather-en");
+
     public static final DeepgramSpeakProviderModel AURA2JUPITER_EN =
             new DeepgramSpeakProviderModel(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
 
@@ -127,8 +148,14 @@ public final class DeepgramSpeakProviderModel {
     public static final DeepgramSpeakProviderModel AURA2HELENA_EN =
             new DeepgramSpeakProviderModel(Value.AURA2HELENA_EN, "aura-2-helena-en");
 
+    public static final DeepgramSpeakProviderModel FLUX_HALEY_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_HALEY_EN, "flux-haley-en");
+
     public static final DeepgramSpeakProviderModel AURA_STELLA_EN =
             new DeepgramSpeakProviderModel(Value.AURA_STELLA_EN, "aura-stella-en");
+
+    public static final DeepgramSpeakProviderModel FLUX_JACK_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_JACK_EN, "flux-jack-en");
 
     public static final DeepgramSpeakProviderModel AURA2DRACO_EN =
             new DeepgramSpeakProviderModel(Value.AURA2DRACO_EN, "aura-2-draco-en");
@@ -138,6 +165,9 @@ public final class DeepgramSpeakProviderModel {
 
     public static final DeepgramSpeakProviderModel AURA2CELESTE_ES =
             new DeepgramSpeakProviderModel(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
+
+    public static final DeepgramSpeakProviderModel FLUX_PRIYA_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_PRIYA_EN, "flux-priya-en");
 
     public static final DeepgramSpeakProviderModel AURA_HELIOS_EN =
             new DeepgramSpeakProviderModel(Value.AURA_HELIOS_EN, "aura-helios-en");
@@ -156,6 +186,9 @@ public final class DeepgramSpeakProviderModel {
 
     public static final DeepgramSpeakProviderModel AURA2ORION_EN =
             new DeepgramSpeakProviderModel(Value.AURA2ORION_EN, "aura-2-orion-en");
+
+    public static final DeepgramSpeakProviderModel FLUX_RENEE_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_RENEE_EN, "flux-renee-en");
 
     public static final DeepgramSpeakProviderModel AURA_ATHENA_EN =
             new DeepgramSpeakProviderModel(Value.AURA_ATHENA_EN, "aura-athena-en");
@@ -177,6 +210,9 @@ public final class DeepgramSpeakProviderModel {
 
     public static final DeepgramSpeakProviderModel AURA2VESTA_EN =
             new DeepgramSpeakProviderModel(Value.AURA2VESTA_EN, "aura-2-vesta-en");
+
+    public static final DeepgramSpeakProviderModel FLUX_COLE_EN =
+            new DeepgramSpeakProviderModel(Value.FLUX_COLE_EN, "flux-cole-en");
 
     public static final DeepgramSpeakProviderModel AURA_ASTERIA_EN =
             new DeepgramSpeakProviderModel(Value.AURA_ASTERIA_EN, "aura-asteria-en");
@@ -247,14 +283,20 @@ public final class DeepgramSpeakProviderModel {
                 return visitor.visitAura2SelenaEs();
             case AURA2NEPTUNE_EN:
                 return visitor.visitAura2NeptuneEn();
+            case FLUX_RUFUS_EN:
+                return visitor.visitFluxRufusEn();
             case AURA2CALLISTA_EN:
                 return visitor.visitAura2CallistaEn();
             case AURA2AURORA_EN:
                 return visitor.visitAura2AuroraEn();
             case AURA2OPHELIA_EN:
                 return visitor.visitAura2OpheliaEn();
+            case FLUX_BRUCE_EN:
+                return visitor.visitFluxBruceEn();
             case AURA2APOLLO_EN:
                 return visitor.visitAura2ApolloEn();
+            case FLUX_ALEXIS_EN:
+                return visitor.visitFluxAlexisEn();
             case AURA_LUNA_EN:
                 return visitor.visitAuraLunaEn();
             case AURA_ORPHEUS_EN:
@@ -269,12 +311,18 @@ public final class DeepgramSpeakProviderModel {
                 return visitor.visitAuraHeraEn();
             case AURA2SELENE_EN:
                 return visitor.visitAura2SeleneEn();
+            case FLUX_MARCUS_EN:
+                return visitor.visitFluxMarcusEn();
+            case FLUX_SHARON_EN:
+                return visitor.visitFluxSharonEn();
             case AURA2ARIES_EN:
                 return visitor.visitAura2AriesEn();
             case AURA2JUNO_EN:
                 return visitor.visitAura2JunoEn();
             case AURA2LUNA_EN:
                 return visitor.visitAura2LunaEn();
+            case FLUX_DREW_EN:
+                return visitor.visitFluxDrewEn();
             case AURA2JAVIER_ES:
                 return visitor.visitAura2JavierEs();
             case AURA2PHOEBE_EN:
@@ -297,6 +345,8 @@ public final class DeepgramSpeakProviderModel {
                 return visitor.visitAura2IrisEn();
             case AURA_ANGUS_EN:
                 return visitor.visitAuraAngusEn();
+            case FLUX_HEATHER_EN:
+                return visitor.visitFluxHeatherEn();
             case AURA2JUPITER_EN:
                 return visitor.visitAura2JupiterEn();
             case AURA2AQUILA_ES:
@@ -309,14 +359,20 @@ public final class DeepgramSpeakProviderModel {
                 return visitor.visitAura2AtlasEn();
             case AURA2HELENA_EN:
                 return visitor.visitAura2HelenaEn();
+            case FLUX_HALEY_EN:
+                return visitor.visitFluxHaleyEn();
             case AURA_STELLA_EN:
                 return visitor.visitAuraStellaEn();
+            case FLUX_JACK_EN:
+                return visitor.visitFluxJackEn();
             case AURA2DRACO_EN:
                 return visitor.visitAura2DracoEn();
             case AURA2HYPERION_EN:
                 return visitor.visitAura2HyperionEn();
             case AURA2CELESTE_ES:
                 return visitor.visitAura2CelesteEs();
+            case FLUX_PRIYA_EN:
+                return visitor.visitFluxPriyaEn();
             case AURA_HELIOS_EN:
                 return visitor.visitAuraHeliosEn();
             case AURA2PLUTO_EN:
@@ -329,6 +385,8 @@ public final class DeepgramSpeakProviderModel {
                 return visitor.visitAura2ArcasEn();
             case AURA2ORION_EN:
                 return visitor.visitAura2OrionEn();
+            case FLUX_RENEE_EN:
+                return visitor.visitFluxReneeEn();
             case AURA_ATHENA_EN:
                 return visitor.visitAuraAthenaEn();
             case AURA2ODYSSEUS_EN:
@@ -343,6 +401,8 @@ public final class DeepgramSpeakProviderModel {
                 return visitor.visitAuraPerseusEn();
             case AURA2VESTA_EN:
                 return visitor.visitAura2VestaEn();
+            case FLUX_COLE_EN:
+                return visitor.visitFluxColeEn();
             case AURA_ASTERIA_EN:
                 return visitor.visitAuraAsteriaEn();
             case AURA2ZEUS_EN:
@@ -382,14 +442,20 @@ public final class DeepgramSpeakProviderModel {
                 return AURA2SELENA_ES;
             case "aura-2-neptune-en":
                 return AURA2NEPTUNE_EN;
+            case "flux-rufus-en":
+                return FLUX_RUFUS_EN;
             case "aura-2-callista-en":
                 return AURA2CALLISTA_EN;
             case "aura-2-aurora-en":
                 return AURA2AURORA_EN;
             case "aura-2-ophelia-en":
                 return AURA2OPHELIA_EN;
+            case "flux-bruce-en":
+                return FLUX_BRUCE_EN;
             case "aura-2-apollo-en":
                 return AURA2APOLLO_EN;
+            case "flux-alexis-en":
+                return FLUX_ALEXIS_EN;
             case "aura-luna-en":
                 return AURA_LUNA_EN;
             case "aura-orpheus-en":
@@ -404,12 +470,18 @@ public final class DeepgramSpeakProviderModel {
                 return AURA_HERA_EN;
             case "aura-2-selene-en":
                 return AURA2SELENE_EN;
+            case "flux-marcus-en":
+                return FLUX_MARCUS_EN;
+            case "flux-sharon-en":
+                return FLUX_SHARON_EN;
             case "aura-2-aries-en":
                 return AURA2ARIES_EN;
             case "aura-2-juno-en":
                 return AURA2JUNO_EN;
             case "aura-2-luna-en":
                 return AURA2LUNA_EN;
+            case "flux-drew-en":
+                return FLUX_DREW_EN;
             case "aura-2-javier-es":
                 return AURA2JAVIER_ES;
             case "aura-2-phoebe-en":
@@ -432,6 +504,8 @@ public final class DeepgramSpeakProviderModel {
                 return AURA2IRIS_EN;
             case "aura-angus-en":
                 return AURA_ANGUS_EN;
+            case "flux-heather-en":
+                return FLUX_HEATHER_EN;
             case "aura-2-jupiter-en":
                 return AURA2JUPITER_EN;
             case "aura-2-aquila-es":
@@ -444,14 +518,20 @@ public final class DeepgramSpeakProviderModel {
                 return AURA2ATLAS_EN;
             case "aura-2-helena-en":
                 return AURA2HELENA_EN;
+            case "flux-haley-en":
+                return FLUX_HALEY_EN;
             case "aura-stella-en":
                 return AURA_STELLA_EN;
+            case "flux-jack-en":
+                return FLUX_JACK_EN;
             case "aura-2-draco-en":
                 return AURA2DRACO_EN;
             case "aura-2-hyperion-en":
                 return AURA2HYPERION_EN;
             case "aura-2-celeste-es":
                 return AURA2CELESTE_ES;
+            case "flux-priya-en":
+                return FLUX_PRIYA_EN;
             case "aura-helios-en":
                 return AURA_HELIOS_EN;
             case "aura-2-pluto-en":
@@ -464,6 +544,8 @@ public final class DeepgramSpeakProviderModel {
                 return AURA2ARCAS_EN;
             case "aura-2-orion-en":
                 return AURA2ORION_EN;
+            case "flux-renee-en":
+                return FLUX_RENEE_EN;
             case "aura-athena-en":
                 return AURA_ATHENA_EN;
             case "aura-2-odysseus-en":
@@ -478,6 +560,8 @@ public final class DeepgramSpeakProviderModel {
                 return AURA_PERSEUS_EN;
             case "aura-2-vesta-en":
                 return AURA2VESTA_EN;
+            case "flux-cole-en":
+                return FLUX_COLE_EN;
             case "aura-asteria-en":
                 return AURA_ASTERIA_EN;
             case "aura-2-zeus-en":
@@ -622,6 +706,30 @@ public final class DeepgramSpeakProviderModel {
 
         AURA2JAVIER_ES,
 
+        FLUX_HALEY_EN,
+
+        FLUX_HEATHER_EN,
+
+        FLUX_COLE_EN,
+
+        FLUX_ALEXIS_EN,
+
+        FLUX_PRIYA_EN,
+
+        FLUX_JACK_EN,
+
+        FLUX_BRUCE_EN,
+
+        FLUX_RUFUS_EN,
+
+        FLUX_DREW_EN,
+
+        FLUX_RENEE_EN,
+
+        FLUX_MARCUS_EN,
+
+        FLUX_SHARON_EN,
+
         UNKNOWN
     }
 
@@ -751,6 +859,30 @@ public final class DeepgramSpeakProviderModel {
         T visitAura2EstrellaEs();
 
         T visitAura2JavierEs();
+
+        T visitFluxHaleyEn();
+
+        T visitFluxHeatherEn();
+
+        T visitFluxColeEn();
+
+        T visitFluxAlexisEn();
+
+        T visitFluxPriyaEn();
+
+        T visitFluxJackEn();
+
+        T visitFluxBruceEn();
+
+        T visitFluxRufusEn();
+
+        T visitFluxDrewEn();
+
+        T visitFluxReneeEn();
+
+        T visitFluxMarcusEn();
+
+        T visitFluxSharonEn();
 
         T visitUnknown(String unknownType);
     }
