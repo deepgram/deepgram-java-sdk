@@ -6,6 +6,7 @@ package com.deepgram.resources.listen.v2.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -125,12 +126,16 @@ public class V2WebSocketClient implements AutoCloseable {
                     "eot_timeout_ms", String.valueOf(options.getEotTimeoutMs().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "keyterm", String.valueOf(options.getKeyterm().get()));
+            // Array-valued query params (String | List<String> unions) must serialize as repeated
+            // params (keyterm=a&keyterm=b), not a stringified list. The generated streaming template
+            // uses String.valueOf(...), which mangles a List into "[a, b]"; route these through
+            // QueryStringMapper (arraysAsRepeats=true) so the wire format matches the REST path.
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
         }
         if (options.getLanguageHint() != null && options.getLanguageHint().isPresent()) {
-            urlBuilder.addQueryParameter(
-                    "language_hint", String.valueOf(options.getLanguageHint().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "language_hint", options.getLanguageHint().get().get(), true);
         }
         if (options.getProfanityFilter() != null && options.getProfanityFilter().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -150,7 +155,19 @@ public class V2WebSocketClient implements AutoCloseable {
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
+            QueryStringMapper.addQueryParameter(
+                    urlBuilder, "tag", options.getTag().get().get(), true);
+        }
+        // Escape hatch: emit caller-supplied additionalProperties (e.g. no_delay) as query params.
+        // The generated template only serializes the typed options and drops these otherwise.
+        // ConnectOptions is request-only (never deserialized), so this map holds only what the
+        // caller set via the builder. Routed through QueryStringMapper to match the REST path.
+        if (options.getAdditionalProperties() != null) {
+            options.getAdditionalProperties().forEach((key, value) -> {
+                if (value != null) {
+                    QueryStringMapper.addQueryParameter(urlBuilder, key, value, true);
+                }
+            });
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
@@ -477,11 +494,11 @@ public class V2WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
-            if (onErrorHandler != null) {
-                onErrorHandler.accept(new RuntimeException(
-                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
-                                + "... Update your SDK version to support new message types."));
-            }
+            // Unrecognized message type: forward-compatible no-op. The raw frame was
+            // already delivered to onMessage(String) above, so a newer server adding a
+            // benign control frame (e.g. a GA addition to this endpoint) must not surface
+            // as a fatal error to deployed clients. Routing it to onError would make a
+            // harmless frame look fatal; mirrors the speak v2 client and the JS/Python SDKs.
         } catch (Exception e) {
             if (onErrorHandler != null) {
                 onErrorHandler.accept(e);

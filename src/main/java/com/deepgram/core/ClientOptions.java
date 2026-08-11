@@ -50,10 +50,10 @@ public final class ClientOptions {
         this.headers.putAll(headers);
         this.headers.putAll(new HashMap<String, String>() {
             {
-                put("User-Agent", "com.deepgram.deepgram-java-sdk/" + getSdkVersion());
+                put("User-Agent", "com.deepgram:deepgram-java-sdk/0.7.1"); // x-release-please-version
                 put("X-Fern-Language", "JAVA");
                 put("X-Fern-SDK-Name", "com.deepgram:deepgram-java-sdk");
-                put("X-Fern-SDK-Version", getSdkVersion());
+                put("X-Fern-SDK-Version", "0.7.1"); // x-release-please-version
             }
         });
         this.headerSuppliers = headerSuppliers;
@@ -80,11 +80,6 @@ public final class ClientOptions {
             values.putAll(requestOptions.getHeaders());
         }
         return values;
-    }
-
-    private static String getSdkVersion() {
-        String version = ClientOptions.class.getPackage().getImplementationVersion();
-        return version != null ? version : "0.7.2";
     }
 
     public int timeout(RequestOptions requestOptions) {
