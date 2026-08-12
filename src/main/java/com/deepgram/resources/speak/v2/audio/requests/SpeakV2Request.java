@@ -183,7 +183,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. Unlike the streaming transport, which drops an unusable pause control and warns, batch rejects the whole request with a 400.
+     * @return The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.
      */
     @JsonProperty("text")
     public String getText() {
@@ -255,7 +255,7 @@ public final class SpeakV2Request {
 
     public interface TextStage {
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. Unlike the streaming transport, which drops an unusable pause control and warns, batch rejects the whole request with a 400.</p>
+         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
          */
         _FinalStage text(@NotNull String text);
     }
@@ -410,7 +410,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May carry inline pause and pronunciation controls; see the TTS Voice Controls guide for their syntax and limits. Unlike the streaming transport, which drops an unusable pause control and warns, batch rejects the whole request with a 400.</p>
+         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

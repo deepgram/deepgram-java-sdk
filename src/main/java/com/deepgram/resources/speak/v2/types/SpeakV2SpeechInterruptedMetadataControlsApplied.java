@@ -38,7 +38,7 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
     }
 
     /**
-     * @return Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.
+     * @return Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Currently always <code>0</code>.
      */
     @JsonProperty("pronunciations_applied")
     public int getPronunciationsApplied() {
@@ -46,7 +46,7 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
     }
 
     /**
-     * @return Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. A pause whose duration was out of range or off the supported increment is stripped rather than applied, so it is excluded from this count.
+     * @return Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Currently always <code>0</code>.
      */
     @JsonProperty("breaks_applied")
     public int getBreaksApplied() {
@@ -54,7 +54,7 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
     }
 
     /**
-     * @return Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header.
+     * @return Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Currently always <code>0</code>.
      */
     @JsonProperty("pronunciation_warnings")
     public int getPronunciationWarnings() {
@@ -95,7 +95,7 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
 
     public interface PronunciationsAppliedStage {
         /**
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.</p>
+         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Currently always <code>0</code>.</p>
          */
         BreaksAppliedStage pronunciationsApplied(int pronunciationsApplied);
 
@@ -104,14 +104,14 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
 
     public interface BreaksAppliedStage {
         /**
-         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. A pause whose duration was out of range or off the supported increment is stripped rather than applied, so it is excluded from this count.</p>
+         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Currently always <code>0</code>.</p>
          */
         PronunciationWarningsStage breaksApplied(int breaksApplied);
     }
 
     public interface PronunciationWarningsStage {
         /**
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header.</p>
+         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Currently always <code>0</code>.</p>
          */
         _FinalStage pronunciationWarnings(int pronunciationWarnings);
     }
@@ -147,7 +147,7 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
         }
 
         /**
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.</p>
+         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Currently always <code>0</code>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -158,7 +158,7 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
         }
 
         /**
-         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. A pause whose duration was out of range or off the supported increment is stripped rather than applied, so it is excluded from this count.</p>
+         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Currently always <code>0</code>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -169,7 +169,7 @@ public final class SpeakV2SpeechInterruptedMetadataControlsApplied {
         }
 
         /**
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header.</p>
+         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Currently always <code>0</code>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
