@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.8.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.7.1...v0.8.0) (2026-08-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **regen:** `AgentV1UpdateListenListen.provider` is now `AgentV1UpdateListenListenProvider` (V1/V2 union); `Google.version` is now `Optional<GoogleThinkProviderVersion>`; `SpeakV2SpeechMetadataControlsApplied` has a new required `breaksApplied` field. See docs/Migrating-v0.7-to-v0.8.md.
+
+### Features
+
+* **Speak v2 (Flux TTS streaming):** barge-in and reconfigure via `sendInterrupt()` / `sendConfigure()`, with `onSpeechInterrupted` / `onConfigureSuccess` / `onConfigureFailure` callbacks; new `speed` and `expressivity` connect parameters; new Deepgram Flux TTS voices. ([#92](https://github.com/deepgram/deepgram-java-sdk/issues/92)) ([ec519da](https://github.com/deepgram/deepgram-java-sdk/commit/ec519daabb5c84ac1a75f5dc7cf0b997233ce508))
+* **Listen v2:** `redact` connect parameter (`ListenV2Redact`: `numbers`, `aggressive_numbers`). ([#92](https://github.com/deepgram/deepgram-java-sdk/issues/92)) ([ec519da](https://github.com/deepgram/deepgram-java-sdk/commit/ec519daabb5c84ac1a75f5dc7cf0b997233ce508))
+* **Core HTTP (generator 4.10.1 → 4.16.0):** automatic response decompression by default (`ResponseDecompressionInterceptor`; gzip/deflate transparently decoded), and new optional retry tuning on `ClientOptions.Builder` (`initialRetryDelayMillis`, `maxRetryDelayMillis`, `retryJitterFactor`, all defaulted). ([#92](https://github.com/deepgram/deepgram-java-sdk/issues/92)) ([ec519da](https://github.com/deepgram/deepgram-java-sdk/commit/ec519daabb5c84ac1a75f5dc7cf0b997233ce508))
+
+
+### Compatibility
+
+* A provider payload that omits the optional `version` discriminator (what 0.7.x emits) now deserializes as V2 (`defaultImpl = V2Value`) instead of dropping to `{"provider":null}`, so existing agent configurations keep working.
+
 ## [0.7.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.7.0...v0.7.1) (2026-07-24)
 
 
