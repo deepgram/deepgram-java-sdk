@@ -167,7 +167,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.
      */
     @JsonIgnore
     public Optional<Double> getSpeed() {
@@ -333,7 +333,7 @@ public final class SpeakV2Request {
         _FinalStage sampleRate(Integer sampleRate);
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
          */
         _FinalStage speed(Optional<Double> speed);
 
@@ -441,7 +441,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -451,7 +451,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values: 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15. Any other value is rejected with SPEED_OUT_OF_RANGE, and a value off the 0.05 increment with SPEED_INCREMENT_INVALID. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)
