@@ -9,13 +9,14 @@
 
 ### Features
 
-* **regen:** add diarize_info, Flux force-end-turn, update-listen, word speaker confidence ([#89](https://github.com/deepgram/deepgram-java-sdk/issues/89)) ([5b6323a](https://github.com/deepgram/deepgram-java-sdk/commit/5b6323ae23ead0e68c4823286c9a18a2a015b47c))
-* **regen:** speak v2 interrupt/configure, listen v2 redact; retype provider + google version ([#92](https://github.com/deepgram/deepgram-java-sdk/issues/92)) ([ec519da](https://github.com/deepgram/deepgram-java-sdk/commit/ec519daabb5c84ac1a75f5dc7cf0b997233ce508))
+* **Speak v2 (Flux TTS streaming):** barge-in and reconfigure via `sendInterrupt()` / `sendConfigure()`, with `onSpeechInterrupted` / `onConfigureSuccess` / `onConfigureFailure` callbacks; new `speed` and `expressivity` connect parameters; new Deepgram Flux TTS voices. ([#92](https://github.com/deepgram/deepgram-java-sdk/issues/92)) ([ec519da](https://github.com/deepgram/deepgram-java-sdk/commit/ec519daabb5c84ac1a75f5dc7cf0b997233ce508))
+* **Listen v2:** `redact` connect parameter (`ListenV2Redact`: `numbers`, `aggressive_numbers`). ([#92](https://github.com/deepgram/deepgram-java-sdk/issues/92)) ([ec519da](https://github.com/deepgram/deepgram-java-sdk/commit/ec519daabb5c84ac1a75f5dc7cf0b997233ce508))
+* **Core HTTP (generator 4.10.1 → 4.16.0):** automatic response decompression by default (`ResponseDecompressionInterceptor`; gzip/deflate transparently decoded), and new optional retry tuning on `ClientOptions.Builder` (`initialRetryDelayMillis`, `maxRetryDelayMillis`, `retryJitterFactor`, all defaulted). ([#92](https://github.com/deepgram/deepgram-java-sdk/issues/92)) ([ec519da](https://github.com/deepgram/deepgram-java-sdk/commit/ec519daabb5c84ac1a75f5dc7cf0b997233ce508))
 
 
-### Reverts
+### Compatibility
 
-* listen v2 force-end-turn + diarize/word-confidence regen ([#89](https://github.com/deepgram/deepgram-java-sdk/issues/89)) ([#91](https://github.com/deepgram/deepgram-java-sdk/issues/91)) ([19e02f5](https://github.com/deepgram/deepgram-java-sdk/commit/19e02f5755203b933c756f234e8ae0ab7974d4f7))
+* A provider payload that omits the optional `version` discriminator (what 0.7.x emits) now deserializes as V2 (`defaultImpl = V2Value`) instead of dropping to `{"provider":null}`, so existing agent configurations keep working.
 
 ## [0.7.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.7.0...v0.7.1) (2026-07-24)
 
