@@ -8,6 +8,7 @@ import com.deepgram.types.ListenV2Keyterm;
 import com.deepgram.types.ListenV2LanguageHint;
 import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2Numerals;
+import com.deepgram.types.ListenV2Redact;
 import com.deepgram.types.ListenV2Tag;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -147,5 +148,28 @@ class ListenV2ConnectWireTest {
                 .build());
 
         assertThat(url.queryParameterValues("language_hint")).containsExactly("en");
+    }
+
+    @Test
+    @DisplayName("redact is sent on the connect URL as its wire value when set")
+    void redactPresentWhenSet() throws Exception {
+        // redact is a new (2026-08-11 regen) single-value Flux STT connect param backed by the
+        // ListenV2Redact enum, whose @JsonValue toString() is the raw wire string. Pin that it
+        // serializes as "numbers" (not the enum constant name) and lands on the connect URL.
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model(ListenV2Model.FLUX_GENERAL_EN)
+                .redact(ListenV2Redact.NUMBERS)
+                .build());
+
+        assertThat(url.queryParameter("redact")).isEqualTo("numbers");
+    }
+
+    @Test
+    @DisplayName("redact is omitted from the connect URL when not set")
+    void redactOmittedWhenAbsent() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(
+                V2ConnectOptions.builder().model(ListenV2Model.FLUX_GENERAL_EN).build());
+
+        assertThat(url.queryParameterNames()).doesNotContain("redact");
     }
 }

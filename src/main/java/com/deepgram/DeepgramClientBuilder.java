@@ -103,6 +103,24 @@ public class DeepgramClientBuilder extends DeepgramApiClientBuilder {
     }
 
     @Override
+    public DeepgramClientBuilder initialRetryDelayMillis(long initialRetryDelayMillis) {
+        super.initialRetryDelayMillis(initialRetryDelayMillis);
+        return this;
+    }
+
+    @Override
+    public DeepgramClientBuilder maxRetryDelayMillis(long maxRetryDelayMillis) {
+        super.maxRetryDelayMillis(maxRetryDelayMillis);
+        return this;
+    }
+
+    @Override
+    public DeepgramClientBuilder retryJitterFactor(double retryJitterFactor) {
+        super.retryJitterFactor(retryJitterFactor);
+        return this;
+    }
+
+    @Override
     protected void setAuthentication(ClientOptions.Builder builder) {
         if (accessToken != null) {
             builder.addHeader("Authorization", "Bearer " + accessToken);

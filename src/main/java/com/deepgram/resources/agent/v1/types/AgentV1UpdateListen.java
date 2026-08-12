@@ -37,7 +37,7 @@ public final class AgentV1UpdateListen {
     }
 
     /**
-     * @return Listen configuration to update. Contains a provider object with the same schema as Settings. The provider identity (type, version, model) is required and must match the current session.
+     * @return Listen configuration to update. Contains a provider object with the same schema as Settings. The model and language can be changed mid-session. Keyterms can only be updated mid-session for Flux models.
      */
     @JsonProperty("listen")
     public AgentV1UpdateListenListen getListen() {
@@ -75,7 +75,7 @@ public final class AgentV1UpdateListen {
 
     public interface ListenStage {
         /**
-         * <p>Listen configuration to update. Contains a provider object with the same schema as Settings. The provider identity (type, version, model) is required and must match the current session.</p>
+         * <p>Listen configuration to update. Contains a provider object with the same schema as Settings. The model and language can be changed mid-session. Keyterms can only be updated mid-session for Flux models.</p>
          */
         _FinalStage listen(@NotNull AgentV1UpdateListenListen listen);
 
@@ -106,8 +106,7 @@ public final class AgentV1UpdateListen {
         }
 
         /**
-         * <p>Listen configuration to update. Contains a provider object with the same schema as Settings. The provider identity (type, version, model) is required and must match the current session.</p>
-         * <p>Listen configuration to update. Contains a provider object with the same schema as Settings. The provider identity (type, version, model) is required and must match the current session.</p>
+         * <p>Listen configuration to update. Contains a provider object with the same schema as Settings. The model and language can be changed mid-session. Keyterms can only be updated mid-session for Flux models.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

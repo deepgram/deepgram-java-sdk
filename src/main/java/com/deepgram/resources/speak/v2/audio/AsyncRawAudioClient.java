@@ -12,6 +12,7 @@ import com.deepgram.core.ObjectMappers;
 import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.ResponseBodyInputStream;
+import com.deepgram.core.RetryInterceptor;
 import com.deepgram.errors.BadRequestError;
 import com.deepgram.resources.speak.v2.audio.requests.SpeakV2Request;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -75,10 +76,18 @@ public class AsyncRawAudioClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "encoding", request.getEncoding().get(), false);
         }
+        if (request.getExpressivity().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "expressivity", request.getExpressivity().get(), false);
+        }
         QueryStringMapper.addQueryParameter(httpUrl, "model", request.getModel(), false);
         if (request.getSampleRate().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "sample_rate", request.getSampleRate().get(), false);
+        }
+        if (request.getSpeed().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "speed", request.getSpeed().get(), false);
         }
         if (request.getPriority().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -110,6 +119,15 @@ public class AsyncRawAudioClient {
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
         }
+        if (requestOptions != null && requestOptions.getMaxRetries().isPresent()) {
+            okhttpRequest = okhttpRequest
+                    .newBuilder()
+                    .tag(
+                            RetryInterceptor.MaxRetriesOverride.class,
+                            new RetryInterceptor.MaxRetriesOverride(
+                                    requestOptions.getMaxRetries().get()))
+                    .build();
+        }
         CompletableFuture<DeepgramApiHttpResponse<InputStream>> future = new CompletableFuture<>();
         client.newCall(okhttpRequest).enqueue(new Callback() {
             @Override
@@ -134,6 +152,9 @@ public class AsyncRawAudioClient {
                     future.completeExceptionally(new DeepgramHttpException(
                             "Error with status code " + response.code(), response.code(), errorBody, response));
                     return;
+                } catch (JsonProcessingException e) {
+                    future.completeExceptionally(
+                            new DeepgramApiException("Failed to deserialize response: " + e.getMessage(), e));
                 } catch (IOException e) {
                     future.completeExceptionally(new DeepgramApiException("Network error executing HTTP request", e));
                 }

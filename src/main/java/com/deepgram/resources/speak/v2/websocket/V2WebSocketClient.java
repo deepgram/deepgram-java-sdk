@@ -11,12 +11,17 @@ import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
+import com.deepgram.resources.speak.v2.types.SpeakV2Configure;
+import com.deepgram.resources.speak.v2.types.SpeakV2ConfigureFailure;
+import com.deepgram.resources.speak.v2.types.SpeakV2ConfigureSuccess;
 import com.deepgram.resources.speak.v2.types.SpeakV2Connected;
 import com.deepgram.resources.speak.v2.types.SpeakV2Error;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flushed;
+import com.deepgram.resources.speak.v2.types.SpeakV2Interrupt;
 import com.deepgram.resources.speak.v2.types.SpeakV2SessionMetadata;
 import com.deepgram.resources.speak.v2.types.SpeakV2Speak;
+import com.deepgram.resources.speak.v2.types.SpeakV2SpeechInterrupted;
 import com.deepgram.resources.speak.v2.types.SpeakV2SpeechMetadata;
 import com.deepgram.resources.speak.v2.types.SpeakV2SpeechStarted;
 import com.deepgram.resources.speak.v2.types.SpeakV2Warning;
@@ -69,9 +74,15 @@ public class V2WebSocketClient implements AutoCloseable {
 
     private volatile Consumer<SpeakV2SpeechMetadata> speechMetadataHandler;
 
+    private volatile Consumer<SpeakV2SpeechInterrupted> speechInterruptedHandler;
+
     private volatile Consumer<SpeakV2Flushed> flushedHandler;
 
     private volatile Consumer<SpeakV2SessionMetadata> sessionMetadataHandler;
+
+    private volatile Consumer<SpeakV2ConfigureSuccess> configureSuccessHandler;
+
+    private volatile Consumer<SpeakV2ConfigureFailure> configureFailureHandler;
 
     private volatile Consumer<SpeakV2Warning> warningHandler;
 
@@ -119,6 +130,14 @@ public class V2WebSocketClient implements AutoCloseable {
         if (options.getSampleRate() != null && options.getSampleRate().isPresent()) {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
+        }
+        if (options.getSpeed() != null && options.getSpeed().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "speed", String.valueOf(options.getSpeed().get()));
+        }
+        if (options.getExpressivity() != null && options.getExpressivity().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "expressivity", String.valueOf(options.getExpressivity().get()));
         }
         if (options.getMipOptOut() != null && options.getMipOptOut().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -241,6 +260,24 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends a SpeakV2Interrupt message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendInterrupt(SpeakV2Interrupt message) {
+        return sendMessage(message);
+    }
+
+    /**
+     * Sends a SpeakV2Configure message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendConfigure(SpeakV2Configure message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Sends a SpeakV2Close message to the server asynchronously.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
@@ -282,6 +319,14 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Registers a handler for SpeakV2SpeechInterrupted messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onSpeechInterrupted(Consumer<SpeakV2SpeechInterrupted> handler) {
+        this.speechInterruptedHandler = handler;
+    }
+
+    /**
      * Registers a handler for SpeakV2Flushed messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -295,6 +340,22 @@ public class V2WebSocketClient implements AutoCloseable {
      */
     public void onSessionMetadata(Consumer<SpeakV2SessionMetadata> handler) {
         this.sessionMetadataHandler = handler;
+    }
+
+    /**
+     * Registers a handler for SpeakV2ConfigureSuccess messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureSuccess(Consumer<SpeakV2ConfigureSuccess> handler) {
+        this.configureSuccessHandler = handler;
+    }
+
+    /**
+     * Registers a handler for SpeakV2ConfigureFailure messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureFailure(Consumer<SpeakV2ConfigureFailure> handler) {
+        this.configureFailureHandler = handler;
     }
 
     /**
@@ -453,6 +514,36 @@ public class V2WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
+            if (node.has("audio_played_ms")
+                    && node.has("metadata")
+                    && "SpeechInterrupted".equals(node.path("type").asText())) {
+                SpeakV2SpeechInterrupted speechInterruptedHandlerEvent = null;
+                try {
+                    speechInterruptedHandlerEvent = objectMapper.treeToValue(node, SpeakV2SpeechInterrupted.class);
+                } catch (Exception e) {
+                }
+                if (speechInterruptedHandlerEvent != null) {
+                    if (speechInterruptedHandler != null) {
+                        speechInterruptedHandler.accept(speechInterruptedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("code")
+                    && node.has("description")
+                    && "ConfigureFailure".equals(node.path("type").asText())) {
+                SpeakV2ConfigureFailure configureFailureHandlerEvent = null;
+                try {
+                    configureFailureHandlerEvent = objectMapper.treeToValue(node, SpeakV2ConfigureFailure.class);
+                } catch (Exception e) {
+                }
+                if (configureFailureHandlerEvent != null) {
+                    if (configureFailureHandler != null) {
+                        configureFailureHandler.accept(configureFailureHandlerEvent);
+                    }
+                    return;
+                }
+            }
             if (node.has("code")
                     && node.has("description")
                     && "Warning".equals(node.path("type").asText())) {
@@ -506,6 +597,20 @@ public class V2WebSocketClient implements AutoCloseable {
                 if (flushedHandlerEvent != null) {
                     if (flushedHandler != null) {
                         flushedHandler.accept(flushedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("applied")
+                    && "ConfigureSuccess".equals(node.path("type").asText())) {
+                SpeakV2ConfigureSuccess configureSuccessHandlerEvent = null;
+                try {
+                    configureSuccessHandlerEvent = objectMapper.treeToValue(node, SpeakV2ConfigureSuccess.class);
+                } catch (Exception e) {
+                }
+                if (configureSuccessHandlerEvent != null) {
+                    if (configureSuccessHandler != null) {
+                        configureSuccessHandler.accept(configureSuccessHandlerEvent);
                     }
                     return;
                 }

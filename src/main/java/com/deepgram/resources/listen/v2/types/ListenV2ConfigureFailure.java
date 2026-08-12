@@ -132,7 +132,6 @@ public final class ListenV2ConfigureFailure {
 
         /**
          * <p>The unique identifier of the request</p>
-         * <p>The unique identifier of the request</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -143,9 +142,6 @@ public final class ListenV2ConfigureFailure {
         }
 
         /**
-         * <p>Starts at <code>0</code> and increments for each message the server sends
-         * to the client.  This includes messages of other types, like
-         * <code>TurnInfo</code> messages.</p>
          * <p>Starts at <code>0</code> and increments for each message the server sends
          * to the client.  This includes messages of other types, like
          * <code>TurnInfo</code> messages.</p>

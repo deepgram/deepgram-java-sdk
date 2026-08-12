@@ -190,7 +190,6 @@ public final class AgentVariableV1 {
 
         /**
          * <p>The unique identifier of the variable</p>
-         * <p>The unique identifier of the variable</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -201,7 +200,6 @@ public final class AgentVariableV1 {
         }
 
         /**
-         * <p>The variable name, following the DG_&lt;VARIABLE_NAME&gt; format</p>
          * <p>The variable name, following the DG_&lt;VARIABLE_NAME&gt; format</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

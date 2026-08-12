@@ -4,7 +4,6 @@
 package com.deepgram.resources.agent.v1.types;
 
 import com.deepgram.core.ObjectMappers;
-import com.deepgram.types.DeepgramListenProviderV2;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,17 +19,18 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = AgentV1UpdateListenListen.Builder.class)
 public final class AgentV1UpdateListenListen {
-    private final DeepgramListenProviderV2 provider;
+    private final AgentV1UpdateListenListenProvider provider;
 
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1UpdateListenListen(DeepgramListenProviderV2 provider, Map<String, Object> additionalProperties) {
+    private AgentV1UpdateListenListen(
+            AgentV1UpdateListenListenProvider provider, Map<String, Object> additionalProperties) {
         this.provider = provider;
         this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("provider")
-    public DeepgramListenProviderV2 getProvider() {
+    public AgentV1UpdateListenListenProvider getProvider() {
         return provider;
     }
 
@@ -64,7 +64,7 @@ public final class AgentV1UpdateListenListen {
     }
 
     public interface ProviderStage {
-        _FinalStage provider(@NotNull DeepgramListenProviderV2 provider);
+        _FinalStage provider(@NotNull AgentV1UpdateListenListenProvider provider);
 
         Builder from(AgentV1UpdateListenListen other);
     }
@@ -79,7 +79,7 @@ public final class AgentV1UpdateListenListen {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ProviderStage, _FinalStage {
-        private DeepgramListenProviderV2 provider;
+        private AgentV1UpdateListenListenProvider provider;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -94,7 +94,7 @@ public final class AgentV1UpdateListenListen {
 
         @java.lang.Override
         @JsonSetter("provider")
-        public _FinalStage provider(@NotNull DeepgramListenProviderV2 provider) {
+        public _FinalStage provider(@NotNull AgentV1UpdateListenListenProvider provider) {
             this.provider = Objects.requireNonNull(provider, "provider must not be null");
             return this;
         }

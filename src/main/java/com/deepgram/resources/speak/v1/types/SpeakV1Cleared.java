@@ -120,7 +120,6 @@ public final class SpeakV1Cleared {
 
         /**
          * <p>Message type identifier</p>
-         * <p>Message type identifier</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -131,7 +130,6 @@ public final class SpeakV1Cleared {
         }
 
         /**
-         * <p>The sequence ID of the response</p>
          * <p>The sequence ID of the response</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

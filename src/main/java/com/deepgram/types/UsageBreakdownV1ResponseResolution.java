@@ -121,7 +121,6 @@ public final class UsageBreakdownV1ResponseResolution {
 
         /**
          * <p>Time unit for the resolution</p>
-         * <p>Time unit for the resolution</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -132,7 +131,6 @@ public final class UsageBreakdownV1ResponseResolution {
         }
 
         /**
-         * <p>Amount of units</p>
          * <p>Amount of units</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */

@@ -199,7 +199,6 @@ public final class AgentConfigurationV1 {
 
         /**
          * <p>The unique identifier of the agent configuration</p>
-         * <p>The unique identifier of the agent configuration</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

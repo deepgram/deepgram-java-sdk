@@ -10,12 +10,17 @@ import com.deepgram.resources.agent.v1.types.AgentV1PromptUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsApplied;
 import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.DeepgramListenProviderV2;
+import com.deepgram.types.Google;
+import com.deepgram.types.GoogleThinkProviderModel;
+import com.deepgram.types.GoogleThinkProviderVersion;
+import com.deepgram.types.ListenV2Redact;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
@@ -145,6 +150,51 @@ public class RegenTypesTest {
 
             DeepgramListenProviderV2 parsed = MAPPER.readValue(json, DeepgramListenProviderV2.class);
             assertThat(parsed.getLanguageHints()).contains(Arrays.asList("en", "es"));
+        }
+    }
+
+    /**
+     * Coverage for public-surface changes introduced by the 2026-08-11 regeneration. These are
+     * breaking (documented in {@code docs/Migrating-v0.7-to-v0.8.md}); the tests pin the new typed
+     * API shapes so a future regen can't silently reshape them again without a failing guard.
+     */
+    @Nested
+    @DisplayName("2026-08-11 regen type shapes")
+    class Regen20260811 {
+
+        @Test
+        @DisplayName("AgentV1UpdateListenListen provider is a V1/V2 union: v2 variant round-trips")
+        void updateListenProviderUnionV2() throws Exception {
+            // provider was retyped from a bare DeepgramListenProviderV2 to this discriminated union.
+            // Guard the v2 factory + accessors (the migration path) and that the payload survives
+            // serialization (the nested provider model must appear on the wire).
+            DeepgramListenProviderV2 v2 =
+                    DeepgramListenProviderV2.builder().model("flux-general-en").build();
+            AgentV1UpdateListenListenProvider provider = AgentV1UpdateListenListenProvider.v2(v2);
+
+            assertThat(provider.isV2()).isTrue();
+            assertThat(provider.isV1()).isFalse();
+            assertThat(provider.getV2()).contains(v2);
+            assertThat(MAPPER.writeValueAsString(provider)).contains("flux-general-en");
+        }
+
+        @Test
+        @DisplayName("Google.version is a GoogleThinkProviderVersion enum serializing to its wire value")
+        void googleVersionEnum() throws Exception {
+            Google google = Google.builder()
+                    .model(GoogleThinkProviderModel.GEMINI25FLASH)
+                    .version(GoogleThinkProviderVersion.V1BETA)
+                    .build();
+
+            assertThat(google.getVersion()).contains(GoogleThinkProviderVersion.V1BETA);
+            assertThat(MAPPER.writeValueAsString(google)).contains("\"version\":\"v1beta\"");
+        }
+
+        @Test
+        @DisplayName("ListenV2Redact enum serializes to its raw wire value")
+        void listenV2RedactWireValue() {
+            assertThat(ListenV2Redact.NUMBERS.toString()).isEqualTo("numbers");
+            assertThat(ListenV2Redact.AGGRESSIVE_NUMBERS.toString()).isEqualTo("aggressive_numbers");
         }
     }
 }

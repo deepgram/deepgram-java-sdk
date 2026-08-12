@@ -37,7 +37,7 @@ public final class SpeakV2Speak {
     }
 
     /**
-     * @return The input text to synthesize
+     * @return The input text to synthesize. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.
      */
     @JsonProperty("text")
     public String getText() {
@@ -75,7 +75,7 @@ public final class SpeakV2Speak {
 
     public interface TextStage {
         /**
-         * <p>The input text to synthesize</p>
+         * <p>The input text to synthesize. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
          */
         _FinalStage text(@NotNull String text);
 
@@ -106,8 +106,7 @@ public final class SpeakV2Speak {
         }
 
         /**
-         * <p>The input text to synthesize</p>
-         * <p>The input text to synthesize</p>
+         * <p>The input text to synthesize. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

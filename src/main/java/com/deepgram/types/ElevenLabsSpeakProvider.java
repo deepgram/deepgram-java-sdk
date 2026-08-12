@@ -177,7 +177,6 @@ public final class ElevenLabsSpeakProvider {
 
         /**
          * <p>Eleven Labs model ID</p>
-         * <p>Eleven Labs model ID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
