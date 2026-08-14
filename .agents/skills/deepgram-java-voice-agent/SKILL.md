@@ -7,16 +7,10 @@ description: Use when writing or reviewing Java code in this repo that builds an
 
 Run a full-duplex voice agent over a single WebSocket: user audio in, agent events + audio out.
 
-## When to use this product
-
-- You want a live conversational agent.
-- You need STT + think-provider + TTS orchestration in one session.
-- You may need message injection, prompt updates, or function-call handling.
-
 **Use a different skill when:**
-- You only need transcription → `deepgram-java-speech-to-text` or `deepgram-java-conversational-stt`.
-- You only need speech synthesis → `deepgram-java-text-to-speech`.
-- You only need project/admin endpoints → `deepgram-java-management-api`.
+- Transcription only → `deepgram-java-speech-to-text` or `deepgram-java-conversational-stt`.
+- Speech synthesis only → `deepgram-java-text-to-speech`.
+- Project/admin endpoints → `deepgram-java-management-api`.
 
 ## Authentication
 
@@ -32,13 +26,11 @@ The agent WebSocket uses the SDK's `agent` environment URL and the same auth hea
 
 ## Quick start
 
+Workflow: 1) Create client 2) Register handlers (including onWelcome) 3) Connect 4) onWelcome fires -- sendSettings 5) Verify onSettingsApplied 6) Stream audio via sendMedia.
+
 ```java
-import com.deepgram.resources.agent.v1.types.AgentV1Settings;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgent;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThink;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItem;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentThinkOneItemProvider;
-import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
+// imports from com.deepgram.resources.agent.v1.types.* and com.deepgram.types.*
+import com.deepgram.resources.agent.v1.types.*;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.OpenAiThinkProvider;
 import java.util.List;
@@ -66,8 +58,14 @@ wsClient.onWelcome(welcome -> {
 wsClient.onConversationText(text -> System.out.printf("[%s] %s%n", text.getRole(), text.getContent()));
 wsClient.onAgentStartedSpeaking(event -> System.out.println(">> Agent started speaking"));
 wsClient.onAgentV1Audio(audioData -> System.out.printf("Received %d bytes%n", audioData.size()));
+wsClient.onErrorMessage(err -> System.err.println("Agent error: " + err));
+wsClient.onWarning(warn -> System.err.println("Agent warning: " + warn));
 
-wsClient.connect().get(10, java.util.concurrent.TimeUnit.SECONDS);
+try {
+    wsClient.connect().get(10, java.util.concurrent.TimeUnit.SECONDS);
+} catch (Exception e) {
+    throw new RuntimeException("Failed to connect to voice agent", e);
+}
 ```
 
 ## Message injection / control
@@ -109,7 +107,7 @@ wsClient.sendInjectAgentMessage(com.deepgram.resources.agent.v1.types.AgentV1Inj
 2. **Send settings first.** The repo examples wait for `onWelcome(...)` and immediately call `sendSettings(...)`.
 3. **Audio is binary `ByteString`.** Playback/output is your responsibility.
 4. **`sendMedia(...)` is raw audio bytes.** Match whatever audio settings you configured.
-5. **Use the provider wrapper/union types rather than raw JSON.** Constructors like `OpenAiThinkProvider.of(...)`, `AnthropicThinkProvider.of(...)`, `GoogleThinkProvider.of(...)` package the provider into the think/listen/speak union the SDK expects. The underlying payload is still an `Object` (so provider-field mistakes won't be caught at compile time), but the wrappers keep routing correct and ensure you pick the right variant of the sealed union.
+5. **Use provider wrapper types** (`OpenAiThinkProvider.of(...)`, `AnthropicThinkProvider.of(...)`, `GoogleThinkProvider.of(...)`) rather than raw JSON. The underlying payload is `Object`, so provider-field mistakes are not caught at compile time.
 6. **There is no persisted agent-configuration management client shown in this checkout.** This repo exposes live agent runtime plus think-model discovery.
 7. **Closing is connection-level.** The examples call `disconnect()`; there is no separate close-message flow like Speak/Listen.
 
@@ -122,10 +120,4 @@ wsClient.sendInjectAgentMessage(com.deepgram.resources.agent.v1.types.AgentV1Inj
 
 ## Central product skills
 
-For cross-language Deepgram product knowledge — the consolidated API reference, documentation finder, focused runnable recipes, third-party integration examples, and MCP setup — install the central skills:
-
-```bash
-npx skills add deepgram/skills
-```
-
-This SDK ships language-idiomatic code skills; `deepgram/skills` ships cross-language product knowledge (see `api`, `docs`, `recipes`, `examples`, `starters`, `setup-mcp`).
+For cross-language Deepgram product knowledge, install `npx skills add deepgram/skills`.

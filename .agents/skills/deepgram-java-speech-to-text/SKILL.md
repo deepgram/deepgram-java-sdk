@@ -7,15 +7,10 @@ description: Use when writing or reviewing Java code in this repo that calls Dee
 
 Basic transcription for prerecorded audio over REST or live audio over WebSocket via `/v1/listen`.
 
-## When to use this product
-
-- **REST (`media().transcribeUrl` / `transcribeFile`)** — one-shot transcription of a complete URL or byte array.
-- **WebSocket (`v1WebSocket()`)** — live streaming transcription with interim/final results.
-
 **Use a different skill when:**
-- You want summaries, sentiment, topics, intents, diarization, redaction, or language detection overlays on the same endpoint → `deepgram-java-audio-intelligence`.
-- You need turn-aware conversational streaming on `/v2/listen` → `deepgram-java-conversational-stt`.
-- You need a full interactive assistant with TTS + LLM orchestration → `deepgram-java-voice-agent`.
+- Summaries, sentiment, topics, diarization, or redaction overlays → `deepgram-java-audio-intelligence`.
+- Turn-aware conversational streaming (`/v2/listen`) → `deepgram-java-conversational-stt`.
+- Full interactive assistant with TTS + LLM → `deepgram-java-voice-agent`.
 
 ## Authentication
 
@@ -62,25 +57,12 @@ MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(requ
 result.visit(new MediaTranscribeResponse.Visitor<Void>() {
     @Override
     public Void visit(ListenV1Response response) {
-        // Guard channels + alternatives against empty results (matches examples/listen/TranscribeUrl.java).
-        String transcript = "";
-        java.util.List<?> channels = response.getResults().getChannels();
-        if (channels != null && !channels.isEmpty()) {
-            java.util.List<?> alternatives = response.getResults()
-                    .getChannels().get(0)
-                    .getAlternatives().orElse(java.util.Collections.emptyList());
-            if (!alternatives.isEmpty()) {
-                transcript = response.getResults()
-                        .getChannels().get(0)
-                        .getAlternatives().orElse(java.util.Collections.emptyList())
-                        .get(0)
-                        .getTranscript().orElse("");
-            }
-        }
+        String transcript = response.getResults().getChannels().get(0)
+                .getAlternatives().orElse(java.util.Collections.emptyList())
+                .get(0).getTranscript().orElse("");
         System.out.println(transcript);
         return null;
     }
-
     @Override
     public Void visit(com.deepgram.types.ListenV1AcceptedResponse accepted) {
         System.out.println("Request accepted: " + accepted.getRequestId());
@@ -129,9 +111,14 @@ wsClient.onResults(result -> {
         System.out.printf("%s %s%n", isFinal ? "[final]" : "[interim]", transcript);
     }
 });
+wsClient.onError(err -> System.err.println("WebSocket error: " + err.getMessage()));
 
-wsClient.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
-        .get(10, TimeUnit.SECONDS);
+try {
+    wsClient.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
+            .get(10, TimeUnit.SECONDS);
+} catch (Exception e) {
+    throw new RuntimeException("Failed to connect STT WebSocket", e);
+}
 
 // send raw audio chunks here
 // wsClient.sendMedia(okio.ByteString.of(audioChunk));
@@ -199,10 +186,4 @@ The async REST clients return `CompletableFuture<T>`. WebSocket clients are alre
 
 ## Central product skills
 
-For cross-language Deepgram product knowledge — the consolidated API reference, documentation finder, focused runnable recipes, third-party integration examples, and MCP setup — install the central skills:
-
-```bash
-npx skills add deepgram/skills
-```
-
-This SDK ships language-idiomatic code skills; `deepgram/skills` ships cross-language product knowledge (see `api`, `docs`, `recipes`, `examples`, `starters`, `setup-mcp`).
+For cross-language Deepgram product knowledge, install `npx skills add deepgram/skills`.

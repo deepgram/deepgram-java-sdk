@@ -7,13 +7,8 @@ description: Use when writing or reviewing Java code in this repo that calls Dee
 
 Convert text to audio with REST or stream audio back incrementally over WebSocket via `/v1/speak`.
 
-## When to use this product
-
-- **REST (`audio().generate`)** — one-shot synthesis when you already have the full text.
-- **WebSocket (`v1WebSocket()`)** — lower-latency synthesis while text arrives in chunks.
-
 **Use a different skill when:**
-- You need the system to listen, think, and speak in one session → `deepgram-java-voice-agent`.
+- Full interactive assistant (listen + think + speak) → `deepgram-java-voice-agent`.
 
 ## Authentication
 
@@ -41,8 +36,9 @@ SpeakV1Request request = SpeakV1Request.builder()
         .build();
 
 InputStream audioStream = client.speak().v1().audio().generate(request);
-Files.copy(audioStream, Path.of("output.mp3"), StandardCopyOption.REPLACE_EXISTING);
+long bytes = Files.copy(audioStream, Path.of("output.mp3"), StandardCopyOption.REPLACE_EXISTING);
 audioStream.close();
+if (bytes == 0) throw new RuntimeException("TTS returned empty audio");
 ```
 
 REST returns an `InputStream`, not JSON.
@@ -132,9 +128,8 @@ CompletableFuture<InputStream> future = asyncClient.speak().v1().audio().generat
 2. **Flush before close on WebSocket.** The example sends `Flush` before `Close` so the tail of the audio is not lost.
 3. **Streaming audio arrives as binary `ByteString`.** Convert to bytes before writing or playback.
 4. **WebSocket options are narrower than REST.** `container` and `bitRate` are REST request fields, not WebSocket connect options in this checkout.
-5. **TTS defaults are minimal unless you set them.** The example only sets `text`; pick an explicit model/encoding when output format matters.
-6. **There is no Java `TextBuilder` helper in this repo.** That Python helper does not exist here.
-7. **Async REST is `CompletableFuture<InputStream>`.** You still need to close the stream after the future resolves.
+5. **TTS defaults are minimal.** Pick an explicit model/encoding when output format matters.
+6. **Async REST is `CompletableFuture<InputStream>`.** You still need to close the stream after the future resolves.
 
 ## Example files in this repo
 
@@ -144,10 +139,4 @@ CompletableFuture<InputStream> future = asyncClient.speak().v1().audio().generat
 
 ## Central product skills
 
-For cross-language Deepgram product knowledge — the consolidated API reference, documentation finder, focused runnable recipes, third-party integration examples, and MCP setup — install the central skills:
-
-```bash
-npx skills add deepgram/skills
-```
-
-This SDK ships language-idiomatic code skills; `deepgram/skills` ships cross-language product knowledge (see `api`, `docs`, `recipes`, `examples`, `starters`, `setup-mcp`).
+For cross-language Deepgram product knowledge, install `npx skills add deepgram/skills`.
