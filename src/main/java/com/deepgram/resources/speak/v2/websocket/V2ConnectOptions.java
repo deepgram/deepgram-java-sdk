@@ -7,7 +7,6 @@ import com.deepgram.core.ObjectMappers;
 import com.deepgram.types.SpeakV2Encoding;
 import com.deepgram.types.SpeakV2MipOptOut;
 import com.deepgram.types.SpeakV2SampleRate;
-import com.deepgram.types.SpeakV2Speed;
 import com.deepgram.types.SpeakV2Tag;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -32,7 +31,7 @@ public final class V2ConnectOptions {
 
     private final Optional<SpeakV2SampleRate> sampleRate;
 
-    private final Optional<SpeakV2Speed> speed;
+    private final Optional<Double> speed;
 
     private final Optional<Integer> expressivity;
 
@@ -46,7 +45,7 @@ public final class V2ConnectOptions {
             String model,
             Optional<SpeakV2Encoding> encoding,
             Optional<SpeakV2SampleRate> sampleRate,
-            Optional<SpeakV2Speed> speed,
+            Optional<Double> speed,
             Optional<Integer> expressivity,
             Optional<SpeakV2MipOptOut> mipOptOut,
             Optional<SpeakV2Tag> tag,
@@ -76,8 +75,21 @@ public final class V2ConnectOptions {
         return sampleRate;
     }
 
+    /**
+     * Speech-rate multiplier. {@code 1.0} is the model's nominal rate; lower is slower. Accepted values run
+     * {@code 0.85} to {@code 1.15} in {@code 0.05} increments. A value outside that range is rejected with
+     * {@code SPEED_OUT_OF_RANGE}; a value inside it but off the increment with {@code SPEED_INCREMENT_INVALID}.
+     *
+     * <p>Manual patch (2026-08-19 regen): generator 4.18.0 retyped this from {@code Double} to the
+     * {@code SpeakV2Speed} string-literal enum, a breaking change to a parameter that shipped as numeric in
+     * 0.8.0. The spec contradicts itself here — the sibling mid-stream {@code SpeakV2Configure.speed} is still
+     * {@code Optional<Double>} — and the server parses the numeric form and range-checks it, so the closed
+     * string enum both breaks callers and cannot express a valid in-range value the enum omits. Restored to
+     * {@code Double}. Frozen in {@code .fernignore}; unfreeze once the spec types the connect
+     * {@code speed} as a number.
+     */
     @JsonProperty("speed")
-    public Optional<SpeakV2Speed> getSpeed() {
+    public Optional<Double> getSpeed() {
         return speed;
     }
 
@@ -153,9 +165,9 @@ public final class V2ConnectOptions {
 
         _FinalStage sampleRate(SpeakV2SampleRate sampleRate);
 
-        _FinalStage speed(Optional<SpeakV2Speed> speed);
+        _FinalStage speed(Optional<Double> speed);
 
-        _FinalStage speed(SpeakV2Speed speed);
+        _FinalStage speed(Double speed);
 
         _FinalStage expressivity(Optional<Integer> expressivity);
 
@@ -180,7 +192,7 @@ public final class V2ConnectOptions {
 
         private Optional<Integer> expressivity = Optional.empty();
 
-        private Optional<SpeakV2Speed> speed = Optional.empty();
+        private Optional<Double> speed = Optional.empty();
 
         private Optional<SpeakV2SampleRate> sampleRate = Optional.empty();
 
@@ -250,14 +262,14 @@ public final class V2ConnectOptions {
         }
 
         @java.lang.Override
-        public _FinalStage speed(SpeakV2Speed speed) {
+        public _FinalStage speed(Double speed) {
             this.speed = Optional.ofNullable(speed);
             return this;
         }
 
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)
-        public _FinalStage speed(Optional<SpeakV2Speed> speed) {
+        public _FinalStage speed(Optional<Double> speed) {
             this.speed = speed;
             return this;
         }

@@ -50,6 +50,16 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
 src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 
+# Back-compat patch for the speak v2 connect `speed` retype. Generator 4.18.0 changed this param
+# from Double to the SpeakV2Speed string-literal enum — breaking for every caller that passed a
+# number in 0.8.0, and a closed 7-value enum cannot express a valid in-range value it omits. The
+# spec contradicts itself: the sibling mid-stream SpeakV2Configure.speed is still Double, and the
+# server parses the numeric form and range-checks it (SPEED_OUT_OF_RANGE / SPEED_INCREMENT_INVALID).
+# Restored to Double; guarded by SpeakV2ConnectWireTest. Unfreeze once the spec types the connect
+# `speed` as a number. The generated SpeakV2Speed type is left in place, unused, as documentation
+# of the accepted values.
+src/main/java/com/deepgram/resources/speak/v2/websocket/V2ConnectOptions.java
+
 # Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
 # hashCode() for fields-less message types, violating the Object contract. We add a consistent
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching
