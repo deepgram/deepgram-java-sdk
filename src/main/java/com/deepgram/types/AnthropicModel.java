@@ -6,18 +6,18 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class AnthropicThinkProviderModel {
-    public static final AnthropicThinkProviderModel CLAUDE_SONNET420250514 =
-            new AnthropicThinkProviderModel(Value.CLAUDE_SONNET420250514, "claude-sonnet-4-20250514");
+public final class AnthropicModel {
+    public static final AnthropicModel CLAUDE_SONNET420250514 =
+            new AnthropicModel(Value.CLAUDE_SONNET420250514, "claude-sonnet-4-20250514");
 
-    public static final AnthropicThinkProviderModel CLAUDE35HAIKU_LATEST =
-            new AnthropicThinkProviderModel(Value.CLAUDE35HAIKU_LATEST, "claude-3-5-haiku-latest");
+    public static final AnthropicModel CLAUDE35HAIKU_LATEST =
+            new AnthropicModel(Value.CLAUDE35HAIKU_LATEST, "claude-3-5-haiku-latest");
 
     private final Value value;
 
     private final String string;
 
-    AnthropicThinkProviderModel(Value value, String string) {
+    AnthropicModel(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -35,8 +35,7 @@ public final class AnthropicThinkProviderModel {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof AnthropicThinkProviderModel
-                        && this.string.equals(((AnthropicThinkProviderModel) other).string));
+                || (other instanceof AnthropicModel && this.string.equals(((AnthropicModel) other).string));
     }
 
     @java.lang.Override
@@ -57,14 +56,14 @@ public final class AnthropicThinkProviderModel {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static AnthropicThinkProviderModel valueOf(String value) {
+    public static AnthropicModel valueOf(String value) {
         switch (value) {
             case "claude-sonnet-4-20250514":
                 return CLAUDE_SONNET420250514;
             case "claude-3-5-haiku-latest":
                 return CLAUDE35HAIKU_LATEST;
             default:
-                return new AnthropicThinkProviderModel(Value.UNKNOWN, value);
+                return new AnthropicModel(Value.UNKNOWN, value);
         }
     }
 

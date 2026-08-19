@@ -6,20 +6,19 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class GoogleThinkProviderVersion {
-    public static final GoogleThinkProviderVersion AI_STUDIO_V1BETA =
-            new GoogleThinkProviderVersion(Value.AI_STUDIO_V1BETA, "ai-studio-v1beta");
+public final class GoogleVersion {
+    public static final GoogleVersion AI_STUDIO_V1BETA = new GoogleVersion(Value.AI_STUDIO_V1BETA, "ai-studio-v1beta");
 
-    public static final GoogleThinkProviderVersion V1BETA = new GoogleThinkProviderVersion(Value.V1BETA, "v1beta");
+    public static final GoogleVersion V1BETA = new GoogleVersion(Value.V1BETA, "v1beta");
 
-    public static final GoogleThinkProviderVersion GEMINI_ENTERPRISE_AGENT_V1 =
-            new GoogleThinkProviderVersion(Value.GEMINI_ENTERPRISE_AGENT_V1, "gemini-enterprise-agent-v1");
+    public static final GoogleVersion GEMINI_ENTERPRISE_AGENT_V1 =
+            new GoogleVersion(Value.GEMINI_ENTERPRISE_AGENT_V1, "gemini-enterprise-agent-v1");
 
     private final Value value;
 
     private final String string;
 
-    GoogleThinkProviderVersion(Value value, String string) {
+    GoogleVersion(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -37,8 +36,7 @@ public final class GoogleThinkProviderVersion {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof GoogleThinkProviderVersion
-                        && this.string.equals(((GoogleThinkProviderVersion) other).string));
+                || (other instanceof GoogleVersion && this.string.equals(((GoogleVersion) other).string));
     }
 
     @java.lang.Override
@@ -61,7 +59,7 @@ public final class GoogleThinkProviderVersion {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static GoogleThinkProviderVersion valueOf(String value) {
+    public static GoogleVersion valueOf(String value) {
         switch (value) {
             case "ai-studio-v1beta":
                 return AI_STUDIO_V1BETA;
@@ -70,7 +68,7 @@ public final class GoogleThinkProviderVersion {
             case "gemini-enterprise-agent-v1":
                 return GEMINI_ENTERPRISE_AGENT_V1;
             default:
-                return new GoogleThinkProviderVersion(Value.UNKNOWN, value);
+                return new GoogleVersion(Value.UNKNOWN, value);
         }
     }
 

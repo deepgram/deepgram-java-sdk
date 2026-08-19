@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public final class Anthropic {
     private final Optional<String> version;
 
-    private final AnthropicThinkProviderModel model;
+    private final AnthropicModel model;
 
     private final Optional<Double> temperature;
 
@@ -31,7 +31,7 @@ public final class Anthropic {
 
     private Anthropic(
             Optional<String> version,
-            AnthropicThinkProviderModel model,
+            AnthropicModel model,
             Optional<Double> temperature,
             Map<String, Object> additionalProperties) {
         this.version = version;
@@ -57,7 +57,7 @@ public final class Anthropic {
      * @return Anthropic model to use
      */
     @JsonProperty("model")
-    public AnthropicThinkProviderModel getModel() {
+    public AnthropicModel getModel() {
         return model;
     }
 
@@ -102,7 +102,7 @@ public final class Anthropic {
         /**
          * <p>Anthropic model to use</p>
          */
-        _FinalStage model(@NotNull AnthropicThinkProviderModel model);
+        _FinalStage model(@NotNull AnthropicModel model);
 
         Builder from(Anthropic other);
     }
@@ -131,7 +131,7 @@ public final class Anthropic {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private AnthropicThinkProviderModel model;
+        private AnthropicModel model;
 
         private Optional<Double> temperature = Optional.empty();
 
@@ -156,7 +156,7 @@ public final class Anthropic {
          */
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull AnthropicThinkProviderModel model) {
+        public _FinalStage model(@NotNull AnthropicModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }

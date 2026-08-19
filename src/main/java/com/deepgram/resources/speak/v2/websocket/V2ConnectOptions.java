@@ -7,6 +7,7 @@ import com.deepgram.core.ObjectMappers;
 import com.deepgram.types.SpeakV2Encoding;
 import com.deepgram.types.SpeakV2MipOptOut;
 import com.deepgram.types.SpeakV2SampleRate;
+import com.deepgram.types.SpeakV2Speed;
 import com.deepgram.types.SpeakV2Tag;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -31,7 +32,7 @@ public final class V2ConnectOptions {
 
     private final Optional<SpeakV2SampleRate> sampleRate;
 
-    private final Optional<Double> speed;
+    private final Optional<SpeakV2Speed> speed;
 
     private final Optional<Integer> expressivity;
 
@@ -45,7 +46,7 @@ public final class V2ConnectOptions {
             String model,
             Optional<SpeakV2Encoding> encoding,
             Optional<SpeakV2SampleRate> sampleRate,
-            Optional<Double> speed,
+            Optional<SpeakV2Speed> speed,
             Optional<Integer> expressivity,
             Optional<SpeakV2MipOptOut> mipOptOut,
             Optional<SpeakV2Tag> tag,
@@ -76,7 +77,7 @@ public final class V2ConnectOptions {
     }
 
     @JsonProperty("speed")
-    public Optional<Double> getSpeed() {
+    public Optional<SpeakV2Speed> getSpeed() {
         return speed;
     }
 
@@ -152,9 +153,9 @@ public final class V2ConnectOptions {
 
         _FinalStage sampleRate(SpeakV2SampleRate sampleRate);
 
-        _FinalStage speed(Optional<Double> speed);
+        _FinalStage speed(Optional<SpeakV2Speed> speed);
 
-        _FinalStage speed(Double speed);
+        _FinalStage speed(SpeakV2Speed speed);
 
         _FinalStage expressivity(Optional<Integer> expressivity);
 
@@ -179,7 +180,7 @@ public final class V2ConnectOptions {
 
         private Optional<Integer> expressivity = Optional.empty();
 
-        private Optional<Double> speed = Optional.empty();
+        private Optional<SpeakV2Speed> speed = Optional.empty();
 
         private Optional<SpeakV2SampleRate> sampleRate = Optional.empty();
 
@@ -249,14 +250,14 @@ public final class V2ConnectOptions {
         }
 
         @java.lang.Override
-        public _FinalStage speed(Double speed) {
+        public _FinalStage speed(SpeakV2Speed speed) {
             this.speed = Optional.ofNullable(speed);
             return this;
         }
 
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)
-        public _FinalStage speed(Optional<Double> speed) {
+        public _FinalStage speed(Optional<SpeakV2Speed> speed) {
             this.speed = speed;
             return this;
         }

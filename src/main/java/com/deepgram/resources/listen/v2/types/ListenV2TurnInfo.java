@@ -41,6 +41,8 @@ public final class ListenV2TurnInfo {
 
     private final float endOfTurnConfidence;
 
+    private final Optional<String> trigger;
+
     private final Optional<List<String>> languages;
 
     private final Optional<List<String>> languagesHinted;
@@ -57,6 +59,7 @@ public final class ListenV2TurnInfo {
             String transcript,
             List<ListenV2TurnInfoWordsItem> words,
             float endOfTurnConfidence,
+            Optional<String> trigger,
             Optional<List<String>> languages,
             Optional<List<String>> languagesHinted,
             Map<String, Object> additionalProperties) {
@@ -69,6 +72,7 @@ public final class ListenV2TurnInfo {
         this.transcript = transcript;
         this.words = words;
         this.endOfTurnConfidence = endOfTurnConfidence;
+        this.trigger = trigger;
         this.languages = languages;
         this.languagesHinted = languagesHinted;
         this.additionalProperties = additionalProperties;
@@ -159,6 +163,26 @@ public final class ListenV2TurnInfo {
     }
 
     /**
+     * @return The cause of the turn ending. Present on every <code>EndOfTurn</code> event and only there.
+     * <ul>
+     * <li>
+     * <p><strong>model</strong> - the turn ended by Flux's native end-of-turn detection</p>
+     * </li>
+     * <li>
+     * <p><strong>manual</strong> - the turn ended because a <code>ForceEndTurn</code> message was sent</p>
+     * </li>
+     * <li>
+     * <p><strong>timeout</strong> - the turn ended because <code>eot_timeout_ms</code> elapsed</p>
+     * </li>
+     * </ul>
+     * <p>This is an open enum. New values may be added over time, so clients must tolerate values they do not recognize.</p>
+     */
+    @JsonProperty("trigger")
+    public Optional<String> getTrigger() {
+        return trigger;
+    }
+
+    /**
      * @return Detected languages sorted by descending frequency in the
      * transcript. Only present when the flux-general-multi model
      * detects languages in the audio.
@@ -198,6 +222,7 @@ public final class ListenV2TurnInfo {
                 && transcript.equals(other.transcript)
                 && words.equals(other.words)
                 && endOfTurnConfidence == other.endOfTurnConfidence
+                && trigger.equals(other.trigger)
                 && languages.equals(other.languages)
                 && languagesHinted.equals(other.languagesHinted);
     }
@@ -214,6 +239,7 @@ public final class ListenV2TurnInfo {
                 this.transcript,
                 this.words,
                 this.endOfTurnConfidence,
+                this.trigger,
                 this.languages,
                 this.languagesHinted);
     }
@@ -309,6 +335,25 @@ public final class ListenV2TurnInfo {
         _FinalStage addAllWords(List<ListenV2TurnInfoWordsItem> words);
 
         /**
+         * <p>The cause of the turn ending. Present on every <code>EndOfTurn</code> event and only there.</p>
+         * <ul>
+         * <li>
+         * <p><strong>model</strong> - the turn ended by Flux's native end-of-turn detection</p>
+         * </li>
+         * <li>
+         * <p><strong>manual</strong> - the turn ended because a <code>ForceEndTurn</code> message was sent</p>
+         * </li>
+         * <li>
+         * <p><strong>timeout</strong> - the turn ended because <code>eot_timeout_ms</code> elapsed</p>
+         * </li>
+         * </ul>
+         * <p>This is an open enum. New values may be added over time, so clients must tolerate values they do not recognize.</p>
+         */
+        _FinalStage trigger(Optional<String> trigger);
+
+        _FinalStage trigger(String trigger);
+
+        /**
          * <p>Detected languages sorted by descending frequency in the
          * transcript. Only present when the flux-general-multi model
          * detects languages in the audio.</p>
@@ -357,6 +402,8 @@ public final class ListenV2TurnInfo {
 
         private Optional<List<String>> languages = Optional.empty();
 
+        private Optional<String> trigger = Optional.empty();
+
         private List<ListenV2TurnInfoWordsItem> words = new ArrayList<>();
 
         @JsonAnySetter
@@ -375,6 +422,7 @@ public final class ListenV2TurnInfo {
             transcript(other.getTranscript());
             words(other.getWords());
             endOfTurnConfidence(other.getEndOfTurnConfidence());
+            trigger(other.getTrigger());
             languages(other.getLanguages());
             languagesHinted(other.getLanguagesHinted());
             return this;
@@ -522,6 +570,50 @@ public final class ListenV2TurnInfo {
         }
 
         /**
+         * <p>The cause of the turn ending. Present on every <code>EndOfTurn</code> event and only there.</p>
+         * <ul>
+         * <li>
+         * <p><strong>model</strong> - the turn ended by Flux's native end-of-turn detection</p>
+         * </li>
+         * <li>
+         * <p><strong>manual</strong> - the turn ended because a <code>ForceEndTurn</code> message was sent</p>
+         * </li>
+         * <li>
+         * <p><strong>timeout</strong> - the turn ended because <code>eot_timeout_ms</code> elapsed</p>
+         * </li>
+         * </ul>
+         * <p>This is an open enum. New values may be added over time, so clients must tolerate values they do not recognize.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage trigger(String trigger) {
+            this.trigger = Optional.ofNullable(trigger);
+            return this;
+        }
+
+        /**
+         * <p>The cause of the turn ending. Present on every <code>EndOfTurn</code> event and only there.</p>
+         * <ul>
+         * <li>
+         * <p><strong>model</strong> - the turn ended by Flux's native end-of-turn detection</p>
+         * </li>
+         * <li>
+         * <p><strong>manual</strong> - the turn ended because a <code>ForceEndTurn</code> message was sent</p>
+         * </li>
+         * <li>
+         * <p><strong>timeout</strong> - the turn ended because <code>eot_timeout_ms</code> elapsed</p>
+         * </li>
+         * </ul>
+         * <p>This is an open enum. New values may be added over time, so clients must tolerate values they do not recognize.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "trigger", nulls = Nulls.SKIP)
+        public _FinalStage trigger(Optional<String> trigger) {
+            this.trigger = trigger;
+            return this;
+        }
+
+        /**
          * <p>The words in the <code>transcript</code></p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -568,6 +660,7 @@ public final class ListenV2TurnInfo {
                     transcript,
                     words,
                     endOfTurnConfidence,
+                    trigger,
                     languages,
                     languagesHinted,
                     additionalProperties);

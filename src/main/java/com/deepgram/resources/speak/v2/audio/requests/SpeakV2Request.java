@@ -143,7 +143,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.
+     * @return Expressive range of the generated speech, on a calm-to-animated axis. Accepted values: <code>-2</code>, <code>-1</code>, <code>0</code>, <code>1</code>, <code>2</code>. <code>0</code> (the default) is the voice's tuned delivery and the production-validated setting, with <code>-2</code> the calm end of the range and <code>2</code> the animated end. Supported on all Flux voices; applies to the whole request. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors; audition before shipping. An invalid value is rejected with a <code>400</code> — <code>EXPRESSIVITY_OUT_OF_RANGE</code> for a value outside the range, <code>EXPRESSIVITY_INCREMENT_INVALID</code> for a fractional value. See <a href="/docs/tts-expressivity">Expressivity</a>.
      */
     @JsonIgnore
     public Optional<Integer> getExpressivity() {
@@ -319,7 +319,7 @@ public final class SpeakV2Request {
         _FinalStage encoding(AudioGenerateRequestEncoding encoding);
 
         /**
-         * <p>Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         * <p>Expressive range of the generated speech, on a calm-to-animated axis. Accepted values: <code>-2</code>, <code>-1</code>, <code>0</code>, <code>1</code>, <code>2</code>. <code>0</code> (the default) is the voice's tuned delivery and the production-validated setting, with <code>-2</code> the calm end of the range and <code>2</code> the animated end. Supported on all Flux voices; applies to the whole request. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors; audition before shipping. An invalid value is rejected with a <code>400</code> — <code>EXPRESSIVITY_OUT_OF_RANGE</code> for a value outside the range, <code>EXPRESSIVITY_INCREMENT_INVALID</code> for a fractional value. See <a href="/docs/tts-expressivity">Expressivity</a>.</p>
          */
         _FinalStage expressivity(Optional<Integer> expressivity);
 
@@ -481,7 +481,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         * <p>Expressive range of the generated speech, on a calm-to-animated axis. Accepted values: <code>-2</code>, <code>-1</code>, <code>0</code>, <code>1</code>, <code>2</code>. <code>0</code> (the default) is the voice's tuned delivery and the production-validated setting, with <code>-2</code> the calm end of the range and <code>2</code> the animated end. Supported on all Flux voices; applies to the whole request. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors; audition before shipping. An invalid value is rejected with a <code>400</code> — <code>EXPRESSIVITY_OUT_OF_RANGE</code> for a value outside the range, <code>EXPRESSIVITY_INCREMENT_INVALID</code> for a fractional value. See <a href="/docs/tts-expressivity">Expressivity</a>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -491,7 +491,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Expressive range of the generated speech. Accepted values: -2, -1, 0, 1, 2. <code>0</code> is the voice's nominal delivery; negative values are flatter and more restrained, positive values more animated.</p>
+         * <p>Expressive range of the generated speech, on a calm-to-animated axis. Accepted values: <code>-2</code>, <code>-1</code>, <code>0</code>, <code>1</code>, <code>2</code>. <code>0</code> (the default) is the voice's tuned delivery and the production-validated setting, with <code>-2</code> the calm end of the range and <code>2</code> the animated end. Supported on all Flux voices; applies to the whole request. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors; audition before shipping. An invalid value is rejected with a <code>400</code> — <code>EXPRESSIVITY_OUT_OF_RANGE</code> for a value outside the range, <code>EXPRESSIVITY_INCREMENT_INVALID</code> for a fractional value. See <a href="/docs/tts-expressivity">Expressivity</a>.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "expressivity", nulls = Nulls.SKIP)
