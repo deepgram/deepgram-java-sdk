@@ -128,7 +128,19 @@ Google google = Google.builder()
 Optional<GoogleVersion> version = google.getVersion();
 ```
 
-Note that the getter return types change too, so a declared `Optional<GoogleThinkProviderVersion>` must be updated — not just the builder call.
+Note that the getter return types change too, so a declared `Optional<GoogleThinkProviderVersion>` must be updated — not just the builder call. Seven carrier types are affected this way, on both their getters and their builder parameters:
+
+| Carrier | Affected members |
+| --- | --- |
+| `Anthropic` | `getModel()`, `model(...)` |
+| `Cartesia` | `getModelId()`, `getVoice()`, `modelId(...)`, `voice(...)` |
+| `Deepgram` | `getModel()`, `model(...)` |
+| `Google` | `getModel()`, `getVersion()`, `model(...)`, `version(...)` |
+| `Groq` | `getReasoningMode()`, `reasoningMode(...)` |
+| `ConversationHistoryMessage` | `getRole()`, `role(...)` |
+| `FunctionCallHistoryMessage` | `getFunctionCalls()`, `functionCalls(...)`, `addFunctionCalls(...)`, `addAllFunctionCalls(...)` |
+
+If you only pass constants inline — `Google.builder().model(GoogleModel.GEMINI25FLASH)` — updating the import is enough. If you store or return these values in your own fields, variables, or method signatures, those declarations need updating too.
 
 `OpenAiThinkProvider` and `OpenAiThinkProviderModel` are **not** renamed and keep their existing names.
 
