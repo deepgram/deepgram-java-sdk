@@ -12,8 +12,11 @@ import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
+import com.deepgram.resources.listen.v1.types.ListenV1ResultsMetadata;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
+import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
+import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
@@ -22,6 +25,8 @@ import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.GoogleVersion;
+import com.deepgram.types.ListenV1ResponseMetadata;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
 import com.deepgram.types.ListenV2Redact;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -217,6 +222,117 @@ public class RegenTypesTest {
         void listenV2RedactWireValue() {
             assertThat(ListenV2Redact.NUMBERS.toString()).isEqualTo("numbers");
             assertThat(ListenV2Redact.AGGRESSIVE_NUMBERS.toString()).isEqualTo("aggressive_numbers");
+        }
+    }
+
+    /**
+     * Coverage for the read-side fields added by the 2026-08-19 regeneration. These are additive, so
+     * nothing breaks if they are absent — which is exactly the risk: a regen could drop or rename one
+     * and no existing test would notice. Each is asserted from a realistic server payload (parsing the
+     * JSON rather than round-tripping a builder) so the tests exercise the direction that actually
+     * matters, server to SDK, including the absent case.
+     */
+    @Nested
+    @DisplayName("2026-08-19 regen read-side fields")
+    class Regen20260819 {
+
+        @Test
+        @DisplayName("ListenV2TurnInfo.trigger is surfaced when the server sends it")
+        void turnInfoTriggerPresent() throws Exception {
+            // trigger identifies what ended a turn. Typed as an open String rather than an enum, so a
+            // new server-side value cannot break a deployed client.
+            String json = "{\"type\":\"TurnInfo\",\"request_id\":\"req-1\",\"sequence_id\":3,"
+                    + "\"event\":\"EndOfTurn\",\"turn_index\":0,\"audio_window_start\":0.0,"
+                    + "\"audio_window_end\":1.5,\"transcript\":\"hello\",\"end_of_turn_confidence\":0.91,"
+                    + "\"trigger\":\"manual\"}";
+
+            ListenV2TurnInfo turn = MAPPER.readValue(json, ListenV2TurnInfo.class);
+
+            assertThat(turn.getTrigger()).contains("manual");
+            assertThat(turn.getEvent()).isEqualTo(ListenV2TurnInfoEvent.END_OF_TURN);
+        }
+
+        @Test
+        @DisplayName("ListenV2TurnInfo.trigger is empty when the server omits it")
+        void turnInfoTriggerAbsent() throws Exception {
+            // The live API does not emit trigger yet, so the absent case is the one deployed clients
+            // actually hit today. It must parse cleanly rather than failing or defaulting to a value.
+            String json = "{\"type\":\"TurnInfo\",\"request_id\":\"req-1\",\"sequence_id\":1,"
+                    + "\"event\":\"Update\",\"turn_index\":0,\"audio_window_start\":0.0,"
+                    + "\"audio_window_end\":0.5,\"transcript\":\"\",\"end_of_turn_confidence\":0.1}";
+
+            ListenV2TurnInfo turn = MAPPER.readValue(json, ListenV2TurnInfo.class);
+
+            assertThat(turn.getTrigger()).isEmpty();
+        }
+
+        @Test
+        @DisplayName("ListenV1 results metadata exposes diarize_info (model_uuid + arch)")
+        void resultsMetadataDiarizeInfo() throws Exception {
+            String json = "{\"request_id\":\"req-2\",\"model_uuid\":\"m-uuid\","
+                    + "\"model_info\":{\"name\":\"nova-3\",\"version\":\"1\",\"arch\":\"nova-3\"},"
+                    + "\"diarize_info\":{\"model_uuid\":\"d-uuid\",\"arch\":\"v1\"}}";
+
+            ListenV1ResultsMetadata meta = MAPPER.readValue(json, ListenV1ResultsMetadata.class);
+
+            assertThat(meta.getDiarizeInfo()).isPresent();
+            assertThat(meta.getDiarizeInfo().get().getModelUuid()).isEqualTo("d-uuid");
+            assertThat(meta.getDiarizeInfo().get().getArch()).isEqualTo("v1");
+        }
+
+        @Test
+        @DisplayName("ListenV1 results metadata diarize_info is empty when diarization is off")
+        void resultsMetadataDiarizeInfoAbsent() throws Exception {
+            String json = "{\"request_id\":\"req-2\",\"model_uuid\":\"m-uuid\","
+                    + "\"model_info\":{\"name\":\"nova-3\",\"version\":\"1\",\"arch\":\"nova-3\"}}";
+
+            ListenV1ResultsMetadata meta = MAPPER.readValue(json, ListenV1ResultsMetadata.class);
+
+            assertThat(meta.getDiarizeInfo()).isEmpty();
+        }
+
+        @Test
+        @DisplayName("ListenV1 response metadata exposes its own diarize_info variant")
+        void responseMetadataDiarizeInfo() throws Exception {
+            // The pre-recorded response carries a parallel DiarizeInfo type under com.deepgram.types;
+            // both were added this regen, so both need a guard.
+            String json = "{\"request_id\":\"req-3\",\"created\":\"2026-08-19T00:00:00Z\","
+                    + "\"duration\":1.0,\"channels\":1,\"sha256\":\"abc\",\"transaction_key\":\"tk\","
+                    + "\"model_info\":{},\"diarize_info\":{\"model_uuid\":\"d-uuid\",\"arch\":\"v1\"}}";
+
+            ListenV1ResponseMetadata meta = MAPPER.readValue(json, ListenV1ResponseMetadata.class);
+
+            assertThat(meta.getDiarizeInfo()).isPresent();
+            assertThat(meta.getDiarizeInfo().get().getModelUuid()).isEqualTo("d-uuid");
+            assertThat(meta.getDiarizeInfo().get().getArch()).isEqualTo("v1");
+        }
+
+        @Test
+        @DisplayName("pre-recorded words item exposes speaker_confidence alongside speaker")
+        void wordsItemSpeakerConfidence() throws Exception {
+            String json = "{\"word\":\"hello\",\"start\":0.1,\"end\":0.4,\"confidence\":0.99,"
+                    + "\"speaker\":0,\"speaker_confidence\":0.87}";
+
+            ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem word =
+                    MAPPER.readValue(json, ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem.class);
+
+            assertThat(word.getSpeaker()).contains(0);
+            assertThat(word.getSpeakerConfidence()).isPresent();
+            assertThat(word.getSpeakerConfidence().get()).isEqualTo(0.87f);
+        }
+
+        @Test
+        @DisplayName("words item speaker_confidence is empty when diarization is off")
+        void wordsItemSpeakerConfidenceAbsent() throws Exception {
+            // speaker_confidence is pre-recorded only -- it is never returned for streaming, so the
+            // empty case must stay clean rather than throwing on a streaming-shaped payload.
+            String json = "{\"word\":\"hello\",\"start\":0.1,\"end\":0.4,\"confidence\":0.99}";
+
+            ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem word =
+                    MAPPER.readValue(json, ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem.class);
+
+            assertThat(word.getSpeakerConfidence()).isEmpty();
+            assertThat(word.getSpeaker()).isEmpty();
         }
     }
 }

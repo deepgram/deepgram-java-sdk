@@ -280,6 +280,13 @@ public class IntegrationTest {
                         .model("flux-alexis-en")
                         .encoding(SpeakV2Encoding.LINEAR16)
                         .sampleRate(SpeakV2SampleRate.SIXTEEN_THOUSAND)
+                        // speed is sent as a number on the connect URL. The generator retyped it to a
+                        // closed string enum in the 2026-08-19 regen and we patched it back to Double;
+                        // setting it here exercises that patch against the live server, which the
+                        // mock-server wire test in SpeakV2ConnectWireTest cannot do. An out-of-range or
+                        // off-increment value comes back as SPEED_OUT_OF_RANGE / SPEED_INCREMENT_INVALID,
+                        // so a regression to the string form would surface as a server error below.
+                        .speed(1.05)
                         .build();
                 wsClient.connect(options).get(15, TimeUnit.SECONDS);
 
