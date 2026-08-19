@@ -14,7 +14,7 @@ src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 # Contains User-Agent, X-Fern-SDK-Name, and X-Fern-SDK-Version headers
 # with // x-release-please-version comments for automated version bumps.
 # Fern regen overwrites these with incorrect SDK names and strips the markers.
-src/main/java/com/deepgram/core/ClientOptions.java
+src/main/java/com/deepgram/core/ClientOptions.java.bak
 
 # Transport abstraction (pluggable transport for SageMaker, etc.)
 src/main/java/com/deepgram/core/transport/
@@ -22,7 +22,7 @@ src/main/java/com/deepgram/core/transport/
 # Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
 # configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
 # Pull this back out once the fixes are upstreamed into the Fern generator.
-src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
+src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java.bak
 
 # Forward-compat patch: Fern's generated dispatcher routes any unrecognized message
 # type to the error handler ("Update your SDK version..."), which makes benign new
@@ -32,8 +32,8 @@ src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 # NOTE: the listen v2 and speak v2 clients below also carry the streaming query-param patches
 # (multi-value serialization + the additionalProperties escape hatch) documented lower down —
 # keep them frozen until those fixes are upstreamed too.
-src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
-src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
+src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java.bak
+src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java.bak
 
 # Streaming query-param patches on the generated WS connect() builders. Two fixes:
 #  (1) Multi-value serialization: array-valued params (listen: keyterm, keywords, replace, search,
@@ -47,24 +47,24 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 # listen v2 and speak v2 clients are frozen above; freeze the listen v1 and speak v1 clients here too
 # so the fixes survive regen. Re-apply after regen; unfreeze once the generator emits array params as
 # repeats and serializes additionalProperties on the WS connect path (tracked as an upstream Fern request).
-src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
-src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
+src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java.bak
+src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java.bak
 
 # Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
 # hashCode() for fields-less message types, violating the Object contract. We add a consistent
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching
 # equals/hashCode pair for fields-less types (tracked as an upstream Fern request).
-src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java
-src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Close.java
-src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Flush.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ListenUpdated.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SpeakUpdated.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1AgentAudioDone.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsApplied.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UserStartedSpeaking.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1KeepAlive.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkUpdated.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java
+src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java.bak
+src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Close.java.bak
+src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Flush.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ListenUpdated.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SpeakUpdated.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1AgentAudioDone.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsApplied.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UserStartedSpeaking.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1KeepAlive.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkUpdated.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java.bak
 
 # Union default-variant fix (STOPGAP). The agent listen-provider unions declare `version` as an
 # optional discriminator, so a provider payload without it is valid (and is what 0.7.x emits). Fern
@@ -73,9 +73,9 @@ src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java
 # {"provider":null}, silently dropping the caller's provider on the wire. Patched to
 # defaultImpl = V2Value on each. Guarded by AgentSettingsProviderDefaultTest. Unfreeze and drop once
 # the generator stops defaulting unions to the empty _UnknownValue (tracked as an upstream Fern request).
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListenProvider.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentListenProvider.java
-src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextListenProvider.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListenProvider.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentListenProvider.java.bak
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextListenProvider.java.bak
 
 # Build and project configuration
 build.gradle
