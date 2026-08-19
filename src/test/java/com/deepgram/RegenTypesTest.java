@@ -13,6 +13,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
@@ -125,6 +126,7 @@ public class RegenTypesTest {
             assertContract(AgentV1KeepAlive.builder().build(), AgentV1KeepAlive.builder().build());
             assertContract(AgentV1ThinkUpdated.builder().build(), AgentV1ThinkUpdated.builder().build());
             assertContract(AgentV1PromptUpdated.builder().build(), AgentV1PromptUpdated.builder().build());
+            assertContract(ListenV2ForceEndTurn.builder().build(), ListenV2ForceEndTurn.builder().build());
         }
 
         private void assertContract(Object a, Object b) {

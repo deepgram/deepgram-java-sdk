@@ -55,6 +55,7 @@ src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching
 # equals/hashCode pair for fields-less types (tracked as an upstream Fern request).
 src/main/java/com/deepgram/resources/listen/v2/types/ListenV2CloseStream.java
+src/main/java/com/deepgram/resources/listen/v2/types/ListenV2ForceEndTurn.java
 src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Close.java
 src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2Flush.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ListenUpdated.java
