@@ -13,6 +13,14 @@ public final class DeepgramModel {
 
     public static final DeepgramModel FLUX_KELSEY_EN = new DeepgramModel(Value.FLUX_KELSEY_EN, "flux-kelsey-en");
 
+    /**
+     * Manual patch: generator 4.18.0 dropped this constant, but the voice is live — {@code
+     * POST /v2/speak?model=flux-renee-en} returns 200 with valid audio, and the model name resolves in the
+     * server's registry (an invented {@code flux-*} name is rejected with {@code INVALID_QUERY_PARAMETER}).
+     * Restored so 0.8.0 callers keep compiling. Frozen in {@code .fernignore}; drop once the spec lists it again.
+     */
+    public static final DeepgramModel FLUX_RENEE_EN = new DeepgramModel(Value.FLUX_RENEE_EN, "flux-renee-en");
+
     public static final DeepgramModel FLUX_SIENNA_EN = new DeepgramModel(Value.FLUX_SIENNA_EN, "flux-sienna-en");
 
     public static final DeepgramModel AURA2HARMONIA_EN =
@@ -251,6 +259,9 @@ public final class DeepgramModel {
                 return visitor.visitAura2HeraEn();
             case FLUX_KELSEY_EN:
                 return visitor.visitFluxKelseyEn();
+                // Manual patch: see FLUX_RENEE_EN above.
+            case FLUX_RENEE_EN:
+                return visitor.visitFluxReneeEn();
             case FLUX_SIENNA_EN:
                 return visitor.visitFluxSiennaEn();
             case AURA2HARMONIA_EN:
@@ -458,6 +469,9 @@ public final class DeepgramModel {
                 return AURA2HERA_EN;
             case "flux-kelsey-en":
                 return FLUX_KELSEY_EN;
+                // Manual patch: see FLUX_RENEE_EN above.
+            case "flux-renee-en":
+                return FLUX_RENEE_EN;
             case "flux-sienna-en":
                 return FLUX_SIENNA_EN;
             case "aura-2-harmonia-en":
@@ -840,6 +854,9 @@ public final class DeepgramModel {
 
         FLUX_PRIYA_EN,
 
+        // Manual patch: see FLUX_RENEE_EN above.
+        FLUX_RENEE_EN,
+
         FLUX_RUFUS_EN,
 
         FLUX_SEAN_EN,
@@ -1041,6 +1058,9 @@ public final class DeepgramModel {
         T visitFluxPaigeEn();
 
         T visitFluxPriyaEn();
+
+        // Manual patch: see FLUX_RENEE_EN above.
+        T visitFluxReneeEn();
 
         T visitFluxRufusEn();
 

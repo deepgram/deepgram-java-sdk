@@ -18,6 +18,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.DeepgramListenProviderV2;
+import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.GoogleVersion;
@@ -152,6 +153,25 @@ public class RegenTypesTest {
 
             DeepgramListenProviderV2 parsed = MAPPER.readValue(json, DeepgramListenProviderV2.class);
             assertThat(parsed.getLanguageHints()).contains(Arrays.asList("en", "es"));
+        }
+    }
+
+    @Nested
+    @DisplayName("DeepgramModel.FLUX_RENEE_EN: manually restored constant")
+    class FluxReneeConstant {
+
+        @Test
+        @DisplayName("resolves, carries the right wire value, and round-trips")
+        void reneeConstantSurvives() throws Exception {
+            // Generator 4.18.0 dropped this constant, but the voice is live on /v2/speak. The patch
+            // restores all five touchpoints; this guards a future regen silently dropping it again.
+            assertThat(DeepgramModel.FLUX_RENEE_EN.toString()).isEqualTo("flux-renee-en");
+            assertThat(DeepgramModel.FLUX_RENEE_EN.getEnumValue()).isEqualTo(DeepgramModel.Value.FLUX_RENEE_EN);
+            assertThat(DeepgramModel.valueOf("flux-renee-en")).isEqualTo(DeepgramModel.FLUX_RENEE_EN);
+
+            String json = MAPPER.writeValueAsString(DeepgramModel.FLUX_RENEE_EN);
+            assertThat(json).isEqualTo("\"flux-renee-en\"");
+            assertThat(MAPPER.readValue(json, DeepgramModel.class)).isEqualTo(DeepgramModel.FLUX_RENEE_EN);
         }
     }
 

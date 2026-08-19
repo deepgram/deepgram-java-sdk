@@ -60,6 +60,18 @@ src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 # of the accepted values.
 src/main/java/com/deepgram/resources/speak/v2/websocket/V2ConnectOptions.java
 
+# Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
+# POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the
+# server's model registry (an invented flux-* name is rejected with INVALID_QUERY_PARAMETER), so the
+# removal is a spec regression, not a retirement. Dropping the constant would break 0.8.0 callers
+# for no reason. Remove the patch and unfreeze once the spec lists the voice again.
+#
+# WARNING: unlike the other temporarily frozen files, this one receives frequent *additive* spec
+# changes -- 4.18.0 alone added 25 constants. On the next regen do NOT restore the .bak wholesale:
+# diff it against the newly generated file, carry forward every new voice, and re-apply only the
+# FLUX_RENEE_EN touchpoints (constant, Value enum, visit() case, valueOf() case, Visitor method).
+src/main/java/com/deepgram/types/DeepgramModel.java
+
 # Manual equals/hashCode contract fix: Fern generates equals() (all instances equal) but no
 # hashCode() for fields-less message types, violating the Object contract. We add a consistent
 # hashCode() to each. Unfreeze and drop these patches once the generator emits a matching

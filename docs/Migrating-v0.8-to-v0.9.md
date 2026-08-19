@@ -1,14 +1,15 @@
 # v0.8 to v0.9 Migration Guide
 
-This guide helps you migrate from Deepgram Java SDK v0.8.x to v0.9.0. The `0.9.0` release is still pre-`1.0`, and it ships a set of breaking source changes from the latest SDK regeneration along with additive features (Listen V2 force-end-turn and turn triggers, Listen V1 diarization detail, and 25 new Deepgram TTS voice constants).
+This guide helps you migrate from Deepgram Java SDK v0.8.x to v0.9.0. The `0.9.0` release is still pre-`1.0`, and it ships two breaking source changes from the latest SDK regeneration along with additive features (Listen V2 force-end-turn and turn triggers, Listen V1 diarization detail, and 25 new Deepgram TTS voice constants).
 
-All of the breaking changes are **source/compile-time only** — they are type and constant renames that follow the API definition. Every wire value is unchanged, so on-the-wire payloads for existing requests are byte-identical and no server-side behavior changes with this upgrade. In practice, migrating means updating imports and type references, then recompiling.
+Both breaking changes are **source/compile-time only** — they are type renames that follow the API definition. Every wire value is unchanged, so on-the-wire payloads for existing requests are byte-identical and no server-side behavior changes with this upgrade. In practice, migrating means updating imports and type references, then recompiling.
 
-The breaking changes are:
+The two breaking changes are:
 
 1. **Nine provider and agent-history types renamed** — the generator dropped the `*ThinkProvider*` / `*SpeakProvider*` prefixes and consolidated the agent conversation-history leaf types. Wire values are identical.
 2. **Two duplicate agent conversation-history types removed** — `AgentV1SettingsAgentContextContextMessagesItemContentRole` and `AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem` are replaced by the canonical `ConversationHistoryMessageRole` and `FunctionCallHistoryMessageFunctionCallsItem`.
-3. **`DeepgramModel.FLUX_RENEE_EN` removed** — the `flux-renee-en` voice is no longer in the model enum.
+
+The generator also attempted two changes this release that the SDK deliberately does **not** ship, because both were regressions against a live API: it retyped `speak.v2` `connect(speed = ...)` from `Double` to a closed string enum, and it dropped the `DeepgramModel.FLUX_RENEE_EN` constant. Both are patched back, so no action is needed for either — see [Speak V2 Connect Speed](#speak-v2-connect-speed) and [Voice Constants](#voice-constants).
 
 > **Note on `speak.v2` `connect(speed = ...)`:** the generator retyped this parameter from `Double` to a closed string-literal enum in this cycle. That is **not** shipped here — the SDK keeps `Optional<Double>`, so your existing `speed` calls continue to compile and behave identically. See [Speak V2 Connect Speed](#speak-v2-connect-speed).
 
@@ -20,7 +21,7 @@ The breaking changes are:
 - [Type Changes](#type-changes)
   - [Provider Type Renames](#provider-type-renames)
   - [Agent Conversation-History Consolidation](#agent-conversation-history-consolidation)
-  - [Removed Voice Constant](#removed-voice-constant)
+  - [Voice Constants](#voice-constants)
   - [Speak V2 Connect Speed](#speak-v2-connect-speed)
 - [New Features in v0.9.0](#new-features-in-v090)
   - [Listen V2 Force-End-Turn](#listen-v2-force-end-turn)
@@ -164,9 +165,11 @@ ConversationHistoryMessage msg = ConversationHistoryMessage.builder()
     .build();
 ```
 
-### Removed Voice Constant
+### Voice Constants
 
-`DeepgramModel.FLUX_RENEE_EN` (wire value `flux-renee-en`) is no longer part of the model enum. If you referenced it, pick another Flux voice — see [New Deepgram Voice Constants](#new-deepgram-voice-constants) for what was added this cycle.
+**No change required.** `DeepgramModel.FLUX_RENEE_EN` is still present, and 25 constants were added — see [New Deepgram Voice Constants](#new-deepgram-voice-constants).
+
+This is called out only because the generator dropped `FLUX_RENEE_EN` in this cycle and the SDK deliberately does not ship that removal. The voice is live: `POST /v2/speak?model=flux-renee-en` returns `200` with valid audio, and the name resolves in the server's model registry (an invented `flux-*` name is rejected with `INVALID_QUERY_PARAMETER`). The constant is restored and frozen, so existing references keep compiling.
 
 `DeepgramModel` remains a forward-compatible enum, so if you need to send a value the current SDK does not model, `DeepgramModel.valueOf("some-model-name")` still works.
 
@@ -238,13 +241,12 @@ Pre-recorded words items also carry `getSpeakerConfidence()` (`Optional<Float>`)
 | `AgentV1HistoryFunctionCallsFunctionCallsItem` | `FunctionCallHistoryMessageFunctionCallsItem` |
 | `AgentV1SettingsAgentContextContextMessagesItemFunctionCallsFunctionCallsItem` | `FunctionCallHistoryMessageFunctionCallsItem` |
 
-### Removed
-
-- `DeepgramModel.FLUX_RENEE_EN`
-
 ### Unchanged Despite Generator Churn
 
+Both were changed by the generator this cycle; the SDK patches them back, so no action is needed.
+
 - `V2ConnectOptions.speed` stays `Optional<Double>`
+- `DeepgramModel.FLUX_RENEE_EN` is retained
 
 ### New Features
 
@@ -259,5 +261,4 @@ Pre-recorded words items also carry `getSpeakerConfidence()` (`Optional<Float>`)
 1. Bump the dependency to `0.9.0`.
 2. Find-and-replace the nine renamed type names in imports and type references, including declared getter return types such as `Optional<GoogleThinkProviderVersion>`.
 3. Replace `AgentV1SettingsAgentContextContextMessagesItem*` references with `ConversationHistoryMessageRole` / `FunctionCallHistoryMessageFunctionCallsItem`.
-4. Replace any use of `DeepgramModel.FLUX_RENEE_EN`.
-5. Recompile. Because every change is a source-level rename with identical wire values, a clean compile means the upgrade is complete — no request payloads change.
+4. Recompile. Because every change is a source-level rename with identical wire values, a clean compile means the upgrade is complete — no request payloads change.
