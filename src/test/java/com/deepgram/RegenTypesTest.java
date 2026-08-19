@@ -18,8 +18,8 @@ import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.deepgram.types.Google;
-import com.deepgram.types.GoogleThinkProviderModel;
-import com.deepgram.types.GoogleThinkProviderVersion;
+import com.deepgram.types.GoogleModel;
+import com.deepgram.types.GoogleVersion;
 import com.deepgram.types.ListenV2Redact;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -179,14 +179,14 @@ public class RegenTypesTest {
         }
 
         @Test
-        @DisplayName("Google.version is a GoogleThinkProviderVersion enum serializing to its wire value")
+        @DisplayName("Google.version is a GoogleVersion enum serializing to its wire value")
         void googleVersionEnum() throws Exception {
             Google google = Google.builder()
-                    .model(GoogleThinkProviderModel.GEMINI25FLASH)
-                    .version(GoogleThinkProviderVersion.V1BETA)
+                    .model(GoogleModel.GEMINI25FLASH)
+                    .version(GoogleVersion.V1BETA)
                     .build();
 
-            assertThat(google.getVersion()).contains(GoogleThinkProviderVersion.V1BETA);
+            assertThat(google.getVersion()).contains(GoogleVersion.V1BETA);
             assertThat(MAPPER.writeValueAsString(google)).contains("\"version\":\"v1beta\"");
         }
 

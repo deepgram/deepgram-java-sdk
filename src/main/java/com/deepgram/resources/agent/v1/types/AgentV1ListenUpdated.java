@@ -36,6 +36,14 @@ public final class AgentV1ListenUpdated {
         return other instanceof AgentV1ListenUpdated;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+        // Manual patch: Fern generates equals() (all instances of this fields-less message
+        // are equal) but no hashCode(), violating the Object contract. Mirror equals() with a
+        // type-based constant hash. Remove once Fern emits a consistent equals/hashCode pair.
+        return getClass().hashCode();
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

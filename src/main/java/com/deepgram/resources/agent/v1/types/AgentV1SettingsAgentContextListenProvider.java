@@ -99,7 +99,12 @@ public final class AgentV1SettingsAgentContextListenProvider {
         T _visitUnknown(Object unknownType);
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = _UnknownValue.class)
+    // Manual patch (STOPGAP): Fern defaults this union to _UnknownValue, whose @JsonCreator has an
+    // empty body, so a provider payload omitting the optional "version" discriminator (exactly what
+    // 0.7.x emits) is silently dropped — it deserializes to an empty unknown variant and re-serializes
+    // as null. Default to V2Value so version-less payloads resolve to V2. Frozen in .fernignore; drop
+    // once the generator stops defaulting unions to the empty _UnknownValue (upstream Fern request).
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = V2Value.class)
     @JsonSubTypes({@JsonSubTypes.Type(V1Value.class), @JsonSubTypes.Type(V2Value.class)})
     @JsonIgnoreProperties(ignoreUnknown = true)
     private interface Value {

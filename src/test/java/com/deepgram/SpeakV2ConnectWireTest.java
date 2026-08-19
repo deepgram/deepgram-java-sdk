@@ -8,6 +8,7 @@ import com.deepgram.resources.speak.v2.types.SpeakV2Interrupt;
 import com.deepgram.resources.speak.v2.types.SpeakV2InterruptPlaybackOffset;
 import com.deepgram.resources.speak.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
+import com.deepgram.types.SpeakV2Speed;
 import com.deepgram.types.SpeakV2Tag;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -98,7 +99,7 @@ class SpeakV2ConnectWireTest {
     void speedPresentWhenSet() throws Exception {
         HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
                 .model("flux-alexis-en")
-                .speed(1.05)
+                .speed(SpeakV2Speed.ONE_POINT_ZERO_FIVE)
                 .build());
 
         assertThat(url.queryParameter("speed")).isEqualTo("1.05");
