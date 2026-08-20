@@ -23,13 +23,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Wire coverage for the listen v2 client-to-server control frames, driven against MockWebServer.
  *
- * <p>{@code ForceEndTurn} is the reason this class exists. The message is currently rejected by the
- * live API on every deployment we can reach — the server recognises the type but refuses it with
- * {@code UNPARSABLE_CLIENT_MESSAGE} / "The ForceEndTurn message is not enabled on this deployment."
- * That gate makes an end-to-end integration test impossible, but it does not stop us from asserting
- * the half we own: that {@link V2WebSocketClient#sendForceEndTurn} puts a correctly serialized frame
- * on the wire. Without this, a public SDK method would ship with nothing verifying it at all, and a
- * future regen could reshape the frame silently.
+ * <p>{@code ForceEndTurn} is the reason this class exists. The message is gated per deployment — a
+ * deployment without it refuses the frame with {@code UNPARSABLE_CLIENT_MESSAGE} / "The ForceEndTurn
+ * message is not enabled on this deployment." {@code IntegrationTest} covers the end-to-end path
+ * where the feature is enabled, but that test is opt-in and skips wherever the gate is closed, so on
+ * a default run this class is the only thing asserting the half we own: that
+ * {@link V2WebSocketClient#sendForceEndTurn} puts a correctly serialized frame on the wire. Without
+ * it, a public SDK method could ship with nothing verifying it, and a future regen could reshape the
+ * frame silently.
  *
  * <p>{@code CloseStream} is included as a control: it exercises the same send path with a message the
  * server does accept, so a failure here distinguishes "the send path broke" from "ForceEndTurn

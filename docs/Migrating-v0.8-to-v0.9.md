@@ -212,11 +212,15 @@ V2WebSocketClient wsClient = client.listen().v2().v2WebSocket();
 wsClient.sendForceEndTurn(ListenV2ForceEndTurn.builder().build());
 ```
 
-**This requires server-side enablement and is not yet generally available.** The typed surface ships now so callers are ready, but do not depend on it until the feature is enabled for your deployment — sending it before then is rejected by the server.
+The turn ends immediately regardless of end-of-turn confidence, and the connection stays open — the turn index advances and transcription continues into the next turn. The resulting `EndOfTurn` carries `trigger` set to `"manual"`.
+
+**This requires server-side enablement and is not yet enabled on all deployments.** Where it is not enabled the server rejects the message with `UNPARSABLE_CLIENT_MESSAGE` ("The ForceEndTurn message is not enabled on this deployment.") and closes the connection, so guard against that path until you have confirmed the feature is live for the deployment you target.
 
 ### Listen V2 Turn Trigger
 
-`ListenV2TurnInfo` gains `getTrigger()`, returning `Optional<String>`, which identifies what ended a turn (for example `model`, `manual`, or `timeout`). It is typed as an open `String` so new server-side trigger values do not break deployed clients.
+`ListenV2TurnInfo` gains `getTrigger()`, returning `Optional<String>`, which identifies what ended a turn: `model` for Flux's own end-of-turn detection, `manual` for a turn ended by `sendForceEndTurn`, and `timeout` when `eot_timeout_ms` elapsed. It is typed as an open `String` so new server-side trigger values do not break deployed clients.
+
+It is populated on `EndOfTurn` events and only there, so treat the empty case as normal — it is what every `Update` and `StartOfTurn` carries, and also what a deployment that does not yet emit `trigger` returns throughout.
 
 ### Listen V1 Diarization Detail
 
@@ -262,8 +266,8 @@ Both were changed by the generator this cycle; the SDK patches them back, so no 
 
 ### New Features
 
-- `listen.v2` `sendForceEndTurn(ListenV2ForceEndTurn)` — requires server-side enablement, not yet generally available
-- `ListenV2TurnInfo.getTrigger()`
+- `listen.v2` `sendForceEndTurn(ListenV2ForceEndTurn)` — requires server-side enablement, not yet enabled on all deployments
+- `ListenV2TurnInfo.getTrigger()` — present on `EndOfTurn` events, on deployments that emit it
 - `ListenV1ResponseMetadata.getDiarizeInfo()` / `ListenV1ResultsMetadata.getDiarizeInfo()`
 - `getSpeakerConfidence()` on pre-recorded words items
 - 25 new `DeepgramModel` constants

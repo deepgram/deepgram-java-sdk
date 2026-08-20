@@ -240,7 +240,8 @@ public class RegenTypesTest {
         @DisplayName("ListenV2TurnInfo.trigger is surfaced when the server sends it")
         void turnInfoTriggerPresent() throws Exception {
             // trigger identifies what ended a turn. Typed as an open String rather than an enum, so a
-            // new server-side value cannot break a deployed client.
+            // new server-side value cannot break a deployed client. "manual" is the value a
+            // ForceEndTurn produces; this fixture mirrors the live EndOfTurn frame exactly.
             String json = "{\"type\":\"TurnInfo\",\"request_id\":\"req-1\",\"sequence_id\":3,"
                     + "\"event\":\"EndOfTurn\",\"turn_index\":0,\"audio_window_start\":0.0,"
                     + "\"audio_window_end\":1.5,\"transcript\":\"hello\",\"end_of_turn_confidence\":0.91,"
@@ -255,8 +256,9 @@ public class RegenTypesTest {
         @Test
         @DisplayName("ListenV2TurnInfo.trigger is empty when the server omits it")
         void turnInfoTriggerAbsent() throws Exception {
-            // The live API does not emit trigger yet, so the absent case is the one deployed clients
-            // actually hit today. It must parse cleanly rather than failing or defaulting to a value.
+            // trigger is documented as present on EndOfTurn and only there, and a deployment without
+            // the feature omits it entirely. Either way the absent case must parse cleanly rather
+            // than failing or defaulting to a value.
             String json = "{\"type\":\"TurnInfo\",\"request_id\":\"req-1\",\"sequence_id\":1,"
                     + "\"event\":\"Update\",\"turn_index\":0,\"audio_window_start\":0.0,"
                     + "\"audio_window_end\":0.5,\"transcript\":\"\",\"end_of_turn_confidence\":0.1}";

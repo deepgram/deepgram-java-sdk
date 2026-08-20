@@ -8,6 +8,10 @@ import com.deepgram.core.Environment;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
+import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
+import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
 import com.deepgram.resources.speak.v1.audio.requests.SpeakV1Request;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
@@ -21,6 +25,9 @@ import com.deepgram.types.ListenV1AcceptedResponse;
 import com.deepgram.types.ListenV1Response;
 import com.deepgram.types.ListenV1ResponseResults;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItem;
+import com.deepgram.types.ListenV2Encoding;
+import com.deepgram.types.ListenV2Model;
+import com.deepgram.types.ListenV2SampleRate;
 import com.deepgram.types.ReadV1Request;
 import com.deepgram.types.ReadV1RequestText;
 import com.deepgram.types.ReadV1Response;
@@ -35,6 +42,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import okio.ByteString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -50,6 +58,11 @@ import org.junit.jupiter.api.Test;
 public class IntegrationTest {
 
     private static final String TEST_AUDIO_URL = "https://dpgr.am/spacewalk.wav";
+
+    /** spacewalk.wav is 16-bit mono PCM at 44.1kHz behind a standard 44-byte RIFF header. */
+    private static final int AUDIO_SAMPLE_RATE = 44100;
+
+    private static final int WAV_HEADER_BYTES = 44;
 
     private DeepgramClient client;
     private String apiKey;
@@ -314,6 +327,117 @@ public class IntegrationTest {
                 System.out.println("Speak v2 WS returned " + totalAudioBytes.get() + " bytes of audio");
             } finally {
                 wsClient.disconnect();
+            }
+        }
+
+        @Test
+        @DisplayName("ListenV2ForceEndTurn - force a turn to end and read back trigger=manual")
+        void testIntegration_ListenV2ForceEndTurn() throws Exception {
+            // ForceEndTurn is gated per deployment: where it is not enabled the server rejects it
+            // with UNPARSABLE_CLIENT_MESSAGE / "The ForceEndTurn message is not enabled on this
+            // deployment." and closes the socket. So this test is opt-in: set
+            // DEEPGRAM_LISTEN_V2_FORCE_END_TURN=1, with DEEPGRAM_BASE_URL pointing at an environment
+            // that has the feature, if it is not yet enabled on the default host. Otherwise it is
+            // skipped rather than failing the build.
+            String enabled = System.getenv("DEEPGRAM_LISTEN_V2_FORCE_END_TURN");
+            org.junit.jupiter.api.Assumptions.assumeTrue(
+                    enabled != null && !enabled.isEmpty(),
+                    "DEEPGRAM_LISTEN_V2_FORCE_END_TURN not set, skipping Listen v2 force-end-turn test");
+
+            byte[] wav = downloadAudio();
+
+            // Fully qualified: speak.v2's V2WebSocketClient / V2ConnectOptions are already imported
+            // above under those simple names, and Java has no import aliases.
+            com.deepgram.resources.listen.v2.websocket.V2WebSocketClient wsClient =
+                    client.listen().v2().v2WebSocket();
+
+            CountDownLatch turnStarted = new CountDownLatch(1);
+            CountDownLatch endOfTurn = new CountDownLatch(1);
+            AtomicReference<ListenV2TurnInfo> forcedTurn = new AtomicReference<>();
+            AtomicReference<String> serverError = new AtomicReference<>();
+
+            wsClient.onTurnInfo(turn -> {
+                if (turn.getEvent().equals(ListenV2TurnInfoEvent.START_OF_TURN)) {
+                    turnStarted.countDown();
+                }
+                if (turn.getEvent().equals(ListenV2TurnInfoEvent.END_OF_TURN) && forcedTurn.compareAndSet(null, turn)) {
+                    endOfTurn.countDown();
+                }
+            });
+            wsClient.onErrorMessage(error -> serverError.set(error.getCode() + ": " + error.getDescription()));
+            wsClient.onError(error -> serverError.set(error.getMessage()));
+
+            try {
+                wsClient.connect(com.deepgram.resources.listen.v2.websocket.V2ConnectOptions.builder()
+                                .model(ListenV2Model.FLUX_GENERAL_EN)
+                                .encoding(ListenV2Encoding.LINEAR16)
+                                .sampleRate(ListenV2SampleRate.of(AUDIO_SAMPLE_RATE))
+                                .build())
+                        .get(15, TimeUnit.SECONDS);
+
+                // Stream real audio until a turn is genuinely in progress, then force it to end.
+                // Forcing before StartOfTurn would prove nothing: there would be no open turn to end.
+                int offset = WAV_HEADER_BYTES;
+                int chunk = AUDIO_SAMPLE_RATE / 10 * 2; // 100ms of 16-bit mono
+                for (int i = 0; i < 40 && offset < wav.length; i++) {
+                    int len = Math.min(chunk, wav.length - offset);
+                    wsClient.sendMedia(ByteString.of(wav, offset, len));
+                    offset += len;
+                    Thread.sleep(100);
+                    if (turnStarted.getCount() == 0 && i >= 20) {
+                        break;
+                    }
+                }
+                assertThat(turnStarted.await(10, TimeUnit.SECONDS))
+                        .as("a turn started before we forced it to end")
+                        .isTrue();
+
+                wsClient.sendForceEndTurn(ListenV2ForceEndTurn.builder().build());
+
+                assertThat(endOfTurn.await(15, TimeUnit.SECONDS))
+                        .as("received an EndOfTurn after ForceEndTurn")
+                        .isTrue();
+
+                // The gate closing again would surface here first: the server rejects ForceEndTurn
+                // with UNPARSABLE_CLIENT_MESSAGE and closes the socket, so this assertion is what
+                // distinguishes "feature turned off" from "SDK send path broke".
+                assertThat(serverError.get())
+                        .as("no server/transport error after ForceEndTurn")
+                        .isNull();
+
+                ListenV2TurnInfo turn = forcedTurn.get();
+                assertThat(turn).as("captured the EndOfTurn").isNotNull();
+                assertThat(turn.getTrigger())
+                        .as("trigger identifies the turn as manually ended")
+                        .contains("manual");
+                // A model-detected end would carry a high end_of_turn_confidence. A forced end
+                // arrives regardless of confidence, so a low value here is the evidence that the
+                // turn ended because we asked, not because Flux decided it was over.
+                System.out.println(
+                        "ForceEndTurn -> trigger=" + turn.getTrigger().orElse("<absent>")
+                                + " end_of_turn_confidence=" + turn.getEndOfTurnConfidence()
+                                + " transcript=\"" + turn.getTranscript() + "\"");
+
+                wsClient.sendCloseStream(ListenV2CloseStream.builder().build());
+            } finally {
+                wsClient.disconnect();
+            }
+        }
+
+        private byte[] downloadAudio() throws Exception {
+            URL url = new URL(TEST_AUDIO_URL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            try (InputStream in = conn.getInputStream();
+                    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream()) {
+                byte[] buf = new byte[8192];
+                int read;
+                while ((read = in.read(buf)) != -1) {
+                    out.write(buf, 0, read);
+                }
+                return out.toByteArray();
+            } finally {
+                conn.disconnect();
             }
         }
     }
