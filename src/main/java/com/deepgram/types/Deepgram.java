@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public final class Deepgram {
     private final Optional<String> version;
 
-    private final DeepgramSpeakProviderModel model;
+    private final DeepgramModel model;
 
     private final Optional<Double> speed;
 
@@ -31,7 +31,7 @@ public final class Deepgram {
 
     private Deepgram(
             Optional<String> version,
-            DeepgramSpeakProviderModel model,
+            DeepgramModel model,
             Optional<Double> speed,
             Map<String, Object> additionalProperties) {
         this.version = version;
@@ -54,15 +54,15 @@ public final class Deepgram {
     }
 
     /**
-     * @return Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).
+     * @return Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en). Defaults to flux-kit-en when agent.speak is omitted.
      */
     @JsonProperty("model")
-    public DeepgramSpeakProviderModel getModel() {
+    public DeepgramModel getModel() {
         return model;
     }
 
     /**
-     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.
      */
     @JsonProperty("speed")
     public Optional<Double> getSpeed() {
@@ -100,9 +100,9 @@ public final class Deepgram {
 
     public interface ModelStage {
         /**
-         * <p>Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).</p>
+         * <p>Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en). Defaults to flux-kit-en when agent.speak is omitted.</p>
          */
-        _FinalStage model(@NotNull DeepgramSpeakProviderModel model);
+        _FinalStage model(@NotNull DeepgramModel model);
 
         Builder from(Deepgram other);
     }
@@ -122,7 +122,7 @@ public final class Deepgram {
         _FinalStage version(String version);
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
          */
         _FinalStage speed(Optional<Double> speed);
 
@@ -131,7 +131,7 @@ public final class Deepgram {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private DeepgramSpeakProviderModel model;
+        private DeepgramModel model;
 
         private Optional<Double> speed = Optional.empty();
 
@@ -151,18 +151,18 @@ public final class Deepgram {
         }
 
         /**
-         * <p>Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en).</p>
+         * <p>Deepgram TTS model. Aura models (version v1) use the aura-* voices; Flux TTS (version v2) uses the flux-{voice}-{language} voices (e.g. flux-alexis-en). Defaults to flux-kit-en when agent.speak is omitted.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull DeepgramSpeakProviderModel model) {
+        public _FinalStage model(@NotNull DeepgramModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -172,7 +172,7 @@ public final class Deepgram {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)

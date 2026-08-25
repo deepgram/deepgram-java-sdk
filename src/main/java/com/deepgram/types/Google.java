@@ -21,17 +21,17 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = Google.Builder.class)
 public final class Google {
-    private final Optional<GoogleThinkProviderVersion> version;
+    private final Optional<GoogleVersion> version;
 
-    private final GoogleThinkProviderModel model;
+    private final GoogleModel model;
 
     private final Optional<Double> temperature;
 
     private final Map<String, Object> additionalProperties;
 
     private Google(
-            Optional<GoogleThinkProviderVersion> version,
-            GoogleThinkProviderModel model,
+            Optional<GoogleVersion> version,
+            GoogleModel model,
             Optional<Double> temperature,
             Map<String, Object> additionalProperties) {
         this.version = version;
@@ -49,7 +49,7 @@ public final class Google {
      * @return The Google API used for the request: ai-studio-v1beta for the AI Studio API, or gemini-enterprise-agent-v1 for the Gemini Enterprise Agent (GEA) API. v1beta is accepted as an alias for ai-studio-v1beta. Defaults based on the Deepgram Voice Agent endpoint you connect to.
      */
     @JsonProperty("version")
-    public Optional<GoogleThinkProviderVersion> getVersion() {
+    public Optional<GoogleVersion> getVersion() {
         return version;
     }
 
@@ -57,7 +57,7 @@ public final class Google {
      * @return Google model to use
      */
     @JsonProperty("model")
-    public GoogleThinkProviderModel getModel() {
+    public GoogleModel getModel() {
         return model;
     }
 
@@ -102,7 +102,7 @@ public final class Google {
         /**
          * <p>Google model to use</p>
          */
-        _FinalStage model(@NotNull GoogleThinkProviderModel model);
+        _FinalStage model(@NotNull GoogleModel model);
 
         Builder from(Google other);
     }
@@ -117,9 +117,9 @@ public final class Google {
         /**
          * <p>The Google API used for the request: ai-studio-v1beta for the AI Studio API, or gemini-enterprise-agent-v1 for the Gemini Enterprise Agent (GEA) API. v1beta is accepted as an alias for ai-studio-v1beta. Defaults based on the Deepgram Voice Agent endpoint you connect to.</p>
          */
-        _FinalStage version(Optional<GoogleThinkProviderVersion> version);
+        _FinalStage version(Optional<GoogleVersion> version);
 
-        _FinalStage version(GoogleThinkProviderVersion version);
+        _FinalStage version(GoogleVersion version);
 
         /**
          * <p>Google temperature (0-2)</p>
@@ -131,11 +131,11 @@ public final class Google {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
-        private GoogleThinkProviderModel model;
+        private GoogleModel model;
 
         private Optional<Double> temperature = Optional.empty();
 
-        private Optional<GoogleThinkProviderVersion> version = Optional.empty();
+        private Optional<GoogleVersion> version = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -156,7 +156,7 @@ public final class Google {
          */
         @java.lang.Override
         @JsonSetter("model")
-        public _FinalStage model(@NotNull GoogleThinkProviderModel model) {
+        public _FinalStage model(@NotNull GoogleModel model) {
             this.model = Objects.requireNonNull(model, "model must not be null");
             return this;
         }
@@ -186,7 +186,7 @@ public final class Google {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage version(GoogleThinkProviderVersion version) {
+        public _FinalStage version(GoogleVersion version) {
             this.version = Optional.ofNullable(version);
             return this;
         }
@@ -196,7 +196,7 @@ public final class Google {
          */
         @java.lang.Override
         @JsonSetter(value = "version", nulls = Nulls.SKIP)
-        public _FinalStage version(Optional<GoogleThinkProviderVersion> version) {
+        public _FinalStage version(Optional<GoogleVersion> version) {
             this.version = version;
             return this;
         }

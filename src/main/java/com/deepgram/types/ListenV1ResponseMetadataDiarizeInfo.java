@@ -17,40 +17,42 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = CartesiaSpeakProviderVoice.Builder.class)
-public final class CartesiaSpeakProviderVoice {
-    private final String mode;
+@JsonDeserialize(builder = ListenV1ResponseMetadataDiarizeInfo.Builder.class)
+public final class ListenV1ResponseMetadataDiarizeInfo {
+    private final String modelUuid;
 
-    private final String id;
+    private final String arch;
 
     private final Map<String, Object> additionalProperties;
 
-    private CartesiaSpeakProviderVoice(String mode, String id, Map<String, Object> additionalProperties) {
-        this.mode = mode;
-        this.id = id;
+    private ListenV1ResponseMetadataDiarizeInfo(
+            String modelUuid, String arch, Map<String, Object> additionalProperties) {
+        this.modelUuid = modelUuid;
+        this.arch = arch;
         this.additionalProperties = additionalProperties;
     }
 
     /**
-     * @return Cartesia voice mode
+     * @return The diarizer model UUID
      */
-    @JsonProperty("mode")
-    public String getMode() {
-        return mode;
+    @JsonProperty("model_uuid")
+    public String getModelUuid() {
+        return modelUuid;
     }
 
     /**
-     * @return Cartesia voice ID
+     * @return The diarizer arch, such as <code>v1</code> or <code>v2</code>
      */
-    @JsonProperty("id")
-    public String getId() {
-        return id;
+    @JsonProperty("arch")
+    public String getArch() {
+        return arch;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof CartesiaSpeakProviderVoice && equalTo((CartesiaSpeakProviderVoice) other);
+        return other instanceof ListenV1ResponseMetadataDiarizeInfo
+                && equalTo((ListenV1ResponseMetadataDiarizeInfo) other);
     }
 
     @JsonAnyGetter
@@ -58,13 +60,13 @@ public final class CartesiaSpeakProviderVoice {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(CartesiaSpeakProviderVoice other) {
-        return mode.equals(other.mode) && id.equals(other.id);
+    private boolean equalTo(ListenV1ResponseMetadataDiarizeInfo other) {
+        return modelUuid.equals(other.modelUuid) && arch.equals(other.arch);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.mode, this.id);
+        return Objects.hash(this.modelUuid, this.arch);
     }
 
     @java.lang.Override
@@ -72,28 +74,28 @@ public final class CartesiaSpeakProviderVoice {
         return ObjectMappers.stringify(this);
     }
 
-    public static ModeStage builder() {
+    public static ModelUuidStage builder() {
         return new Builder();
     }
 
-    public interface ModeStage {
+    public interface ModelUuidStage {
         /**
-         * <p>Cartesia voice mode</p>
+         * <p>The diarizer model UUID</p>
          */
-        IdStage mode(@NotNull String mode);
+        ArchStage modelUuid(@NotNull String modelUuid);
 
-        Builder from(CartesiaSpeakProviderVoice other);
+        Builder from(ListenV1ResponseMetadataDiarizeInfo other);
     }
 
-    public interface IdStage {
+    public interface ArchStage {
         /**
-         * <p>Cartesia voice ID</p>
+         * <p>The diarizer arch, such as <code>v1</code> or <code>v2</code></p>
          */
-        _FinalStage id(@NotNull String id);
+        _FinalStage arch(@NotNull String arch);
     }
 
     public interface _FinalStage {
-        CartesiaSpeakProviderVoice build();
+        ListenV1ResponseMetadataDiarizeInfo build();
 
         _FinalStage additionalProperty(String key, Object value);
 
@@ -101,10 +103,10 @@ public final class CartesiaSpeakProviderVoice {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements ModeStage, IdStage, _FinalStage {
-        private String mode;
+    public static final class Builder implements ModelUuidStage, ArchStage, _FinalStage {
+        private String modelUuid;
 
-        private String id;
+        private String arch;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -112,37 +114,37 @@ public final class CartesiaSpeakProviderVoice {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(CartesiaSpeakProviderVoice other) {
-            mode(other.getMode());
-            id(other.getId());
+        public Builder from(ListenV1ResponseMetadataDiarizeInfo other) {
+            modelUuid(other.getModelUuid());
+            arch(other.getArch());
             return this;
         }
 
         /**
-         * <p>Cartesia voice mode</p>
+         * <p>The diarizer model UUID</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        @JsonSetter("mode")
-        public IdStage mode(@NotNull String mode) {
-            this.mode = Objects.requireNonNull(mode, "mode must not be null");
+        @JsonSetter("model_uuid")
+        public ArchStage modelUuid(@NotNull String modelUuid) {
+            this.modelUuid = Objects.requireNonNull(modelUuid, "modelUuid must not be null");
             return this;
         }
 
         /**
-         * <p>Cartesia voice ID</p>
+         * <p>The diarizer arch, such as <code>v1</code> or <code>v2</code></p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        @JsonSetter("id")
-        public _FinalStage id(@NotNull String id) {
-            this.id = Objects.requireNonNull(id, "id must not be null");
+        @JsonSetter("arch")
+        public _FinalStage arch(@NotNull String arch) {
+            this.arch = Objects.requireNonNull(arch, "arch must not be null");
             return this;
         }
 
         @java.lang.Override
-        public CartesiaSpeakProviderVoice build() {
-            return new CartesiaSpeakProviderVoice(mode, id, additionalProperties);
+        public ListenV1ResponseMetadataDiarizeInfo build() {
+            return new ListenV1ResponseMetadataDiarizeInfo(modelUuid, arch, additionalProperties);
         }
 
         @java.lang.Override

@@ -75,6 +75,19 @@ public final class V2ConnectOptions {
         return sampleRate;
     }
 
+    /**
+     * Speech-rate multiplier. {@code 1.0} is the model's nominal rate; lower is slower. Accepted values run
+     * {@code 0.85} to {@code 1.15} in {@code 0.05} increments. A value outside that range is rejected with
+     * {@code SPEED_OUT_OF_RANGE}; a value inside it but off the increment with {@code SPEED_INCREMENT_INVALID}.
+     *
+     * <p>Manual patch (2026-08-19 regen): generator 4.18.0 retyped this from {@code Double} to the
+     * {@code SpeakV2Speed} string-literal enum, a breaking change to a parameter that shipped as numeric in
+     * 0.8.0. The spec contradicts itself here — the sibling mid-stream {@code SpeakV2Configure.speed} is still
+     * {@code Optional<Double>} — and the server parses the numeric form and range-checks it, so the closed
+     * string enum both breaks callers and cannot express a valid in-range value the enum omits. Restored to
+     * {@code Double}. Frozen in {@code .fernignore}; unfreeze once the spec types the connect
+     * {@code speed} as a number.
+     */
     @JsonProperty("speed")
     public Optional<Double> getSpeed() {
         return speed;

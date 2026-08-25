@@ -41,6 +41,8 @@ public final class ListenV1ResponseMetadata {
 
     private final Map<String, Object> modelInfo;
 
+    private final Optional<ListenV1ResponseMetadataDiarizeInfo> diarizeInfo;
+
     private final Optional<ListenV1ResponseMetadataSummaryInfo> summaryInfo;
 
     private final Optional<ListenV1ResponseMetadataSentimentInfo> sentimentInfo;
@@ -62,6 +64,7 @@ public final class ListenV1ResponseMetadata {
             int channels,
             List<String> models,
             Map<String, Object> modelInfo,
+            Optional<ListenV1ResponseMetadataDiarizeInfo> diarizeInfo,
             Optional<ListenV1ResponseMetadataSummaryInfo> summaryInfo,
             Optional<ListenV1ResponseMetadataSentimentInfo> sentimentInfo,
             Optional<ListenV1ResponseMetadataTopicsInfo> topicsInfo,
@@ -76,6 +79,7 @@ public final class ListenV1ResponseMetadata {
         this.channels = channels;
         this.models = models;
         this.modelInfo = modelInfo;
+        this.diarizeInfo = diarizeInfo;
         this.summaryInfo = summaryInfo;
         this.sentimentInfo = sentimentInfo;
         this.topicsInfo = topicsInfo;
@@ -124,6 +128,14 @@ public final class ListenV1ResponseMetadata {
         return modelInfo;
     }
 
+    /**
+     * @return The diarizer that produced the speaker labels. Present only when a diarizer ran.
+     */
+    @JsonProperty("diarize_info")
+    public Optional<ListenV1ResponseMetadataDiarizeInfo> getDiarizeInfo() {
+        return diarizeInfo;
+    }
+
     @JsonProperty("summary_info")
     public Optional<ListenV1ResponseMetadataSummaryInfo> getSummaryInfo() {
         return summaryInfo;
@@ -169,6 +181,7 @@ public final class ListenV1ResponseMetadata {
                 && channels == other.channels
                 && models.equals(other.models)
                 && modelInfo.equals(other.modelInfo)
+                && diarizeInfo.equals(other.diarizeInfo)
                 && summaryInfo.equals(other.summaryInfo)
                 && sentimentInfo.equals(other.sentimentInfo)
                 && topicsInfo.equals(other.topicsInfo)
@@ -187,6 +200,7 @@ public final class ListenV1ResponseMetadata {
                 this.channels,
                 this.models,
                 this.modelInfo,
+                this.diarizeInfo,
                 this.summaryInfo,
                 this.sentimentInfo,
                 this.topicsInfo,
@@ -248,6 +262,13 @@ public final class ListenV1ResponseMetadata {
 
         _FinalStage modelInfo(String key, Object value);
 
+        /**
+         * <p>The diarizer that produced the speaker labels. Present only when a diarizer ran.</p>
+         */
+        _FinalStage diarizeInfo(Optional<ListenV1ResponseMetadataDiarizeInfo> diarizeInfo);
+
+        _FinalStage diarizeInfo(ListenV1ResponseMetadataDiarizeInfo diarizeInfo);
+
         _FinalStage summaryInfo(Optional<ListenV1ResponseMetadataSummaryInfo> summaryInfo);
 
         _FinalStage summaryInfo(ListenV1ResponseMetadataSummaryInfo summaryInfo);
@@ -292,6 +313,8 @@ public final class ListenV1ResponseMetadata {
 
         private Optional<ListenV1ResponseMetadataSummaryInfo> summaryInfo = Optional.empty();
 
+        private Optional<ListenV1ResponseMetadataDiarizeInfo> diarizeInfo = Optional.empty();
+
         private Map<String, Object> modelInfo = new LinkedHashMap<>();
 
         private List<String> models = new ArrayList<>();
@@ -313,6 +336,7 @@ public final class ListenV1ResponseMetadata {
             channels(other.getChannels());
             models(other.getModels());
             modelInfo(other.getModelInfo());
+            diarizeInfo(other.getDiarizeInfo());
             summaryInfo(other.getSummaryInfo());
             sentimentInfo(other.getSentimentInfo());
             topicsInfo(other.getTopicsInfo());
@@ -421,6 +445,26 @@ public final class ListenV1ResponseMetadata {
             return this;
         }
 
+        /**
+         * <p>The diarizer that produced the speaker labels. Present only when a diarizer ran.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage diarizeInfo(ListenV1ResponseMetadataDiarizeInfo diarizeInfo) {
+            this.diarizeInfo = Optional.ofNullable(diarizeInfo);
+            return this;
+        }
+
+        /**
+         * <p>The diarizer that produced the speaker labels. Present only when a diarizer ran.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "diarize_info", nulls = Nulls.SKIP)
+        public _FinalStage diarizeInfo(Optional<ListenV1ResponseMetadataDiarizeInfo> diarizeInfo) {
+            this.diarizeInfo = diarizeInfo;
+            return this;
+        }
+
         @java.lang.Override
         public _FinalStage modelInfo(String key, Object value) {
             this.modelInfo.put(key, value);
@@ -493,6 +537,7 @@ public final class ListenV1ResponseMetadata {
                     channels,
                     models,
                     modelInfo,
+                    diarizeInfo,
                     summaryInfo,
                     sentimentInfo,
                     topicsInfo,
