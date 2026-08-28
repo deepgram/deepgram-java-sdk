@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.9.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.8.0...v0.9.0) (2026-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **regen:** the provider and agent-history types lost their role prefixes — `AnthropicThinkProviderModel` → `AnthropicModel`, `CartesiaSpeakProviderModelId` → `CartesiaModelId`, `CartesiaSpeakProviderVoice` → `CartesiaVoice`, `DeepgramSpeakProviderModel` → `DeepgramModel`, `GoogleThinkProviderModel` → `GoogleModel`, `GoogleThinkProviderVersion` → `GoogleVersion`, `GroqThinkProviderReasoningMode` → `GroqReasoningMode`, `AgentV1HistoryContentRole` → `ConversationHistoryMessageRole`, `AgentV1HistoryFunctionCallsFunctionCallsItem` → `FunctionCallHistoryMessageFunctionCallsItem`. The duplicate `AgentV1SettingsAgentContextContextMessagesItemContentRole` and `...FunctionCallsFunctionCallsItem` are removed in favour of the canonical types. Getter return types and builder parameters on `Anthropic`, `Cartesia`, `Deepgram`, `Google`, `Groq`, `ConversationHistoryMessage` and `FunctionCallHistoryMessage` change accordingly. All wire values are unchanged, so no request payloads change. See docs/Migrating-v0.8-to-v0.9.md.
+
+### Features
+
+* **regen:** listen v2 force-end-turn + diarize metadata; rename provider/agent-history types ([#96](https://github.com/deepgram/deepgram-java-sdk/issues/96)) ([0ccbfd3](https://github.com/deepgram/deepgram-java-sdk/commit/0ccbfd38f21d1cc7ffa530d33dbfc08c7e29596f))
+
 ## [0.8.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.7.1...v0.8.0) (2026-08-12)
 
 
