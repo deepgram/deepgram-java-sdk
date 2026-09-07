@@ -14,6 +14,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1AgentStartedSpeaking;
 import com.deepgram.resources.agent.v1.types.AgentV1AgentThinking;
 import com.deepgram.resources.agent.v1.types.AgentV1ConversationText;
 import com.deepgram.resources.agent.v1.types.AgentV1Error;
+import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallRequest;
 import com.deepgram.resources.agent.v1.types.AgentV1History;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
@@ -305,6 +306,15 @@ public class V1WebSocketClient implements AutoCloseable {
      * @return a CompletableFuture that completes when the message is sent
      */
     public CompletableFuture<Void> sendUpdatePrompt(AgentV1UpdatePrompt message) {
+        return sendMessage(message);
+    }
+
+    /**
+     * Sends an AgentV1ForceEndTurn message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendForceEndTurn(AgentV1ForceEndTurn message) {
         return sendMessage(message);
     }
 

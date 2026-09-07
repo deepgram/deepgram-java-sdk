@@ -6,7 +6,6 @@ package com.deepgram.resources.listen.v1.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
-import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -139,12 +138,8 @@ public class V1WebSocketClient implements AutoCloseable {
                     "endpointing", String.valueOf(options.getEndpointing().get()));
         }
         if (options.getExtra() != null && options.getExtra().isPresent()) {
-            // Array-valued query params (String | List<String> unions) must serialize as repeated
-            // params (extra=a&extra=b), not a stringified list. The generated streaming template
-            // uses String.valueOf(...), which mangles a List into "[a, b]"; route these through
-            // QueryStringMapper (arraysAsRepeats=true) so the wire format matches the REST path.
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "extra", options.getExtra().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "extra", String.valueOf(options.getExtra().get()));
         }
         if (options.getInterimResults() != null && options.getInterimResults().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -152,12 +147,12 @@ public class V1WebSocketClient implements AutoCloseable {
                     String.valueOf(options.getInterimResults().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "keyterm", String.valueOf(options.getKeyterm().get()));
         }
         if (options.getKeywords() != null && options.getKeywords().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "keywords", options.getKeywords().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "keywords", String.valueOf(options.getKeywords().get()));
         }
         if (options.getLanguage() != null && options.getLanguage().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -190,24 +185,23 @@ public class V1WebSocketClient implements AutoCloseable {
                     "redact", String.valueOf(options.getRedact().get()));
         }
         if (options.getReplace() != null && options.getReplace().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "replace", options.getReplace().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "replace", String.valueOf(options.getReplace().get()));
         }
         if (options.getSampleRate() != null && options.getSampleRate().isPresent()) {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
         }
         if (options.getSearch() != null && options.getSearch().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "search", options.getSearch().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "search", String.valueOf(options.getSearch().get()));
         }
         if (options.getSmartFormat() != null && options.getSmartFormat().isPresent()) {
             urlBuilder.addQueryParameter(
                     "smart_format", String.valueOf(options.getSmartFormat().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "tag", options.getTag().get().get(), true);
+            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
         }
         if (options.getUtteranceEndMs() != null && options.getUtteranceEndMs().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -221,17 +215,6 @@ public class V1WebSocketClient implements AutoCloseable {
         if (options.getVersion() != null && options.getVersion().isPresent()) {
             urlBuilder.addQueryParameter(
                     "version", String.valueOf(options.getVersion().get()));
-        }
-        // Escape hatch: emit caller-supplied additionalProperties (e.g. no_delay) as query params.
-        // The generated template only serializes the typed options and drops these otherwise.
-        // ConnectOptions is request-only (never deserialized), so this map holds only what the
-        // caller set via the builder. Routed through QueryStringMapper to match the REST path.
-        if (options.getAdditionalProperties() != null) {
-            options.getAdditionalProperties().forEach((key, value) -> {
-                if (value != null) {
-                    QueryStringMapper.addQueryParameter(urlBuilder, key, value, true);
-                }
-            });
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);

@@ -14,26 +14,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = AgentV1SettingsApplied.Builder.class)
-public final class AgentV1SettingsApplied {
+@JsonDeserialize(builder = AgentV1ForceEndTurn.Builder.class)
+public final class AgentV1ForceEndTurn {
     private final Map<String, Object> additionalProperties;
 
-    private AgentV1SettingsApplied(Map<String, Object> additionalProperties) {
+    private AgentV1ForceEndTurn(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
     }
 
     /**
-     * @return Message type identifier for settings applied confirmation
+     * @return Message type identifier for forcing the end of the current turn
      */
     @JsonProperty("type")
     public String getType() {
-        return "SettingsApplied";
+        return "ForceEndTurn";
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof AgentV1SettingsApplied;
+        return other instanceof AgentV1ForceEndTurn;
     }
 
     @JsonAnyGetter
@@ -57,12 +57,12 @@ public final class AgentV1SettingsApplied {
 
         private Builder() {}
 
-        public Builder from(AgentV1SettingsApplied other) {
+        public Builder from(AgentV1ForceEndTurn other) {
             return this;
         }
 
-        public AgentV1SettingsApplied build() {
-            return new AgentV1SettingsApplied(additionalProperties);
+        public AgentV1ForceEndTurn build() {
+            return new AgentV1ForceEndTurn(additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

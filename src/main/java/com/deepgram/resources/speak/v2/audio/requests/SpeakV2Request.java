@@ -167,7 +167,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.
      */
     @JsonIgnore
     public Optional<Double> getSpeed() {
@@ -333,7 +333,7 @@ public final class SpeakV2Request {
         _FinalStage sampleRate(Integer sampleRate);
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
          */
         _FinalStage speed(Optional<Double> speed);
 
@@ -441,7 +441,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -451,7 +451,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.85</code> to <code>1.15</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)

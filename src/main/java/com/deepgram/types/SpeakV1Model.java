@@ -70,8 +70,6 @@ public final class SpeakV1Model {
 
     public static final SpeakV1Model AURA2HECTOR_FR = new SpeakV1Model(Value.AURA2HECTOR_FR, "aura-2-hector-fr");
 
-    public static final SpeakV1Model AURA2PERSEO_IT = new SpeakV1Model(Value.AURA2PERSEO_IT, "aura-2-perseo-it");
-
     public static final SpeakV1Model AURA2ELARA_DE = new SpeakV1Model(Value.AURA2ELARA_DE, "aura-2-elara-de");
 
     public static final SpeakV1Model AURA2DAPHNE_NL = new SpeakV1Model(Value.AURA2DAPHNE_NL, "aura-2-daphne-nl");
@@ -307,8 +305,6 @@ public final class SpeakV1Model {
                 return visitor.visitAura2HestiaNl();
             case AURA2HECTOR_FR:
                 return visitor.visitAura2HectorFr();
-            case AURA2PERSEO_IT:
-                return visitor.visitAura2PerseoIt();
             case AURA2ELARA_DE:
                 return visitor.visitAura2ElaraDe();
             case AURA2DAPHNE_NL:
@@ -522,8 +518,6 @@ public final class SpeakV1Model {
                 return AURA2HESTIA_NL;
             case "aura-2-hector-fr":
                 return AURA2HECTOR_FR;
-            case "aura-2-perseo-it":
-                return AURA2PERSEO_IT;
             case "aura-2-elara-de":
                 return AURA2ELARA_DE;
             case "aura-2-daphne-nl":
@@ -866,8 +860,6 @@ public final class SpeakV1Model {
 
         AURA2MELIA_IT,
 
-        AURA2PERSEO_IT,
-
         AURA2AMA_JA,
 
         AURA2EBISU_JA,
@@ -1075,8 +1067,6 @@ public final class SpeakV1Model {
         T visitAura2MaiaIt();
 
         T visitAura2MeliaIt();
-
-        T visitAura2PerseoIt();
 
         T visitAura2AmaJa();
 

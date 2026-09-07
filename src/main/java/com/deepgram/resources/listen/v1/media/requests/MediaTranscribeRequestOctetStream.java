@@ -233,7 +233,7 @@ public final class MediaTranscribeRequestOctetStream {
     }
 
     /**
-     * @return Keywords can boost or suppress specialized terminology and brands
+     * @return Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.
      */
     @JsonProperty("keywords")
     public Optional<List<String>> getKeywords() {
@@ -658,7 +658,7 @@ public final class MediaTranscribeRequestOctetStream {
         _FinalStage keyterm(String keyterm);
 
         /**
-         * <p>Keywords can boost or suppress specialized terminology and brands</p>
+         * <p>Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.</p>
          */
         _FinalStage keywords(Optional<List<String>> keywords);
 
@@ -1660,7 +1660,7 @@ public final class MediaTranscribeRequestOctetStream {
         }
 
         /**
-         * <p>Keywords can boost or suppress specialized terminology and brands</p>
+         * <p>Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -1670,7 +1670,7 @@ public final class MediaTranscribeRequestOctetStream {
         }
 
         /**
-         * <p>Keywords can boost or suppress specialized terminology and brands</p>
+         * <p>Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "keywords", nulls = Nulls.SKIP)
