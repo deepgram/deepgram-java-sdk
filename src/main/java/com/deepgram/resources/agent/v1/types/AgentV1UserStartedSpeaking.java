@@ -36,6 +36,11 @@ public final class AgentV1UserStartedSpeaking {
         return other instanceof AgentV1UserStartedSpeaking;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

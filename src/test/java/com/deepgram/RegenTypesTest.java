@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.agent.v1.types.AgentV1AgentAudioDone;
+import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
 import com.deepgram.resources.agent.v1.types.AgentV1KeepAlive;
 import com.deepgram.resources.agent.v1.types.AgentV1ListenUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1PromptUpdated;
@@ -132,6 +133,7 @@ public class RegenTypesTest {
             assertContract(AgentV1KeepAlive.builder().build(), AgentV1KeepAlive.builder().build());
             assertContract(AgentV1ThinkUpdated.builder().build(), AgentV1ThinkUpdated.builder().build());
             assertContract(AgentV1PromptUpdated.builder().build(), AgentV1PromptUpdated.builder().build());
+            assertContract(AgentV1ForceEndTurn.builder().build(), AgentV1ForceEndTurn.builder().build());
             assertContract(ListenV2ForceEndTurn.builder().build(), ListenV2ForceEndTurn.builder().build());
         }
 
