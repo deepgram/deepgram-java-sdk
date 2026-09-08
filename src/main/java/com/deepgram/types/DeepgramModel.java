@@ -3,6 +3,8 @@
  */
 package com.deepgram.types;
 
+// Manual patch - see .fernignore.
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 

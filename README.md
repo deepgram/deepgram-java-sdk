@@ -16,7 +16,8 @@ You can learn more about the Deepgram API at [developers.deepgram.com](https://d
 
 ### Migrating Between Versions
 
-- [v0.8 to v0.9](./docs/Migrating-v0.8-to-v0.9.md) (current)
+- [v0.9 to v0.10](./docs/Migrating-v0.9-to-v0.10.md) (current)
+- [v0.8 to v0.9](./docs/Migrating-v0.8-to-v0.9.md)
 - [v0.7 to v0.8](./docs/Migrating-v0.7-to-v0.8.md)
 - [v0.6 to v0.7](./docs/Migrating-v0.6-to-v0.7.md)
 - [v0.5 to v0.6](./docs/Migrating-v0.5-to-v0.6.md)
@@ -338,7 +339,7 @@ ttsWs.close();
 
 The Speak V2 WebSocket adds Flux TTS barge-in and mid-stream controls. Open the connection with `V2ConnectOptions` (model required; `speed` and `expressivity` are optional connect params), then:
 
-- **`sendConfigure(...)`** adjusts the speech-rate multiplier mid-stream. Accepted speeds are `0.85`–`1.15` in `0.05` steps; the server replies via `onConfigureSuccess` or a typed `onConfigureFailure` (e.g. `SPEED_OUT_OF_RANGE`).
+- **`sendConfigure(...)`** adjusts the speech-rate multiplier mid-stream. The spec documents speeds from `0.5` to `1.5` in `0.05` steps. As of 2026-09-07, production accepts values outside `0.85` to `1.15` only intermittently; stay inside `0.85` to `1.15` until the wider range is announced live. The server replies via `onConfigureSuccess` or a typed `onConfigureFailure` (e.g. `SPEED_OUT_OF_RANGE`).
 - **`sendInterrupt(...)`** stops playback (barge-in). Pass a `SpeakV2InterruptPlaybackOffset` with the audio milliseconds played so the `onSpeechInterrupted` event can report `getTextSpoken()` / `getTextRemaining()`. The offset is cumulative from session start, and each interrupt must advance past the previous one.
 
 ```java

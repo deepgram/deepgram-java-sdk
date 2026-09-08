@@ -3,6 +3,8 @@
  */
 package com.deepgram.resources.listen.v2.websocket;
 
+// Manual patch - see .fernignore.
+
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
@@ -266,6 +268,8 @@ public class V2WebSocketClient implements AutoCloseable {
 
     /**
      * Sends a ListenV2ForceEndTurn message to the server asynchronously.
+     * This requires server-side enablement. On deployments without the feature, the server returns
+     * {@code UNPARSABLE_CLIENT_MESSAGE} and closes the connection.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
      */

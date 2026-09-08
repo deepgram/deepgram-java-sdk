@@ -3,6 +3,8 @@
  */
 package com.deepgram.resources.agent.v1.types;
 
+// Manual patch - see .fernignore.
+
 import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;

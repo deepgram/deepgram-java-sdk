@@ -147,8 +147,9 @@ public class StreamingTtsV2 {
             CompletableFuture<Void> connectFuture = wsClient.connect(connectOptions);
             connectFuture.get(10, TimeUnit.SECONDS);
 
-            // Adjust the speech rate mid-stream. Accepted values are 0.85–1.15 in 0.05 increments; anything
-            // else comes back as a ConfigureFailure (SPEED_OUT_OF_RANGE / SPEED_INCREMENT_INVALID).
+            // Adjust the speech rate mid-stream. The spec documents values from 0.5 to 1.5 in 0.05 increments,
+            // but production accepts values outside 0.85 to 1.15 only intermittently; stay inside that range
+            // until the wider range is announced live.
             System.out.println("Configuring speed = 1.05");
             wsClient.sendConfigure(SpeakV2Configure.builder().speed(1.05).build());
 
