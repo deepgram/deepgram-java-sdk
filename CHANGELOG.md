@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.10.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.9.0...v0.10.0) (2026-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **regen:** `SpeakV2Speed`, `SpeakV1Model.AURA2PERSEO_IT`, `AudioGenerateRequestModel.AURA2PERSEO_IT`, and the corresponding `Visitor.visitAura2PerseoIt()` methods are removed. Use numeric `V2ConnectOptions#speed` and a supported Speak V1 model. See docs/Migrating-v0.9-to-v0.10.md.
+
+### Features
+
+* **regen:** agent force-end-turn + flux expressivity; remove stale tts symbols ([#100](https://github.com/deepgram/deepgram-java-sdk/issues/100)) ([cbadf05](https://github.com/deepgram/deepgram-java-sdk/commit/cbadf05c09e012cd7fd7c1c98d8cdb877dc819b0))
+
 ## [0.9.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.8.0...v0.9.0) (2026-08-25)
 
 
