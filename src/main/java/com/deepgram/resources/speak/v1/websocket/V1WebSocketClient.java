@@ -3,6 +3,8 @@
  */
 package com.deepgram.resources.speak.v1.websocket;
 
+// Manual patch - see .fernignore.
+
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
@@ -123,10 +125,6 @@ public class V1WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "speed", String.valueOf(options.getSpeed().get()));
         }
-        // Escape hatch: emit caller-supplied additionalProperties (e.g. no_delay) as query params.
-        // The generated template only serializes the typed options and drops these otherwise.
-        // ConnectOptions is request-only (never deserialized), so this map holds only what the
-        // caller set via the builder. Routed through QueryStringMapper to match the REST path.
         if (options.getAdditionalProperties() != null) {
             options.getAdditionalProperties().forEach((key, value) -> {
                 if (value != null) {

@@ -3,6 +3,8 @@
  */
 package com.deepgram.resources.listen.v2.websocket;
 
+// Manual patch - see .fernignore.
+
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
@@ -127,10 +129,6 @@ public class V2WebSocketClient implements AutoCloseable {
                     "eot_timeout_ms", String.valueOf(options.getEotTimeoutMs().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            // Array-valued query params (String | List<String> unions) must serialize as repeated
-            // params (keyterm=a&keyterm=b), not a stringified list. The generated streaming template
-            // uses String.valueOf(...), which mangles a List into "[a, b]"; route these through
-            // QueryStringMapper (arraysAsRepeats=true) so the wire format matches the REST path.
             QueryStringMapper.addQueryParameter(
                     urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
         }
@@ -159,10 +157,6 @@ public class V2WebSocketClient implements AutoCloseable {
             QueryStringMapper.addQueryParameter(
                     urlBuilder, "tag", options.getTag().get().get(), true);
         }
-        // Escape hatch: emit caller-supplied additionalProperties (e.g. no_delay) as query params.
-        // The generated template only serializes the typed options and drops these otherwise.
-        // ConnectOptions is request-only (never deserialized), so this map holds only what the
-        // caller set via the builder. Routed through QueryStringMapper to match the REST path.
         if (options.getAdditionalProperties() != null) {
             options.getAdditionalProperties().forEach((key, value) -> {
                 if (value != null) {
@@ -274,6 +268,8 @@ public class V2WebSocketClient implements AutoCloseable {
 
     /**
      * Sends a ListenV2ForceEndTurn message to the server asynchronously.
+     * This requires server-side enablement. On deployments without the feature, the server returns
+     * {@code UNPARSABLE_CLIENT_MESSAGE} and closes the connection.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
      */
@@ -504,11 +500,8 @@ public class V2WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
-            // Unrecognized message type: forward-compatible no-op. The raw frame was
-            // already delivered to onMessage(String) above, so a newer server adding a
-            // benign control frame (e.g. a GA addition to this endpoint) must not surface
-            // as a fatal error to deployed clients. Routing it to onError would make a
-            // harmless frame look fatal; mirrors the speak v2 client and the JS/Python SDKs.
+            // The raw frame is already delivered to onMessage(String), so ignore unknown typed
+            // frames for forward compatibility with newly added server control messages.
         } catch (Exception e) {
             if (onErrorHandler != null) {
                 onErrorHandler.accept(e);

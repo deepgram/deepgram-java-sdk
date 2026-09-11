@@ -234,7 +234,7 @@ public final class ListenV1RequestUrl {
     }
 
     /**
-     * @return Keywords can boost or suppress specialized terminology and brands
+     * @return Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.
      */
     @JsonIgnore
     public Optional<List<String>> getKeywords() {
@@ -659,7 +659,7 @@ public final class ListenV1RequestUrl {
         _FinalStage keyterm(String keyterm);
 
         /**
-         * <p>Keywords can boost or suppress specialized terminology and brands</p>
+         * <p>Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.</p>
          */
         _FinalStage keywords(Optional<List<String>> keywords);
 
@@ -1661,7 +1661,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Keywords can boost or suppress specialized terminology and brands</p>
+         * <p>Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -1671,7 +1671,7 @@ public final class ListenV1RequestUrl {
         }
 
         /**
-         * <p>Keywords can boost or suppress specialized terminology and brands</p>
+         * <p>Keywords can boost or suppress specialized terminology and brands. <code>keywords</code> is not supported with Nova-3 models; use <code>keyterm</code> instead.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "keywords", nulls = Nulls.SKIP)

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.agent.v1.types.AgentV1AgentAudioDone;
+import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
 import com.deepgram.resources.agent.v1.types.AgentV1KeepAlive;
 import com.deepgram.resources.agent.v1.types.AgentV1ListenUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1PromptUpdated;
@@ -20,6 +21,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
+import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.Google;
@@ -132,6 +134,7 @@ public class RegenTypesTest {
             assertContract(AgentV1KeepAlive.builder().build(), AgentV1KeepAlive.builder().build());
             assertContract(AgentV1ThinkUpdated.builder().build(), AgentV1ThinkUpdated.builder().build());
             assertContract(AgentV1PromptUpdated.builder().build(), AgentV1PromptUpdated.builder().build());
+            assertContract(AgentV1ForceEndTurn.builder().build(), AgentV1ForceEndTurn.builder().build());
             assertContract(ListenV2ForceEndTurn.builder().build(), ListenV2ForceEndTurn.builder().build());
         }
 
@@ -158,6 +161,23 @@ public class RegenTypesTest {
 
             DeepgramListenProviderV2 parsed = MAPPER.readValue(json, DeepgramListenProviderV2.class);
             assertThat(parsed.getLanguageHints()).contains(Arrays.asList("en", "es"));
+        }
+    }
+
+    @Nested
+    @DisplayName("Deepgram agent speak provider")
+    class AgentSpeakProvider {
+
+        @Test
+        @DisplayName("expressivity serializes as an integer")
+        void expressivitySerializes() throws Exception {
+            Deepgram provider = Deepgram.builder()
+                    .model(DeepgramModel.FLUX_KELSEY_EN)
+                    .version("v2")
+                    .expressivity(1)
+                    .build();
+
+            assertThat(MAPPER.writeValueAsString(provider)).contains("\"expressivity\":1");
         }
     }
 

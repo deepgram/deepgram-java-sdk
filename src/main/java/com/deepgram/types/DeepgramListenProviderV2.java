@@ -90,7 +90,7 @@ public final class DeepgramListenProviderV2 {
     }
 
     /**
-     * @return End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.
+     * @return End-of-turn confidence required to finish a turn. Valid range: 0.5 - 1.0. Defaults to 0.7. Set to 1.0 to fully suppress natural end-of-turn detection and end turns with the ForceEndTurn message.
      */
     @JsonProperty("eot_threshold")
     public Optional<Double> getEotThreshold() {
@@ -194,7 +194,7 @@ public final class DeepgramListenProviderV2 {
         _FinalStage languageHints(List<String> languageHints);
 
         /**
-         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.</p>
+         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 1.0. Defaults to 0.7. Set to 1.0 to fully suppress natural end-of-turn detection and end turns with the ForceEndTurn message.</p>
          */
         _FinalStage eotThreshold(Optional<Double> eotThreshold);
 
@@ -327,7 +327,7 @@ public final class DeepgramListenProviderV2 {
         }
 
         /**
-         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.</p>
+         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 1.0. Defaults to 0.7. Set to 1.0 to fully suppress natural end-of-turn detection and end turns with the ForceEndTurn message.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -337,7 +337,7 @@ public final class DeepgramListenProviderV2 {
         }
 
         /**
-         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 0.9. Defaults to 0.7.</p>
+         * <p>End-of-turn confidence required to finish a turn. Valid range: 0.5 - 1.0. Defaults to 0.7. Set to 1.0 to fully suppress natural end-of-turn detection and end turns with the ForceEndTurn message.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "eot_threshold", nulls = Nulls.SKIP)

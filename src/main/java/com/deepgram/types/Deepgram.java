@@ -27,16 +27,20 @@ public final class Deepgram {
 
     private final Optional<Double> speed;
 
+    private final Optional<Integer> expressivity;
+
     private final Map<String, Object> additionalProperties;
 
     private Deepgram(
             Optional<String> version,
             DeepgramModel model,
             Optional<Double> speed,
+            Optional<Integer> expressivity,
             Map<String, Object> additionalProperties) {
         this.version = version;
         this.model = model;
         this.speed = speed;
+        this.expressivity = expressivity;
         this.additionalProperties = additionalProperties;
     }
 
@@ -62,11 +66,19 @@ public final class Deepgram {
     }
 
     /**
-     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts values from 0.5 to 1.5 in 0.05 increments; a value the family does not accept ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.
      */
     @JsonProperty("speed")
     public Optional<Double> getSpeed() {
         return speed;
+    }
+
+    /**
+     * @return Delivery register of the generated speech, on a calm-to-animated axis. Flux TTS (version v2) only, on every Flux voice. Accepts the whole numbers -2 to 2, where 0 (the default) is the voice's tuned delivery and the only value validated for production, -2 the calm end of the range and 2 the animated end. Fixed for the session. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors. See <a href="/docs/tts-expressivity">Expressivity</a>.
+     */
+    @JsonProperty("expressivity")
+    public Optional<Integer> getExpressivity() {
+        return expressivity;
     }
 
     @java.lang.Override
@@ -81,12 +93,15 @@ public final class Deepgram {
     }
 
     private boolean equalTo(Deepgram other) {
-        return version.equals(other.version) && model.equals(other.model) && speed.equals(other.speed);
+        return version.equals(other.version)
+                && model.equals(other.model)
+                && speed.equals(other.speed)
+                && expressivity.equals(other.expressivity);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model, this.speed);
+        return Objects.hash(this.version, this.model, this.speed, this.expressivity);
     }
 
     @java.lang.Override
@@ -122,16 +137,25 @@ public final class Deepgram {
         _FinalStage version(String version);
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts values from 0.5 to 1.5 in 0.05 increments; a value the family does not accept ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
          */
         _FinalStage speed(Optional<Double> speed);
 
         _FinalStage speed(Double speed);
+
+        /**
+         * <p>Delivery register of the generated speech, on a calm-to-animated axis. Flux TTS (version v2) only, on every Flux voice. Accepts the whole numbers -2 to 2, where 0 (the default) is the voice's tuned delivery and the only value validated for production, -2 the calm end of the range and 2 the animated end. Fixed for the session. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors. See <a href="/docs/tts-expressivity">Expressivity</a>.</p>
+         */
+        _FinalStage expressivity(Optional<Integer> expressivity);
+
+        _FinalStage expressivity(Integer expressivity);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ModelStage, _FinalStage {
         private DeepgramModel model;
+
+        private Optional<Integer> expressivity = Optional.empty();
 
         private Optional<Double> speed = Optional.empty();
 
@@ -147,6 +171,7 @@ public final class Deepgram {
             version(other.getVersion());
             model(other.getModel());
             speed(other.getSpeed());
+            expressivity(other.getExpressivity());
             return this;
         }
 
@@ -162,7 +187,27 @@ public final class Deepgram {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
+         * <p>Delivery register of the generated speech, on a calm-to-animated axis. Flux TTS (version v2) only, on every Flux voice. Accepts the whole numbers -2 to 2, where 0 (the default) is the voice's tuned delivery and the only value validated for production, -2 the calm end of the range and 2 the animated end. Fixed for the session. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors. See <a href="/docs/tts-expressivity">Expressivity</a>.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage expressivity(Integer expressivity) {
+            this.expressivity = Optional.ofNullable(expressivity);
+            return this;
+        }
+
+        /**
+         * <p>Delivery register of the generated speech, on a calm-to-animated axis. Flux TTS (version v2) only, on every Flux voice. Accepts the whole numbers -2 to 2, where 0 (the default) is the voice's tuned delivery and the only value validated for production, -2 the calm end of the range and 2 the animated end. Fixed for the session. Beta: behavior may change in future model versions, and non-default values increase the risk of hallucinations and pronunciation errors. See <a href="/docs/tts-expressivity">Expressivity</a>.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "expressivity", nulls = Nulls.SKIP)
+        public _FinalStage expressivity(Optional<Integer> expressivity) {
+            this.expressivity = expressivity;
+            return this;
+        }
+
+        /**
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts values from 0.5 to 1.5 in 0.05 increments; a value the family does not accept ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -172,7 +217,7 @@ public final class Deepgram {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts only 0.85, 0.9, 0.95, 1.0, 1.05, 1.1 and 1.15; another value ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Aura (version v1) accepts any value from 0.7 to 1.5. Flux TTS (version v2) accepts values from 0.5 to 1.5 in 0.05 increments; a value the family does not accept ends the session with FAILED_TO_SPEAK. Not yet supported in all languages.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)
@@ -203,7 +248,7 @@ public final class Deepgram {
 
         @java.lang.Override
         public Deepgram build() {
-            return new Deepgram(version, model, speed, additionalProperties);
+            return new Deepgram(version, model, speed, expressivity, additionalProperties);
         }
 
         @java.lang.Override
