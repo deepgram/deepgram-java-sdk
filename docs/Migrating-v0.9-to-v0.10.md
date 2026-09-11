@@ -1,10 +1,28 @@
 # v0.9 to v0.10 Migration Guide
 
-This guide covers the breaking source changes in Deepgram Java SDK `0.10.0`. The release removes two stale TTS symbols that were never served by the API: requests using `aura-2-perseo-it` return HTTP 400, and the model was removed from the API specification.
+This guide covers the breaking source changes in Deepgram Java SDK `0.10.0`. The release removes two stale TTS symbols: the `SpeakV2Speed` type wrapper (speed is a plain number) and the `AURA2PERSEO_IT` voice, which the API never served (requests return HTTP 400) and which was removed from the API specification.
 
 ## Update the dependency
 
 Upgrade to `0.10.0` with Gradle or Maven.
+
+**Gradle**
+
+```groovy
+dependencies {
+    implementation 'com.deepgram:deepgram-java-sdk:0.10.0'
+}
+```
+
+**Maven**
+
+```xml
+<dependency>
+    <groupId>com.deepgram</groupId>
+    <artifactId>deepgram-java-sdk</artifactId>
+    <version>0.10.0</version>
+</dependency>
+```
 
 ## Speak V2 speed
 
@@ -17,7 +35,7 @@ V2ConnectOptions options = V2ConnectOptions.builder()
     .build();
 ```
 
-The spec documents speeds from `0.5` to `1.5` in `0.05` increments. As of 2026-09-07, production accepts values outside `0.85` to `1.15` only intermittently; stay inside `0.85` to `1.15` until the wider range is announced live.
+Speeds range from `0.5` to `1.5` in `0.05` increments.
 
 ## Removed Aura 2 Perseo model
 
@@ -26,6 +44,8 @@ The spec documents speeds from `0.5` to `1.5` in `0.05` increments. As of 2026-0
 ```java
 SpeakV1Model model = SpeakV1Model.AURA2LIVIA_IT;
 ```
+
+`SpeakV1Model.valueOf("aura-2-perseo-it")` still compiles and sends the string, but the API returns HTTP 400.
 
 The corresponding `Visitor.visitAura2PerseoIt()` method is also removed from both model visitors. Remove that override and handle a supported model instead.
 

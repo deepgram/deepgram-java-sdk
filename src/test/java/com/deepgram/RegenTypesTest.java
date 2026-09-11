@@ -21,6 +21,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
+import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.Google;
@@ -160,6 +161,23 @@ public class RegenTypesTest {
 
             DeepgramListenProviderV2 parsed = MAPPER.readValue(json, DeepgramListenProviderV2.class);
             assertThat(parsed.getLanguageHints()).contains(Arrays.asList("en", "es"));
+        }
+    }
+
+    @Nested
+    @DisplayName("Deepgram agent speak provider")
+    class AgentSpeakProvider {
+
+        @Test
+        @DisplayName("expressivity serializes as an integer")
+        void expressivitySerializes() throws Exception {
+            Deepgram provider = Deepgram.builder()
+                    .model(DeepgramModel.FLUX_KELSEY_EN)
+                    .version("v2")
+                    .expressivity(1)
+                    .build();
+
+            assertThat(MAPPER.writeValueAsString(provider)).contains("\"expressivity\":1");
         }
     }
 
