@@ -354,14 +354,17 @@ The Speak V2 WebSocket adds Flux TTS barge-in and mid-stream controls. Open the 
 - **`sendInterrupt(...)`** stops playback (barge-in). Pass a `SpeakV2InterruptPlaybackOffset` with the audio milliseconds played so the `onSpeechInterrupted` event can report `getTextSpoken()` / `getTextRemaining()`. The offset is cumulative from session start, and each interrupt must advance past the previous one.
 
 ```java
+import com.deepgram.DeepgramClient;
 import com.deepgram.resources.speak.v2.types.SpeakV2Configure;
 import com.deepgram.resources.speak.v2.types.SpeakV2Interrupt;
 import com.deepgram.resources.speak.v2.types.SpeakV2InterruptPlaybackOffset;
 import com.deepgram.resources.speak.v2.types.SpeakV2Speak;
 import com.deepgram.resources.speak.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
+import java.util.concurrent.TimeUnit;
 
-V2WebSocketClient ttsWs = client.speak().v2().v2WebSocket();
+try (DeepgramClient client = DeepgramClient.builder().build();
+        V2WebSocketClient ttsWs = client.speak().v2().v2WebSocket()) {
 
 // Mid-stream configure acknowledgements
 ttsWs.onConfigureSuccess(success -> System.out.println("configured: " + success.getApplied()));
@@ -384,7 +387,7 @@ ttsWs.sendInterrupt(SpeakV2Interrupt.builder()
     .playbackOffset(SpeakV2InterruptPlaybackOffset.builder().value(1200).build())
     .build());
 
-ttsWs.close();
+}
 ```
 
 See [`examples/speak/StreamingTtsV2.java`](examples/speak/StreamingTtsV2.java) for a complete, runnable barge-in example.
@@ -475,6 +478,7 @@ import com.deepgram.DeepgramClient;
 import com.deepgram.sagemaker.SageMakerConfig;
 import com.deepgram.sagemaker.SageMakerTransportFactory;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.ListenV1Model;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -490,17 +494,21 @@ var factory = new SageMakerTransportFactory(
         .build()
 );
 
-DeepgramClient client = DeepgramClient.builder()
-    .apiKey("unused")  // SageMaker uses AWS credentials, not Deepgram API keys
-    .transportFactory(factory)
-    .build();
-
-// Use the SDK exactly as normal — the transport is transparent
-var ws = client.listen().v1().v1WebSocket();
-ws.onResults(results -> { /* ... */ });
-ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
-    .get(10, TimeUnit.SECONDS);
-ws.sendMedia(ByteString.of(audioBytes));
+try {
+    try (DeepgramClient client = DeepgramClient.builder()
+            .apiKey("unused")  // SageMaker uses AWS credentials, not Deepgram API keys
+            .transportFactory(factory)
+            .build();
+            V1WebSocketClient ws = client.listen().v1().v1WebSocket()) {
+        // Use the SDK exactly as normal — the transport is transparent
+        ws.onResults(results -> { /* ... */ });
+        ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
+            .get(10, TimeUnit.SECONDS);
+        ws.sendMedia(ByteString.of(audioBytes));
+    }
+} finally {
+    factory.shutdown();
+}
 ```
 
 See the [SageMaker example](examples/sagemaker/LiveStreamingSageMaker.java) for a complete walkthrough.

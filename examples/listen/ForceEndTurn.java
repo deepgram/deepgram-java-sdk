@@ -147,9 +147,12 @@ public class ForceEndTurn {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            wsClient.disconnect();
+            try {
+                wsClient.disconnect();
+            } finally {
+                client.close();
+            }
         }
-        client.close();
     }
 
     private static byte[] download(String url) throws Exception {

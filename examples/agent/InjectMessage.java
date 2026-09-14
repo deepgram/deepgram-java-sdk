@@ -132,9 +132,12 @@ public class InjectMessage {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            wsClient.disconnect();
+            try {
+                wsClient.disconnect();
+            } finally {
+                client.close();
+            }
         }
-        client.close();
     }
 
     /** Inject user and agent messages into the conversation. */

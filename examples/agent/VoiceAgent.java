@@ -151,9 +151,12 @@ public class VoiceAgent {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            wsClient.disconnect();
+            try {
+                wsClient.disconnect();
+            } finally {
+                client.close();
+            }
         }
-        client.close();
     }
 
     /**
