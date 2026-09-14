@@ -198,6 +198,19 @@ class ReconnectingWebSocketListenerTest {
             assertThat(connectionThread.isAlive()).isFalse();
             assertThat(listener.failures).hasValue(1);
         }
+
+        @Test
+        @DisplayName("does not retain a socket that opens after disconnect")
+        void doesNotRetainSocketOpenedAfterDisconnect() throws Exception {
+            TestListener listener = new TestListener(ReconnectOptions.builder().build(), new CountingSupplier(false));
+            FakeWebSocket socket = new FakeWebSocket();
+
+            listener.disconnect();
+            listener.onOpen(socket, null);
+
+            assertThat(socket.closed.await(1, TimeUnit.SECONDS)).isTrue();
+            assertThat(listener.getWebSocket()).isNull();
+        }
     }
 
     @Nested

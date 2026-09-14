@@ -43,6 +43,8 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
     private final AtomicBoolean shouldReconnect = new AtomicBoolean(true);
 
+    private final Object socketLock = new Object();
+
     private volatile CompletableFuture<? extends WebSocket> pendingConnection;
 
     private volatile AtomicBoolean pendingConnectionCancelled;
@@ -143,20 +145,28 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 }
                 return socket;
             });
-            pendingConnection = connectionFuture;
-            pendingConnectionCancelled = connectionCancelled;
+            synchronized (socketLock) {
+                pendingConnection = connectionFuture;
+                pendingConnectionCancelled = connectionCancelled;
+            }
             try {
                 WebSocket socket = connectionFuture.get(opts.connectionTimeoutMs, MILLISECONDS);
                 if (socket == null) {
                     onWebSocketFailure(null, new CancellationException("WebSocket connection was cancelled"), null);
                     return;
                 }
-                if (!shouldReconnect.get()) {
+                boolean disconnected;
+                synchronized (socketLock) {
+                    disconnected = !shouldReconnect.get();
+                    if (!disconnected) {
+                        webSocket = socket;
+                    }
+                }
+                if (disconnected) {
                     socket.close(1000, "Client disconnecting");
                     onWebSocketFailure(null, new CancellationException("WebSocket connection was cancelled"), null);
                     return;
                 }
-                webSocket = socket;
             } catch (TimeoutException e) {
                 connectionCancelled.set(true);
                 connectionFuture.cancel(true);
@@ -196,9 +206,11 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 onWebSocketFailure(null, e, null);
             }
         } finally {
-            if (pendingConnection == connectionFuture) {
-                pendingConnection = null;
-                pendingConnectionCancelled = null;
+            synchronized (socketLock) {
+                if (pendingConnection == connectionFuture) {
+                    pendingConnection = null;
+                    pendingConnectionCancelled = null;
+                }
             }
             connectLock.set(false);
         }
@@ -215,19 +227,26 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * - Waits up to 5 seconds for executor termination
      */
     public void disconnect() {
-        shouldReconnect.set(false);
-        AtomicBoolean connectionCancelled = pendingConnectionCancelled;
+        AtomicBoolean connectionCancelled;
+        CompletableFuture<? extends WebSocket> connection;
+        WebSocket socket;
+        synchronized (socketLock) {
+            shouldReconnect.set(false);
+            connectionCancelled = pendingConnectionCancelled;
+            connection = pendingConnection;
+            socket = webSocket;
+            webSocket = null;
+        }
         if (connectionCancelled != null) {
             connectionCancelled.set(true);
         }
-        CompletableFuture<? extends WebSocket> connection = pendingConnection;
         if (connection != null) {
             connection.cancel(true);
         }
         messageQueue.clear();
         binaryMessageQueue.clear();
-        if (webSocket != null) {
-            webSocket.close(1000, "Client disconnecting");
+        if (socket != null) {
+            socket.close(1000, "Client disconnecting");
         }
         reconnectExecutor.shutdown();
         try {
@@ -316,7 +335,17 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
-        this.webSocket = webSocket;
+        boolean disconnected;
+        synchronized (socketLock) {
+            disconnected = !shouldReconnect.get();
+            if (!disconnected) {
+                this.webSocket = webSocket;
+            }
+        }
+        if (disconnected) {
+            webSocket.close(1000, "Client disconnecting");
+            return;
+        }
         connectionEstablishedTime = System.currentTimeMillis();
         retryCount.set(0);
         flushMessageQueue();
@@ -338,7 +367,11 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-        this.webSocket = null;
+        synchronized (socketLock) {
+            if (this.webSocket == webSocket) {
+                this.webSocket = null;
+            }
+        }
         long uptime = 0L;
         if (connectionEstablishedTime > 0) {
             uptime = System.currentTimeMillis() - connectionEstablishedTime;
@@ -371,7 +404,11 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     @Override
     public void onClosed(WebSocket webSocket, int code, String reason) {
-        this.webSocket = null;
+        synchronized (socketLock) {
+            if (this.webSocket == webSocket) {
+                this.webSocket = null;
+            }
+        }
         if (connectionEstablishedTime > 0) {
             long uptime = System.currentTimeMillis() - connectionEstablishedTime;
             if (uptime >= 5000) {
