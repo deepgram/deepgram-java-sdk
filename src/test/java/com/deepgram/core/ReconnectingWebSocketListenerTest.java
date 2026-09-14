@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.deepgram.core.ReconnectingWebSocketListener.ReconnectOptions;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import okhttp3.Response;
@@ -39,6 +41,8 @@ class ReconnectingWebSocketListenerTest {
     }
 
     private static final class FakeWebSocket implements WebSocket {
+        final CountDownLatch closed = new CountDownLatch(1);
+
         @Override
         public okhttp3.Request request() {
             return new okhttp3.Request.Builder().url("ws://localhost/").build();
@@ -61,11 +65,36 @@ class ReconnectingWebSocketListenerTest {
 
         @Override
         public boolean close(int code, String reason) {
+            closed.countDown();
             return true;
         }
 
         @Override
         public void cancel() {}
+    }
+
+    private static final class BlockingSupplier implements Supplier<WebSocket> {
+        final CountDownLatch started = new CountDownLatch(1);
+        final CountDownLatch release = new CountDownLatch(1);
+        final FakeWebSocket socket = new FakeWebSocket();
+
+        @Override
+        public WebSocket get() {
+            started.countDown();
+            boolean interrupted = false;
+            while (true) {
+                try {
+                    release.await();
+                    break;
+                } catch (InterruptedException e) {
+                    interrupted = true;
+                }
+            }
+            if (interrupted) {
+                Thread.currentThread().interrupt();
+            }
+            return socket;
+        }
     }
 
     /** Concrete listener that records callback invocations for assertions. */
@@ -146,6 +175,28 @@ class ReconnectingWebSocketListenerTest {
             assertThat(supplier.calls.get())
                     .as("initial connect attempt must run even with maxRetries(0)")
                     .isEqualTo(1);
+        }
+    }
+
+    @Nested
+    @DisplayName("connection cancellation")
+    class ConnectionCancellationTests {
+        @Test
+        @DisplayName("closes a socket returned after disconnect")
+        void closesSocketReturnedAfterDisconnect() throws Exception {
+            BlockingSupplier supplier = new BlockingSupplier();
+            TestListener listener = new TestListener(ReconnectOptions.builder().build(), supplier);
+            Thread connectionThread = new Thread(listener::connect);
+            connectionThread.start();
+
+            assertThat(supplier.started.await(1, TimeUnit.SECONDS)).isTrue();
+            listener.disconnect();
+            supplier.release.countDown();
+
+            assertThat(supplier.socket.closed.await(1, TimeUnit.SECONDS)).isTrue();
+            connectionThread.join(1_000);
+            assertThat(connectionThread.isAlive()).isFalse();
+            assertThat(listener.failures).hasValue(1);
         }
     }
 

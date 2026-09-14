@@ -20,8 +20,8 @@ src/main/java/com/deepgram/core/ClientOptions.java
 src/main/java/com/deepgram/core/transport/
 
 # Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
-# configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
-# Pull this back out once the fixes are upstreamed into the Fern generator.
+# configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms), and cancellation
+# of in-flight connection attempts. Pull this back out once the fixes are upstreamed into Fern.
 src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 
 # Forward-compat patch: Fern's generated dispatcher routes any unrecognized message

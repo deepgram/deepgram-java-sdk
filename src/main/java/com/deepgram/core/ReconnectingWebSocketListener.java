@@ -6,6 +6,7 @@ package com.deepgram.core;
 import static java.util.concurrent.TimeUnit.*;
 
 import java.util.ArrayList;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
@@ -41,6 +42,10 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
     private final AtomicBoolean connectLock = new AtomicBoolean(false);
 
     private final AtomicBoolean shouldReconnect = new AtomicBoolean(true);
+
+    private volatile CompletableFuture<? extends WebSocket> pendingConnection;
+
+    private volatile AtomicBoolean pendingConnectionCancelled;
 
     protected volatile WebSocket webSocket;
 
@@ -108,6 +113,11 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         if (!connectLock.compareAndSet(false, true)) {
             return;
         }
+        if (!shouldReconnect.get()) {
+            onWebSocketFailure(null, new CancellationException("WebSocket connection was cancelled"), null);
+            connectLock.set(false);
+            return;
+        }
         // Snapshot the overridable options once so the gate and timeout below use a consistent set.
         ReconnectOptions opts = this.activeOptions;
         // retryCount is incremented inside scheduleReconnect() before re-entering connect(),
@@ -117,11 +127,38 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
             connectLock.set(false);
             return;
         }
+        CompletableFuture<? extends WebSocket> connectionFuture = null;
         try {
-            CompletableFuture<? extends WebSocket> connectionFuture = CompletableFuture.supplyAsync(connectionSupplier);
+            AtomicBoolean connectionCancelled = new AtomicBoolean(false);
+            connectionFuture = CompletableFuture.supplyAsync(() -> {
+                if (!shouldReconnect.get() || connectionCancelled.get()) {
+                    return null;
+                }
+                WebSocket socket = connectionSupplier.get();
+                if (!shouldReconnect.get() || connectionCancelled.get()) {
+                    if (socket != null) {
+                        socket.close(1000, "Client disconnecting");
+                    }
+                    return null;
+                }
+                return socket;
+            });
+            pendingConnection = connectionFuture;
+            pendingConnectionCancelled = connectionCancelled;
             try {
-                webSocket = connectionFuture.get(opts.connectionTimeoutMs, MILLISECONDS);
+                WebSocket socket = connectionFuture.get(opts.connectionTimeoutMs, MILLISECONDS);
+                if (socket == null) {
+                    onWebSocketFailure(null, new CancellationException("WebSocket connection was cancelled"), null);
+                    return;
+                }
+                if (!shouldReconnect.get()) {
+                    socket.close(1000, "Client disconnecting");
+                    onWebSocketFailure(null, new CancellationException("WebSocket connection was cancelled"), null);
+                    return;
+                }
+                webSocket = socket;
             } catch (TimeoutException e) {
+                connectionCancelled.set(true);
                 connectionFuture.cancel(true);
                 TimeoutException timeoutError =
                         new TimeoutException("WebSocket connection timeout after " + opts.connectionTimeoutMs
@@ -134,6 +171,7 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                     scheduleReconnect();
                 }
             } catch (InterruptedException e) {
+                connectionCancelled.set(true);
                 connectionFuture.cancel(true);
                 Thread.currentThread().interrupt();
                 InterruptedException interruptError = new InterruptedException("WebSocket connection interrupted"
@@ -154,8 +192,14 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 if (shouldReconnect.get()) {
                     scheduleReconnect();
                 }
+            } catch (CancellationException e) {
+                onWebSocketFailure(null, e, null);
             }
         } finally {
+            if (pendingConnection == connectionFuture) {
+                pendingConnection = null;
+                pendingConnectionCancelled = null;
+            }
             connectLock.set(false);
         }
     }
@@ -172,6 +216,14 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     public void disconnect() {
         shouldReconnect.set(false);
+        AtomicBoolean connectionCancelled = pendingConnectionCancelled;
+        if (connectionCancelled != null) {
+            connectionCancelled.set(true);
+        }
+        CompletableFuture<? extends WebSocket> connection = pendingConnection;
+        if (connection != null) {
+            connection.cancel(true);
+        }
         messageQueue.clear();
         binaryMessageQueue.clear();
         if (webSocket != null) {

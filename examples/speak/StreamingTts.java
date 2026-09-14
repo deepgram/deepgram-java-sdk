@@ -45,8 +45,7 @@ public class StreamingTts {
         CountDownLatch closeLatch = new CountDownLatch(1);
         AtomicInteger audioChunks = new AtomicInteger(0);
 
-        try {
-            OutputStream audioOutput = new FileOutputStream(outputFile);
+        try (OutputStream audioOutput = new FileOutputStream(outputFile)) {
             final String outputPath = outputFile;
 
             // Register event handlers before connecting
@@ -83,11 +82,6 @@ public class StreamingTts {
             });
 
             wsClient.onDisconnected(reason -> {
-                try {
-                    audioOutput.close();
-                } catch (Exception e) {
-                    // ignore
-                }
                 System.out.println(
                         "\nConnection closed (code: " + reason.getCode() + ", reason: " + reason.getReason() + ")");
                 closeLatch.countDown();
