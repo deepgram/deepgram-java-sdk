@@ -32,8 +32,8 @@ src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 # after regen. Unfreeze once the generator stops treating unknown frames as errors.
 # NOTE: the listen v2 and speak v2 clients below also carry the streaming query-param patches
 # (multi-value serialization + the additionalProperties escape hatch) documented lower down.
-# Listen v2 additionally treats a no-status close as terminal only after CloseStream. Keep them
-# frozen until those fixes are upstreamed too.
+# Listen v2 additionally treats a no-status close as terminal only when the closing socket accepted
+# CloseStream. Keep them frozen until those fixes are upstreamed too.
 src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 
