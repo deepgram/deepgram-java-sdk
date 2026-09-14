@@ -255,10 +255,9 @@ import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import okio.ByteString;
 
-try (DeepgramClient client = DeepgramClient.builder().build()) {
+try (DeepgramClient client = DeepgramClient.builder().build();
+        V1WebSocketClient ws = client.listen().v1().v1WebSocket()) {
 byte[] audioBytes = Files.readAllBytes(Path.of("audio.wav"));
-
-V1WebSocketClient ws = client.listen().v1().v1WebSocket();
 
 // Register event handlers
 ws.onResults(results -> {
@@ -288,8 +287,6 @@ ws.sendCloseStream(ListenV1CloseStream.builder()
     .build())
     .get(5, TimeUnit.SECONDS);
 
-// Close when done
-ws.close();
 }
 ```
 
@@ -310,10 +307,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
-try (DeepgramClient client = DeepgramClient.builder().build()) {
+try (DeepgramClient client = DeepgramClient.builder().build();
+        V1WebSocketClient ttsWs = client.speak().v1().v1WebSocket()) {
 ByteArrayOutputStream audioBuffer = new ByteArrayOutputStream();
-
-V1WebSocketClient ttsWs = client.speak().v1().v1WebSocket();
 
 // Register event handlers
 ttsWs.onSpeakV1Audio(audioData -> {
@@ -347,8 +343,6 @@ ttsWs.sendClose(SpeakV1Close.builder()
     .build())
     .get(5, TimeUnit.SECONDS);
 
-// Close when done
-ttsWs.close();
 }
 ```
 
@@ -414,9 +408,8 @@ import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1Provider;
 import java.util.concurrent.TimeUnit;
 
-try (DeepgramClient client = DeepgramClient.builder().build()) {
-
-V1WebSocketClient agentWs = client.agent().v1().v1WebSocket();
+try (DeepgramClient client = DeepgramClient.builder().build();
+        V1WebSocketClient agentWs = client.agent().v1().v1WebSocket()) {
 
 // Register event handlers
 agentWs.onWelcome(welcome -> {
@@ -457,8 +450,6 @@ agentWs.onError(error -> {
 agentWs.connect().get(10, TimeUnit.SECONDS);
 Thread.sleep(5000);
 
-// Close when done
-agentWs.close();
 }
 ```
 
