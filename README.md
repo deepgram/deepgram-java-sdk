@@ -106,6 +106,9 @@ try (DeepgramClient client = DeepgramClient.builder().build()) {
 If you provide an `OkHttpClient` through `.httpClient(...)`, you retain ownership and must close its
 resources yourself.
 
+WebSocket clients are terminal after `close()` or `disconnect()`. Create a new WebSocket client to
+connect again.
+
 ## Features
 
 ### Speech-to-Text (Listen)

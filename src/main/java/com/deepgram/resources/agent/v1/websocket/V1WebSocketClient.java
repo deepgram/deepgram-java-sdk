@@ -41,6 +41,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -61,6 +62,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private final OkHttpClient okHttpClient;
 
     private ScheduledExecutorService timeoutExecutor;
+
+    private final AtomicBoolean disconnected = new AtomicBoolean(false);
 
     private volatile WebSocketReadyState readyState = WebSocketReadyState.CLOSED;
 
@@ -130,6 +133,9 @@ public class V1WebSocketClient implements AutoCloseable {
      * @return a CompletableFuture that completes when the connection is established
      */
     public CompletableFuture<Void> connect() {
+        if (disconnected.get()) {
+            return disconnectedFuture();
+        }
         connectionFuture = new CompletableFuture<>();
         String baseUrl = clientOptions.environment().getAgentURL();
         String fullPath = "/v1/agent/converse";
@@ -202,6 +208,11 @@ public class V1WebSocketClient implements AutoCloseable {
                         }
                     }
                 };
+        if (disconnected.get()) {
+            reconnectingListener.disconnect();
+            connectionFuture.completeExceptionally(new IllegalStateException("WebSocket client has been disconnected"));
+            return connectionFuture;
+        }
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -210,6 +221,7 @@ public class V1WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
+        disconnected.set(true);
         if (reconnectingListener != null) {
             reconnectingListener.disconnect();
         }
@@ -217,6 +229,12 @@ public class V1WebSocketClient implements AutoCloseable {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
         }
+    }
+
+    private CompletableFuture<Void> disconnectedFuture() {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        future.completeExceptionally(new IllegalStateException("WebSocket client has been disconnected"));
+        return future;
     }
 
     /**

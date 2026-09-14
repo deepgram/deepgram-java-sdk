@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -51,6 +52,8 @@ public class V2WebSocketClient implements AutoCloseable {
     private final OkHttpClient okHttpClient;
 
     private ScheduledExecutorService timeoutExecutor;
+
+    private final AtomicBoolean disconnected = new AtomicBoolean(false);
 
     private volatile WebSocketReadyState readyState = WebSocketReadyState.CLOSED;
 
@@ -105,6 +108,9 @@ public class V2WebSocketClient implements AutoCloseable {
      * @param options connection options including query parameters
      */
     public CompletableFuture<Void> connect(V2ConnectOptions options) {
+        if (disconnected.get()) {
+            return disconnectedFuture();
+        }
         connectionFuture = new CompletableFuture<>();
         String baseUrl = clientOptions.environment().getProductionURL();
         String fullPath = "/v2/speak";
@@ -209,6 +215,11 @@ public class V2WebSocketClient implements AutoCloseable {
                         }
                     }
                 };
+        if (disconnected.get()) {
+            reconnectingListener.disconnect();
+            connectionFuture.completeExceptionally(new IllegalStateException("WebSocket client has been disconnected"));
+            return connectionFuture;
+        }
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -217,6 +228,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
+        disconnected.set(true);
         if (reconnectingListener != null) {
             reconnectingListener.disconnect();
         }
@@ -224,6 +236,12 @@ public class V2WebSocketClient implements AutoCloseable {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
         }
+    }
+
+    private CompletableFuture<Void> disconnectedFuture() {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        future.completeExceptionally(new IllegalStateException("WebSocket client has been disconnected"));
+        return future;
     }
 
     /**

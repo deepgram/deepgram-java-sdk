@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.deepgram.core.Environment;
+import java.util.concurrent.CompletableFuture;
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -240,6 +241,51 @@ class ClientBuilderTest {
                 client.close();
             }
         }
+
+        @Test
+        @DisplayName("disconnect prevents a WebSocket from connecting later")
+        void disconnectPreventsLaterConnections() {
+            DeepgramClient client = DeepgramClient.builder().apiKey("test-key").build();
+
+            try {
+                var listenV1 = client.listen().v1().v1WebSocket();
+                listenV1.disconnect();
+                assertConnectionRejected(
+                        listenV1.connect(com.deepgram.resources.listen.v1.websocket.V1ConnectOptions.builder()
+                                .model(com.deepgram.types.ListenV1Model.NOVA3)
+                                .build()));
+
+                var listenV2 = client.listen().v2().v2WebSocket();
+                listenV2.disconnect();
+                assertConnectionRejected(
+                        listenV2.connect(com.deepgram.resources.listen.v2.websocket.V2ConnectOptions.builder()
+                                .model(com.deepgram.types.ListenV2Model.FLUX_GENERAL_EN)
+                                .build()));
+
+                var speakV1 = client.speak().v1().v1WebSocket();
+                speakV1.disconnect();
+                assertConnectionRejected(speakV1.connect());
+
+                var speakV2 = client.speak().v2().v2WebSocket();
+                speakV2.disconnect();
+                assertConnectionRejected(
+                        speakV2.connect(com.deepgram.resources.speak.v2.websocket.V2ConnectOptions.builder()
+                                .model("flux-alexis-en")
+                                .build()));
+
+                var agentV1 = client.agent().v1().v1WebSocket();
+                agentV1.disconnect();
+                assertConnectionRejected(agentV1.connect());
+            } finally {
+                client.close();
+            }
+        }
+    }
+
+    private static void assertConnectionRejected(CompletableFuture<Void> connection) {
+        assertThatThrownBy(connection::join)
+                .isInstanceOf(java.util.concurrent.CompletionException.class)
+                .hasCauseInstanceOf(IllegalStateException.class);
     }
 
     @Nested
