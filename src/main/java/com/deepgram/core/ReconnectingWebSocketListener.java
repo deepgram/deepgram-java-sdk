@@ -14,6 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -202,9 +203,20 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * @return true if sent immediately, false if queued or dropped
      */
     public synchronized boolean send(String message) {
+        return send(message, null);
+    }
+
+    /**
+     * Sends a message and exposes the accepting socket to the caller. The callback is invoked
+     * only when the message was sent directly rather than queued or dropped.
+     */
+    public synchronized boolean send(String message, Consumer<WebSocket> onSent) {
         WebSocket ws = webSocket;
         if (ws != null) {
             boolean sent = ws.send(message);
+            if (sent && onSent != null) {
+                onSent.accept(ws);
+            }
             if (!sent && messageQueue.size() < maxEnqueuedMessages) {
                 messageQueue.offer(message);
                 return false;
@@ -282,6 +294,17 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
     }
 
     /**
+     * Acknowledge a peer-initiated close so OkHttp can complete the close handshake and invoke
+     * {@link #onClosed(WebSocket, int, String)}.
+     */
+    @Override
+    public void onClosing(WebSocket webSocket, int code, String reason) {
+        // 1005 is a local no-status sentinel, not a valid close frame code. Acknowledge it with
+        // the normal closure code so OkHttp can finish the handshake instead of throwing.
+        webSocket.close(code == 1005 ? 1000 : code, reason);
+    }
+
+    /**
      * @hidden
      */
     @Override
@@ -328,9 +351,17 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         }
         connectionEstablishedTime = 0L;
         onWebSocketClosed(webSocket, code, reason);
-        if (code != 1000 && shouldReconnect.get()) {
+        if (shouldReconnect.get() && shouldReconnectAfterClose(webSocket, code)) {
             scheduleReconnect();
         }
+    }
+
+    /**
+     * Returns whether a close status should reconnect. Resource-specific listeners can override
+     * this when a protocol operation establishes that a particular close is terminal.
+     */
+    protected boolean shouldReconnectAfterClose(WebSocket webSocket, int code) {
+        return code != 1000;
     }
 
     /**

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -61,6 +62,9 @@ public class V2WebSocketClient implements AutoCloseable {
 
     private ReconnectingWebSocketListener reconnectingListener;
 
+    // A no-status close is terminal only after this socket accepted the Flux CloseStream frame.
+    private final AtomicReference<WebSocket> closeStreamSocket = new AtomicReference<>();
+
     private volatile Consumer<ListenV2Connected> connectedHandler;
 
     private volatile Consumer<ListenV2TurnInfo> turnInfoHandler;
@@ -86,6 +90,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * @param options connection options including query parameters
      */
     public CompletableFuture<Void> connect(V2ConnectOptions options) {
+        closeStreamSocket.set(null);
         connectionFuture = new CompletableFuture<>();
         String baseUrl = clientOptions.environment().getProductionURL();
         String fullPath = "/v2/listen";
@@ -181,6 +186,7 @@ public class V2WebSocketClient implements AutoCloseable {
                 }) {
                     @Override
                     protected void onWebSocketOpen(WebSocket webSocket, Response response) {
+                        closeStreamSocket.set(null);
                         readyState = WebSocketReadyState.OPEN;
                         if (onConnectedHandler != null) {
                             onConnectedHandler.run();
@@ -211,6 +217,11 @@ public class V2WebSocketClient implements AutoCloseable {
                         if (onDisconnectedHandler != null) {
                             onDisconnectedHandler.accept(new DisconnectReason(code, reason));
                         }
+                    }
+
+                    @Override
+                    protected boolean shouldReconnectAfterClose(WebSocket webSocket, int code) {
+                        return code != 1005 || closeStreamSocket.get() != webSocket;
                     }
                 };
         reconnectingListener.connect();
@@ -263,7 +274,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * @return a CompletableFuture that completes when the message is sent
      */
     public CompletableFuture<Void> sendCloseStream(ListenV2CloseStream message) {
-        return sendMessage(message);
+        return sendMessage(message, closeStreamSocket::set);
     }
 
     /**
@@ -391,12 +402,16 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     private CompletableFuture<Void> sendMessage(Object body) {
+        return sendMessage(body, null);
+    }
+
+    private CompletableFuture<Void> sendMessage(Object body, Consumer<WebSocket> onSent) {
         CompletableFuture<Void> future = new CompletableFuture<>();
         try {
             assertSocketIsOpen();
             String json = objectMapper.writeValueAsString(body);
             // Use reconnecting listener's send method which handles queuing
-            reconnectingListener.send(json);
+            reconnectingListener.send(json, onSent);
             future.complete(null);
         } catch (IllegalStateException e) {
             future.completeExceptionally(e);
