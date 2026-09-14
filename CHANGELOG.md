@@ -2,14 +2,17 @@
 
 ## [0.10.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.9.0...v0.10.0) (2026-09-11)
 
+Agent force-end-turn support, Flux TTS expressivity controls, and a wider Flux TTS speed range. This pre-1.0 minor release also removes stale TTS symbols.
 
 ### ⚠ BREAKING CHANGES
 
-* **regen:** `SpeakV2Speed`, `SpeakV1Model.AURA2PERSEO_IT`, `AudioGenerateRequestModel.AURA2PERSEO_IT`, and the corresponding `Visitor.visitAura2PerseoIt()` methods are removed. Use numeric `V2ConnectOptions#speed` and a supported Speak V1 model. See docs/Migrating-v0.9-to-v0.10.md.
+* **Speak v2 (Flux TTS):** the `SpeakV2Speed` type and its named speed constants are removed. `V2ConnectOptions#speed` remains a numeric `Double`; configure speed directly, for example `.speed(1.05)`.
+* **Speak v1 (Aura TTS):** remove `SpeakV1Model.AURA2PERSEO_IT`, `AudioGenerateRequestModel.AURA2PERSEO_IT`, their `Value` enum entries, and the associated `Visitor.visitAura2PerseoIt()` methods. The `aura-2-perseo-it` model was never served by the API and is no longer in the specification. Use a supported Speak v1 model instead. See the [v0.9 to v0.10 migration guide](docs/Migrating-v0.9-to-v0.10.md).
 
 ### Features
 
-* **regen:** agent force-end-turn + flux expressivity; remove stale tts symbols ([#100](https://github.com/deepgram/deepgram-java-sdk/issues/100)) ([cbadf05](https://github.com/deepgram/deepgram-java-sdk/commit/cbadf05c09e012cd7fd7c1c98d8cdb877dc819b0))
+* **Agent:** add `AgentV1ForceEndTurn` and `V1WebSocketClient#sendForceEndTurn(...)` to end the current turn on demand. Agent Deepgram speak providers using Flux (`version: "v2"`) also accept `expressivity`, a whole-number calm-to-animated setting from `-2` to `2`; `0` is the default. ([#100](https://github.com/deepgram/deepgram-java-sdk/issues/100)) ([cbadf05](https://github.com/deepgram/deepgram-java-sdk/commit/cbadf05c09e012cd7fd7c1c98d8cdb877dc819b0))
+* **Speak v2 (Flux TTS):** batch requests and WebSocket connections accept `expressivity` from `-2` to `2`. `speed` now accepts values from `0.5` to `1.5` in `0.05` increments, instead of `0.85` to `1.15`. ([#100](https://github.com/deepgram/deepgram-java-sdk/issues/100)) ([cbadf05](https://github.com/deepgram/deepgram-java-sdk/commit/cbadf05c09e012cd7fd7c1c98d8cdb877dc819b0))
 
 ## [0.9.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.8.0...v0.9.0) (2026-08-25)
 
