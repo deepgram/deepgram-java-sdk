@@ -30,12 +30,32 @@ package com.deepgram;
  */
 import com.deepgram.core.ClientOptions;
 
-public class DeepgramClient extends DeepgramApiClient {
+public class DeepgramClient extends DeepgramApiClient implements AutoCloseable {
+    private final boolean ownsHttpClient;
+
     public DeepgramClient(ClientOptions clientOptions) {
+        this(clientOptions, false);
+    }
+
+    DeepgramClient(ClientOptions clientOptions, boolean ownsHttpClient) {
         super(clientOptions);
+        this.ownsHttpClient = ownsHttpClient;
     }
 
     public static DeepgramClientBuilder builder() {
         return new DeepgramClientBuilder();
+    }
+
+    /**
+     * Releases resources owned by an SDK-created HTTP client. Clients supplied through
+     * {@link DeepgramClientBuilder#httpClient(okhttp3.OkHttpClient)} remain owned by the caller.
+     */
+    @Override
+    public void close() {
+        if (!ownsHttpClient) {
+            return;
+        }
+        clientOptions.httpClient().dispatcher().executorService().shutdown();
+        clientOptions.httpClient().connectionPool().evictAll();
     }
 }
