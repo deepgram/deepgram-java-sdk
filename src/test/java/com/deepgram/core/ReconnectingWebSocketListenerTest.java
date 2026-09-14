@@ -156,8 +156,8 @@ class ReconnectingWebSocketListenerTest {
     @DisplayName("server close handling")
     class ServerCloseTests {
         @Test
-        @DisplayName("does not reconnect after a no-status close")
-        void noStatusCloseDoesNotReconnect() throws Exception {
+        @DisplayName("reconnects after a no-status close without protocol context")
+        void noStatusCloseReconnectsWithoutProtocolContext() throws Exception {
             CountingSupplier supplier = new CountingSupplier(false);
             ReconnectOptions opts = ReconnectOptions.builder()
                     .minReconnectionDelayMs(10)
@@ -169,7 +169,7 @@ class ReconnectingWebSocketListenerTest {
                 listener.onClosed(new FakeWebSocket(), 1005, "");
 
                 Thread.sleep(100);
-                assertThat(supplier.calls.get()).isZero();
+                assertThat(supplier.calls.get()).isEqualTo(1);
             } finally {
                 listener.disconnect();
             }

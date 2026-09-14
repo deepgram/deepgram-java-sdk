@@ -3,10 +3,13 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.Environment;
+import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.WebSocketReadyState;
+import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 import com.deepgram.types.ListenV2Model;
+import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -72,5 +75,41 @@ class ListenV2ServerCloseTest {
         } finally {
             ws.disconnect();
         }
+    }
+
+    @Test
+    @DisplayName("CloseStream makes a following no-status close terminal")
+    void closeStreamNoStatusCloseDoesNotReconnect() throws Exception {
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {}));
+        V2WebSocketClient ws = client.listen().v2().v2WebSocket();
+        CountDownLatch disconnected = new CountDownLatch(1);
+        ws.reconnectOptions(ReconnectingWebSocketListener.ReconnectOptions.builder()
+                .minReconnectionDelayMs(10)
+                .maxReconnectionDelayMs(10)
+                .build());
+        ws.onDisconnected(reason -> disconnected.countDown());
+
+        try {
+            ws.connect(V2ConnectOptions.builder()
+                            .model(ListenV2Model.FLUX_GENERAL_EN)
+                            .build())
+                    .get(5, TimeUnit.SECONDS);
+            assertThat(server.takeRequest(5, TimeUnit.SECONDS)).isNotNull();
+
+            ws.sendCloseStream(ListenV2CloseStream.builder().build()).get(5, TimeUnit.SECONDS);
+            ReconnectingWebSocketListener listener = getListener(ws);
+            listener.onClosed(listener.getWebSocket(), 1005, "");
+
+            assertThat(disconnected.await(2, TimeUnit.SECONDS)).isTrue();
+            assertThat(server.takeRequest(100, TimeUnit.MILLISECONDS)).isNull();
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    private ReconnectingWebSocketListener getListener(V2WebSocketClient ws) throws Exception {
+        Field field = V2WebSocketClient.class.getDeclaredField("reconnectingListener");
+        field.setAccessible(true);
+        return (ReconnectingWebSocketListener) field.get(ws);
     }
 }

@@ -339,11 +339,17 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         }
         connectionEstablishedTime = 0L;
         onWebSocketClosed(webSocket, code, reason);
-        // 1005 indicates the peer ended the session without a close status. Flux STT uses this
-        // after CloseStream, where retrying creates a new, unwanted stream.
-        if (code != 1000 && code != 1005 && shouldReconnect.get()) {
+        if (shouldReconnect.get() && shouldReconnectAfterClose(code)) {
             scheduleReconnect();
         }
+    }
+
+    /**
+     * Returns whether a close status should reconnect. Resource-specific listeners can override
+     * this when a protocol operation establishes that a particular close is terminal.
+     */
+    protected boolean shouldReconnectAfterClose(int code) {
+        return code != 1000;
     }
 
     /**

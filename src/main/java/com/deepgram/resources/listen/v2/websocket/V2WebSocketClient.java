@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -61,6 +62,9 @@ public class V2WebSocketClient implements AutoCloseable {
 
     private ReconnectingWebSocketListener reconnectingListener;
 
+    // A no-status close is terminal only after this client has closed the Flux stream itself.
+    private final AtomicBoolean closeStreamSent = new AtomicBoolean(false);
+
     private volatile Consumer<ListenV2Connected> connectedHandler;
 
     private volatile Consumer<ListenV2TurnInfo> turnInfoHandler;
@@ -86,6 +90,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * @param options connection options including query parameters
      */
     public CompletableFuture<Void> connect(V2ConnectOptions options) {
+        closeStreamSent.set(false);
         connectionFuture = new CompletableFuture<>();
         String baseUrl = clientOptions.environment().getProductionURL();
         String fullPath = "/v2/listen";
@@ -212,6 +217,11 @@ public class V2WebSocketClient implements AutoCloseable {
                             onDisconnectedHandler.accept(new DisconnectReason(code, reason));
                         }
                     }
+
+                    @Override
+                    protected boolean shouldReconnectAfterClose(int code) {
+                        return code != 1005 || !closeStreamSent.get();
+                    }
                 };
         reconnectingListener.connect();
         return connectionFuture;
@@ -263,7 +273,12 @@ public class V2WebSocketClient implements AutoCloseable {
      * @return a CompletableFuture that completes when the message is sent
      */
     public CompletableFuture<Void> sendCloseStream(ListenV2CloseStream message) {
-        return sendMessage(message);
+        closeStreamSent.set(true);
+        CompletableFuture<Void> future = sendMessage(message);
+        if (future.isCompletedExceptionally()) {
+            closeStreamSent.set(false);
+        }
+        return future;
     }
 
     /**

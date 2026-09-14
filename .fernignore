@@ -21,8 +21,8 @@ src/main/java/com/deepgram/core/transport/
 
 # Bug fixes for maxRetries(0) semantics ("connect once, don't retry"), a
 # configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms),
-# and server-close acknowledgement/no-status close handling. Pull this back out
-# once the fixes are upstreamed into the Fern generator.
+# and server-close acknowledgement. Pull this back out once the fixes are
+# upstreamed into the Fern generator.
 src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 
 # Forward-compat patch: Fern's generated dispatcher routes any unrecognized message
@@ -31,8 +31,9 @@ src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 # frame is still delivered via onMessage(String)); mirrors the JS/Python SDKs. Re-apply
 # after regen. Unfreeze once the generator stops treating unknown frames as errors.
 # NOTE: the listen v2 and speak v2 clients below also carry the streaming query-param patches
-# (multi-value serialization + the additionalProperties escape hatch) documented lower down —
-# keep them frozen until those fixes are upstreamed too.
+# (multi-value serialization + the additionalProperties escape hatch) documented lower down.
+# Listen v2 additionally treats a no-status close as terminal only after CloseStream. Keep them
+# frozen until those fixes are upstreamed too.
 src/main/java/com/deepgram/resources/speak/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 
