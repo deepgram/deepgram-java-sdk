@@ -91,6 +91,18 @@ DeepgramClient client = DeepgramClient.builder()
     .build();
 ```
 
+### JSON serialization
+
+Use the SDK's configured mapper when serializing SDK request or response objects. It registers the
+Jackson modules required for Java `Optional` and date/time fields; a plain `new ObjectMapper()` can
+throw `InvalidDefinitionException`.
+
+```java
+import com.deepgram.core.ObjectMappers;
+
+String json = ObjectMappers.JSON_MAPPER.writeValueAsString(request);
+```
+
 ## Features
 
 ### Speech-to-Text (Listen)
