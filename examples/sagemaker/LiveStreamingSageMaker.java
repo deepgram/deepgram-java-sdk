@@ -146,6 +146,7 @@ public class LiveStreamingSageMaker {
 
         done.await(60, TimeUnit.SECONDS);
         wsClient.disconnect();
+        client.close();
         factory.shutdown();
         System.out.println("Done.");
     }

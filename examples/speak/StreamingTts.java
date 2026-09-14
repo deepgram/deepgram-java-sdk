@@ -132,5 +132,6 @@ public class StreamingTts {
         } finally {
             wsClient.disconnect();
         }
+        client.close();
     }
 }

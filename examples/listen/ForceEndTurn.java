@@ -149,6 +149,7 @@ public class ForceEndTurn {
         } finally {
             wsClient.disconnect();
         }
+        client.close();
     }
 
     private static byte[] download(String url) throws Exception {

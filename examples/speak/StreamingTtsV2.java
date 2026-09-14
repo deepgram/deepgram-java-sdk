@@ -195,5 +195,6 @@ public class StreamingTtsV2 {
         } finally {
             wsClient.disconnect();
         }
+        client.close();
     }
 }

@@ -255,7 +255,7 @@ import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import okio.ByteString;
 
-DeepgramClient client = DeepgramClient.builder().build();
+try (DeepgramClient client = DeepgramClient.builder().build()) {
 byte[] audioBytes = Files.readAllBytes(Path.of("audio.wav"));
 
 V1WebSocketClient ws = client.listen().v1().v1WebSocket();
@@ -290,6 +290,7 @@ ws.sendCloseStream(ListenV1CloseStream.builder()
 
 // Close when done
 ws.close();
+}
 ```
 
 ### Text-to-Speech Streaming (Speak WebSocket)
@@ -309,7 +310,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
-DeepgramClient client = DeepgramClient.builder().build();
+try (DeepgramClient client = DeepgramClient.builder().build()) {
 ByteArrayOutputStream audioBuffer = new ByteArrayOutputStream();
 
 V1WebSocketClient ttsWs = client.speak().v1().v1WebSocket();
@@ -348,6 +349,7 @@ ttsWs.sendClose(SpeakV1Close.builder()
 
 // Close when done
 ttsWs.close();
+}
 ```
 
 ### Flux TTS Barge-in (Speak V2 WebSocket)
@@ -412,7 +414,7 @@ import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1Provider;
 import java.util.concurrent.TimeUnit;
 
-DeepgramClient client = DeepgramClient.builder().build();
+try (DeepgramClient client = DeepgramClient.builder().build()) {
 
 V1WebSocketClient agentWs = client.agent().v1().v1WebSocket();
 
@@ -457,6 +459,7 @@ Thread.sleep(5000);
 
 // Close when done
 agentWs.close();
+}
 ```
 
 ## Custom Transports

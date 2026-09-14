@@ -153,6 +153,7 @@ public class VoiceAgent {
         } finally {
             wsClient.disconnect();
         }
+        client.close();
     }
 
     /**

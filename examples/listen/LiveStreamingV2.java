@@ -91,5 +91,6 @@ public class LiveStreamingV2 {
         } finally {
             wsClient.disconnect();
         }
+        client.close();
     }
 }

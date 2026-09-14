@@ -134,6 +134,7 @@ public class InjectMessage {
         } finally {
             wsClient.disconnect();
         }
+        client.close();
     }
 
     /** Inject user and agent messages into the conversation. */

@@ -156,5 +156,6 @@ public class CustomProviders {
         } finally {
             wsClient.disconnect();
         }
+        client.close();
     }
 }
