@@ -282,6 +282,17 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
     }
 
     /**
+     * Acknowledge a peer-initiated close so OkHttp can complete the close handshake and invoke
+     * {@link #onClosed(WebSocket, int, String)}.
+     */
+    @Override
+    public void onClosing(WebSocket webSocket, int code, String reason) {
+        // 1005 is a local no-status sentinel, not a valid close frame code. Acknowledge it with
+        // the normal closure code so OkHttp can finish the handshake instead of throwing.
+        webSocket.close(code == 1005 ? 1000 : code, reason);
+    }
+
+    /**
      * @hidden
      */
     @Override
@@ -328,7 +339,9 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         }
         connectionEstablishedTime = 0L;
         onWebSocketClosed(webSocket, code, reason);
-        if (code != 1000 && shouldReconnect.get()) {
+        // 1005 indicates the peer ended the session without a close status. Flux STT uses this
+        // after CloseStream, where retrying creates a new, unwanted stream.
+        if (code != 1000 && code != 1005 && shouldReconnect.get()) {
             scheduleReconnect();
         }
     }
