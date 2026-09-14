@@ -1,6 +1,7 @@
 package com.deepgram;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.deepgram.core.Environment;
@@ -216,6 +217,27 @@ class ClientBuilderTest {
             } finally {
                 customHttpClient.dispatcher().executorService().shutdown();
                 customHttpClient.connectionPool().evictAll();
+            }
+        }
+
+        @Test
+        @DisplayName("disconnecting an unconnected WebSocket is safe")
+        void disconnectsUnconnectedWebSockets() {
+            DeepgramClient client = DeepgramClient.builder().apiKey("test-key").build();
+
+            try {
+                assertThatCode(() -> client.listen().v1().v1WebSocket().disconnect())
+                        .doesNotThrowAnyException();
+                assertThatCode(() -> client.listen().v2().v2WebSocket().disconnect())
+                        .doesNotThrowAnyException();
+                assertThatCode(() -> client.speak().v1().v1WebSocket().disconnect())
+                        .doesNotThrowAnyException();
+                assertThatCode(() -> client.speak().v2().v2WebSocket().disconnect())
+                        .doesNotThrowAnyException();
+                assertThatCode(() -> client.agent().v1().v1WebSocket().disconnect())
+                        .doesNotThrowAnyException();
+            } finally {
+                client.close();
             }
         }
     }

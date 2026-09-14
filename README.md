@@ -526,10 +526,12 @@ DeepgramTransportFactory myFactory = (url, headers) -> {
     return new MyCustomTransport(url, headers);
 };
 
-DeepgramClient client = DeepgramClient.builder()
-    .apiKey("your-key")
-    .transportFactory(myFactory)
-    .build();
+try (DeepgramClient client = DeepgramClient.builder()
+        .apiKey("your-key")
+        .transportFactory(myFactory)
+        .build()) {
+    // Use the client for streaming. Close each WebSocket before this scope exits.
+}
 ```
 
 The `DeepgramTransport` interface provides bidirectional messaging: `sendText()`, `sendBinary()`, and callback registration for incoming messages, errors, and close events.

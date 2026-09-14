@@ -50,6 +50,11 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
 src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 
+# All streaming WebSocket clients need this null guard so disconnect() is safe before connect()
+# initializes its listener. The Listen and Speak files are frozen above for other patches; Agent V1
+# needs its own freeze entry until Fern emits the guard.
+src/main/java/com/deepgram/resources/agent/v1/websocket/V1WebSocketClient.java
+
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the
 # server's model registry (an invented flux-* name is rejected with INVALID_QUERY_PARAMETER), so the

@@ -221,7 +221,9 @@ public class V2WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
-        reconnectingListener.disconnect();
+        if (reconnectingListener != null) {
+            reconnectingListener.disconnect();
+        }
         if (timeoutExecutor != null) {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
