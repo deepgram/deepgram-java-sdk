@@ -1,4 +1,4 @@
-# Custom client wrappers (extend generated DeepgramApiClient with Bearer auth, session ID)
+# Custom client wrappers (Bearer auth, session ID, and owned HTTP-resource lifecycle)
 # Flat paths (local generation strips package-prefix)
 src/main/java/DeepgramClient.java
 src/main/java/AsyncDeepgramClient.java

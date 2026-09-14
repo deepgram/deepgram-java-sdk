@@ -29,6 +29,8 @@ public class DeepgramClientBuilder extends DeepgramApiClientBuilder {
 
     private DeepgramTransportFactory transportFactory;
 
+    private boolean hasCustomHttpClient;
+
     /**
      * Sets a custom transport factory for all WebSocket connections. When set, WebSocket clients will use this factory
      * instead of the default OkHttp WebSocket. Use this to route Deepgram API calls through alternative transports such
@@ -86,6 +88,7 @@ public class DeepgramClientBuilder extends DeepgramApiClientBuilder {
 
     @Override
     public DeepgramClientBuilder httpClient(OkHttpClient httpClient) {
+        this.hasCustomHttpClient = httpClient != null;
         super.httpClient(httpClient);
         return this;
     }
@@ -148,6 +151,6 @@ public class DeepgramClientBuilder extends DeepgramApiClientBuilder {
                     "Please provide apiKey, accessToken, or set the DEEPGRAM_API_KEY environment variable.");
         }
         validateConfiguration();
-        return new DeepgramClient(buildClientOptions());
+        return new DeepgramClient(buildClientOptions(), !hasCustomHttpClient);
     }
 }

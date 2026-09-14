@@ -91,6 +91,21 @@ DeepgramClient client = DeepgramClient.builder()
     .build();
 ```
 
+### Resource lifecycle
+
+Close an SDK-created client when your application is finished with it. This releases the OkHttp
+dispatcher and connection pool, which is especially important for short-lived command-line programs
+that use WebSockets.
+
+```java
+try (DeepgramClient client = DeepgramClient.builder().build()) {
+    // Use the client.
+}
+```
+
+If you provide an `OkHttpClient` through `.httpClient(...)`, you retain ownership and must close its
+resources yourself.
+
 ## Features
 
 ### Speech-to-Text (Listen)
