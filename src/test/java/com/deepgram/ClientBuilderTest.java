@@ -4,9 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.deepgram.core.ClientOptions;
 import com.deepgram.core.Environment;
 import java.util.concurrent.CompletableFuture;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okio.ByteString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -280,12 +284,66 @@ class ClientBuilderTest {
                 client.close();
             }
         }
+
+        @Test
+        @DisplayName("disconnect completes an in-flight connection exceptionally")
+        void disconnectCompletesInFlightConnection() {
+            ClientOptions options = ClientOptions.builder()
+                    .environment(Environment.PRODUCTION)
+                    .webSocketFactory((request, listener) -> new UnopenedWebSocket())
+                    .build();
+            var socket = new com.deepgram.resources.listen.v2.websocket.V2WebSocketClient(options);
+
+            try {
+                CompletableFuture<Void> connection =
+                        socket.connect(com.deepgram.resources.listen.v2.websocket.V2ConnectOptions.builder()
+                                .model(com.deepgram.types.ListenV2Model.FLUX_GENERAL_EN)
+                                .build());
+
+                socket.disconnect();
+
+                assertConnectionRejected(connection);
+            } finally {
+                options.httpClient().dispatcher().executorService().shutdown();
+                options.httpClient().connectionPool().evictAll();
+            }
+        }
     }
 
     private static void assertConnectionRejected(CompletableFuture<Void> connection) {
         assertThatThrownBy(connection::join)
                 .isInstanceOf(java.util.concurrent.CompletionException.class)
                 .hasCauseInstanceOf(IllegalStateException.class);
+    }
+
+    private static final class UnopenedWebSocket implements WebSocket {
+        @Override
+        public Request request() {
+            return new Request.Builder().url("ws://localhost/").build();
+        }
+
+        @Override
+        public long queueSize() {
+            return 0;
+        }
+
+        @Override
+        public boolean send(String text) {
+            return false;
+        }
+
+        @Override
+        public boolean send(ByteString bytes) {
+            return false;
+        }
+
+        @Override
+        public boolean close(int code, String reason) {
+            return true;
+        }
+
+        @Override
+        public void cancel() {}
     }
 
     @Nested

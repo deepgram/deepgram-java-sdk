@@ -77,7 +77,7 @@ public class V1WebSocketClient implements AutoCloseable {
 
     private volatile ReconnectingWebSocketListener.ReconnectOptions reconnectOptions;
 
-    private CompletableFuture<Void> connectionFuture;
+    private volatile CompletableFuture<Void> connectionFuture;
 
     private ReconnectingWebSocketListener reconnectingListener;
 
@@ -222,6 +222,9 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void disconnect() {
         disconnected.set(true);
+        if (connectionFuture != null) {
+            connectionFuture.completeExceptionally(new IllegalStateException("WebSocket client has been disconnected"));
+        }
         if (reconnectingListener != null) {
             reconnectingListener.disconnect();
         }
