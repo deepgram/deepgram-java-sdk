@@ -14,6 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -25,15 +26,14 @@ import okio.ByteString;
  * Provides production-ready resilience for WebSocket connections.
  */
 public abstract class ReconnectingWebSocketListener extends WebSocketListener {
-    // Overridable options are held behind a single volatile reference (not five separate volatile
-    // fields) so {@link #applyOptionsOverride} swaps them atomically — a reader that snapshots the
-    // reference once sees a mutually-consistent set (e.g. getNextDelay() cannot observe a new min
-    // paired with an old max). Rewiring is used by {@code TransportWebSocketFactory} to honour
-    // {@code DeepgramTransportFactory.reconnectOptions()} without editing the generated WS clients.
-    private volatile ReconnectOptions activeOptions;
+    private final long minReconnectionDelayMs;
 
-    // maxEnqueuedMessages is fixed at construction (the queue is sized once) and intentionally not
-    // overridable, so it stays a separate final field rather than being read from activeOptions.
+    private final long maxReconnectionDelayMs;
+
+    private final double reconnectionDelayGrowFactor;
+
+    private final int maxRetries;
+
     private final int maxEnqueuedMessages;
 
     private final AtomicInteger retryCount = new AtomicInteger(0);
@@ -62,42 +62,21 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     public ReconnectingWebSocketListener(
             ReconnectingWebSocketListener.ReconnectOptions options, Supplier<? extends WebSocket> connectionSupplier) {
-        this.activeOptions = options;
+        this.minReconnectionDelayMs = options.minReconnectionDelayMs;
+        this.maxReconnectionDelayMs = options.maxReconnectionDelayMs;
+        this.reconnectionDelayGrowFactor = options.reconnectionDelayGrowFactor;
+        this.maxRetries = options.maxRetries;
         this.maxEnqueuedMessages = options.maxEnqueuedMessages;
         this.connectionSupplier = connectionSupplier;
-    }
-
-    /**
-     * Replaces the option-derived parameters on this listener at runtime. Used by
-     * {@code TransportWebSocketFactory} to apply {@code DeepgramTransportFactory.reconnectOptions()}
-     * without requiring edits to the generated per-resource WebSocket clients. {@code maxEnqueuedMessages}
-     * is intentionally not overridden — the message queue is sized at construction.
-     *
-     * <p>Thread-safety: the override is a single atomic write to a {@code volatile} reference, so a
-     * reader that snapshots {@link #activeOptions} once sees a mutually-consistent set of values
-     * (never a new min paired with an old max). The initial connect() call may have already started
-     * before the override lands, so for the very first attempt the original options apply; the
-     * override takes effect from the next attempt onwards. For the SageMaker storm-suppression case
-     * ({@code maxRetries(0)}) this is fine because the initial attempt's gate
-     * ({@code retryCount > maxRetries} with {@code retryCount=0}) always passes regardless.
-     *
-     * @param options replacement options; {@code null} is a no-op.
-     */
-    public void applyOptionsOverride(ReconnectOptions options) {
-        if (options == null) {
-            return;
-        }
-        this.activeOptions = options;
     }
 
     /**
      * Initiates a WebSocket connection with automatic reconnection enabled.
      *
      * Connection behavior:
-     * - Times out after {@code ReconnectOptions.connectionTimeoutMs} (default 4000ms)
+     * - Times out after 4000 milliseconds
      * - Thread-safe via atomic lock (returns immediately if connection in progress)
-     * - {@code maxRetries} counts retries only — the initial attempt always proceeds.
-     *   {@code maxRetries(0)} means "connect once, don't retry" (not "refuse to connect").
+     * - Retry count not incremented for initial connection attempt
      *
      * Error handling:
      * - TimeoutException: Includes retry attempt context
@@ -108,26 +87,20 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         if (!connectLock.compareAndSet(false, true)) {
             return;
         }
-        // Snapshot the overridable options once so the gate and timeout below use a consistent set.
-        ReconnectOptions opts = this.activeOptions;
-        // retryCount is incremented inside scheduleReconnect() before re-entering connect(),
-        // so on the initial call retryCount == 0 and we always proceed. The cap applies to
-        // retries only — maxRetries(0) blocks retries but allows the initial attempt.
-        if (retryCount.get() > opts.maxRetries) {
+        if (retryCount.get() >= maxRetries) {
             connectLock.set(false);
             return;
         }
         try {
             CompletableFuture<? extends WebSocket> connectionFuture = CompletableFuture.supplyAsync(connectionSupplier);
             try {
-                webSocket = connectionFuture.get(opts.connectionTimeoutMs, MILLISECONDS);
+                webSocket = connectionFuture.get(4000, MILLISECONDS);
             } catch (TimeoutException e) {
                 connectionFuture.cancel(true);
                 TimeoutException timeoutError =
-                        new TimeoutException("WebSocket connection timeout after " + opts.connectionTimeoutMs
-                                + " milliseconds"
+                        new TimeoutException("WebSocket connection timeout after " + 4000 + " milliseconds"
                                 + (retryCount.get() > 0
-                                        ? " (retry attempt #" + retryCount.get() + ")"
+                                        ? " (retry attempt #" + retryCount.get()
                                         : " (initial connection attempt)"));
                 onWebSocketFailure(null, timeoutError, null);
                 if (shouldReconnect.get()) {
@@ -202,9 +175,30 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * @return true if sent immediately, false if queued or dropped
      */
     public synchronized boolean send(String message) {
+        return send(message, null);
+    }
+
+    /**
+     * Sends a message or queues it if not connected, exposing the accepting socket.
+     *
+     * Behaves like {@link #send(String)}, but additionally invokes {@code onSent} with the
+     * WebSocket that accepted the message. The callback is only invoked when the message was
+     * sent directly, never when it was queued or dropped. This lets callers associate a
+     * protocol-level message with the specific connection it was delivered on, e.g. to decide
+     * in {@link #shouldReconnectAfterClose(WebSocket, int, String)} whether a later close of that same
+     * connection was expected.
+     *
+     * @param message The message to send
+     * @param onSent Callback receiving the WebSocket that accepted the message, or null
+     * @return true if sent immediately, false if queued or dropped
+     */
+    public synchronized boolean send(String message, Consumer<WebSocket> onSent) {
         WebSocket ws = webSocket;
         if (ws != null) {
             boolean sent = ws.send(message);
+            if (sent && onSent != null) {
+                onSent.accept(ws);
+            }
             if (!sent && messageQueue.size() < maxEnqueuedMessages) {
                 messageQueue.offer(message);
                 return false;
@@ -233,9 +227,27 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * @return true if sent immediately, false if queued or dropped
      */
     public synchronized boolean sendBinary(ByteString data) {
+        return sendBinary(data, null);
+    }
+
+    /**
+     * Sends binary data or queues it if not connected, exposing the accepting socket.
+     *
+     * Behaves like {@link #sendBinary(ByteString)}, but additionally invokes {@code onSent} with
+     * the WebSocket that accepted the data. The callback is only invoked when the data was sent
+     * directly, never when it was queued or dropped.
+     *
+     * @param data The binary data to send
+     * @param onSent Callback receiving the WebSocket that accepted the data, or null
+     * @return true if sent immediately, false if queued or dropped
+     */
+    public synchronized boolean sendBinary(ByteString data, Consumer<WebSocket> onSent) {
         WebSocket ws = webSocket;
         if (ws != null) {
             boolean sent = ws.send(data);
+            if (sent && onSent != null) {
+                onSent.accept(ws);
+            }
             if (!sent && binaryMessageQueue.size() < maxEnqueuedMessages) {
                 binaryMessageQueue.offer(data);
                 return false;
@@ -315,6 +327,21 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
     }
 
     /**
+     * Acknowledges a peer-initiated close so OkHttp can complete the close handshake and
+     * invoke {@link #onClosed(WebSocket, int, String)}.
+     *
+     * Code 1005 is a local "no status received" sentinel reported when the peer sent an empty
+     * close frame. It is not a valid code to put on the wire, so it is acknowledged with
+     * the normal closure code 1000 instead.
+     *
+     * @hidden
+     */
+    @Override
+    public void onClosing(WebSocket webSocket, int code, String reason) {
+        webSocket.close(code == 1005 ? 1000 : code, reason);
+    }
+
+    /**
      * @hidden
      */
     @Override
@@ -328,9 +355,27 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         }
         connectionEstablishedTime = 0L;
         onWebSocketClosed(webSocket, code, reason);
-        if (code != 1000 && shouldReconnect.get()) {
+        if (shouldReconnect.get() && shouldReconnectAfterClose(webSocket, code, reason)) {
             scheduleReconnect();
         }
+    }
+
+    /**
+     * Decides whether a completed close handshake should trigger a reconnect.
+     *
+     * Only consulted when reconnection has not been disabled via {@link #disconnect()}.
+     * The default treats normal closure (1000) as terminal and reconnects on any
+     * other code. Subclasses can override this when protocol context establishes that a
+     * particular close is terminal, for example a no-status close following a message that
+     * ends the stream.
+     *
+     * @param webSocket The WebSocket that was closed
+     * @param code The close status code reported by OkHttp
+     * @param reason The close reason sent by the peer, or an empty string
+     * @return true to schedule a reconnect, false to stay disconnected
+     */
+    protected boolean shouldReconnectAfterClose(WebSocket webSocket, int code, String reason) {
+        return code != 1000;
     }
 
     /**
@@ -342,14 +387,11 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * - 2+ = exponential backoff up to maxReconnectionDelayMs
      */
     private long getNextDelay() {
-        // Single volatile read → a consistent (min, growFactor, max) snapshot even if
-        // applyOptionsOverride swaps the options concurrently.
-        ReconnectOptions opts = this.activeOptions;
         if (retryCount.get() == 1) {
-            return opts.minReconnectionDelayMs;
+            return minReconnectionDelayMs;
         }
-        long delay = (long) (opts.minReconnectionDelayMs * Math.pow(opts.reconnectionDelayGrowFactor, retryCount.get() - 1));
-        return Math.min(delay, opts.maxReconnectionDelayMs);
+        long delay = (long) (minReconnectionDelayMs * Math.pow(reconnectionDelayGrowFactor, retryCount.get() - 1));
+        return Math.min(delay, maxReconnectionDelayMs);
     }
 
     /**
@@ -430,15 +472,12 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
         public final int maxEnqueuedMessages;
 
-        public final long connectionTimeoutMs;
-
         private ReconnectOptions(Builder builder) {
             this.minReconnectionDelayMs = builder.minReconnectionDelayMs;
             this.maxReconnectionDelayMs = builder.maxReconnectionDelayMs;
             this.reconnectionDelayGrowFactor = builder.reconnectionDelayGrowFactor;
             this.maxRetries = builder.maxRetries;
             this.maxEnqueuedMessages = builder.maxEnqueuedMessages;
-            this.connectionTimeoutMs = builder.connectionTimeoutMs;
         }
 
         public static Builder builder() {
@@ -456,15 +495,12 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
             private int maxEnqueuedMessages;
 
-            private long connectionTimeoutMs;
-
             public Builder() {
                 this.minReconnectionDelayMs = 1000;
                 this.maxReconnectionDelayMs = 10000;
                 this.reconnectionDelayGrowFactor = 1.3;
                 this.maxRetries = 2147483647;
                 this.maxEnqueuedMessages = 1000;
-                this.connectionTimeoutMs = 4000;
             }
 
             public Builder minReconnectionDelayMs(long minReconnectionDelayMs) {
@@ -493,16 +529,6 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
             }
 
             /**
-             * Sets the per-attempt connection timeout in milliseconds. Defaults to {@code 4000}.
-             * Each call to {@link ReconnectingWebSocketListener#connect()} will wait at most
-             * this long for the underlying WebSocket factory to produce a connected socket.
-             */
-            public Builder connectionTimeoutMs(long connectionTimeoutMs) {
-                this.connectionTimeoutMs = connectionTimeoutMs;
-                return this;
-            }
-
-            /**
              * Builds the ReconnectOptions with validation.
              *
              * Validates that:
@@ -510,7 +536,6 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
              * - minReconnectionDelayMs <= maxReconnectionDelayMs
              * - reconnectionDelayGrowFactor >= 1.0
              * - maxRetries and maxEnqueuedMessages are non-negative
-             * - connectionTimeoutMs is positive
              *
              * @return The validated ReconnectOptions instance
              * @throws IllegalArgumentException if configuration is invalid
@@ -534,9 +559,6 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 }
                 if (maxEnqueuedMessages < 0) {
                     throw new IllegalArgumentException("maxEnqueuedMessages must be non-negative");
-                }
-                if (connectionTimeoutMs <= 0) {
-                    throw new IllegalArgumentException("connectionTimeoutMs must be positive");
                 }
                 return new ReconnectOptions(this);
             }

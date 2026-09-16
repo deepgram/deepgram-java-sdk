@@ -3,12 +3,9 @@
  */
 package com.deepgram.resources.speak.v1.websocket;
 
-// Manual patch - see .fernignore.
-
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
-import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -124,13 +121,6 @@ public class V1WebSocketClient implements AutoCloseable {
         if (options.getSpeed() != null && options.getSpeed().isPresent()) {
             urlBuilder.addQueryParameter(
                     "speed", String.valueOf(options.getSpeed().get()));
-        }
-        if (options.getAdditionalProperties() != null) {
-            options.getAdditionalProperties().forEach((key, value) -> {
-                if (value != null) {
-                    QueryStringMapper.addQueryParameter(urlBuilder, key, value, true);
-                }
-            });
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);

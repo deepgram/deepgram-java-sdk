@@ -3,8 +3,6 @@
  */
 package com.deepgram.resources.agent.v1.types;
 
-// Manual patch - see .fernignore.
-
 import com.deepgram.types.DeepgramListenProviderV1;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -101,7 +99,7 @@ public final class AgentV1SettingsAgentListenProvider {
         T _visitUnknown(Object unknownType);
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = V2Value.class)
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = _UnknownValue.class)
     @JsonSubTypes({@JsonSubTypes.Type(V1Value.class), @JsonSubTypes.Type(V2Value.class)})
     @JsonIgnoreProperties(ignoreUnknown = true)
     private interface Value {
