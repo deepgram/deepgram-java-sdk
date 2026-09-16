@@ -39,6 +39,8 @@ class ReconnectingWebSocketListenerTest {
     }
 
     private static final class FakeWebSocket implements WebSocket {
+        int closeCode = -1;
+
         @Override
         public okhttp3.Request request() {
             return new okhttp3.Request.Builder().url("ws://localhost/").build();
@@ -61,6 +63,7 @@ class ReconnectingWebSocketListenerTest {
 
         @Override
         public boolean close(int code, String reason) {
+            closeCode = code;
             return true;
         }
 
@@ -146,6 +149,42 @@ class ReconnectingWebSocketListenerTest {
             assertThat(supplier.calls.get())
                     .as("initial connect attempt must run even with maxRetries(0)")
                     .isEqualTo(1);
+        }
+    }
+
+    @Nested
+    @DisplayName("server close handling")
+    class ServerCloseTests {
+        @Test
+        @DisplayName("reconnects after a no-status close without protocol context")
+        void noStatusCloseReconnectsWithoutProtocolContext() throws Exception {
+            CountingSupplier supplier = new CountingSupplier(false);
+            ReconnectOptions opts = ReconnectOptions.builder()
+                    .minReconnectionDelayMs(10)
+                    .maxReconnectionDelayMs(10)
+                    .build();
+            TestListener listener = new TestListener(opts, supplier);
+
+            try {
+                listener.onClosed(new FakeWebSocket(), 1005, "");
+
+                Thread.sleep(100);
+                assertThat(supplier.calls.get()).isEqualTo(1);
+            } finally {
+                listener.disconnect();
+            }
+        }
+
+        @Test
+        @DisplayName("acknowledges a no-status close with a valid normal close code")
+        void noStatusCloseIsAcknowledgedWithNormalCloseCode() {
+            TestListener listener = new TestListener(ReconnectOptions.builder().build(), new CountingSupplier(false));
+            FakeWebSocket webSocket = new FakeWebSocket();
+
+            listener.onClosing(webSocket, 1005, "");
+
+            assertThat(webSocket.closeCode).isEqualTo(1000);
+            listener.disconnect();
         }
     }
 
