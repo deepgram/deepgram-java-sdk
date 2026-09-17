@@ -96,19 +96,24 @@ DeepgramClient client = DeepgramClient.builder()
 Use the SDK's configured mapper when serializing SDK request or response objects. It registers the Jackson modules required for Java `Optional` and date/time fields; a plain `new ObjectMapper()` can throw `InvalidDefinitionException`.
 
 ```java
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.types.CreateKeyV1Response;
 
-// Serializing a request object. writeValueAsString throws JsonProcessingException.
 ListenV1RequestUrl request = ListenV1RequestUrl.builder()
     .url("https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav")
     .build();
-String json = ObjectMappers.JSON_MAPPER.writeValueAsString(request);
 
-// Parsing a response payload, such as a callback body. readValue throws JsonProcessingException.
-String payload = "{\"api_key_id\":\"id\",\"key\":\"secret\",\"expiration_date\":\"2026-09-17T11:06:39Z\"}";
-CreateKeyV1Response parsed = ObjectMappers.JSON_MAPPER.readValue(payload, CreateKeyV1Response.class);
+try {
+    String json = ObjectMappers.JSON_MAPPER.writeValueAsString(request);
+
+    // Parsing a Management API key-creation response. Never log the returned key value.
+    String payload = "{\"api_key_id\":\"id\",\"key\":\"secret\",\"expiration_date\":\"2026-09-17T11:06:39Z\"}";
+    CreateKeyV1Response parsed = ObjectMappers.JSON_MAPPER.readValue(payload, CreateKeyV1Response.class);
+} catch (JsonProcessingException e) {
+    throw new IllegalStateException("Failed to serialize or parse an SDK object", e);
+}
 ```
 
 ## Features
