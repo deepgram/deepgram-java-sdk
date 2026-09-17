@@ -4,11 +4,13 @@ src/main/java/DeepgramClient.java
 src/main/java/AsyncDeepgramClient.java
 src/main/java/DeepgramClientBuilder.java
 src/main/java/AsyncDeepgramClientBuilder.java
+src/main/java/DeepgramJson.java
 # Full package paths (Maven/PR generation)
 src/main/java/com/deepgram/DeepgramClient.java
 src/main/java/com/deepgram/AsyncDeepgramClient.java
 src/main/java/com/deepgram/DeepgramClientBuilder.java
 src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
+src/main/java/com/deepgram/DeepgramJson.java
 
 # Core files with release-please version markers
 # Contains User-Agent, X-Fern-SDK-Name, and X-Fern-SDK-Version headers
