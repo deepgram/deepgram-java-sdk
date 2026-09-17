@@ -51,4 +51,4 @@ The corresponding `Visitor.visitAura2PerseoIt()` method is also removed from bot
 
 ## New features
 
-`sendForceEndTurn(...)` and Flux speak-provider `expressivity` are additive. ForceEndTurn still requires server-side enablement; deployments without it return `UNPARSABLE_CLIENT_MESSAGE` and close the connection.
+`sendForceEndTurn(...)` and Flux speak-provider `expressivity` are additive. `ForceEndTurn` is available on the hosted API. Self-hosted deployments may require enablement; unsupported deployments return `UNPARSABLE_CLIENT_MESSAGE` and close the connection.

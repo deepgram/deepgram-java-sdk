@@ -3,6 +3,8 @@
  */
 package com.deepgram.resources.listen.v1.websocket;
 
+// Manual patch - see .fernignore.
+
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;

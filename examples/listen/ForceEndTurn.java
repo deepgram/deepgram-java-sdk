@@ -26,9 +26,9 @@ import okio.ByteString;
  * something outside the audio tells you the speaker is done, such as a push-to-talk button being released. The turn
  * ends immediately regardless of end-of-turn confidence, and the connection stays open for the next turn.
  *
- * <p>{@code ForceEndTurn} is gated per deployment. Where it is not enabled the server replies
+ * <p>{@code ForceEndTurn} is available on the hosted API. A self-hosted deployment without the feature replies
  * {@code UNPARSABLE_CLIENT_MESSAGE} and closes the connection; this example reports that and exits rather than failing.
- * Point it at an environment with the feature enabled via DEEPGRAM_BASE_URL.
+ * Use DEEPGRAM_BASE_URL to target a compatible self-hosted deployment.
  *
  * <p>Usage: java ForceEndTurn
  */
@@ -54,8 +54,7 @@ public class ForceEndTurn {
 
         DeepgramClientBuilder builder = DeepgramClient.builder().apiKey(apiKey);
 
-        // ForceEndTurn is not enabled on every deployment. Set DEEPGRAM_BASE_URL (wss://...) to
-        // target one where it is.
+        // Set DEEPGRAM_BASE_URL (wss://...) when targeting a compatible self-hosted deployment.
         String baseUrl = System.getenv("DEEPGRAM_BASE_URL");
         if (baseUrl != null && !baseUrl.isEmpty()) {
             String https = baseUrl.startsWith("wss://") ? "https://" + baseUrl.substring("wss://".length()) : baseUrl;

@@ -214,7 +214,7 @@ wsClient.sendForceEndTurn(ListenV2ForceEndTurn.builder().build());
 
 The turn ends immediately regardless of end-of-turn confidence, and the connection stays open — the turn index advances and transcription continues into the next turn. The resulting `EndOfTurn` carries `trigger` set to `"manual"`.
 
-**This requires server-side enablement and is not yet enabled on all deployments.** Where it is not enabled the server rejects the message with `UNPARSABLE_CLIENT_MESSAGE` ("The ForceEndTurn message is not enabled on this deployment.") and closes the connection, so guard against that path until you have confirmed the feature is live for the deployment you target.
+**Availability update:** `ForceEndTurn` is available on the hosted API. Self-hosted deployments may require enablement; unsupported deployments reject the message with `UNPARSABLE_CLIENT_MESSAGE` and close the connection.
 
 ### Listen V2 Turn Trigger
 
@@ -266,7 +266,7 @@ Both were changed by the generator this cycle; the SDK patches them back, so no 
 
 ### New Features
 
-- `listen.v2` `sendForceEndTurn(ListenV2ForceEndTurn)` — requires server-side enablement, not yet enabled on all deployments
+- `listen.v2` `sendForceEndTurn(ListenV2ForceEndTurn)` — available on the hosted API; self-hosted deployments may require enablement
 - `ListenV2TurnInfo.getTrigger()` — present on `EndOfTurn` events, on deployments that emit it
 - `ListenV1ResponseMetadata.getDiarizeInfo()` / `ListenV1ResultsMetadata.getDiarizeInfo()`
 - `getSpeakerConfidence()` on pre-recorded words items
