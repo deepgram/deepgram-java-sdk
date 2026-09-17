@@ -546,6 +546,11 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 return this;
             }
 
+            /**
+             * Sets the per-attempt connection timeout in milliseconds. Defaults to {@code 4000}.
+             * Each call to {@link ReconnectingWebSocketListener#connect()} waits at most this
+             * long for the underlying WebSocket factory to produce a connected socket.
+             */
             public Builder connectionTimeoutMs(long connectionTimeoutMs) {
                 this.connectionTimeoutMs = connectionTimeoutMs;
                 return this;
