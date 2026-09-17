@@ -3,6 +3,7 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.ClientOptions;
+import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +42,31 @@ public class ListenV2ForwardCompatTest {
         // The unknown frame reached onMessage(String) verbatim...
         assertThat(rawMessage.get()).isEqualTo(unknownFrame);
         // ...and did NOT look like a fatal error to the consumer.
+        assertThat(errorCount).hasValue(0);
+    }
+
+    @Test
+    @DisplayName("Warning server message reaches the typed handler")
+    void warningMessageIsTyped() throws Exception {
+        V2WebSocketClient client = new V2WebSocketClient(ClientOptions.builder().build());
+
+        AtomicInteger errorCount = new AtomicInteger();
+        AtomicReference<String> rawMessage = new AtomicReference<>();
+        AtomicReference<ListenV2Warning> warning = new AtomicReference<>();
+        client.onError(e -> errorCount.incrementAndGet());
+        client.onMessage(rawMessage::set);
+        client.onWarning(warning::set);
+
+        String warningFrame = "{\"type\":\"Warning\",\"code\":\"FORCE_END_TURN_NO_ACTIVE_TURN\",\"description\":\"No active turn\"}";
+
+        Method handle = V2WebSocketClient.class.getDeclaredMethod("handleIncomingMessage", String.class);
+        handle.setAccessible(true);
+        handle.invoke(client, warningFrame);
+
+        assertThat(rawMessage.get()).isEqualTo(warningFrame);
+        assertThat(warning.get()).isNotNull();
+        assertThat(warning.get().getCode()).isEqualTo("FORCE_END_TURN_NO_ACTIVE_TURN");
+        assertThat(warning.get().getDescription()).isEqualTo("No active turn");
         assertThat(errorCount).hasValue(0);
     }
 }

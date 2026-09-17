@@ -20,6 +20,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2Connected;
 import com.deepgram.resources.listen.v2.types.ListenV2FatalError;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
+import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
@@ -71,6 +72,8 @@ public class V2WebSocketClient implements AutoCloseable {
     private volatile Consumer<ListenV2ConfigureSuccess> configureSuccessHandler;
 
     private volatile Consumer<ListenV2ConfigureFailure> configureFailureHandler;
+
+    private volatile Consumer<ListenV2Warning> warningHandler;
 
     private volatile Consumer<ListenV2FatalError> errorHandler;
 
@@ -327,6 +330,14 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Registers a handler for ListenV2Warning messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onWarning(Consumer<ListenV2Warning> handler) {
+        this.warningHandler = handler;
+    }
+
+    /**
      * Registers a handler for ListenV2FatalError messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -508,6 +519,19 @@ public class V2WebSocketClient implements AutoCloseable {
                 if (configureFailureHandlerEvent != null) {
                     if (configureFailureHandler != null) {
                         configureFailureHandler.accept(configureFailureHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("code") && node.has("description") && "Warning".equals(node.path("type").asText())) {
+                ListenV2Warning warningHandlerEvent = null;
+                try {
+                    warningHandlerEvent = objectMapper.treeToValue(node, ListenV2Warning.class);
+                } catch (Exception e) {
+                }
+                if (warningHandlerEvent != null) {
+                    if (warningHandler != null) {
+                        warningHandler.accept(warningHandlerEvent);
                     }
                     return;
                 }
