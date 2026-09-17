@@ -3,11 +3,14 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.Environment;
+import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallCancelled;
 import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okhttp3.mockwebserver.MockResponse;
@@ -56,6 +59,40 @@ class AgentV1ControlFrameWireTest {
             ws.sendForceEndTurn(AgentV1ForceEndTurn.builder().build());
 
             assertThat(received.poll(5, TimeUnit.SECONDS)).isEqualTo("{\"type\":\"ForceEndTurn\"}");
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesFunctionCallCancelled() throws Exception {
+        CountDownLatch received = new CountDownLatch(1);
+        AtomicReference<AgentV1FunctionCallCancelled> cancelled = new AtomicReference<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send("{\"type\":\"FunctionCallCancelled\",\"functions\":[{\"id\":\"call-1\",\"name\":\"charge_card\"}]}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onFunctionCallCancelled(event -> {
+            cancelled.set(event);
+            received.countDown();
+        });
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+
+            assertThat(received.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(cancelled.get().getFunctions()).singleElement().satisfies(function -> {
+                assertThat(function.getId()).isEqualTo("call-1");
+                assertThat(function.getName()).isEqualTo("charge_card");
+            });
         } finally {
             ws.disconnect();
         }

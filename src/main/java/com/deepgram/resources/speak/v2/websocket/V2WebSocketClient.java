@@ -146,8 +146,7 @@ public class V2WebSocketClient implements AutoCloseable {
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "tag", options.getTag().get().get(), true);
+            QueryStringMapper.addQueryParameter(urlBuilder, "tag", options.getTag().get().get(), true);
         }
         if (options.getAdditionalProperties() != null) {
             options.getAdditionalProperties().forEach((key, value) -> {

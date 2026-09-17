@@ -30,6 +30,7 @@ import com.deepgram.types.GoogleVersion;
 import com.deepgram.types.ListenV1ResponseMetadata;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
 import com.deepgram.types.ListenV2Redact;
+import com.deepgram.types.ThinkSettingsV1FunctionsItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
@@ -110,6 +111,24 @@ public class RegenTypesTest {
 
             assertThat(a).isEqualTo(b);
             assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        }
+    }
+
+    @Nested
+    @DisplayName("ThinkSettingsV1FunctionsItem deferUntilEot")
+    class DeferUntilEot {
+
+        @Test
+        @DisplayName("round-trips defer_until_eot")
+        void roundTrips() throws Exception {
+            ThinkSettingsV1FunctionsItem function =
+                    ThinkSettingsV1FunctionsItem.builder().deferUntilEot(true).build();
+
+            String json = MAPPER.writeValueAsString(function);
+            ThinkSettingsV1FunctionsItem parsed = MAPPER.readValue(json, ThinkSettingsV1FunctionsItem.class);
+
+            assertThat(json).contains("\"defer_until_eot\":true");
+            assertThat(parsed.getDeferUntilEot()).contains(true);
         }
     }
 

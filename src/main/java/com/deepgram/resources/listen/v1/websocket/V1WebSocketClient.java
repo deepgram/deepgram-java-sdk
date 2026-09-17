@@ -141,8 +141,7 @@ public class V1WebSocketClient implements AutoCloseable {
                     "endpointing", String.valueOf(options.getEndpointing().get()));
         }
         if (options.getExtra() != null && options.getExtra().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "extra", options.getExtra().get().get(), true);
+            QueryStringMapper.addQueryParameter(urlBuilder, "extra", options.getExtra().get().get(), true);
         }
         if (options.getInterimResults() != null && options.getInterimResults().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -150,12 +149,10 @@ public class V1WebSocketClient implements AutoCloseable {
                     String.valueOf(options.getInterimResults().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
+            QueryStringMapper.addQueryParameter(urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
         }
         if (options.getKeywords() != null && options.getKeywords().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "keywords", options.getKeywords().get().get(), true);
+            QueryStringMapper.addQueryParameter(urlBuilder, "keywords", options.getKeywords().get().get(), true);
         }
         if (options.getLanguage() != null && options.getLanguage().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -188,24 +185,21 @@ public class V1WebSocketClient implements AutoCloseable {
                     "redact", String.valueOf(options.getRedact().get()));
         }
         if (options.getReplace() != null && options.getReplace().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "replace", options.getReplace().get().get(), true);
+            QueryStringMapper.addQueryParameter(urlBuilder, "replace", options.getReplace().get().get(), true);
         }
         if (options.getSampleRate() != null && options.getSampleRate().isPresent()) {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
         }
         if (options.getSearch() != null && options.getSearch().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "search", options.getSearch().get().get(), true);
+            QueryStringMapper.addQueryParameter(urlBuilder, "search", options.getSearch().get().get(), true);
         }
         if (options.getSmartFormat() != null && options.getSmartFormat().isPresent()) {
             urlBuilder.addQueryParameter(
                     "smart_format", String.valueOf(options.getSmartFormat().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "tag", options.getTag().get().get(), true);
+            QueryStringMapper.addQueryParameter(urlBuilder, "tag", options.getTag().get().get(), true);
         }
         if (options.getUtteranceEndMs() != null && options.getUtteranceEndMs().isPresent()) {
             urlBuilder.addQueryParameter(

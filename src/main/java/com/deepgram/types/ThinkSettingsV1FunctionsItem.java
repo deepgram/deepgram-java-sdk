@@ -26,6 +26,8 @@ public final class ThinkSettingsV1FunctionsItem {
 
     private final Optional<Map<String, Object>> parameters;
 
+    private final Optional<Boolean> deferUntilEot;
+
     private final Optional<ThinkSettingsV1FunctionsItemEndpoint> endpoint;
 
     private final Map<String, Object> additionalProperties;
@@ -34,11 +36,13 @@ public final class ThinkSettingsV1FunctionsItem {
             Optional<String> name,
             Optional<String> description,
             Optional<Map<String, Object>> parameters,
+            Optional<Boolean> deferUntilEot,
             Optional<ThinkSettingsV1FunctionsItemEndpoint> endpoint,
             Map<String, Object> additionalProperties) {
         this.name = name;
         this.description = description;
         this.parameters = parameters;
+        this.deferUntilEot = deferUntilEot;
         this.endpoint = endpoint;
         this.additionalProperties = additionalProperties;
     }
@@ -68,6 +72,14 @@ public final class ThinkSettingsV1FunctionsItem {
     }
 
     /**
+     * @return Hold this function call until the user's turn is confirmed instead of dispatching it speculatively. Set it to true for actions that cannot be undone. If the turn resumes, a deferred call is discarded before it runs. Defaults to false
+     */
+    @JsonProperty("defer_until_eot")
+    public Optional<Boolean> getDeferUntilEot() {
+        return deferUntilEot;
+    }
+
+    /**
      * @return The Function endpoint to call. if not passed, function is called client-side
      */
     @JsonProperty("endpoint")
@@ -90,12 +102,13 @@ public final class ThinkSettingsV1FunctionsItem {
         return name.equals(other.name)
                 && description.equals(other.description)
                 && parameters.equals(other.parameters)
+                && deferUntilEot.equals(other.deferUntilEot)
                 && endpoint.equals(other.endpoint);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.name, this.description, this.parameters, this.endpoint);
+        return Objects.hash(this.name, this.description, this.parameters, this.deferUntilEot, this.endpoint);
     }
 
     @java.lang.Override
@@ -115,6 +128,8 @@ public final class ThinkSettingsV1FunctionsItem {
 
         private Optional<Map<String, Object>> parameters = Optional.empty();
 
+        private Optional<Boolean> deferUntilEot = Optional.empty();
+
         private Optional<ThinkSettingsV1FunctionsItemEndpoint> endpoint = Optional.empty();
 
         @JsonAnySetter
@@ -126,6 +141,7 @@ public final class ThinkSettingsV1FunctionsItem {
             name(other.getName());
             description(other.getDescription());
             parameters(other.getParameters());
+            deferUntilEot(other.getDeferUntilEot());
             endpoint(other.getEndpoint());
             return this;
         }
@@ -173,6 +189,20 @@ public final class ThinkSettingsV1FunctionsItem {
         }
 
         /**
+         * <p>Hold this function call until the user's turn is confirmed instead of dispatching it speculatively. Set it to true for actions that cannot be undone. If the turn resumes, a deferred call is discarded before it runs. Defaults to false</p>
+         */
+        @JsonSetter(value = "defer_until_eot", nulls = Nulls.SKIP)
+        public Builder deferUntilEot(Optional<Boolean> deferUntilEot) {
+            this.deferUntilEot = deferUntilEot;
+            return this;
+        }
+
+        public Builder deferUntilEot(Boolean deferUntilEot) {
+            this.deferUntilEot = Optional.ofNullable(deferUntilEot);
+            return this;
+        }
+
+        /**
          * <p>The Function endpoint to call. if not passed, function is called client-side</p>
          */
         @JsonSetter(value = "endpoint", nulls = Nulls.SKIP)
@@ -187,7 +217,8 @@ public final class ThinkSettingsV1FunctionsItem {
         }
 
         public ThinkSettingsV1FunctionsItem build() {
-            return new ThinkSettingsV1FunctionsItem(name, description, parameters, endpoint, additionalProperties);
+            return new ThinkSettingsV1FunctionsItem(
+                    name, description, parameters, deferUntilEot, endpoint, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

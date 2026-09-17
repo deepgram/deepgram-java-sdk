@@ -120,6 +120,12 @@ public class VoiceAgent {
                 System.out.println("Function call requested: " + request);
             });
 
+            wsClient.onFunctionCallCancelled(cancelled -> {
+                cancelled
+                        .getFunctions()
+                        .forEach(function -> System.out.println("Function call cancelled: " + function.getName()));
+            });
+
             wsClient.onErrorMessage(error -> {
                 System.err.println("Agent error: " + error);
             });

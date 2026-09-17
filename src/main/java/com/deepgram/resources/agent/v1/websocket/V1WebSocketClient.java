@@ -15,6 +15,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1AgentThinking;
 import com.deepgram.resources.agent.v1.types.AgentV1ConversationText;
 import com.deepgram.resources.agent.v1.types.AgentV1Error;
 import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
+import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallCancelled;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallRequest;
 import com.deepgram.resources.agent.v1.types.AgentV1History;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
@@ -103,6 +104,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<AgentV1LatencyReport> latencyReportHandler;
 
     private volatile Consumer<AgentV1FunctionCallRequest> functionCallRequestHandler;
+
+    private volatile Consumer<AgentV1FunctionCallCancelled> functionCallCancelledHandler;
 
     private volatile Consumer<AgentV1AgentStartedSpeaking> agentStartedSpeakingHandler;
 
@@ -441,6 +444,14 @@ public class V1WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Registers a handler for AgentV1FunctionCallCancelled messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onFunctionCallCancelled(Consumer<AgentV1FunctionCallCancelled> handler) {
+        this.functionCallCancelledHandler = handler;
+    }
+
+    /**
      * Registers a handler for AgentV1AgentStartedSpeaking messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -705,6 +716,21 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (functionCallRequestHandlerEvent != null) {
                     if (functionCallRequestHandler != null) {
                         functionCallRequestHandler.accept(functionCallRequestHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("functions")
+                    && "FunctionCallCancelled".equals(node.path("type").asText())) {
+                AgentV1FunctionCallCancelled functionCallCancelledHandlerEvent = null;
+                try {
+                    functionCallCancelledHandlerEvent =
+                            objectMapper.treeToValue(node, AgentV1FunctionCallCancelled.class);
+                } catch (Exception e) {
+                }
+                if (functionCallCancelledHandlerEvent != null) {
+                    if (functionCallCancelledHandler != null) {
+                        functionCallCancelledHandler.accept(functionCallCancelledHandlerEvent);
                     }
                     return;
                 }
