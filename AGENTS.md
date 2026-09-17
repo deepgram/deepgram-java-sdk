@@ -25,7 +25,6 @@ How to identify:
 Current permanently frozen files:
 
 - `src/main/java/com/deepgram/DeepgramClient.java`, `src/main/java/com/deepgram/AsyncDeepgramClient.java`, `src/main/java/com/deepgram/DeepgramClientBuilder.java`, `src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java` - custom wrapper entrypoints that add Bearer auth, session ID support, and custom transport behavior on top of Fern's generated API client
-- `src/main/java/com/deepgram/DeepgramJson.java` - stable public facade for the SDK-configured Jackson mapper
 - `src/main/java/com/deepgram/core/transport/` - hand-written transport abstraction
 - `build.gradle`, `settings.gradle`, `gradle/`, `gradlew`, `gradlew.bat`, `pom.xml`, `Makefile` - build and project configuration
 - `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `LICENSE`, `docs/` - docs
