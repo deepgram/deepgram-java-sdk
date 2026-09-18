@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.0...v0.10.1) (2026-09-18)
+
+
+### Features
+
+* **regen:** agent function cancellation and defer-until-EOT ([#110](https://github.com/deepgram/deepgram-java-sdk/issues/110)) ([be27248](https://github.com/deepgram/deepgram-java-sdk/commit/be27248ae2a7f14e3532ff0c5382dd96e69bd3c1))
+
 ## [0.10.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.9.0...v0.10.0) (2026-09-11)
 
 Agent force-end-turn support, Flux TTS expressivity controls, and a wider Flux TTS speed range. This pre-1.0 minor release also removes stale TTS symbols.
