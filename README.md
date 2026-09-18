@@ -660,7 +660,7 @@ MediaTranscribeResponse body = rawResponse.body();
 
 ## JSON Serialization
 
-Use the SDK's configured mapper when reading or writing SDK request and response objects. It registers the Jackson modules required for Java `Optional` and date/time fields; a plain `new ObjectMapper()` can throw `InvalidDefinitionException`. It also tolerates unknown response fields, allowing an older SDK to parse responses that include new API fields. For logging or debugging, generated SDK models already return pretty-printed JSON from `toString()`.
+Use the SDK's configured mapper when reading or writing SDK request and response objects. It registers the Jackson modules required for Java `Optional` and date/time fields; a plain `new ObjectMapper()` can throw `InvalidDefinitionException`. It also tolerates unknown response fields, allowing an older SDK to parse responses that include new API fields. For logging or debugging, generated SDK object models already return pretty-printed JSON from `toString()`.
 
 ```java
 import com.fasterxml.jackson.core.JsonProcessingException;
