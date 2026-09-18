@@ -658,6 +658,41 @@ var headers = rawResponse.headers();
 MediaTranscribeResponse body = rawResponse.body();
 ```
 
+## Working with JSON
+
+Use the SDK's configured mapper, `ObjectMappers.JSON_MAPPER`, when reading or writing SDK request and response objects. It registers the Jackson modules required for Java `Optional` and date/time fields. A plain `new ObjectMapper()` does not register these modules; parsing a `CreateKeyV1Response` with it throws `InvalidDefinitionException`. Generated model builders use `@JsonIgnoreProperties(ignoreUnknown = true)`, so older SDK versions can parse newer response fields; those unrecognized fields survive in the model's `additionalProperties`.
+
+Field-bearing object models return pretty-printed JSON from `toString()`. Union and alias wrappers return their wrapped representation rather than JSON, and any model falls back to the class name and hash when an embedded value cannot serialize:
+
+```java
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.deepgram.core.ObjectMappers;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.types.CreateKeyV1Response;
+
+ListenV1RequestUrl request = ListenV1RequestUrl.builder()
+    .url("https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav")
+    .build();
+
+try {
+    // Serialize a request
+    String json = ObjectMappers.JSON_MAPPER.writeValueAsString(request);
+    System.out.println(json);
+
+    // Parse a Management API key-creation response
+    String payload = "{\"api_key_id\":\"id\",\"key\":\"secret\",\"expiration_date\":\"2026-09-17T11:06:39Z\"}";
+    CreateKeyV1Response parsed = ObjectMappers.JSON_MAPPER.readValue(payload, CreateKeyV1Response.class);
+    System.out.println(parsed.getApiKeyId());
+
+    // Pretty-printed JSON for debugging
+    System.out.println(request.toString());
+} catch (JsonProcessingException e) {
+    throw new IllegalStateException("Failed to serialize or parse an SDK object", e);
+}
+```
+
+> **Note:** `toString()` prints every field, including secrets. A key-creation response carries the new key in `key`, and the Management API returns that value only once — redact sensitive fields before writing this output to logs.
+
 ## Complete SDK Reference
 
 The SDK provides comprehensive access to Deepgram's APIs:
