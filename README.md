@@ -660,9 +660,9 @@ MediaTranscribeResponse body = rawResponse.body();
 
 ## Working with JSON
 
-Use the SDK's configured mapper, `ObjectMappers.JSON_MAPPER`, when reading or writing SDK request and response objects. It registers the Jackson modules required for Java `Optional` and date/time fields. A plain `new ObjectMapper()` does not, and throws `InvalidDefinitionException` on types that use them — parsing a `CreateKeyV1Response`, for example. Responses also keep fields your SDK build does not know about, so an older SDK parses a newer API response and the unrecognized fields survive on the model's `additionalProperties`.
+Use the SDK's configured mapper, `ObjectMappers.JSON_MAPPER`, when reading or writing SDK request and response objects. It registers the Jackson modules required for Java `Optional` and date/time fields. A plain `new ObjectMapper()` does not register these modules; parsing a `CreateKeyV1Response` with it throws `InvalidDefinitionException`. Generated model builders use `@JsonIgnoreProperties(ignoreUnknown = true)`, so older SDK versions can parse newer response fields; those unrecognized fields survive in the model's `additionalProperties`.
 
-Models with fields return pretty-printed JSON from `toString()`. Wrapper types for unions and aliases return the wrapped value instead, and any model falls back to the class name and hash when an embedded value cannot serialize:
+Field-bearing object models return pretty-printed JSON from `toString()`. Union and alias wrappers return their wrapped representation rather than JSON, and any model falls back to the class name and hash when an embedded value cannot serialize:
 
 ```java
 import com.fasterxml.jackson.core.JsonProcessingException;
