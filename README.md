@@ -658,9 +658,11 @@ var headers = rawResponse.headers();
 MediaTranscribeResponse body = rawResponse.body();
 ```
 
-## JSON Serialization
+## Working with JSON
 
-Use the SDK's configured mapper when reading or writing SDK request and response objects. It registers the Jackson modules required for Java `Optional` and date/time fields; a plain `new ObjectMapper()` can throw `InvalidDefinitionException`. It also tolerates unknown response fields, allowing an older SDK to parse responses that include new API fields. For debugging only, generated SDK object models attempt to return pretty-printed JSON from `toString()`, but fall back to the class name and hash when an embedded value cannot serialize. Redact credentials and sensitive fields before writing this output to logs.
+Use the SDK's configured mapper, `ObjectMappers.JSON_MAPPER`, when reading or writing SDK request and response objects. It registers the Jackson modules required for Java `Optional` and date/time fields. A plain `new ObjectMapper()` does not, and throws `InvalidDefinitionException` on types that use them — parsing a `CreateKeyV1Response`, for example. Responses also keep fields your SDK build does not know about, so an older SDK parses a newer API response and the unrecognized fields survive on the model's `additionalProperties`.
+
+Models with fields return pretty-printed JSON from `toString()`. Wrapper types for unions and aliases return the wrapped value instead, and any model falls back to the class name and hash when an embedded value cannot serialize:
 
 ```java
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -673,15 +675,23 @@ ListenV1RequestUrl request = ListenV1RequestUrl.builder()
     .build();
 
 try {
-    ObjectMappers.JSON_MAPPER.writeValueAsString(request);
+    // Serialize a request
+    String json = ObjectMappers.JSON_MAPPER.writeValueAsString(request);
+    System.out.println(json);
 
-    // Parsing a Management API key-creation response. Never log the returned key value.
+    // Parse a Management API key-creation response
     String payload = "{\"api_key_id\":\"id\",\"key\":\"secret\",\"expiration_date\":\"2026-09-17T11:06:39Z\"}";
-    ObjectMappers.JSON_MAPPER.readValue(payload, CreateKeyV1Response.class);
+    CreateKeyV1Response parsed = ObjectMappers.JSON_MAPPER.readValue(payload, CreateKeyV1Response.class);
+    System.out.println(parsed.getApiKeyId());
+
+    // Pretty-printed JSON for debugging
+    System.out.println(request.toString());
 } catch (JsonProcessingException e) {
     throw new IllegalStateException("Failed to serialize or parse an SDK object", e);
 }
 ```
+
+> **Note:** `toString()` prints every field, including secrets. A key-creation response carries the new key in `key`, and the Management API returns that value only once — redact sensitive fields before writing this output to logs.
 
 ## Complete SDK Reference
 
