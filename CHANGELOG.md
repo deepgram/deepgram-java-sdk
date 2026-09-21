@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.0...v0.10.1) (2026-09-18)
+
+
+### Features
+
+* **Agent:** add `V1WebSocketClient#onFunctionCallCancelled(...)` for cancelled function-call events. Function settings also support `deferUntilEot(true)` to defer irreversible actions until the user's turn is confirmed. ([#110](https://github.com/deepgram/deepgram-java-sdk/issues/110)) ([be27248](https://github.com/deepgram/deepgram-java-sdk/commit/be27248ae2a7f14e3532ff0c5382dd96e69bd3c1))
+
+### Bug Fixes
+
+* **WebSockets:** complete peer-initiated close handshakes, set the ready state to `CLOSED`, and invoke `onDisconnected(...)` when the server closes a connection.
+* **Listen v2:** suppress automatic reconnect only after the active connection successfully sends `CloseStream` and receives a no-status (`1005`) close; server-initiated closes continue to follow the configured reconnect policy.
+
 ## [0.10.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.9.0...v0.10.0) (2026-09-11)
 
 Agent force-end-turn support, Flux TTS expressivity controls, and a wider Flux TTS speed range. This pre-1.0 minor release also removes stale TTS symbols.
