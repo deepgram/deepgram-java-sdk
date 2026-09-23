@@ -89,18 +89,28 @@ If you need to tolerate an `stt_latency` value on the wire from an older server,
 
 `0.7.0` also adds new generated types and constants that do not require migration unless you want to use them:
 
-- **Flux STT `numerals`**: a new `ListenV2Numerals` type (`com.deepgram.types.ListenV2Numerals`, values `TRUE` / `FALSE`) and an optional `numerals` query parameter on the Listen V2 WebSocket connection via `V2ConnectOptions.numerals(...)`. It renders spoken numbers as digits in the transcript (for example, "twenty three" → "23"). Connection-time only.
+- **Flux STT `numerals`**: `0.7.0` added a `ListenV2Numerals` type (`com.deepgram.types.ListenV2Numerals`, values `TRUE` / `FALSE`) and an optional `numerals` query parameter on the Listen V2 WebSocket connection via `V2ConnectOptions.numerals(...)`. It renders spoken numbers as digits in the transcript (for example, "twenty three" → "23").
 
   ```java
   import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
   import com.deepgram.types.ListenV2Model;
   import com.deepgram.types.ListenV2Numerals;
 
-  wsClient.connect(V2ConnectOptions.builder()
-      .model(ListenV2Model.FLUX_GENERAL_EN)
-      .numerals(ListenV2Numerals.TRUE)
-      .build());
-  ```
+   wsClient.connect(V2ConnectOptions.builder()
+       .model(ListenV2Model.FLUX_GENERAL_EN)
+       .numerals(ListenV2Numerals.TRUE)
+       .build());
+   ```
+
+   Current SDK versions can also update numerals for turns transcribed after the update without reconnecting:
+
+   ```java
+   import com.deepgram.resources.listen.v2.types.ListenV2Configure;
+
+   wsClient.sendConfigure(ListenV2Configure.builder()
+       .numerals(true)
+       .build());
+   ```
 
 - **New Aura-2 multilingual TTS voices**: roughly 40 new voices were added across `SpeakV1Model` (streaming/`speak.v2`) and `AudioGenerateRequestModel` (REST/`speak.v1.audio.generate`), covering Italian, Dutch, Spanish, German, Japanese, and French (for example, `SpeakV1Model.AURA2AURELIA_DE`, wire name `aura-2-aurelia-de`). Purely additive — existing voice constants are unchanged.
 

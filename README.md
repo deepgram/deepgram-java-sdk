@@ -71,11 +71,16 @@ Get your API key from the [Deepgram Console](https://console.deepgram.com/).
 ### Resource Lifecycle
 
 Close an SDK-created client when your application is finished with it. This releases the OkHttp dispatcher and
-connection pool, which is especially important for short-lived command-line programs that use WebSockets.
+connection pool. Close each WebSocket client before closing its root client; root-client cleanup does not close active
+WebSocket clients for you.
 
 ```java
+import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
+
 try (DeepgramClient client = DeepgramClient.builder().build()) {
-    // Use the client.
+    try (V2WebSocketClient ws = client.listen().v2().v2WebSocket()) {
+        // Connect and use the WebSocket client.
+    }
 }
 ```
 
@@ -288,6 +293,30 @@ ws.sendCloseStream(ListenV1CloseStream.builder()
 
 // Close when done
 ws.close();
+```
+
+### Flux Transcription (Listen V2 WebSocket)
+
+Flux supports turn-aware streaming transcription. Set `numerals` when connecting, or change it for turns transcribed
+after a runtime Configure update without reconnecting.
+
+```java
+import com.deepgram.resources.listen.v2.types.ListenV2Configure;
+import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
+import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
+import com.deepgram.types.ListenV2Model;
+import com.deepgram.types.ListenV2Numerals;
+
+V2WebSocketClient fluxWs = client.listen().v2().v2WebSocket();
+fluxWs.connect(V2ConnectOptions.builder()
+    .model(ListenV2Model.FLUX_GENERAL_EN)
+    .numerals(ListenV2Numerals.FALSE)
+    .build());
+
+// This applies to future turns without reconnecting.
+fluxWs.sendConfigure(ListenV2Configure.builder()
+    .numerals(true)
+    .build());
 ```
 
 ### Text-to-Speech Streaming (Speak WebSocket)
