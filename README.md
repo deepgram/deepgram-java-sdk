@@ -306,12 +306,14 @@ import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2Numerals;
+import java.util.concurrent.TimeUnit;
 
 V2WebSocketClient fluxWs = client.listen().v2().v2WebSocket();
 fluxWs.connect(V2ConnectOptions.builder()
     .model(ListenV2Model.FLUX_GENERAL_EN)
     .numerals(ListenV2Numerals.FALSE)
-    .build());
+    .build())
+    .get(10, TimeUnit.SECONDS);
 
 // This applies to future turns without reconnecting.
 fluxWs.sendConfigure(ListenV2Configure.builder()
