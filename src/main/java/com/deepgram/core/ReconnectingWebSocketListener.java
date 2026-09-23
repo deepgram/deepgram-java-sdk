@@ -104,7 +104,7 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 TimeoutException timeoutError =
                         new TimeoutException("WebSocket connection timeout after " + options.connectionTimeoutMs + " milliseconds"
                                 + (retryCount.get() > 0
-                                        ? " (retry attempt #" + retryCount.get()
+                                        ? " (retry attempt #" + retryCount.get() + ")"
                                         : " (initial connection attempt)"));
                 onWebSocketFailure(null, timeoutError, null);
                 if (shouldReconnect.get()) {
