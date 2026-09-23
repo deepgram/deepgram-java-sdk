@@ -3,8 +3,6 @@
  */
 package com.deepgram.resources.listen.v2.types;
 
-// Manual patch - see .fernignore.
-
 import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -36,11 +34,6 @@ public final class ListenV2ForceEndTurn {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ListenV2ForceEndTurn;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 
     @JsonAnyGetter

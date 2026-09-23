@@ -15,7 +15,7 @@ import com.deepgram.resources.speak.SpeakClient;
 import com.deepgram.resources.voiceagent.VoiceAgentClient;
 import java.util.function.Supplier;
 
-public class DeepgramApiClient {
+public class DeepgramApiClient implements AutoCloseable {
     protected final ClientOptions clientOptions;
 
     protected final Supplier<AgentClient> agentClient;
@@ -76,6 +76,15 @@ public class DeepgramApiClient {
 
     public VoiceAgentClient voiceAgent() {
         return this.voiceAgentClient.get();
+    }
+
+    /**
+     * Releases resources owned by this client. See {@code ClientOptions.close()} for what is
+     * and is not released.
+     */
+    @Override
+    public void close() {
+        this.clientOptions.close();
     }
 
     public static DeepgramApiClientBuilder builder() {
