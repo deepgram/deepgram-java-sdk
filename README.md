@@ -68,6 +68,19 @@ DeepgramClient explicitClient = DeepgramClient.builder()
 
 Get your API key from the [Deepgram Console](https://console.deepgram.com/).
 
+### Resource Lifecycle
+
+Close an SDK-created client when your application is finished with it. This releases the OkHttp dispatcher and
+connection pool, which is especially important for short-lived command-line programs that use WebSockets.
+
+```java
+try (DeepgramClient client = DeepgramClient.builder().build()) {
+    // Use the client.
+}
+```
+
+If you provide an `OkHttpClient` through `.httpClient(...)`, you retain ownership and must close its resources yourself.
+
 ### Bearer Token Authentication
 
 Use an access token (JWT) for Bearer authentication. When provided, the access token takes precedence over any API key:

@@ -146,6 +146,82 @@ class ClientBuilderTest {
     }
 
     @Nested
+    @DisplayName("Client lifecycle")
+    class ClientLifecycle {
+
+        @Test
+        @DisplayName("closing the default client releases SDK-owned HTTP resources")
+        void closesDefaultClientResources() {
+            DeepgramClient client = DeepgramClient.builder().apiKey("test-key").build();
+
+            client.close();
+
+            assertThat(client.clientOptions
+                            .httpClient()
+                            .dispatcher()
+                            .executorService()
+                            .isShutdown())
+                    .isTrue();
+        }
+
+        @Test
+        @DisplayName("closing the default async client releases SDK-owned HTTP resources")
+        void closesDefaultAsyncClientResources() {
+            AsyncDeepgramClient client =
+                    AsyncDeepgramClient.builder().apiKey("test-key").build();
+
+            client.close();
+
+            assertThat(client.clientOptions
+                            .httpClient()
+                            .dispatcher()
+                            .executorService()
+                            .isShutdown())
+                    .isTrue();
+        }
+
+        @Test
+        @DisplayName("closing a client does not release caller-owned HTTP resources")
+        void doesNotCloseCustomClientResources() {
+            OkHttpClient customHttpClient = new OkHttpClient.Builder().build();
+            DeepgramClient client = DeepgramClient.builder()
+                    .apiKey("test-key")
+                    .httpClient(customHttpClient)
+                    .build();
+
+            try {
+                client.close();
+
+                assertThat(customHttpClient.dispatcher().executorService().isShutdown())
+                        .isFalse();
+            } finally {
+                customHttpClient.dispatcher().executorService().shutdown();
+                customHttpClient.connectionPool().evictAll();
+            }
+        }
+
+        @Test
+        @DisplayName("closing an async client does not release caller-owned HTTP resources")
+        void doesNotCloseCustomAsyncClientResources() {
+            OkHttpClient customHttpClient = new OkHttpClient.Builder().build();
+            AsyncDeepgramClient client = AsyncDeepgramClient.builder()
+                    .apiKey("test-key")
+                    .httpClient(customHttpClient)
+                    .build();
+
+            try {
+                client.close();
+
+                assertThat(customHttpClient.dispatcher().executorService().isShutdown())
+                        .isFalse();
+            } finally {
+                customHttpClient.dispatcher().executorService().shutdown();
+                customHttpClient.connectionPool().evictAll();
+            }
+        }
+    }
+
+    @Nested
     @DisplayName("Custom headers configuration")
     class CustomHeadersConfiguration {
 

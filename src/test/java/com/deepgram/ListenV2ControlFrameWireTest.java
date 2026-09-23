@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.Environment;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
+import com.deepgram.resources.listen.v2.types.ListenV2Configure;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
@@ -113,5 +114,16 @@ class ListenV2ControlFrameWireTest {
 
         assertThat(frame).as("CloseStream frame reached the server").isNotNull();
         assertThat(frame).contains("\"type\":\"CloseStream\"");
+    }
+
+    @Test
+    @DisplayName("sendConfigure serializes a Configure frame carrying numerals")
+    void sendConfigureNumeralsFrame() throws Exception {
+        String frame = connectAndCaptureSentFrame(ws -> ws.sendConfigure(
+                ListenV2Configure.builder().numerals(true).build()));
+
+        assertThat(frame).as("Configure frame reached the server").isNotNull();
+        assertThat(frame).contains("\"type\":\"Configure\"");
+        assertThat(frame).contains("\"numerals\":true");
     }
 }
