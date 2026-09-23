@@ -51,6 +51,11 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
 src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 
+# Close is safe before connect in every generated WebSocket client. The listener is created only
+# during connect(), so disconnect() must tolerate a null listener for try-with-resources clients.
+# Remove these patches once Fern emits the null guard.
+src/main/java/com/deepgram/resources/agent/v1/websocket/V1WebSocketClient.java
+
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the
 # server's model registry (an invented flux-* name is rejected with INVALID_QUERY_PARAMETER), so the

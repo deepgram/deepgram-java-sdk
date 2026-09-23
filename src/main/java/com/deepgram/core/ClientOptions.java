@@ -132,10 +132,10 @@ public final class ClientOptions {
      * OkHttpClient itself; an OkHttpClient supplied via httpClient is left running, since the
      * caller owns its lifecycle.
      * <p>
-     * In-flight calls are not cancelled or awaited, and any request issued after this method
-     * returns fails with a {@code RejectedExecutionException}. Options derived from this one via
-     * {@code Builder.from(...)} share the same dispatcher and connection pool, so closing either
-     * releases them for both. Calling this method more than once has no further effect.
+     * In-flight calls are not cancelled or awaited. Later asynchronous requests fail when the
+     * dispatcher rejects work, while synchronous requests may still run. Options derived from this
+     * one via {@code Builder.from(...)} share the same dispatcher and connection pool, so closing
+     * either releases them for both. Calling this method more than once has no further effect.
      */
     public void close() {
         if (!this.ownsHttpClient) {

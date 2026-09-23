@@ -122,8 +122,23 @@ class ListenV2ControlFrameWireTest {
         String frame = connectAndCaptureSentFrame(ws -> ws.sendConfigure(
                 ListenV2Configure.builder().numerals(true).build()));
 
-        assertThat(frame).as("Configure frame reached the server").isNotNull();
-        assertThat(frame).contains("\"type\":\"Configure\"");
-        assertThat(frame).contains("\"numerals\":true");
+        assertThat(frame).isEqualTo("{\"numerals\":true,\"type\":\"Configure\"}");
+    }
+
+    @Test
+    @DisplayName("sendConfigure serializes numerals false")
+    void sendConfigureNumeralsFalseFrame() throws Exception {
+        String frame = connectAndCaptureSentFrame(ws -> ws.sendConfigure(
+                ListenV2Configure.builder().numerals(false).build()));
+
+        assertThat(frame).isEqualTo("{\"numerals\":false,\"type\":\"Configure\"}");
+    }
+
+    @Test
+    @DisplayName("sendConfigure serializes no unconfigured fields")
+    void sendConfigureWithoutFieldsFrame() throws Exception {
+        String frame = connectAndCaptureSentFrame(ws -> ws.sendConfigure(ListenV2Configure.builder().build()));
+
+        assertThat(frame).isEqualTo("{\"type\":\"Configure\"}");
     }
 }

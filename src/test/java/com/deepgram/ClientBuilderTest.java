@@ -181,6 +181,18 @@ class ClientBuilderTest {
         }
 
         @Test
+        @DisplayName("closing WebSocket clients before connecting is safe")
+        void closesWebSocketClientsBeforeConnecting() {
+            try (DeepgramClient client = DeepgramClient.builder().apiKey("test-key").build()) {
+                client.listen().v1().v1WebSocket().close();
+                client.listen().v2().v2WebSocket().close();
+                client.speak().v1().v1WebSocket().close();
+                client.speak().v2().v2WebSocket().close();
+                client.agent().v1().v1WebSocket().close();
+            }
+        }
+
+        @Test
         @DisplayName("closing a client does not release caller-owned HTTP resources")
         void doesNotCloseCustomClientResources() {
             OkHttpClient customHttpClient = new OkHttpClient.Builder().build();

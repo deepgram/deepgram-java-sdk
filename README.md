@@ -75,11 +75,19 @@ connection pool. Close each WebSocket client before closing its root client; roo
 WebSocket clients for you.
 
 ```java
+import com.deepgram.DeepgramClient;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
+import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
+import com.deepgram.types.ListenV2Model;
+import java.util.concurrent.TimeUnit;
 
 try (DeepgramClient client = DeepgramClient.builder().build()) {
     try (V2WebSocketClient ws = client.listen().v2().v2WebSocket()) {
-        // Connect and use the WebSocket client.
+        ws.connect(V2ConnectOptions.builder()
+            .model(ListenV2Model.FLUX_GENERAL_EN)
+            .build())
+            .get(10, TimeUnit.SECONDS);
+        // Send audio and handle events.
     }
 }
 ```
@@ -301,6 +309,7 @@ Flux supports turn-aware streaming transcription. Set `numerals` when connecting
 after a runtime Configure update without reconnecting.
 
 ```java
+import com.deepgram.DeepgramClient;
 import com.deepgram.resources.listen.v2.types.ListenV2Configure;
 import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
@@ -308,17 +317,21 @@ import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2Numerals;
 import java.util.concurrent.TimeUnit;
 
-V2WebSocketClient fluxWs = client.listen().v2().v2WebSocket();
-fluxWs.connect(V2ConnectOptions.builder()
-    .model(ListenV2Model.FLUX_GENERAL_EN)
-    .numerals(ListenV2Numerals.FALSE)
-    .build())
-    .get(10, TimeUnit.SECONDS);
+try (DeepgramClient client = DeepgramClient.builder().build()) {
+    try (V2WebSocketClient fluxWs = client.listen().v2().v2WebSocket()) {
+        fluxWs.connect(V2ConnectOptions.builder()
+            .model(ListenV2Model.FLUX_GENERAL_EN)
+            .numerals(ListenV2Numerals.FALSE)
+            .build())
+            .get(10, TimeUnit.SECONDS);
 
-// This applies to future turns without reconnecting.
-fluxWs.sendConfigure(ListenV2Configure.builder()
-    .numerals(true)
-    .build());
+        // This applies to future turns without reconnecting.
+        fluxWs.sendConfigure(ListenV2Configure.builder()
+            .numerals(true)
+            .build())
+            .get(10, TimeUnit.SECONDS);
+    }
+}
 ```
 
 ### Text-to-Speech Streaming (Speak WebSocket)

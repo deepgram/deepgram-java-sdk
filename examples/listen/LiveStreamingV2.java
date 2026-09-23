@@ -89,7 +89,8 @@ public class LiveStreamingV2 {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            wsClient.disconnect();
+            wsClient.close();
+            client.close();
         }
     }
 }

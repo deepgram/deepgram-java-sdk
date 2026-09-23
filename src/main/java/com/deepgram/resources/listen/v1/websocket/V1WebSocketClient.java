@@ -3,6 +3,8 @@
  */
 package com.deepgram.resources.listen.v1.websocket;
 
+// Manual patch - see .fernignore.
+
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
@@ -276,7 +278,9 @@ public class V1WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
-        reconnectingListener.disconnect();
+        if (reconnectingListener != null) {
+            reconnectingListener.disconnect();
+        }
         if (timeoutExecutor != null) {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;

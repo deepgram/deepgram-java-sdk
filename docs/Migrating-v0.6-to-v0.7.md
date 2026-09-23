@@ -89,7 +89,7 @@ If you need to tolerate an `stt_latency` value on the wire from an older server,
 
 `0.7.0` also adds new generated types and constants that do not require migration unless you want to use them:
 
-- **Flux STT `numerals`**: a new `ListenV2Numerals` type (`com.deepgram.types.ListenV2Numerals`, values `TRUE` / `FALSE`) and an optional `numerals` query parameter on the Listen V2 WebSocket connection via `V2ConnectOptions.numerals(...)`. It renders spoken numbers as digits in the transcript (for example, "twenty three" → "23"). Connection-time only.
+- **Flux STT `numerals`**: a new `ListenV2Numerals` type (`com.deepgram.types.ListenV2Numerals`, values `TRUE` / `FALSE`) and an optional `numerals` query parameter on the Listen V2 WebSocket connection via `V2ConnectOptions.numerals(...)`. It renders spoken numbers as digits in the transcript (for example, "twenty three" → "23"). Connection-time only as of 0.7.0; later versions can also update it mid-stream with `ListenV2Configure` (see the README).
 
   ```java
   import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
