@@ -26,12 +26,9 @@ import okio.ByteString;
  * Provides production-ready resilience for WebSocket connections.
  */
 public abstract class ReconnectingWebSocketListener extends WebSocketListener {
-    // Overridable options are held behind a single volatile reference so a reader that snapshots
-    // it once sees a mutually consistent set. TransportWebSocketFactory uses this to honor
-    // DeepgramTransportFactory.reconnectOptions() without changing generated WebSocket clients.
+    // A single volatile reference keeps an override internally consistent.
     private volatile ReconnectOptions activeOptions;
 
-    // The queue capacity is fixed at construction and intentionally cannot be overridden.
     private final int maxEnqueuedMessages;
 
     private final AtomicInteger retryCount = new AtomicInteger(0);
@@ -66,9 +63,7 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
     }
 
     /**
-     * Replaces the option-derived parameters without rebuilding generated clients. The initial
-     * connection can already be in progress, so the override takes effect no later than the next
-     * attempt. {@code maxRetries(0)} still allows that initial attempt and prevents retries.
+     * Replaces option-derived reconnect settings without rebuilding generated clients.
      *
      * @param options replacement options; {@code null} is a no-op
      */
@@ -95,7 +90,6 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
         if (!connectLock.compareAndSet(false, true)) {
             return;
         }
-        // A single read keeps the retry gate and timeout consistent if transport options change.
         ReconnectOptions options = this.activeOptions;
         if (retryCount.get() > options.maxRetries) {
             connectLock.set(false);
@@ -548,8 +542,6 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
             /**
              * Sets the per-attempt connection timeout in milliseconds. Defaults to {@code 4000}.
-             * Each call to {@link ReconnectingWebSocketListener#connect()} waits at most this
-             * long for the underlying WebSocket factory to produce a connected socket.
              */
             public Builder connectionTimeoutMs(long connectionTimeoutMs) {
                 this.connectionTimeoutMs = connectionTimeoutMs;
@@ -564,7 +556,6 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
              * - minReconnectionDelayMs <= maxReconnectionDelayMs
              * - reconnectionDelayGrowFactor >= 1.0
              * - maxRetries and maxEnqueuedMessages are non-negative
-             * - connectionTimeoutMs is positive
              *
              * @return The validated ReconnectOptions instance
              * @throws IllegalArgumentException if configuration is invalid

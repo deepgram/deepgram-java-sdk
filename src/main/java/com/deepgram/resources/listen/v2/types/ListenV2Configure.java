@@ -28,16 +28,20 @@ public final class ListenV2Configure {
 
     private final Optional<List<String>> languageHints;
 
+    private final Optional<Boolean> numerals;
+
     private final Map<String, Object> additionalProperties;
 
     private ListenV2Configure(
             Optional<ListenV2ConfigureThresholds> thresholds,
             Optional<ListenV2Keyterm> keyterms,
             Optional<List<String>> languageHints,
+            Optional<Boolean> numerals,
             Map<String, Object> additionalProperties) {
         this.thresholds = thresholds;
         this.keyterms = keyterms;
         this.languageHints = languageHints;
+        this.numerals = numerals;
         this.additionalProperties = additionalProperties;
     }
 
@@ -73,6 +77,11 @@ public final class ListenV2Configure {
         return languageHints;
     }
 
+    @JsonProperty("numerals")
+    public Optional<Boolean> getNumerals() {
+        return numerals;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -87,12 +96,13 @@ public final class ListenV2Configure {
     private boolean equalTo(ListenV2Configure other) {
         return thresholds.equals(other.thresholds)
                 && keyterms.equals(other.keyterms)
-                && languageHints.equals(other.languageHints);
+                && languageHints.equals(other.languageHints)
+                && numerals.equals(other.numerals);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.thresholds, this.keyterms, this.languageHints);
+        return Objects.hash(this.thresholds, this.keyterms, this.languageHints, this.numerals);
     }
 
     @java.lang.Override
@@ -112,6 +122,8 @@ public final class ListenV2Configure {
 
         private Optional<List<String>> languageHints = Optional.empty();
 
+        private Optional<Boolean> numerals = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -121,6 +133,7 @@ public final class ListenV2Configure {
             thresholds(other.getThresholds());
             keyterms(other.getKeyterms());
             languageHints(other.getLanguageHints());
+            numerals(other.getNumerals());
             return this;
         }
 
@@ -166,8 +179,19 @@ public final class ListenV2Configure {
             return this;
         }
 
+        @JsonSetter(value = "numerals", nulls = Nulls.SKIP)
+        public Builder numerals(Optional<Boolean> numerals) {
+            this.numerals = numerals;
+            return this;
+        }
+
+        public Builder numerals(Boolean numerals) {
+            this.numerals = Optional.ofNullable(numerals);
+            return this;
+        }
+
         public ListenV2Configure build() {
-            return new ListenV2Configure(thresholds, keyterms, languageHints, additionalProperties);
+            return new ListenV2Configure(thresholds, keyterms, languageHints, numerals, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

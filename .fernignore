@@ -14,6 +14,7 @@ src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java
 # Contains User-Agent, X-Fern-SDK-Name, and X-Fern-SDK-Version headers
 # with // x-release-please-version comments for automated version bumps.
 # Fern regen overwrites these with incorrect SDK names and strips the markers.
+# Fern 4.21.0 owns the OkHttp lifecycle behavior; retain it while reapplying only these headers.
 src/main/java/com/deepgram/core/ClientOptions.java
 
 # Transport abstraction (pluggable transport for SageMaker, etc.)
@@ -49,6 +50,11 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 # repeats and serializes additionalProperties on the WS connect path (tracked as an upstream Fern request).
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
 src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
+
+# Close is safe before connect in every generated WebSocket client. The listener is created only
+# during connect(), so disconnect() must tolerate a null listener for try-with-resources clients.
+# Remove these patches once Fern emits the null guard.
+src/main/java/com/deepgram/resources/agent/v1/websocket/V1WebSocketClient.java
 
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the

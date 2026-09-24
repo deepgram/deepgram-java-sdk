@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentContextListen;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsAgentListen;
+import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListen;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +57,22 @@ public class AgentSettingsProviderDefaultTest {
         assertThat(listen.getProvider().get().isV2()).isTrue();
         assertThat(listen.getProvider().get()._isUnknown()).isFalse();
         assertThat(listen.getProvider().get().getV2().get().getModel()).isEqualTo("nova-3");
+
+        String again = ObjectMappers.JSON_MAPPER.writeValueAsString(listen);
+        assertThat(again).doesNotContain("\"provider\":null");
+        assertThat(again).contains("\"model\":\"nova-3\"");
+    }
+
+    @Test
+    @DisplayName("update listen: a provider with no \"version\" key parses as V2")
+    void updateListenVersionlessProviderIsV2() throws Exception {
+        AgentV1UpdateListenListen listen =
+                ObjectMappers.JSON_MAPPER.readValue(VERSIONLESS, AgentV1UpdateListenListen.class);
+
+        assertThat(listen.getProvider().isV2()).isTrue();
+        assertThat(listen.getProvider()._isUnknown()).isFalse();
+        assertThat(listen.getProvider().getV2()).isPresent();
+        assertThat(listen.getProvider().getV2().get().getModel()).isEqualTo("nova-3");
 
         String again = ObjectMappers.JSON_MAPPER.writeValueAsString(listen);
         assertThat(again).doesNotContain("\"provider\":null");

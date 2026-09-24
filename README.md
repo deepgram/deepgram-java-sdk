@@ -68,6 +68,32 @@ DeepgramClient explicitClient = DeepgramClient.builder()
 
 Get your API key from the [Deepgram Console](https://console.deepgram.com/).
 
+### Resource Lifecycle
+
+Close an SDK-created client when your application is finished with it. This releases the OkHttp dispatcher and
+connection pool. Close each WebSocket client before closing its root client; root-client cleanup does not close active
+WebSocket clients for you.
+
+```java
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
+import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
+import com.deepgram.types.ListenV2Model;
+import java.util.concurrent.TimeUnit;
+
+try (DeepgramClient client = DeepgramClient.builder().build()) {
+    try (V2WebSocketClient ws = client.listen().v2().v2WebSocket()) {
+        ws.connect(V2ConnectOptions.builder()
+            .model(ListenV2Model.FLUX_GENERAL_EN)
+            .build())
+            .get(10, TimeUnit.SECONDS);
+        // Send audio and handle events.
+    }
+}
+```
+
+If you provide an `OkHttpClient` through `.httpClient(...)`, you retain ownership and must close its resources yourself.
+
 ### Bearer Token Authentication
 
 Use an access token (JWT) for Bearer authentication. When provided, the access token takes precedence over any API key:
@@ -275,6 +301,37 @@ ws.sendCloseStream(ListenV1CloseStream.builder()
 
 // Close when done
 ws.close();
+```
+
+### Flux Transcription (Listen V2 WebSocket)
+
+Flux supports turn-aware streaming transcription. Set `numerals` when connecting, or change it for turns transcribed
+after a runtime Configure update without reconnecting.
+
+```java
+import com.deepgram.DeepgramClient;
+import com.deepgram.resources.listen.v2.types.ListenV2Configure;
+import com.deepgram.resources.listen.v2.websocket.V2ConnectOptions;
+import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
+import com.deepgram.types.ListenV2Model;
+import com.deepgram.types.ListenV2Numerals;
+import java.util.concurrent.TimeUnit;
+
+try (DeepgramClient client = DeepgramClient.builder().build()) {
+    try (V2WebSocketClient fluxWs = client.listen().v2().v2WebSocket()) {
+        fluxWs.connect(V2ConnectOptions.builder()
+            .model(ListenV2Model.FLUX_GENERAL_EN)
+            .numerals(ListenV2Numerals.FALSE)
+            .build())
+            .get(10, TimeUnit.SECONDS);
+
+        // This applies to future turns without reconnecting.
+        fluxWs.sendConfigure(ListenV2Configure.builder()
+            .numerals(true)
+            .build())
+            .get(10, TimeUnit.SECONDS);
+    }
+}
 ```
 
 ### Text-to-Speech Streaming (Speak WebSocket)

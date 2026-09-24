@@ -231,7 +231,9 @@ public class V2WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
-        reconnectingListener.disconnect();
+        if (reconnectingListener != null) {
+            reconnectingListener.disconnect();
+        }
         if (timeoutExecutor != null) {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
@@ -268,8 +270,8 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
-     * Sends a ListenV2CloseStream message to the server asynchronously.
-     * A queued CloseStream does not suppress reconnects because it might never reach the server.
+     * Sends a ListenV2CloseStream message to the server asynchronously. A queued CloseStream does
+     * not suppress reconnects because it might never reach the server.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
      */
@@ -284,7 +286,6 @@ public class V2WebSocketClient implements AutoCloseable {
      * {@code Warning} frame carrying code {@code FORCE_END_TURN_NO_ACTIVE_TURN} and ignores the
      * request. Listen V2 has no typed warning event yet, so that frame is delivered as raw JSON
      * to {@link #onMessage(java.util.function.Consumer)}.
-     *
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
      */
@@ -350,9 +351,8 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
-     * Registers a handler called when the connection is closed.
-     * An empty peer close frame is reported with code 1005, even though the SDK acknowledges it
-     * with the normal closure code 1000.
+     * Registers a handler called when the connection is closed. An empty peer close frame is
+     * reported with code 1005, even though the SDK acknowledges it with code 1000.
      * @param handler the handler to invoke when disconnected
      */
     public void onDisconnected(Consumer<DisconnectReason> handler) {
