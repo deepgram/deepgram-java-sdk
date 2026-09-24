@@ -183,7 +183,8 @@ class ClientBuilderTest {
         @Test
         @DisplayName("closing WebSocket clients before connecting is safe")
         void closesWebSocketClientsBeforeConnecting() {
-            try (DeepgramClient client = DeepgramClient.builder().apiKey("test-key").build()) {
+            try (DeepgramClient client =
+                    DeepgramClient.builder().apiKey("test-key").build()) {
                 client.listen().v1().v1WebSocket().close();
                 client.listen().v2().v2WebSocket().close();
                 client.speak().v1().v1WebSocket().close();
