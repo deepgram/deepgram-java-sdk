@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.2](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.1...v0.10.2) (2026-09-24)
+
+
+### Features
+
+* **regen:** add AutoCloseable client lifecycle and Flux runtime numerals ([#114](https://github.com/deepgram/deepgram-java-sdk/issues/114)) ([ff9fdd4](https://github.com/deepgram/deepgram-java-sdk/commit/ff9fdd4dda1932fa9efe564e9aed79d0f90a1601))
+
 ## [0.10.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.0...v0.10.1) (2026-09-18)
 
 
