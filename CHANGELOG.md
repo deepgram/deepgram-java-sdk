@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.2](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.1...v0.10.2) (2026-09-24)
+
+
+### Features
+
+* **Client lifecycle:** `DeepgramClient` and `AsyncDeepgramClient` now implement `AutoCloseable` for try-with-resources. Closing a root client releases SDK-owned OkHttp dispatcher and connection-pool resources, while caller-provided `OkHttpClient` instances remain caller-owned; close associated WebSocket clients before the root client. ([#114](https://github.com/deepgram/deepgram-java-sdk/issues/114)) ([ff9fdd4](https://github.com/deepgram/deepgram-java-sdk/commit/ff9fdd4dda1932fa9efe564e9aed79d0f90a1601))
+* **Listen v2 (Flux):** configure numerals during an active session with `wsClient.sendConfigure(ListenV2Configure.builder().numerals(true).build())`; the setting applies to turns transcribed after the update. ([#114](https://github.com/deepgram/deepgram-java-sdk/issues/114)) ([ff9fdd4](https://github.com/deepgram/deepgram-java-sdk/commit/ff9fdd4dda1932fa9efe564e9aed79d0f90a1601))
+
 ## [0.10.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.0...v0.10.1) (2026-09-18)
 
 
