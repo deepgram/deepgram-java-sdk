@@ -74,16 +74,16 @@ SpeakV2ConfigureFailureCode.Visitor<String> visitor = new SpeakV2ConfigureFailur
 
 ## Retry behavior
 
-Fern `4.21.2` and `4.22.2` change retry behavior without changing the public client-builder API.
+Fern `4.21.2` and `4.22.2` change retry behavior for the SDK-created OkHttpClient without changing the public client-builder API.
 
 - The configured HTTP timeout is now applied to each attempt, rather than to the full retry loop. A request can therefore take longer than its configured timeout when retries and backoff occur.
 - Before retrying a retryable HTTP response, the SDK buffers that response. If a later retry fails with a transport error, the SDK returns the earlier HTTP response instead of discarding its status, headers, and body.
 
-The tradeoffs are intentional: requests can occupy a caller for longer, and buffering holds a retryable response body in memory, but callers retain the actionable API error that triggered the retry instead of only observing a later connection failure. Set explicit timeouts and retry limits appropriate for latency-sensitive or large-response workloads, and continue to inspect returned HTTP errors during incident handling.
+The tradeoffs are intentional: requests can occupy a caller for longer, and buffering holds a retryable response body in memory, but callers retain the actionable API error that triggered the retry instead of only observing a later connection failure. Set explicit timeouts and retry limits appropriate for latency-sensitive or large-response workloads, and continue to inspect returned HTTP errors during incident handling. Clients built with `.httpClient(...)` retain the caller-supplied client's timeouts, interceptors, and retry behavior.
 
 ## Flux TTS Controls
 
-Flux TTS now supports inline Controls for speed, pauses, and pronunciation overrides. Controls are additive: batch requests use `SpeakV2Request.text(...)` for all three controls. Streaming requests use `SpeakV2Speak.text(...)` for pronunciation controls only; a pause marker on a streaming request fails with `DATA-0002`.
+Flux TTS now supports inline Controls for speed, pauses, and pronunciation overrides. Controls are additive: batch requests use `SpeakV2Request.speed(...)` for speed and `SpeakV2Request.text(...)` for pause and pronunciation markers. Streaming requests use `V2ConnectOptions.speed(...)` or `SpeakV2Configure.speed(...)` for speed and `SpeakV2Speak.text(...)` for pronunciation controls; a pause marker on a streaming request fails with `DATA-0002`.
 
 ```java
 String pause = "\\{pause:500ms\\}";
