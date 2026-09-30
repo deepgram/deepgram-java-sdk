@@ -164,7 +164,7 @@ Optional<GoogleThinkProviderVersion> version = google.getVersion();
 
 `SpeakV2SpeechMetadataControlsApplied` gained a required `breaksApplied` (`int`) field, reflecting a new `breaks_applied` field in the server payload. `SpeakV2SpeechMetadataControlsApplied` is a **server-emitted (read-only)** message, so most applications only read it — a new `getBreaksApplied()` getter is now available and no migration is needed for read paths.
 
-> **Inline pause controls are not applied at launch** — support is coming soon. The server sends `breaks_applied` on every turn, but the value is always `0` until pause controls ship. The same is true of `pronunciationsApplied` and `pronunciationWarnings`. Read the field if you like, but do not branch on a non-zero value yet.
+> **At the v0.8.0 launch**, inline pause controls were not applied and `breaks_applied` was always `0`. That historical limitation no longer applies to Flux TTS batch requests; see the [v0.10 to v0.11 migration guide](./Migrating-v0.10-to-v0.11.md#flux-tts-controls) for current Controls behavior and streaming restrictions.
 
 If you construct this type directly (uncommon — e.g. in tests), the staged builder now requires a `breaksApplied(int)` step between `pronunciationsApplied(...)` and `pronunciationWarnings(...)`.
 
@@ -182,7 +182,7 @@ SpeakV2SpeechMetadataControlsApplied.builder()
 ```java
 SpeakV2SpeechMetadataControlsApplied.builder()
     .pronunciationsApplied(2)
-    .breaksApplied(0) // always 0 at launch — pause controls are not yet applied
+    .breaksApplied(0) // v0.8 launch behavior; Controls behavior has since changed
     .pronunciationWarnings(0)
     .build();
 
