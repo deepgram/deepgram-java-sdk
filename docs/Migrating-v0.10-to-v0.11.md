@@ -83,7 +83,7 @@ The tradeoffs are intentional: requests can occupy a caller for longer, and buff
 
 ## Flux TTS Controls
 
-Flux TTS now supports inline Controls for speed, pauses, and pronunciation overrides. Controls are additive: batch requests use `SpeakV2Request.text(...)`, while streaming requests use `SpeakV2Speak.text(...)`.
+Flux TTS now supports inline Controls for speed, pauses, and pronunciation overrides. Controls are additive: batch requests use `SpeakV2Request.text(...)` for all three controls. Streaming requests use `SpeakV2Speak.text(...)` for pronunciation controls only; a pause marker on a streaming request fails with `DATA-0002`.
 
 ```java
 String pause = "\\{pause:500ms\\}";

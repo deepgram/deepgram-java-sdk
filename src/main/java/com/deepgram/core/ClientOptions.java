@@ -144,10 +144,11 @@ public final class ClientOptions {
      * OkHttpClient itself; an OkHttpClient supplied via httpClient is left running, since the
      * caller owns its lifecycle.
      * <p>
-     * In-flight calls are not cancelled or awaited, and any request issued after this method
-     * returns fails with a {@code RejectedExecutionException}. Options derived from this one via
-     * {@code Builder.from(...)} share the same dispatcher and connection pool, so closing either
-     * releases them for both. Calling this method more than once has no further effect.
+     * In-flight calls are not cancelled or awaited. When this client owns its OkHttpClient, later
+     * asynchronous HTTP requests can fail when the dispatcher rejects work, while synchronous
+     * requests may still run. An OkHttpClient supplied through {@code httpClient(...)} remains
+     * caller-owned and running. Options derived via {@code Builder.from(...)} share lifecycle
+     * state; calling this method more than once has no further effect.
      * <p>
      * WebSocket clients created from this client that are still connected are disconnected
      * first (whether or not the OkHttpClient is owned), so they stop reconnecting before the

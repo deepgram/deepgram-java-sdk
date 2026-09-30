@@ -316,6 +316,7 @@ class RetryInterceptorTest {
                                     .protocol(Protocol.HTTP_1_1)
                                     .code(500)
                                     .message("original server error")
+                                    .header("X-Retry-Source", "original")
                                     .body(ResponseBody.create(
                                             "original server error".getBytes(StandardCharsets.UTF_8),
                                             MediaType.get("text/plain")))
@@ -328,6 +329,7 @@ class RetryInterceptorTest {
             Response response = client.newCall(buildRequest()).execute();
 
             assertThat(response.code()).isEqualTo(500);
+            assertThat(response.header("X-Retry-Source")).isEqualTo("original");
             assertThat(response.body().string()).isEqualTo("original server error");
             assertThat(attempts).hasValue(2);
         }
