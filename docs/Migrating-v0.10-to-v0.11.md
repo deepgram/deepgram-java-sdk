@@ -79,7 +79,7 @@ Fern `4.21.2` and `4.22.2` change retry behavior for the SDK-created OkHttpClien
 - The configured HTTP timeout is now applied to each attempt, rather than to the full retry loop. A request can therefore take longer than its configured timeout when retries and backoff occur.
 - Before retrying a retryable HTTP response, the SDK buffers that response. If a later retry fails with a transport error, the SDK returns the earlier HTTP response instead of discarding its status, headers, and body.
 
-The tradeoffs are intentional: requests can occupy a caller for longer, and buffering holds a retryable response body in memory, but callers retain the actionable API error that triggered the retry instead of only observing a later connection failure. Set explicit timeouts and retry limits appropriate for latency-sensitive or large-response workloads, and continue to inspect returned HTTP errors during incident handling. Clients built with `.httpClient(...)` retain the caller-supplied client's timeouts, interceptors, and retry behavior.
+The tradeoffs are intentional: requests can occupy a caller for longer, and buffering holds a retryable response body in memory, but callers retain the actionable API error that triggered the retry instead of only observing a later connection failure. Set explicit timeouts and retry limits appropriate for latency-sensitive or large-response workloads, and continue to inspect returned HTTP errors during incident handling. Clients built with `.httpClient(...)` retain the caller-supplied retry policy, but the SDK still adds its logging and decompression interceptors. Setting `.timeout(...)` also overrides that client's call timeout.
 
 ## Flux TTS Controls
 
@@ -90,4 +90,4 @@ String pause = "\\{pause:500ms\\}";
 String pronunciation = "\\{\"word\": \"dupilumab\", \"pronounce\": \"duːˈpɪljuːmæb\"\\}";
 ```
 
-Pronunciation controls are Early Access. A pronunciation control cannot be combined with a non-default speed or with a pause; the API rejects those combinations with `CONTROL_COMBINATION_INVALID`. The Flux TTS Controls guide publishes with the Controls release; consult that guide for supported syntax and availability once it is live.
+Pronunciation controls are Early Access. On batch requests, pronunciation cannot be combined with a non-default speed or with a pause; the API returns HTTP 400 with `CONTROL_COMBINATION_INVALID`. On streaming requests, a pause marker or a pronunciation control with a non-default speed emits `DATA-0002` and closes the WebSocket. A mid-stream `Configure` that changes speed while a buffered turn contains a pronunciation control returns `ConfigureFailure` with `CONTROL_COMBINATION_INVALID`. The Flux TTS Controls guide publishes with the Controls release; consult that guide for supported syntax and availability once it is live.
