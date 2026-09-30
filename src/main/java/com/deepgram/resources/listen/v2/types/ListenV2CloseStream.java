@@ -36,6 +36,11 @@ public final class ListenV2CloseStream {
         return other instanceof ListenV2CloseStream;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

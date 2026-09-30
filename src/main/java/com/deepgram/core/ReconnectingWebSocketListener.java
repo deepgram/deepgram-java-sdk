@@ -27,13 +27,8 @@ import okio.ByteString;
  * Provides production-ready resilience for WebSocket connections.
  */
 public abstract class ReconnectingWebSocketListener extends WebSocketListener {
-    private final long minReconnectionDelayMs;
-
-    private final long maxReconnectionDelayMs;
-
-    private final double reconnectionDelayGrowFactor;
-
-    private final int maxRetries;
+    // A single volatile reference keeps an override internally consistent.
+    private volatile ReconnectOptions activeOptions;
 
     private final int maxEnqueuedMessages;
 
@@ -81,22 +76,30 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
             ReconnectingWebSocketListener.ReconnectOptions options,
             Supplier<? extends WebSocket> connectionSupplier,
             BooleanSupplier closedCheck) {
-        this.minReconnectionDelayMs = options.minReconnectionDelayMs;
-        this.maxReconnectionDelayMs = options.maxReconnectionDelayMs;
-        this.reconnectionDelayGrowFactor = options.reconnectionDelayGrowFactor;
-        this.maxRetries = options.maxRetries;
+        this.activeOptions = options;
         this.maxEnqueuedMessages = options.maxEnqueuedMessages;
         this.connectionSupplier = connectionSupplier;
         this.closedCheck = closedCheck;
     }
 
     /**
+     * Replaces option-derived reconnect settings without rebuilding generated clients.
+     *
+     * @param options replacement options; {@code null} is a no-op
+     */
+    public void applyOptionsOverride(ReconnectOptions options) {
+        if (options != null) {
+            this.activeOptions = options;
+        }
+    }
+
+    /**
      * Initiates a WebSocket connection with automatic reconnection enabled.
      *
      * Connection behavior:
-     * - Times out after 4000 milliseconds
+     * - Times out after {@code ReconnectOptions.connectionTimeoutMs} (default 4000ms)
      * - Thread-safe via atomic lock (returns immediately if connection in progress)
-     * - Retry count not incremented for initial connection attempt
+     * - {@code maxRetries} counts retries only; {@code maxRetries(0)} means connect once, do not retry
      *
      * Error handling:
      * - TimeoutException: Includes retry attempt context
@@ -114,18 +117,19 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
             onWebSocketFailure(null, new IllegalStateException("root client has been closed"), null);
             return;
         }
-        if (retryCount.get() >= maxRetries) {
+        ReconnectOptions options = this.activeOptions;
+        if (retryCount.get() > options.maxRetries) {
             connectLock.set(false);
             return;
         }
         try {
             CompletableFuture<? extends WebSocket> connectionFuture = CompletableFuture.supplyAsync(connectionSupplier);
             try {
-                webSocket = connectionFuture.get(4000, MILLISECONDS);
+                webSocket = connectionFuture.get(options.connectionTimeoutMs, MILLISECONDS);
             } catch (TimeoutException e) {
                 connectionFuture.cancel(true);
                 TimeoutException timeoutError =
-                        new TimeoutException("WebSocket connection timeout after " + 4000 + " milliseconds"
+                        new TimeoutException("WebSocket connection timeout after " + options.connectionTimeoutMs + " milliseconds"
                                 + (retryCount.get() > 0
                                         ? " (retry attempt #" + retryCount.get() + ")"
                                         : " (initial connection attempt)"));
@@ -415,10 +419,12 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     private long getNextDelay() {
         if (retryCount.get() == 1) {
-            return minReconnectionDelayMs;
+            return activeOptions.minReconnectionDelayMs;
         }
-        long delay = (long) (minReconnectionDelayMs * Math.pow(reconnectionDelayGrowFactor, retryCount.get() - 1));
-        return Math.min(delay, maxReconnectionDelayMs);
+        ReconnectOptions options = this.activeOptions;
+        long delay = (long)
+                (options.minReconnectionDelayMs * Math.pow(options.reconnectionDelayGrowFactor, retryCount.get() - 1));
+        return Math.min(delay, options.maxReconnectionDelayMs);
     }
 
     /**
@@ -504,12 +510,15 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
         public final int maxEnqueuedMessages;
 
+        public final long connectionTimeoutMs;
+
         private ReconnectOptions(Builder builder) {
             this.minReconnectionDelayMs = builder.minReconnectionDelayMs;
             this.maxReconnectionDelayMs = builder.maxReconnectionDelayMs;
             this.reconnectionDelayGrowFactor = builder.reconnectionDelayGrowFactor;
             this.maxRetries = builder.maxRetries;
             this.maxEnqueuedMessages = builder.maxEnqueuedMessages;
+            this.connectionTimeoutMs = builder.connectionTimeoutMs;
         }
 
         public static Builder builder() {
@@ -527,12 +536,15 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
             private int maxEnqueuedMessages;
 
+            private long connectionTimeoutMs;
+
             public Builder() {
                 this.minReconnectionDelayMs = 1000;
                 this.maxReconnectionDelayMs = 10000;
                 this.reconnectionDelayGrowFactor = 1.3;
                 this.maxRetries = 2147483647;
                 this.maxEnqueuedMessages = 1000;
+                this.connectionTimeoutMs = 4000;
             }
 
             public Builder minReconnectionDelayMs(long minReconnectionDelayMs) {
@@ -557,6 +569,14 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
             public Builder maxEnqueuedMessages(int maxEnqueuedMessages) {
                 this.maxEnqueuedMessages = maxEnqueuedMessages;
+                return this;
+            }
+
+            /**
+             * Sets the per-attempt connection timeout in milliseconds. Defaults to {@code 4000}.
+             */
+            public Builder connectionTimeoutMs(long connectionTimeoutMs) {
+                this.connectionTimeoutMs = connectionTimeoutMs;
                 return this;
             }
 
@@ -591,6 +611,9 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
                 }
                 if (maxEnqueuedMessages < 0) {
                     throw new IllegalArgumentException("maxEnqueuedMessages must be non-negative");
+                }
+                if (connectionTimeoutMs <= 0) {
+                    throw new IllegalArgumentException("connectionTimeoutMs must be positive");
                 }
                 return new ReconnectOptions(this);
             }
