@@ -8,7 +8,7 @@ The three breaking changes are:
 
 1. **`AgentV1UpdateListenListen.getProvider()` retyped** from `DeepgramListenProviderV2` to the new `AgentV1UpdateListenListenProvider` V1/V2 union — the API now models the `provider` field as a versioned discriminated union.
 2. **`Google.getVersion()` retyped** from `Optional<String>` to `Optional<GoogleThinkProviderVersion>` — the Google think-provider `version` field is now an enum.
-3. **`SpeakV2SpeechMetadataControlsApplied` gained a required `breaksApplied` field** — the builder chain now includes a `breaksApplied(int)` step between `pronunciationsApplied(...)` and `pronunciationWarnings(...)`. The server always sends `0` at launch, because inline pause controls are not yet applied.
+3. **`SpeakV2SpeechMetadataControlsApplied` gained a required `breaksApplied` field** — the builder chain now includes a `breaksApplied(int)` step between `pronunciationsApplied(...)` and `pronunciationWarnings(...)`. At the v0.8 launch, the server sent `0`; current Flux TTS batch and WebSocket behavior is documented in the [v0.10 to v0.11 migration guide](./Migrating-v0.10-to-v0.11.md#flux-tts-controls).
 
 ## Table of Contents
 
@@ -206,7 +206,7 @@ int breaks = controlsApplied.getBreaksApplied();
 
 1. **Agent update-listen provider union**: `AgentV1UpdateListenListen.getProvider()` / `provider(...)` now use `AgentV1UpdateListenListenProvider` (V1/V2 union) instead of `DeepgramListenProviderV2`.
 2. **Google think-provider version enum**: `Google.getVersion()` / `version(...)` now use `GoogleThinkProviderVersion` instead of `String`.
-3. **Speak V2 controls-applied field**: `SpeakV2SpeechMetadataControlsApplied` adds a required `breaksApplied` field (new builder step; new `getBreaksApplied()` getter). Always `0` at launch — inline pause controls are not yet applied.
+3. **Speak V2 controls-applied field**: `SpeakV2SpeechMetadataControlsApplied` adds a required `breaksApplied` field (new builder step; new `getBreaksApplied()` getter). At the v0.8 launch the value was `0`; see the [v0.10 to v0.11 migration guide](./Migrating-v0.10-to-v0.11.md#flux-tts-controls) for current Controls behavior.
 
 ### Changed Signatures
 
@@ -227,7 +227,7 @@ int breaks = controlsApplied.getBreaksApplied();
 - [ ] Upgrade to `com.deepgram:deepgram-java-sdk:0.8.0`
 - [ ] Wrap `AgentV1UpdateListenListen` providers in `AgentV1UpdateListenListenProvider.v2(...)` (or `.v1(...)`) and read them via `getV2()` / `getV1()`
 - [ ] Replace `Google` `version` string literals with `GoogleThinkProviderVersion` constants and update any `Optional<String> getVersion()` reads
-- [ ] Add a `breaksApplied(...)` step to any hand-built `SpeakV2SpeechMetadataControlsApplied` — pass `0`, since inline pause controls are not applied at launch (read paths need no change)
+- [ ] Add a `breaksApplied(...)` step to any hand-built `SpeakV2SpeechMetadataControlsApplied` — use `0` when reproducing the v0.8 launch payload shape (read paths need no change)
 - [ ] Rebuild your project and fix any remaining references to the changed signatures
 - [ ] (Optional) Adopt Speak V2 interrupt/configure, Listen V2 `redact`, client retry tuning, and the new Flux voices
 ```
