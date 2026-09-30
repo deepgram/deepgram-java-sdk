@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,18 +21,19 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = SharedIntents.Builder.class)
 public final class SharedIntents {
-    private final Optional<SharedIntentsResults> results;
+    private final Optional<List<SharedIntentsSegmentsItem>> segments;
 
     private final Map<String, Object> additionalProperties;
 
-    private SharedIntents(Optional<SharedIntentsResults> results, Map<String, Object> additionalProperties) {
-        this.results = results;
+    private SharedIntents(
+            Optional<List<SharedIntentsSegmentsItem>> segments, Map<String, Object> additionalProperties) {
+        this.segments = segments;
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("results")
-    public Optional<SharedIntentsResults> getResults() {
-        return results;
+    @JsonProperty("segments")
+    public Optional<List<SharedIntentsSegmentsItem>> getSegments() {
+        return segments;
     }
 
     @java.lang.Override
@@ -46,12 +48,12 @@ public final class SharedIntents {
     }
 
     private boolean equalTo(SharedIntents other) {
-        return results.equals(other.results);
+        return segments.equals(other.segments);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.results);
+        return Objects.hash(this.segments);
     }
 
     @java.lang.Override
@@ -65,7 +67,7 @@ public final class SharedIntents {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
-        private Optional<SharedIntentsResults> results = Optional.empty();
+        private Optional<List<SharedIntentsSegmentsItem>> segments = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -73,23 +75,23 @@ public final class SharedIntents {
         private Builder() {}
 
         public Builder from(SharedIntents other) {
-            results(other.getResults());
+            segments(other.getSegments());
             return this;
         }
 
-        @JsonSetter(value = "results", nulls = Nulls.SKIP)
-        public Builder results(Optional<SharedIntentsResults> results) {
-            this.results = results;
+        @JsonSetter(value = "segments", nulls = Nulls.SKIP)
+        public Builder segments(Optional<List<SharedIntentsSegmentsItem>> segments) {
+            this.segments = segments;
             return this;
         }
 
-        public Builder results(SharedIntentsResults results) {
-            this.results = Optional.ofNullable(results);
+        public Builder segments(List<SharedIntentsSegmentsItem> segments) {
+            this.segments = Optional.ofNullable(segments);
             return this;
         }
 
         public SharedIntents build() {
-            return new SharedIntents(results, additionalProperties);
+            return new SharedIntents(segments, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {
