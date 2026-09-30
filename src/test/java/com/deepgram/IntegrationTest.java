@@ -14,9 +14,13 @@ import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.read.v1.text.requests.TextAnalyzeRequest;
 import com.deepgram.resources.speak.v1.audio.requests.SpeakV1Request;
+import com.deepgram.resources.speak.v2.audio.requests.SpeakV2Request;
+import com.deepgram.resources.speak.v2.audio.types.AudioGenerateRequestEncoding;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.resources.speak.v2.types.SpeakV2Speak;
+import com.deepgram.resources.speak.v2.types.SpeakV2SpeechMetadata;
+import com.deepgram.resources.speak.v2.types.SpeakV2SpeechMetadataControlsApplied;
 import com.deepgram.resources.speak.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
 import com.deepgram.types.ListProjectsV1Response;
@@ -88,6 +92,14 @@ public class IntegrationTest {
                     .build());
         }
         client = builder.build();
+    }
+
+    private void assumeFluxTtsControlsEnabled() {
+        // Controls are Early Access, so deployments opt in until production availability is universal.
+        String enabled = System.getenv("DEEPGRAM_FLUX_TTS_CONTROLS");
+        org.junit.jupiter.api.Assumptions.assumeTrue(
+                enabled != null && !enabled.isEmpty(),
+                "DEEPGRAM_FLUX_TTS_CONTROLS not set, skipping Flux TTS Controls integration test");
     }
 
     // --- Tier 1: Must pass before release ---
@@ -325,6 +337,123 @@ public class IntegrationTest {
                         .as("expected streamed audio bytes")
                         .isGreaterThan(0);
                 System.out.println("Speak v2 WS returned " + totalAudioBytes.get() + " bytes of audio");
+            } finally {
+                wsClient.disconnect();
+            }
+        }
+
+        @Test
+        @DisplayName("SpeakV2ControlsBatchPause - synthesize batch audio with a pause control")
+        void testIntegration_SpeakV2ControlsBatchPause() throws Exception {
+            assumeFluxTtsControlsEnabled();
+
+            SpeakV2Request request = SpeakV2Request.builder()
+                    .model("flux-alexis-en")
+                    .text("Before \\{pause:500ms\\} after.")
+                    .encoding(AudioGenerateRequestEncoding.MP3)
+                    .build();
+
+            try (InputStream audio = client.speak().v2().audio().generate(request)) {
+                assertThat(audio.readAllBytes()).as("expected audio bytes").isNotEmpty();
+            }
+        }
+
+        @Test
+        @DisplayName("SpeakV2ControlsBatchPronunciation - synthesize batch audio with a pronunciation control")
+        void testIntegration_SpeakV2ControlsBatchPronunciation() throws Exception {
+            assumeFluxTtsControlsEnabled();
+
+            SpeakV2Request request = SpeakV2Request.builder()
+                    .model("flux-alexis-en")
+                    .text("\\{\"word\": \"dupilumab\", \"pronounce\": \"duːˈpɪljuːmæb\"\\}")
+                    .encoding(AudioGenerateRequestEncoding.MP3)
+                    .build();
+
+            try (InputStream audio = client.speak().v2().audio().generate(request)) {
+                assertThat(audio.readAllBytes()).as("expected audio bytes").isNotEmpty();
+            }
+        }
+
+        @Test
+        @DisplayName("SpeakV2ControlsBatchConflict - reject speed with a pronunciation control")
+        void testIntegration_SpeakV2ControlsBatchConflict() {
+            assumeFluxTtsControlsEnabled();
+
+            SpeakV2Request request = SpeakV2Request.builder()
+                    .model("flux-alexis-en")
+                    .text("\\{\"word\": \"dupilumab\", \"pronounce\": \"duːˈpɪljuːmæb\"\\}")
+                    .encoding(AudioGenerateRequestEncoding.MP3)
+                    .speed(1.05)
+                    .build();
+
+            assertThatThrownBy(() -> client.speak().v2().audio().generate(request))
+                    .isInstanceOf(DeepgramHttpException.class)
+                    .satisfies(thrown -> {
+                        DeepgramHttpException exception = (DeepgramHttpException) thrown;
+                        assertThat(exception.statusCode()).isEqualTo(400);
+                        assertThat(String.valueOf(exception.body())).contains("CONTROL_COMBINATION_INVALID");
+                    });
+        }
+
+        @Test
+        @DisplayName("SpeakV2ControlsWebSocket - stream audio and metadata with a pronunciation control")
+        void testIntegration_SpeakV2ControlsWebSocket() throws Exception {
+            assumeFluxTtsControlsEnabled();
+
+            V2WebSocketClient wsClient = client.speak().v2().v2WebSocket();
+            CountDownLatch audioLatch = new CountDownLatch(1);
+            CountDownLatch metadataLatch = new CountDownLatch(1);
+            AtomicLong totalAudioBytes = new AtomicLong(0);
+            AtomicReference<SpeakV2SpeechMetadata> metadata = new AtomicReference<>();
+            AtomicReference<String> serverError = new AtomicReference<>();
+
+            wsClient.onSpeakV2Audio(audio -> {
+                totalAudioBytes.addAndGet(audio.size());
+                audioLatch.countDown();
+            });
+            wsClient.onSpeechMetadata(value -> {
+                metadata.set(value);
+                metadataLatch.countDown();
+            });
+            wsClient.onErrorMessage(error -> serverError.set(String.valueOf(error)));
+            wsClient.onError(error -> serverError.set(error.getMessage()));
+
+            try {
+                wsClient.connect(V2ConnectOptions.builder()
+                                .model("flux-alexis-en")
+                                .build())
+                        .get(15, TimeUnit.SECONDS);
+                wsClient.sendSpeak(SpeakV2Speak.builder()
+                        .text("\\{\"word\": \"dupilumab\", \"pronounce\": \"duːˈpɪljuːmæb\"\\}")
+                        .build());
+                wsClient.sendFlush(SpeakV2Flush.builder().build());
+
+                assertThat(audioLatch.await(20, TimeUnit.SECONDS))
+                        .as("received audio")
+                        .isTrue();
+                assertThat(metadataLatch.await(20, TimeUnit.SECONDS))
+                        .as("received SpeechMetadata")
+                        .isTrue();
+
+                assertThat(serverError.get())
+                        .as("no server/transport error during streaming")
+                        .isNull();
+                assertThat(totalAudioBytes.get())
+                        .as("expected streamed audio bytes")
+                        .isGreaterThan(0);
+
+                SpeakV2SpeechMetadata speechMetadata = metadata.get();
+                assertThat(speechMetadata).as("received SpeechMetadata").isNotNull();
+                SpeakV2SpeechMetadataControlsApplied controlsApplied = speechMetadata.getControlsApplied();
+                assertThat(controlsApplied)
+                        .as("received controls_applied metadata")
+                        .isNotNull();
+                // Pronunciation is Early Access; verify a valid report without requiring a non-zero count.
+                assertThat(controlsApplied.getPronunciationsApplied()).isGreaterThanOrEqualTo(0);
+                assertThat(controlsApplied.getBreaksApplied()).isGreaterThanOrEqualTo(0);
+                assertThat(controlsApplied.getPronunciationWarnings()).isGreaterThanOrEqualTo(0);
+
+                wsClient.sendClose(SpeakV2Close.builder().build());
             } finally {
                 wsClient.disconnect();
             }
