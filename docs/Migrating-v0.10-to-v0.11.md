@@ -90,4 +90,4 @@ String pause = "\\{pause:500ms\\}";
 String pronunciation = "\\{\"word\": \"dupilumab\", \"pronounce\": \"duːˈpɪljuːmæb\"\\}";
 ```
 
-Pronunciation controls are Early Access. A pronunciation control cannot be combined with a non-default speed or with a pause; the API rejects those combinations with `CONTROL_COMBINATION_INVALID`. See [Flux TTS Controls](https://developers.deepgram.com/docs/tts-voice-controls) for supported syntax and availability.
+Pronunciation controls are Early Access. A pronunciation control cannot be combined with a non-default speed or with a pause; the API rejects those combinations with `CONTROL_COMBINATION_INVALID`. The Flux TTS Controls guide publishes with the Controls release; consult that guide for supported syntax and availability once it is live.

@@ -3,9 +3,16 @@ package com.deepgram.core;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
@@ -34,6 +41,13 @@ class RetryInterceptorTest {
     private OkHttpClient buildClientWithRetries(int maxRetries) {
         return new OkHttpClient.Builder()
                 .addInterceptor(new RetryInterceptor(maxRetries))
+                .build();
+    }
+
+    private OkHttpClient buildClientWithRetriesAndCallTimeout(int maxRetries, long callTimeoutMillis) {
+        return new OkHttpClient.Builder()
+                .callTimeout(callTimeoutMillis, TimeUnit.MILLISECONDS)
+                .addInterceptor(new RetryInterceptor(maxRetries, Optional.of(0L), Optional.of(1000L), Optional.of(0.0)))
                 .build();
     }
 
@@ -282,6 +296,60 @@ class RetryInterceptorTest {
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).isEqualTo("finally");
             assertThat(server.getRequestCount()).isEqualTo(4);
+        }
+    }
+
+    @Nested
+    @DisplayName("Retry transport failures")
+    class RetryTransportFailures {
+
+        @Test
+        @DisplayName("returns the buffered retryable response when a later retry disconnects")
+        void preservesEarlierResponseAfterRetryTransportFailure() throws Exception {
+            AtomicInteger attempts = new AtomicInteger();
+            client = new OkHttpClient.Builder()
+                    .addInterceptor(new RetryInterceptor(1, Optional.of(0L), Optional.of(1000L), Optional.of(0.0)))
+                    .addInterceptor(chain -> {
+                        if (attempts.incrementAndGet() == 1) {
+                            return new Response.Builder()
+                                    .request(chain.request())
+                                    .protocol(Protocol.HTTP_1_1)
+                                    .code(500)
+                                    .message("original server error")
+                                    .body(ResponseBody.create(
+                                            "original server error".getBytes(StandardCharsets.UTF_8),
+                                            MediaType.get("text/plain")))
+                                    .build();
+                        }
+                        throw new IOException("retry transport failure");
+                    })
+                    .build();
+
+            Response response = client.newCall(buildRequest()).execute();
+
+            assertThat(response.code()).isEqualTo(500);
+            assertThat(response.body().string()).isEqualTo("original server error");
+            assertThat(attempts).hasValue(2);
+        }
+
+        @Test
+        @DisplayName("does not spend the next attempt timeout budget during Retry-After backoff")
+        void pausesCallTimeoutDuringRetryAfterBackoff() throws Exception {
+            client = buildClientWithRetriesAndCallTimeout(1, 100);
+            server.enqueue(new MockResponse()
+                    .setResponseCode(429)
+                    .setHeader("Retry-After", "1")
+                    .setBody("rate limited"));
+            server.enqueue(new MockResponse().setResponseCode(200).setBody("success"));
+
+            long start = System.nanoTime();
+            Response response = client.newCall(buildRequest()).execute();
+            long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(response.body().string()).isEqualTo("success");
+            assertThat(server.getRequestCount()).isEqualTo(2);
+            assertThat(elapsedMillis).isGreaterThanOrEqualTo(900L);
         }
     }
 }
