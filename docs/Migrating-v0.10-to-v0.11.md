@@ -32,8 +32,14 @@ dependencies {
 | --- | --- |
 | `SharedTopics.getResults().get().getTopics().get().getSegments()` | `SharedTopics.getSegments()` |
 | `SharedIntents.getResults().get().getIntents().get().getSegments()` | `SharedIntents.getSegments()` |
+| `SharedTopicsResults` | Removed; access segments through `SharedTopics.getSegments()` |
+| `SharedTopicsResultsTopics` | Removed; access segments through `SharedTopics.getSegments()` |
 | `com.deepgram.types.SharedTopicsResultsTopicsSegmentsItem` | `com.deepgram.types.SharedTopicsSegmentsItem` |
+| `com.deepgram.types.SharedTopicsResultsTopicsSegmentsItemTopicsItem` | `com.deepgram.types.SharedTopicsSegmentsItemTopicsItem` |
+| `SharedIntentsResults` | Removed; access segments through `SharedIntents.getSegments()` |
+| `SharedIntentsResultsIntents` | Removed; access segments through `SharedIntents.getSegments()` |
 | `com.deepgram.types.SharedIntentsResultsIntentsSegmentsItem` | `com.deepgram.types.SharedIntentsSegmentsItem` |
+| `com.deepgram.types.SharedIntentsResultsIntentsSegmentsItemIntentsItem` | `com.deepgram.types.SharedIntentsSegmentsItemIntentsItem` |
 
 For example, replace the old Topics traversal:
 

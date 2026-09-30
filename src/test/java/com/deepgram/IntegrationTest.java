@@ -448,10 +448,11 @@ public class IntegrationTest {
                 assertThat(controlsApplied)
                         .as("received controls_applied metadata")
                         .isNotNull();
-                // Pronunciation is Early Access; verify a valid report without requiring a non-zero count.
-                assertThat(controlsApplied.getPronunciationsApplied()).isGreaterThanOrEqualTo(0);
-                assertThat(controlsApplied.getBreaksApplied()).isGreaterThanOrEqualTo(0);
-                assertThat(controlsApplied.getPronunciationWarnings()).isGreaterThanOrEqualTo(0);
+                assertThat(controlsApplied.getPronunciationsApplied())
+                        .as("the submitted pronunciation was applied")
+                        .isEqualTo(1);
+                assertThat(controlsApplied.getBreaksApplied()).isZero();
+                assertThat(controlsApplied.getPronunciationWarnings()).isZero();
 
                 wsClient.sendClose(SpeakV2Close.builder().build());
             } finally {
