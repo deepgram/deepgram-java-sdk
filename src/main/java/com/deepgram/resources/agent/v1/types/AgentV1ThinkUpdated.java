@@ -3,8 +3,6 @@
  */
 package com.deepgram.resources.agent.v1.types;
 
-// Manual patch - see .fernignore.
-
 import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -36,11 +34,6 @@ public final class AgentV1ThinkUpdated {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AgentV1ThinkUpdated;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 
     @JsonAnyGetter

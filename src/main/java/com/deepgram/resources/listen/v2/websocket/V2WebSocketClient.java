@@ -3,12 +3,9 @@
  */
 package com.deepgram.resources.listen.v2.websocket;
 
-// Manual patch - see .fernignore.
-
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
-import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -20,11 +17,11 @@ import com.deepgram.resources.listen.v2.types.ListenV2Connected;
 import com.deepgram.resources.listen.v2.types.ListenV2FatalError;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
+import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -62,8 +59,6 @@ public class V2WebSocketClient implements AutoCloseable {
 
     private ReconnectingWebSocketListener reconnectingListener;
 
-    private final AtomicReference<WebSocket> closeStreamSocket = new AtomicReference<>();
-
     private volatile Consumer<ListenV2Connected> connectedHandler;
 
     private volatile Consumer<ListenV2TurnInfo> turnInfoHandler;
@@ -71,6 +66,8 @@ public class V2WebSocketClient implements AutoCloseable {
     private volatile Consumer<ListenV2ConfigureSuccess> configureSuccessHandler;
 
     private volatile Consumer<ListenV2ConfigureFailure> configureFailureHandler;
+
+    private volatile Consumer<ListenV2Warning> warningHandler;
 
     private volatile Consumer<ListenV2FatalError> errorHandler;
 
@@ -90,7 +87,6 @@ public class V2WebSocketClient implements AutoCloseable {
      */
     public CompletableFuture<Void> connect(V2ConnectOptions options) {
         connectionFuture = new CompletableFuture<>();
-        closeStreamSocket.set(null);
         String baseUrl = clientOptions.environment().getProductionURL();
         String fullPath = "/v2/listen";
         if (baseUrl.endsWith("/") && fullPath.startsWith("/")) {
@@ -133,12 +129,12 @@ public class V2WebSocketClient implements AutoCloseable {
                     "eot_timeout_ms", String.valueOf(options.getEotTimeoutMs().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "keyterm", String.valueOf(options.getKeyterm().get()));
         }
         if (options.getLanguageHint() != null && options.getLanguageHint().isPresent()) {
-            QueryStringMapper.addQueryParameter(
-                    urlBuilder, "language_hint", options.getLanguageHint().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "language_hint", String.valueOf(options.getLanguageHint().get()));
         }
         if (options.getProfanityFilter() != null && options.getProfanityFilter().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -158,14 +154,7 @@ public class V2WebSocketClient implements AutoCloseable {
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "tag", options.getTag().get().get(), true);
-        }
-        if (options.getAdditionalProperties() != null) {
-            options.getAdditionalProperties().forEach((key, value) -> {
-                if (value != null) {
-                    QueryStringMapper.addQueryParameter(urlBuilder, key, value, true);
-                }
-            });
+            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
@@ -175,16 +164,24 @@ public class V2WebSocketClient implements AutoCloseable {
                 ? this.reconnectOptions
                 : ReconnectingWebSocketListener.ReconnectOptions.builder().build();
         this.reconnectingListener =
-                new ReconnectingWebSocketListener(reconnectOpts, () -> {
-                    if (clientOptions.webSocketFactory().isPresent()) {
-                        return clientOptions.webSocketFactory().get().create(request, this.reconnectingListener);
-                    } else {
-                        return okHttpClient.newWebSocket(request, this.reconnectingListener);
-                    }
-                }) {
+                new ReconnectingWebSocketListener(
+                        reconnectOpts,
+                        () -> {
+                            if (clientOptions.isClosed()) {
+                                throw new IllegalStateException("root client has been closed");
+                            }
+                            if (clientOptions.webSocketFactory().isPresent()) {
+                                return clientOptions
+                                        .webSocketFactory()
+                                        .get()
+                                        .create(request, this.reconnectingListener);
+                            } else {
+                                return okHttpClient.newWebSocket(request, this.reconnectingListener);
+                            }
+                        },
+                        clientOptions::isClosed) {
                     @Override
                     protected void onWebSocketOpen(WebSocket webSocket, Response response) {
-                        closeStreamSocket.set(null);
                         readyState = WebSocketReadyState.OPEN;
                         if (onConnectedHandler != null) {
                             onConnectedHandler.run();
@@ -216,13 +213,8 @@ public class V2WebSocketClient implements AutoCloseable {
                             onDisconnectedHandler.accept(new DisconnectReason(code, reason));
                         }
                     }
-
-                    @Override
-                    protected boolean shouldReconnectAfterClose(WebSocket webSocket, int code, String reason) {
-                        return super.shouldReconnectAfterClose(webSocket, code, reason)
-                                && (code != 1005 || closeStreamSocket.get() != webSocket);
-                    }
                 };
+        clientOptions.registerWebSocket(this);
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -231,6 +223,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
+        clientOptions.unregisterWebSocket(this);
         if (reconnectingListener != null) {
             reconnectingListener.disconnect();
         }
@@ -270,22 +263,16 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
-     * Sends a ListenV2CloseStream message to the server asynchronously. A queued CloseStream does
-     * not suppress reconnects because it might never reach the server.
+     * Sends a ListenV2CloseStream message to the server asynchronously.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
      */
     public CompletableFuture<Void> sendCloseStream(ListenV2CloseStream message) {
-        return sendMessage(message, closeStreamSocket::set);
+        return sendMessage(message);
     }
 
     /**
      * Sends a ListenV2ForceEndTurn message to the server asynchronously.
-     *
-     * <p>Sending this with no turn in progress is not an error. The server answers with a
-     * {@code Warning} frame carrying code {@code FORCE_END_TURN_NO_ACTIVE_TURN} and ignores the
-     * request. Listen V2 has no typed warning event yet, so that frame is delivered as raw JSON
-     * to {@link #onMessage(java.util.function.Consumer)}.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
      */
@@ -335,6 +322,14 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Registers a handler for ListenV2Warning messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onWarning(Consumer<ListenV2Warning> handler) {
+        this.warningHandler = handler;
+    }
+
+    /**
      * Registers a handler for ListenV2FatalError messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -351,8 +346,7 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
-     * Registers a handler called when the connection is closed. An empty peer close frame is
-     * reported with code 1005, even though the SDK acknowledges it with code 1000.
+     * Registers a handler called when the connection is closed.
      * @param handler the handler to invoke when disconnected
      */
     public void onDisconnected(Consumer<DisconnectReason> handler) {
@@ -408,16 +402,12 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     private CompletableFuture<Void> sendMessage(Object body) {
-        return sendMessage(body, null);
-    }
-
-    private CompletableFuture<Void> sendMessage(Object body, Consumer<WebSocket> onSent) {
         CompletableFuture<Void> future = new CompletableFuture<>();
         try {
             assertSocketIsOpen();
             String json = objectMapper.writeValueAsString(body);
             // Use reconnecting listener's send method which handles queuing
-            reconnectingListener.send(json, onSent);
+            reconnectingListener.send(json);
             future.complete(null);
         } catch (IllegalStateException e) {
             future.completeExceptionally(e);
@@ -475,6 +465,23 @@ public class V2WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
+            if (node.has("request_id")
+                    && node.has("sequence_id")
+                    && node.has("code")
+                    && node.has("description")
+                    && "Warning".equals(node.path("type").asText())) {
+                ListenV2Warning warningHandlerEvent = null;
+                try {
+                    warningHandlerEvent = objectMapper.treeToValue(node, ListenV2Warning.class);
+                } catch (Exception e) {
+                }
+                if (warningHandlerEvent != null) {
+                    if (warningHandler != null) {
+                        warningHandler.accept(warningHandlerEvent);
+                    }
+                    return;
+                }
+            }
             if (node.has("sequence_id")
                     && node.has("code")
                     && node.has("description")
@@ -521,8 +528,11 @@ public class V2WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
-            // The raw frame is already delivered to onMessage(String), so ignore unknown typed
-            // frames for forward compatibility with newly added server control messages.
+            if (onErrorHandler != null) {
+                onErrorHandler.accept(new RuntimeException(
+                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
+                                + "... Update your SDK version to support new message types."));
+            }
         } catch (Exception e) {
             if (onErrorHandler != null) {
                 onErrorHandler.accept(e);

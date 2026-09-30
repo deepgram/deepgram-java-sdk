@@ -31,6 +31,8 @@ public final class ListenV2ConfigureSuccess {
 
     private final Optional<List<String>> languageHints;
 
+    private final Optional<Boolean> numerals;
+
     private final int sequenceId;
 
     private final Map<String, Object> additionalProperties;
@@ -40,12 +42,14 @@ public final class ListenV2ConfigureSuccess {
             ListenV2ConfigureSuccessThresholds thresholds,
             ListenV2Keyterm keyterms,
             Optional<List<String>> languageHints,
+            Optional<Boolean> numerals,
             int sequenceId,
             Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.thresholds = thresholds;
         this.keyterms = keyterms;
         this.languageHints = languageHints;
+        this.numerals = numerals;
         this.sequenceId = sequenceId;
         this.additionalProperties = additionalProperties;
     }
@@ -89,6 +93,14 @@ public final class ListenV2ConfigureSuccess {
     }
 
     /**
+     * @return Whether numeral formatting is enabled for transcripts Flux STT sends after it processes the update.
+     */
+    @JsonProperty("numerals")
+    public Optional<Boolean> getNumerals() {
+        return numerals;
+    }
+
+    /**
      * @return Starts at <code>0</code> and increments for each message the server sends
      * to the client.  This includes messages of other types, like
      * <code>TurnInfo</code> messages.
@@ -114,12 +126,14 @@ public final class ListenV2ConfigureSuccess {
                 && thresholds.equals(other.thresholds)
                 && keyterms.equals(other.keyterms)
                 && languageHints.equals(other.languageHints)
+                && numerals.equals(other.numerals)
                 && sequenceId == other.sequenceId;
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.requestId, this.thresholds, this.keyterms, this.languageHints, this.sequenceId);
+        return Objects.hash(
+                this.requestId, this.thresholds, this.keyterms, this.languageHints, this.numerals, this.sequenceId);
     }
 
     @java.lang.Override
@@ -174,6 +188,13 @@ public final class ListenV2ConfigureSuccess {
         _FinalStage languageHints(Optional<List<String>> languageHints);
 
         _FinalStage languageHints(List<String> languageHints);
+
+        /**
+         * <p>Whether numeral formatting is enabled for transcripts Flux STT sends after it processes the update.</p>
+         */
+        _FinalStage numerals(Optional<Boolean> numerals);
+
+        _FinalStage numerals(Boolean numerals);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -186,6 +207,8 @@ public final class ListenV2ConfigureSuccess {
         private ListenV2Keyterm keyterms;
 
         private int sequenceId;
+
+        private Optional<Boolean> numerals = Optional.empty();
 
         private Optional<List<String>> languageHints = Optional.empty();
 
@@ -200,6 +223,7 @@ public final class ListenV2ConfigureSuccess {
             thresholds(other.getThresholds());
             keyterms(other.getKeyterms());
             languageHints(other.getLanguageHints());
+            numerals(other.getNumerals());
             sequenceId(other.getSequenceId());
             return this;
         }
@@ -248,6 +272,26 @@ public final class ListenV2ConfigureSuccess {
         }
 
         /**
+         * <p>Whether numeral formatting is enabled for transcripts Flux STT sends after it processes the update.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage numerals(Boolean numerals) {
+            this.numerals = Optional.ofNullable(numerals);
+            return this;
+        }
+
+        /**
+         * <p>Whether numeral formatting is enabled for transcripts Flux STT sends after it processes the update.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "numerals", nulls = Nulls.SKIP)
+        public _FinalStage numerals(Optional<Boolean> numerals) {
+            this.numerals = numerals;
+            return this;
+        }
+
+        /**
          * <p>The currently active language hints. Only applicable to the flux-general-multi model.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -270,7 +314,7 @@ public final class ListenV2ConfigureSuccess {
         @java.lang.Override
         public ListenV2ConfigureSuccess build() {
             return new ListenV2ConfigureSuccess(
-                    requestId, thresholds, keyterms, languageHints, sequenceId, additionalProperties);
+                    requestId, thresholds, keyterms, languageHints, numerals, sequenceId, additionalProperties);
         }
 
         @java.lang.Override

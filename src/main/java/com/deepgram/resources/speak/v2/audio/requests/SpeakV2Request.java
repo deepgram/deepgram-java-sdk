@@ -167,7 +167,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.
+     * @return Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages. When the text contains an inline pause marker, speed is capped at <code>1.15</code> (<code>PAUSE_SPEED_CAP_EXCEEDED</code> above that). A value other than <code>1.0</code> cannot be combined with inline pronunciation controls (<code>CONTROL_COMBINATION_INVALID</code>).
      */
     @JsonIgnore
     public Optional<Double> getSpeed() {
@@ -183,7 +183,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.
+     * @return The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.
      */
     @JsonProperty("text")
     public String getText() {
@@ -255,7 +255,7 @@ public final class SpeakV2Request {
 
     public interface TextStage {
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
+         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
          */
         _FinalStage text(@NotNull String text);
     }
@@ -333,7 +333,7 @@ public final class SpeakV2Request {
         _FinalStage sampleRate(Integer sampleRate);
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages. When the text contains an inline pause marker, speed is capped at <code>1.15</code> (<code>PAUSE_SPEED_CAP_EXCEEDED</code> above that). A value other than <code>1.0</code> cannot be combined with inline pronunciation controls (<code>CONTROL_COMBINATION_INVALID</code>).</p>
          */
         _FinalStage speed(Optional<Double> speed);
 
@@ -410,7 +410,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
+         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -441,7 +441,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages. When the text contains an inline pause marker, speed is capped at <code>1.15</code> (<code>PAUSE_SPEED_CAP_EXCEEDED</code> above that). A value other than <code>1.0</code> cannot be combined with inline pronunciation controls (<code>CONTROL_COMBINATION_INVALID</code>).</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -451,7 +451,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages.</p>
+         * <p>Speaking rate multiplier that adjusts the pace of generated speech while preserving natural prosody and voice quality. Accepted values run <code>0.5</code> to <code>1.5</code> in <code>0.05</code> increments. Not yet supported in all languages. When the text contains an inline pause marker, speed is capped at <code>1.15</code> (<code>PAUSE_SPEED_CAP_EXCEEDED</code> above that). A value other than <code>1.0</code> cannot be combined with inline pronunciation controls (<code>CONTROL_COMBINATION_INVALID</code>).</p>
          */
         @java.lang.Override
         @JsonSetter(value = "speed", nulls = Nulls.SKIP)

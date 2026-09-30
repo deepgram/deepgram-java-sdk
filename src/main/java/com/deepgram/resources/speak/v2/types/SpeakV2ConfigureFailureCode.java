@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class SpeakV2ConfigureFailureCode {
+    public static final SpeakV2ConfigureFailureCode CONTROL_COMBINATION_INVALID =
+            new SpeakV2ConfigureFailureCode(Value.CONTROL_COMBINATION_INVALID, "CONTROL_COMBINATION_INVALID");
+
     public static final SpeakV2ConfigureFailureCode SPEED_OUT_OF_RANGE =
             new SpeakV2ConfigureFailureCode(Value.SPEED_OUT_OF_RANGE, "SPEED_OUT_OF_RANGE");
 
@@ -52,6 +55,8 @@ public final class SpeakV2ConfigureFailureCode {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
+            case CONTROL_COMBINATION_INVALID:
+                return visitor.visitControlCombinationInvalid();
             case SPEED_OUT_OF_RANGE:
                 return visitor.visitSpeedOutOfRange();
             case SPEED_INCREMENT_INVALID:
@@ -69,6 +74,8 @@ public final class SpeakV2ConfigureFailureCode {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static SpeakV2ConfigureFailureCode valueOf(String value) {
         switch (value) {
+            case "CONTROL_COMBINATION_INVALID":
+                return CONTROL_COMBINATION_INVALID;
             case "SPEED_OUT_OF_RANGE":
                 return SPEED_OUT_OF_RANGE;
             case "SPEED_INCREMENT_INVALID":
@@ -89,6 +96,8 @@ public final class SpeakV2ConfigureFailureCode {
 
         SPEED_NOT_SUPPORTED,
 
+        CONTROL_COMBINATION_INVALID,
+
         INTERNAL_ERROR,
 
         UNKNOWN
@@ -100,6 +109,8 @@ public final class SpeakV2ConfigureFailureCode {
         T visitSpeedIncrementInvalid();
 
         T visitSpeedNotSupported();
+
+        T visitControlCombinationInvalid();
 
         T visitInternalError();
 
