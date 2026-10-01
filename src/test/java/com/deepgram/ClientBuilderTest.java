@@ -3,8 +3,19 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.deepgram.core.ClientOptions;
 import com.deepgram.core.Environment;
+import com.deepgram.core.WebSocketFactory;
+import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.ListenV1Model;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okio.ByteString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -190,6 +201,74 @@ class ClientBuilderTest {
                 client.speak().v1().v1WebSocket().close();
                 client.speak().v2().v2WebSocket().close();
                 client.agent().v1().v1WebSocket().close();
+            }
+        }
+
+        @Test
+        @DisplayName("closing the root client closes a connected WebSocket and blocks reconnects")
+        void closesConnectedWebSocketAndBlocksReconnects() throws Exception {
+            CountDownLatch closed = new CountDownLatch(1);
+            AtomicInteger connectionAttempts = new AtomicInteger();
+            WebSocket connectedSocket = new WebSocket() {
+                @Override
+                public Request request() {
+                    return new Request.Builder().url("http://localhost/").build();
+                }
+
+                @Override
+                public long queueSize() {
+                    return 0;
+                }
+
+                @Override
+                public boolean send(String text) {
+                    return true;
+                }
+
+                @Override
+                public boolean send(ByteString bytes) {
+                    return true;
+                }
+
+                @Override
+                public boolean close(int code, String reason) {
+                    closed.countDown();
+                    return true;
+                }
+
+                @Override
+                public void cancel() {}
+            };
+            WebSocketFactory factory = (request, listener) -> {
+                connectionAttempts.incrementAndGet();
+                listener.onOpen(connectedSocket, null);
+                return connectedSocket;
+            };
+            DeepgramClient client = new DeepgramClient(ClientOptions.builder()
+                    .environment(Environment.PRODUCTION)
+                    .webSocketFactory(factory)
+                    .build());
+            V1WebSocketClient webSocket = client.listen().v1().v1WebSocket();
+            V1ConnectOptions options =
+                    V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build();
+
+            try {
+                webSocket.connect(options).get(5, TimeUnit.SECONDS);
+                assertThat(connectionAttempts).hasValue(1);
+
+                client.close();
+
+                assertThat(closed.await(5, TimeUnit.SECONDS))
+                        .as("root close disconnects the active WebSocket")
+                        .isTrue();
+                assertThatThrownBy(() -> webSocket.connect(options))
+                        .isInstanceOf(IllegalStateException.class)
+                        .hasMessage("root client has been closed");
+                assertThat(connectionAttempts)
+                        .as("closed clients do not open another WebSocket")
+                        .hasValue(1);
+            } finally {
+                client.close();
             }
         }
 

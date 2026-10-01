@@ -40,7 +40,7 @@ public final class SpeakV2Error {
     }
 
     /**
-     * @return A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>.
+     * @return A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>. <code>DATA-0002</code> covers invalid inline controls and speed, including an inline pause marker (pause is batch-only) and a pronunciation control combined with a <code>speed</code> other than <code>1.0</code>; <code>description</code> names the specific rule.
      */
     @JsonProperty("code")
     public SpeakV2ErrorCode getCode() {
@@ -86,7 +86,7 @@ public final class SpeakV2Error {
 
     public interface CodeStage {
         /**
-         * <p>A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>.</p>
+         * <p>A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>. <code>DATA-0002</code> covers invalid inline controls and speed, including an inline pause marker (pause is batch-only) and a pronunciation control combined with a <code>speed</code> other than <code>1.0</code>; <code>description</code> names the specific rule.</p>
          */
         DescriptionStage code(@NotNull SpeakV2ErrorCode code);
 
@@ -127,7 +127,7 @@ public final class SpeakV2Error {
         }
 
         /**
-         * <p>A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>.</p>
+         * <p>A code identifying the error, e.g. <code>MESSAGE-0000</code> or <code>NET-0000</code>. <code>DATA-0002</code> covers invalid inline controls and speed, including an inline pause marker (pause is batch-only) and a pronunciation control combined with a <code>speed</code> other than <code>1.0</code>; <code>description</code> names the specific rule.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

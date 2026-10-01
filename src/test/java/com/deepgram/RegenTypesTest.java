@@ -19,6 +19,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
+import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
@@ -30,6 +31,8 @@ import com.deepgram.types.GoogleVersion;
 import com.deepgram.types.ListenV1ResponseMetadata;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
 import com.deepgram.types.ListenV2Redact;
+import com.deepgram.types.SharedIntents;
+import com.deepgram.types.SharedTopics;
 import com.deepgram.types.ThinkSettingsV1FunctionsItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -374,6 +377,68 @@ public class RegenTypesTest {
 
             assertThat(word.getSpeakerConfidence()).isEmpty();
             assertThat(word.getSpeaker()).isEmpty();
+        }
+    }
+
+    /**
+     * Coverage for the 2026-09-30 correction that removes the nonexistent nested {@code results}
+     * wrappers from Topics and Intents response objects.
+     */
+    @Nested
+    @DisplayName("2026-09-30 Topics and Intents response shapes")
+    class TopicsAndIntentsShapes {
+
+        @Test
+        @DisplayName("SharedTopics deserializes direct segments from the server payload")
+        void topicsDeserializeDirectSegments() throws Exception {
+            SharedTopics topics = MAPPER.readValue(
+                    "{\"segments\":[{\"text\":\"Spacewalk\",\"topics\":[{\"topic\":\"Spacewalk\",\"confidence_score\":0.9}]}]}",
+                    SharedTopics.class);
+
+            assertThat(topics.getSegments()).hasValueSatisfying(segments -> {
+                assertThat(segments).singleElement().satisfies(segment -> {
+                    assertThat(segment.getText()).contains("Spacewalk");
+                    assertThat(segment.getTopics()).hasValueSatisfying(values -> assertThat(values)
+                            .singleElement()
+                            .satisfies(value -> assertThat(value.getTopic()).contains("Spacewalk")));
+                });
+            });
+        }
+
+        @Test
+        @DisplayName("SharedIntents deserializes direct segments from the server payload")
+        void intentsDeserializeDirectSegments() throws Exception {
+            SharedIntents intents = MAPPER.readValue(
+                    "{\"segments\":[{\"text\":\"Book a flight\",\"intents\":[{\"intent\":\"Book travel\",\"confidence_score\":0.9}]}]}",
+                    SharedIntents.class);
+
+            assertThat(intents.getSegments()).hasValueSatisfying(segments -> {
+                assertThat(segments).singleElement().satisfies(segment -> {
+                    assertThat(segment.getText()).contains("Book a flight");
+                    assertThat(segment.getIntents()).hasValueSatisfying(values -> assertThat(values)
+                            .singleElement()
+                            .satisfies(value -> assertThat(value.getIntent()).contains("Book travel")));
+                });
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("2026-09-30 Listen V2 Warning")
+    class ListenV2WarningShape {
+
+        @Test
+        @DisplayName("deserializes all server fields")
+        void warningDeserializes() throws Exception {
+            ListenV2Warning warning = MAPPER.readValue(
+                    "{\"type\":\"Warning\",\"request_id\":\"request-123\",\"sequence_id\":1,\"code\":\"FORCE_END_TURN_NO_ACTIVE_TURN\",\"description\":\"No active turn\"}",
+                    ListenV2Warning.class);
+
+            assertThat(warning.getType()).isEqualTo("Warning");
+            assertThat(warning.getRequestId()).isEqualTo("request-123");
+            assertThat(warning.getSequenceId()).isEqualTo(1);
+            assertThat(warning.getCode()).isEqualTo("FORCE_END_TURN_NO_ACTIVE_TURN");
+            assertThat(warning.getDescription()).isEqualTo("No active turn");
         }
     }
 }

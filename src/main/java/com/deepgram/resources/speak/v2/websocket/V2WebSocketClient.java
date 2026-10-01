@@ -3,8 +3,6 @@
  */
 package com.deepgram.resources.speak.v2.websocket;
 
-// Manual patch - see .fernignore.
-
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
@@ -163,13 +161,22 @@ public class V2WebSocketClient implements AutoCloseable {
                 ? this.reconnectOptions
                 : ReconnectingWebSocketListener.ReconnectOptions.builder().build();
         this.reconnectingListener =
-                new ReconnectingWebSocketListener(reconnectOpts, () -> {
-                    if (clientOptions.webSocketFactory().isPresent()) {
-                        return clientOptions.webSocketFactory().get().create(request, this.reconnectingListener);
-                    } else {
-                        return okHttpClient.newWebSocket(request, this.reconnectingListener);
-                    }
-                }) {
+                new ReconnectingWebSocketListener(
+                        reconnectOpts,
+                        () -> {
+                            if (clientOptions.isClosed()) {
+                                throw new IllegalStateException("root client has been closed");
+                            }
+                            if (clientOptions.webSocketFactory().isPresent()) {
+                                return clientOptions
+                                        .webSocketFactory()
+                                        .get()
+                                        .create(request, this.reconnectingListener);
+                            } else {
+                                return okHttpClient.newWebSocket(request, this.reconnectingListener);
+                            }
+                        },
+                        clientOptions::isClosed) {
                     @Override
                     protected void onWebSocketOpen(WebSocket webSocket, Response response) {
                         readyState = WebSocketReadyState.OPEN;
@@ -208,6 +215,7 @@ public class V2WebSocketClient implements AutoCloseable {
                         }
                     }
                 };
+        clientOptions.registerWebSocket(this);
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -216,6 +224,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
+        clientOptions.unregisterWebSocket(this);
         if (reconnectingListener != null) {
             reconnectingListener.disconnect();
         }

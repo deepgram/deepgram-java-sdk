@@ -14,6 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import okhttp3.Response;
@@ -49,6 +50,8 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
 
     private final Supplier<? extends WebSocket> connectionSupplier;
 
+    private final BooleanSupplier closedCheck;
+
     /**
      * Creates a new reconnecting WebSocket listener.
      *
@@ -57,9 +60,26 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      */
     public ReconnectingWebSocketListener(
             ReconnectingWebSocketListener.ReconnectOptions options, Supplier<? extends WebSocket> connectionSupplier) {
+        this(options, connectionSupplier, () -> false);
+    }
+
+    /**
+     * Creates a new reconnecting WebSocket listener.
+     *
+     * @param options Reconnection configuration options
+     * @param connectionSupplier Supplier that creates new WebSocket connections
+     * @param closedCheck Returns true once the owning client has been closed; connect and
+     *     reconnect attempts made after that point fail with an {@link IllegalStateException}
+     *     instead of being retried
+     */
+    public ReconnectingWebSocketListener(
+            ReconnectingWebSocketListener.ReconnectOptions options,
+            Supplier<? extends WebSocket> connectionSupplier,
+            BooleanSupplier closedCheck) {
         this.activeOptions = options;
         this.maxEnqueuedMessages = options.maxEnqueuedMessages;
         this.connectionSupplier = connectionSupplier;
+        this.closedCheck = closedCheck;
     }
 
     /**
@@ -85,9 +105,16 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * - TimeoutException: Includes retry attempt context
      * - InterruptedException: Preserves thread interruption status
      * - ExecutionException: Extracts actual cause and adds context
+     * - Owning client closed: reports an IllegalStateException once and stops reconnecting
      */
     public void connect() {
         if (!connectLock.compareAndSet(false, true)) {
+            return;
+        }
+        if (closedCheck.getAsBoolean()) {
+            shouldReconnect.set(false);
+            connectLock.set(false);
+            onWebSocketFailure(null, new IllegalStateException("root client has been closed"), null);
             return;
         }
         ReconnectOptions options = this.activeOptions;
@@ -391,10 +418,10 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
      * - 2+ = exponential backoff up to maxReconnectionDelayMs
      */
     private long getNextDelay() {
-        ReconnectOptions options = this.activeOptions;
         if (retryCount.get() == 1) {
-            return options.minReconnectionDelayMs;
+            return activeOptions.minReconnectionDelayMs;
         }
+        ReconnectOptions options = this.activeOptions;
         long delay = (long)
                 (options.minReconnectionDelayMs * Math.pow(options.reconnectionDelayGrowFactor, retryCount.get() - 1));
         return Math.min(delay, options.maxReconnectionDelayMs);
@@ -403,8 +430,13 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
     /**
      * Schedules a reconnection attempt with appropriate delay.
      * Increments retry count and uses exponential backoff.
+     * Does nothing once the owning client has been closed.
      */
     private void scheduleReconnect() {
+        if (closedCheck.getAsBoolean()) {
+            shouldReconnect.set(false);
+            return;
+        }
         retryCount.incrementAndGet();
         long delay = getNextDelay();
         reconnectExecutor.schedule(this::connect, delay, MILLISECONDS);

@@ -3,8 +3,6 @@
  */
 package com.deepgram.resources.listen.v2.websocket;
 
-// Manual patch - see .fernignore.
-
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
@@ -20,6 +18,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2Connected;
 import com.deepgram.resources.listen.v2.types.ListenV2FatalError;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
+import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.CompletableFuture;
@@ -71,6 +70,8 @@ public class V2WebSocketClient implements AutoCloseable {
     private volatile Consumer<ListenV2ConfigureSuccess> configureSuccessHandler;
 
     private volatile Consumer<ListenV2ConfigureFailure> configureFailureHandler;
+
+    private volatile Consumer<ListenV2Warning> warningHandler;
 
     private volatile Consumer<ListenV2FatalError> errorHandler;
 
@@ -175,13 +176,22 @@ public class V2WebSocketClient implements AutoCloseable {
                 ? this.reconnectOptions
                 : ReconnectingWebSocketListener.ReconnectOptions.builder().build();
         this.reconnectingListener =
-                new ReconnectingWebSocketListener(reconnectOpts, () -> {
-                    if (clientOptions.webSocketFactory().isPresent()) {
-                        return clientOptions.webSocketFactory().get().create(request, this.reconnectingListener);
-                    } else {
-                        return okHttpClient.newWebSocket(request, this.reconnectingListener);
-                    }
-                }) {
+                new ReconnectingWebSocketListener(
+                        reconnectOpts,
+                        () -> {
+                            if (clientOptions.isClosed()) {
+                                throw new IllegalStateException("root client has been closed");
+                            }
+                            if (clientOptions.webSocketFactory().isPresent()) {
+                                return clientOptions
+                                        .webSocketFactory()
+                                        .get()
+                                        .create(request, this.reconnectingListener);
+                            } else {
+                                return okHttpClient.newWebSocket(request, this.reconnectingListener);
+                            }
+                        },
+                        clientOptions::isClosed) {
                     @Override
                     protected void onWebSocketOpen(WebSocket webSocket, Response response) {
                         closeStreamSocket.set(null);
@@ -223,6 +233,7 @@ public class V2WebSocketClient implements AutoCloseable {
                                 && (code != 1005 || closeStreamSocket.get() != webSocket);
                     }
                 };
+        clientOptions.registerWebSocket(this);
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -231,6 +242,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
+        clientOptions.unregisterWebSocket(this);
         if (reconnectingListener != null) {
             reconnectingListener.disconnect();
         }
@@ -281,11 +293,6 @@ public class V2WebSocketClient implements AutoCloseable {
 
     /**
      * Sends a ListenV2ForceEndTurn message to the server asynchronously.
-     *
-     * <p>Sending this with no turn in progress is not an error. The server answers with a
-     * {@code Warning} frame carrying code {@code FORCE_END_TURN_NO_ACTIVE_TURN} and ignores the
-     * request. Listen V2 has no typed warning event yet, so that frame is delivered as raw JSON
-     * to {@link #onMessage(java.util.function.Consumer)}.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
      */
@@ -335,6 +342,14 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Registers a handler for ListenV2Warning messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onWarning(Consumer<ListenV2Warning> handler) {
+        this.warningHandler = handler;
+    }
+
+    /**
      * Registers a handler for ListenV2FatalError messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -351,8 +366,7 @@ public class V2WebSocketClient implements AutoCloseable {
     }
 
     /**
-     * Registers a handler called when the connection is closed. An empty peer close frame is
-     * reported with code 1005, even though the SDK acknowledges it with code 1000.
+     * Registers a handler called when the connection is closed.
      * @param handler the handler to invoke when disconnected
      */
     public void onDisconnected(Consumer<DisconnectReason> handler) {
@@ -471,6 +485,23 @@ public class V2WebSocketClient implements AutoCloseable {
                 if (configureSuccessHandlerEvent != null) {
                     if (configureSuccessHandler != null) {
                         configureSuccessHandler.accept(configureSuccessHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("request_id")
+                    && node.has("sequence_id")
+                    && node.has("code")
+                    && node.has("description")
+                    && "Warning".equals(node.path("type").asText())) {
+                ListenV2Warning warningHandlerEvent = null;
+                try {
+                    warningHandlerEvent = objectMapper.treeToValue(node, ListenV2Warning.class);
+                } catch (Exception e) {
+                }
+                if (warningHandlerEvent != null) {
+                    if (warningHandler != null) {
+                        warningHandler.accept(warningHandlerEvent);
                     }
                     return;
                 }

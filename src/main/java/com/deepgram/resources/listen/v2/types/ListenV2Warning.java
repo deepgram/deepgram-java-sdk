@@ -10,32 +10,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = ListenV2ConfigureFailure.Builder.class)
-public final class ListenV2ConfigureFailure {
+@JsonDeserialize(builder = ListenV2Warning.Builder.class)
+public final class ListenV2Warning {
     private final String requestId;
 
     private final int sequenceId;
 
-    private final Optional<String> code;
+    private final String code;
 
-    private final Optional<String> description;
+    private final String description;
 
     private final Map<String, Object> additionalProperties;
 
-    private ListenV2ConfigureFailure(
+    private ListenV2Warning(
             String requestId,
             int sequenceId,
-            Optional<String> code,
-            Optional<String> description,
+            String code,
+            String description,
             Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.sequenceId = sequenceId;
@@ -49,7 +47,7 @@ public final class ListenV2ConfigureFailure {
      */
     @JsonProperty("type")
     public String getType() {
-        return "ConfigureFailure";
+        return "Warning";
     }
 
     /**
@@ -62,7 +60,7 @@ public final class ListenV2ConfigureFailure {
 
     /**
      * @return Starts at <code>0</code> and increments for each message the server sends
-     * to the client.  This includes messages of other types, like
+     * to the client. This includes messages of other types, like
      * <code>TurnInfo</code> messages.
      */
     @JsonProperty("sequence_id")
@@ -71,25 +69,25 @@ public final class ListenV2ConfigureFailure {
     }
 
     /**
-     * @return Failure code identifying the rejected configuration
+     * @return Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code>
      */
     @JsonProperty("code")
-    public Optional<String> getCode() {
+    public String getCode() {
         return code;
     }
 
     /**
-     * @return A human-readable description of the configuration failure
+     * @return A human-readable description of the warning
      */
     @JsonProperty("description")
-    public Optional<String> getDescription() {
+    public String getDescription() {
         return description;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof ListenV2ConfigureFailure && equalTo((ListenV2ConfigureFailure) other);
+        return other instanceof ListenV2Warning && equalTo((ListenV2Warning) other);
     }
 
     @JsonAnyGetter
@@ -97,7 +95,7 @@ public final class ListenV2ConfigureFailure {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(ListenV2ConfigureFailure other) {
+    private boolean equalTo(ListenV2Warning other) {
         return requestId.equals(other.requestId)
                 && sequenceId == other.sequenceId
                 && code.equals(other.code)
@@ -124,49 +122,50 @@ public final class ListenV2ConfigureFailure {
          */
         SequenceIdStage requestId(@NotNull String requestId);
 
-        Builder from(ListenV2ConfigureFailure other);
+        Builder from(ListenV2Warning other);
     }
 
     public interface SequenceIdStage {
         /**
          * <p>Starts at <code>0</code> and increments for each message the server sends
-         * to the client.  This includes messages of other types, like
+         * to the client. This includes messages of other types, like
          * <code>TurnInfo</code> messages.</p>
          */
-        _FinalStage sequenceId(int sequenceId);
+        CodeStage sequenceId(int sequenceId);
+    }
+
+    public interface CodeStage {
+        /**
+         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code></p>
+         */
+        DescriptionStage code(@NotNull String code);
+    }
+
+    public interface DescriptionStage {
+        /**
+         * <p>A human-readable description of the warning</p>
+         */
+        _FinalStage description(@NotNull String description);
     }
 
     public interface _FinalStage {
-        ListenV2ConfigureFailure build();
+        ListenV2Warning build();
 
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
-
-        /**
-         * <p>Failure code identifying the rejected configuration</p>
-         */
-        _FinalStage code(Optional<String> code);
-
-        _FinalStage code(String code);
-
-        /**
-         * <p>A human-readable description of the configuration failure</p>
-         */
-        _FinalStage description(Optional<String> description);
-
-        _FinalStage description(String description);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements RequestIdStage, SequenceIdStage, _FinalStage {
+    public static final class Builder
+            implements RequestIdStage, SequenceIdStage, CodeStage, DescriptionStage, _FinalStage {
         private String requestId;
 
         private int sequenceId;
 
-        private Optional<String> description = Optional.empty();
+        private String code;
 
-        private Optional<String> code = Optional.empty();
+        private String description;
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -174,7 +173,7 @@ public final class ListenV2ConfigureFailure {
         private Builder() {}
 
         @java.lang.Override
-        public Builder from(ListenV2ConfigureFailure other) {
+        public Builder from(ListenV2Warning other) {
             requestId(other.getRequestId());
             sequenceId(other.getSequenceId());
             code(other.getCode());
@@ -195,60 +194,42 @@ public final class ListenV2ConfigureFailure {
 
         /**
          * <p>Starts at <code>0</code> and increments for each message the server sends
-         * to the client.  This includes messages of other types, like
+         * to the client. This includes messages of other types, like
          * <code>TurnInfo</code> messages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
         @JsonSetter("sequence_id")
-        public _FinalStage sequenceId(int sequenceId) {
+        public CodeStage sequenceId(int sequenceId) {
             this.sequenceId = sequenceId;
             return this;
         }
 
         /**
-         * <p>A human-readable description of the configuration failure</p>
+         * <p>Warning code identifying the condition, in <code>SCREAMING_SNAKE_CASE</code></p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage description(String description) {
-            this.description = Optional.ofNullable(description);
+        @JsonSetter("code")
+        public DescriptionStage code(@NotNull String code) {
+            this.code = Objects.requireNonNull(code, "code must not be null");
             return this;
         }
 
         /**
-         * <p>A human-readable description of the configuration failure</p>
-         */
-        @java.lang.Override
-        @JsonSetter(value = "description", nulls = Nulls.SKIP)
-        public _FinalStage description(Optional<String> description) {
-            this.description = description;
-            return this;
-        }
-
-        /**
-         * <p>Failure code identifying the rejected configuration</p>
+         * <p>A human-readable description of the warning</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        public _FinalStage code(String code) {
-            this.code = Optional.ofNullable(code);
-            return this;
-        }
-
-        /**
-         * <p>Failure code identifying the rejected configuration</p>
-         */
-        @java.lang.Override
-        @JsonSetter(value = "code", nulls = Nulls.SKIP)
-        public _FinalStage code(Optional<String> code) {
-            this.code = code;
+        @JsonSetter("description")
+        public _FinalStage description(@NotNull String description) {
+            this.description = Objects.requireNonNull(description, "description must not be null");
             return this;
         }
 
         @java.lang.Override
-        public ListenV2ConfigureFailure build() {
-            return new ListenV2ConfigureFailure(requestId, sequenceId, code, description, additionalProperties);
+        public ListenV2Warning build() {
+            return new ListenV2Warning(requestId, sequenceId, code, description, additionalProperties);
         }
 
         @java.lang.Override

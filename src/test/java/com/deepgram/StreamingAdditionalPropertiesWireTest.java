@@ -6,6 +6,7 @@ import com.deepgram.core.Environment;
 import com.deepgram.types.ListenV1Model;
 import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.SpeakV1Model;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import okhttp3.HttpUrl;
@@ -71,6 +72,8 @@ class StreamingAdditionalPropertiesWireTest {
         // The unmodeled params reached the wire, with a non-string value serialized correctly...
         assertThat(url.queryParameter("no_delay")).isEqualTo("true");
         assertThat(url.queryParameter("custom_key")).isEqualTo("custom_value");
+        assertThat(url.queryParameter("numeric_value")).isEqualTo("42");
+        assertThat(url.queryParameterValues("multi_value")).containsExactly("first", "second");
         // ...alongside (not instead of) the typed option.
         assertThat(url.queryParameterNames()).contains("model");
     }
@@ -83,9 +86,11 @@ class StreamingAdditionalPropertiesWireTest {
                         .v1()
                         .v1WebSocket()
                         .connect(com.deepgram.resources.listen.v1.websocket.V1ConnectOptions.builder()
-                                .model(ListenV1Model.NOVA3)
-                                .additionalProperty("no_delay", true)
-                                .additionalProperty("custom_key", "custom_value")
+                                 .model(ListenV1Model.NOVA3)
+                                 .additionalProperty("no_delay", true)
+                                 .additionalProperty("custom_key", "custom_value")
+                                 .additionalProperty("numeric_value", 42)
+                                 .additionalProperty("multi_value", List.of("first", "second"))
                                 .build()),
                 "/v1/listen");
         assertEscapeHatchEmitted(url);
@@ -99,9 +104,11 @@ class StreamingAdditionalPropertiesWireTest {
                         .v2()
                         .v2WebSocket()
                         .connect(com.deepgram.resources.listen.v2.websocket.V2ConnectOptions.builder()
-                                .model(ListenV2Model.FLUX_GENERAL_EN)
-                                .additionalProperty("no_delay", true)
-                                .additionalProperty("custom_key", "custom_value")
+                                 .model(ListenV2Model.FLUX_GENERAL_EN)
+                                 .additionalProperty("no_delay", true)
+                                 .additionalProperty("custom_key", "custom_value")
+                                 .additionalProperty("numeric_value", 42)
+                                 .additionalProperty("multi_value", List.of("first", "second"))
                                 .build()),
                 "/v2/listen");
         assertEscapeHatchEmitted(url);
@@ -115,9 +122,11 @@ class StreamingAdditionalPropertiesWireTest {
                         .v1()
                         .v1WebSocket()
                         .connect(com.deepgram.resources.speak.v1.websocket.V1ConnectOptions.builder()
-                                .model(SpeakV1Model.AURA2HERA_EN)
-                                .additionalProperty("no_delay", true)
-                                .additionalProperty("custom_key", "custom_value")
+                                 .model(SpeakV1Model.AURA2HERA_EN)
+                                 .additionalProperty("no_delay", true)
+                                 .additionalProperty("custom_key", "custom_value")
+                                 .additionalProperty("numeric_value", 42)
+                                 .additionalProperty("multi_value", List.of("first", "second"))
                                 .build()),
                 "/v1/speak");
         assertEscapeHatchEmitted(url);
@@ -131,9 +140,11 @@ class StreamingAdditionalPropertiesWireTest {
                         .v2()
                         .v2WebSocket()
                         .connect(com.deepgram.resources.speak.v2.websocket.V2ConnectOptions.builder()
-                                .model("aura-2-thalia-en")
-                                .additionalProperty("no_delay", true)
-                                .additionalProperty("custom_key", "custom_value")
+                                 .model("aura-2-thalia-en")
+                                 .additionalProperty("no_delay", true)
+                                 .additionalProperty("custom_key", "custom_value")
+                                 .additionalProperty("numeric_value", 42)
+                                 .additionalProperty("multi_value", List.of("first", "second"))
                                 .build()),
                 "/v2/speak");
         assertEscapeHatchEmitted(url);

@@ -16,7 +16,8 @@ You can learn more about the Deepgram API at [developers.deepgram.com](https://d
 
 ### Migrating Between Versions
 
-- [v0.9 to v0.10](./docs/Migrating-v0.9-to-v0.10.md) (current)
+- [v0.10 to v0.11](./docs/Migrating-v0.10-to-v0.11.md) (current)
+- [v0.9 to v0.10](./docs/Migrating-v0.9-to-v0.10.md)
 - [v0.8 to v0.9](./docs/Migrating-v0.8-to-v0.9.md)
 - [v0.7 to v0.8](./docs/Migrating-v0.7-to-v0.8.md)
 - [v0.6 to v0.7](./docs/Migrating-v0.6-to-v0.7.md)
@@ -70,9 +71,9 @@ Get your API key from the [Deepgram Console](https://console.deepgram.com/).
 
 ### Resource Lifecycle
 
-Close an SDK-created client when your application is finished with it. This releases the OkHttp dispatcher and
-connection pool. Close each WebSocket client before closing its root client; root-client cleanup does not close active
-WebSocket clients for you.
+Close an SDK-created client when your application is finished with it. This disconnects any WebSocket clients still
+connected through it, then releases the OkHttp dispatcher and connection pool. Close an individual WebSocket client
+earlier when its work is complete; after the root client closes, new WebSocket connections fail.
 
 ```java
 import com.deepgram.DeepgramClient;
