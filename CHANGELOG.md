@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.11.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.2...v0.11.0) (2026-10-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **regen:** `SharedTopics` and `SharedIntents` expose `getSegments()` directly; `SharedTopicsResults`, `SharedTopicsResultsTopics`, `SharedIntentsResults`, and `SharedIntentsResultsIntents` are removed and the segment item types are renamed (see docs/Migrating-v0.10-to-v0.11.md). `SpeakV2ConfigureFailureCode.Visitor<T>` gains `visitControlCombinationInvalid()`; existing Visitor implementations must add it.
+
+### Features
+
+* **regen:** add Flux TTS Controls ([#120](https://github.com/deepgram/deepgram-java-sdk/issues/120)) ([01f75a4](https://github.com/deepgram/deepgram-java-sdk/commit/01f75a42e850a57ead4738784c522989db846969))
+
 ## [0.10.2](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.1...v0.10.2) (2026-09-24)
 
 
