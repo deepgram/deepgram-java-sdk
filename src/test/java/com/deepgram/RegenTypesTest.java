@@ -19,6 +19,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
+import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
@@ -419,6 +420,25 @@ public class RegenTypesTest {
                             .satisfies(value -> assertThat(value.getIntent()).contains("Book travel")));
                 });
             });
+        }
+    }
+
+    @Nested
+    @DisplayName("2026-09-30 Listen V2 Warning")
+    class ListenV2WarningShape {
+
+        @Test
+        @DisplayName("deserializes all server fields")
+        void warningDeserializes() throws Exception {
+            ListenV2Warning warning = MAPPER.readValue(
+                    "{\"type\":\"Warning\",\"request_id\":\"request-123\",\"sequence_id\":1,\"code\":\"FORCE_END_TURN_NO_ACTIVE_TURN\",\"description\":\"No active turn\"}",
+                    ListenV2Warning.class);
+
+            assertThat(warning.getType()).isEqualTo("Warning");
+            assertThat(warning.getRequestId()).isEqualTo("request-123");
+            assertThat(warning.getSequenceId()).isEqualTo(1);
+            assertThat(warning.getCode()).isEqualTo("FORCE_END_TURN_NO_ACTIVE_TURN");
+            assertThat(warning.getDescription()).isEqualTo("No active turn");
         }
     }
 }
