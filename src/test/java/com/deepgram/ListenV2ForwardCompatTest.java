@@ -3,6 +3,7 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.ClientOptions;
+import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +42,27 @@ public class ListenV2ForwardCompatTest {
         // The unknown frame reached onMessage(String) verbatim...
         assertThat(rawMessage.get()).isEqualTo(unknownFrame);
         // ...and did NOT look like a fatal error to the consumer.
+        assertThat(errorCount).hasValue(0);
+    }
+
+    @Test
+    @DisplayName("Warning server message reaches onWarning without routing to onError")
+    void warningMessageReachesWarningHandler() throws Exception {
+        V2WebSocketClient client = new V2WebSocketClient(ClientOptions.builder().build());
+
+        AtomicInteger errorCount = new AtomicInteger();
+        AtomicReference<ListenV2Warning> warning = new AtomicReference<>();
+        client.onError(e -> errorCount.incrementAndGet());
+        client.onWarning(warning::set);
+
+        Method handle = V2WebSocketClient.class.getDeclaredMethod("handleIncomingMessage", String.class);
+        handle.setAccessible(true);
+        handle.invoke(
+                client,
+                "{\"type\":\"Warning\",\"request_id\":\"request-123\",\"sequence_id\":1,\"code\":\"FORCE_END_TURN_NO_ACTIVE_TURN\",\"description\":\"No active turn\"}");
+
+        assertThat(warning.get()).isNotNull();
+        assertThat(warning.get().getCode()).isEqualTo("FORCE_END_TURN_NO_ACTIVE_TURN");
         assertThat(errorCount).hasValue(0);
     }
 }
