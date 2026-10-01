@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.11.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.2...v0.11.0) (2026-10-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Topics and Intents:** `SharedTopics` and `SharedIntents` now expose `getSegments()` directly. The obsolete nested `results` wrappers and segment item types are removed. See the [v0.10 to v0.11 migration guide](docs/Migrating-v0.10-to-v0.11.md).
+* **Speak v2:** `SpeakV2ConfigureFailureCode.Visitor<T>` now requires `visitControlCombinationInvalid()`.
+
+### Features
+
+* **Speak v2 (Flux TTS):** Add inline pause markers for batch requests and IPA pronunciation overrides for batch and WebSocket requests. Invalid pause-plus-pronunciation and non-default-speed-plus-pronunciation combinations report `CONTROL_COMBINATION_INVALID`; pause markers on WebSocket requests produce `DATA-0002`. See [Speed, Pause, Pronunciation](https://developers.deepgram.com/docs/tts-voice-controls). ([#120](https://github.com/deepgram/deepgram-java-sdk/issues/120)) ([01f75a4](https://github.com/deepgram/deepgram-java-sdk/commit/01f75a42e850a57ead4738784c522989db846969))
+
+### Changed
+
+* **HTTP retries:** The configured HTTP timeout now applies to each retry attempt, so retried requests can exceed the configured timeout. If a later retry fails at the transport layer, the SDK returns the earlier retryable HTTP response with its status, headers, and body.
+* **Client lifecycle:** Closing an SDK-owned root client now disconnects tracked WebSocket clients before releasing OkHttp resources.
+
 ## [0.10.2](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.1...v0.10.2) (2026-09-24)
 
 
