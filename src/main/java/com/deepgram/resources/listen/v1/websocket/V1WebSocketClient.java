@@ -6,11 +6,12 @@ package com.deepgram.resources.listen.v1.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
-import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.listen.v1.types.ListenV1CloseStream;
+import com.deepgram.resources.listen.v1.types.ListenV1Configure;
+import com.deepgram.resources.listen.v1.types.ListenV1Error;
 import com.deepgram.resources.listen.v1.types.ListenV1Finalize;
 import com.deepgram.resources.listen.v1.types.ListenV1KeepAlive;
 import com.deepgram.resources.listen.v1.types.ListenV1Metadata;
@@ -65,6 +66,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<ListenV1UtteranceEnd> utteranceEndHandler;
 
     private volatile Consumer<ListenV1SpeechStarted> speechStartedHandler;
+
+    private volatile Consumer<ListenV1Error> errorHandler;
 
     /**
      * Creates a new async WebSocket client for the v1 channel.
@@ -139,7 +142,8 @@ public class V1WebSocketClient implements AutoCloseable {
                     "endpointing", String.valueOf(options.getEndpointing().get()));
         }
         if (options.getExtra() != null && options.getExtra().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "extra", options.getExtra().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "extra", String.valueOf(options.getExtra().get()));
         }
         if (options.getInterimResults() != null && options.getInterimResults().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -147,10 +151,12 @@ public class V1WebSocketClient implements AutoCloseable {
                     String.valueOf(options.getInterimResults().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "keyterm", String.valueOf(options.getKeyterm().get()));
         }
         if (options.getKeywords() != null && options.getKeywords().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "keywords", options.getKeywords().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "keywords", String.valueOf(options.getKeywords().get()));
         }
         if (options.getLanguage() != null && options.getLanguage().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -183,21 +189,23 @@ public class V1WebSocketClient implements AutoCloseable {
                     "redact", String.valueOf(options.getRedact().get()));
         }
         if (options.getReplace() != null && options.getReplace().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "replace", options.getReplace().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "replace", String.valueOf(options.getReplace().get()));
         }
         if (options.getSampleRate() != null && options.getSampleRate().isPresent()) {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
         }
         if (options.getSearch() != null && options.getSearch().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "search", options.getSearch().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "search", String.valueOf(options.getSearch().get()));
         }
         if (options.getSmartFormat() != null && options.getSmartFormat().isPresent()) {
             urlBuilder.addQueryParameter(
                     "smart_format", String.valueOf(options.getSmartFormat().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "tag", options.getTag().get().get(), true);
+            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
         }
         if (options.getUtteranceEndMs() != null && options.getUtteranceEndMs().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -211,13 +219,6 @@ public class V1WebSocketClient implements AutoCloseable {
         if (options.getVersion() != null && options.getVersion().isPresent()) {
             urlBuilder.addQueryParameter(
                     "version", String.valueOf(options.getVersion().get()));
-        }
-        if (options.getAdditionalProperties() != null) {
-            options.getAdditionalProperties().forEach((key, value) -> {
-                if (value != null) {
-                    QueryStringMapper.addQueryParameter(urlBuilder, key, value, true);
-                }
-            });
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
@@ -353,6 +354,15 @@ public class V1WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends a ListenV1Configure message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendConfigure(ListenV1Configure message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Registers a handler for ListenV1Results messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -382,6 +392,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onSpeechStarted(Consumer<ListenV1SpeechStarted> handler) {
         this.speechStartedHandler = handler;
+    }
+
+    /**
+     * Registers a handler for ListenV1Error messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onErrorMessage(Consumer<ListenV1Error> handler) {
+        this.errorHandler = handler;
     }
 
     /**
@@ -536,6 +554,21 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (speechStartedHandlerEvent != null) {
                     if (speechStartedHandler != null) {
                         speechStartedHandler.accept(speechStartedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("variant")
+                    && node.has("description")
+                    && "Error".equals(node.path("type").asText())) {
+                ListenV1Error errorHandlerEvent = null;
+                try {
+                    errorHandlerEvent = objectMapper.treeToValue(node, ListenV1Error.class);
+                } catch (Exception e) {
+                }
+                if (errorHandlerEvent != null) {
+                    if (errorHandler != null) {
+                        errorHandler.accept(errorHandlerEvent);
                     }
                     return;
                 }

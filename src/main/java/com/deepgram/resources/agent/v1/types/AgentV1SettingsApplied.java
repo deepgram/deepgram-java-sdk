@@ -36,11 +36,6 @@ public final class AgentV1SettingsApplied {
         return other instanceof AgentV1SettingsApplied;
     }
 
-    @java.lang.Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
