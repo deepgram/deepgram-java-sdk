@@ -36,6 +36,11 @@ public final class SpeakV2Close {
         return other instanceof SpeakV2Close;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

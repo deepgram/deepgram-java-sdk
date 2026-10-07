@@ -3,9 +3,13 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.Environment;
+import com.deepgram.core.ObjectMappers;
+import com.deepgram.resources.agent.v1.types.AgentV1CustomFromThinkProvider;
+import com.deepgram.resources.agent.v1.types.AgentV1CustomToThinkProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallCancelled;
 import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -93,6 +97,71 @@ class AgentV1ControlFrameWireTest {
                 assertThat(function.getId()).isEqualTo("call-1");
                 assertThat(function.getName()).isEqualTo("charge_card");
             });
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void sendsCustomPayloadToThinkProvider() throws Exception {
+        BlockingQueue<String> received = new LinkedBlockingQueue<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                received.add(text);
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+            ws.sendCustomToThinkProvider(AgentV1CustomToThinkProvider.builder()
+                            .content(Map.of("action", "lookup", "query", "weather"))
+                            .build())
+                    .get(5, TimeUnit.SECONDS);
+
+            String frame = received.poll(5, TimeUnit.SECONDS);
+            assertThat(frame).isNotNull();
+            assertThat(ObjectMappers.JSON_MAPPER.readTree(frame).path("type").asText())
+                    .isEqualTo("__customToThinkProvider");
+            assertThat(ObjectMappers.JSON_MAPPER.readTree(frame).path("content").path("action").asText())
+                    .isEqualTo("lookup");
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesCustomPayloadFromThinkProvider() throws Exception {
+        CountDownLatch received = new CountDownLatch(1);
+        AtomicReference<AgentV1CustomFromThinkProvider> custom = new AtomicReference<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send("{\"type\":\"__customFromThinkProvider\",\"content\":{\"decision\":\"continue\"}}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onCustomFromThinkProvider(event -> {
+            custom.set(event);
+            received.countDown();
+        });
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+
+            assertThat(received.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(custom.get().getContent()).isEqualTo(Map.of("decision", "continue"));
         } finally {
             ws.disconnect();
         }

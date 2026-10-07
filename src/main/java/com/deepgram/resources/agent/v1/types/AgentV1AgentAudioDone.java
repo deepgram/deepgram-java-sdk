@@ -36,6 +36,11 @@ public final class AgentV1AgentAudioDone {
         return other instanceof AgentV1AgentAudioDone;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
