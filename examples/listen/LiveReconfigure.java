@@ -44,7 +44,7 @@ public class LiveReconfigure {
                 }
             });
             wsClient.onErrorMessage(LiveReconfigure::printListenError);
-            wsClient.onError(error -> System.err.println("WebSocket error occurred."));
+            wsClient.onError(error -> System.err.println("WebSocket error occurred: " + error.getMessage()));
             wsClient.onDisconnected(reason -> {
                 System.out.println("Connection closed.");
                 closeLatch.countDown();
@@ -69,7 +69,7 @@ public class LiveReconfigure {
                     .get(10, TimeUnit.SECONDS);
             closeLatch.await(15, TimeUnit.SECONDS);
         } catch (Exception e) {
-            System.err.println("Unable to run the live reconfiguration example.");
+            System.err.println("Unable to run the live reconfiguration example: " + e.getMessage());
         } finally {
             wsClient.close();
             client.close();

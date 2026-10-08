@@ -259,11 +259,14 @@ Stream audio for real-time speech-to-text.
 import com.deepgram.DeepgramClient;
 import com.deepgram.resources.listen.v1.types.ListenV1CloseStream;
 import com.deepgram.resources.listen.v1.types.ListenV1CloseStreamType;
+import com.deepgram.resources.listen.v1.types.ListenV1Configure;
 import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
 import com.deepgram.types.ListenV1Model;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okio.ByteString;
 
@@ -288,11 +291,22 @@ ws.onError(error -> {
     System.err.println("Error: " + error.getMessage());
 });
 
+ws.onErrorMessage(error -> {
+    System.err.println("Server error: " + error.getVariant() + ": " + error.getDescription());
+});
+
 // Connect with options (model is required)
 ws.connect(V1ConnectOptions.builder()
     .model(ListenV1Model.NOVA3)
     .build())
     .get(10, TimeUnit.SECONDS);
+
+// Update Nova-3 keyterms and numerals without reconnecting.
+ws.sendConfigure(ListenV1Configure.builder()
+    .keyterms(List.of("Deepgram"))
+    .features(Map.of("numerals", true))
+    .build())
+    .get(5, TimeUnit.SECONDS);
 
 ws.sendMedia(ByteString.of(audioBytes));
 ws.sendCloseStream(ListenV1CloseStream.builder()
