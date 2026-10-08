@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.0...v0.11.1) (2026-10-08)
+
+
+### Features
+
+* **regen:** listen V1 reconfiguration and agent custom think-provider messages ([#125](https://github.com/deepgram/deepgram-java-sdk/issues/125)) ([ccbe0fd](https://github.com/deepgram/deepgram-java-sdk/commit/ccbe0fda21c42544cc1f1f2af296dd4403a23d2f))
+
 ## [0.11.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.2...v0.11.0) (2026-10-01)
 
 
