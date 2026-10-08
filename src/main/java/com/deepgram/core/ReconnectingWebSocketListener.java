@@ -27,7 +27,6 @@ import okio.ByteString;
  * Provides production-ready resilience for WebSocket connections.
  */
 public abstract class ReconnectingWebSocketListener extends WebSocketListener {
-    // A single volatile reference keeps an override internally consistent.
     private volatile ReconnectOptions activeOptions;
 
     private final int maxEnqueuedMessages;
@@ -129,7 +128,8 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
             } catch (TimeoutException e) {
                 connectionFuture.cancel(true);
                 TimeoutException timeoutError =
-                        new TimeoutException("WebSocket connection timeout after " + options.connectionTimeoutMs + " milliseconds"
+                        new TimeoutException("WebSocket connection timeout after " + options.connectionTimeoutMs
+                                + " milliseconds"
                                 + (retryCount.get() > 0
                                         ? " (retry attempt #" + retryCount.get() + ")"
                                         : " (initial connection attempt)"));
