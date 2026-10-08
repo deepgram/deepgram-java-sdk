@@ -573,8 +573,7 @@ public class V1WebSocketClient implements AutoCloseable {
                     if (errorHandler != null) {
                         errorHandler.accept(errorHandlerEvent);
                     } else if (onErrorHandler != null) {
-                        onErrorHandler.accept(new RuntimeException(
-                                errorHandlerEvent.getVariant() + ": " + errorHandlerEvent.getDescription()));
+                        onErrorHandler.accept(new ListenV1ErrorException(errorHandlerEvent));
                     }
                     return;
                 }

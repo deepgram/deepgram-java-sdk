@@ -21,6 +21,11 @@ src/main/java/com/deepgram/core/ClientOptions.java
 # Transport abstraction (pluggable transport for SageMaker, etc.)
 src/main/java/com/deepgram/core/transport/
 
+# Hand-written exception that carries a Listen V1 server Error to the generic onError handler
+# (thrown by the frozen listen v1 V1WebSocketClient below when no onErrorMessage handler is set).
+# No Fern equivalent; the generator would delete it.
+src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ErrorException.java
+
 # Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
 # configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
 # Pull this back out once the fixes are upstreamed into the Fern generator.

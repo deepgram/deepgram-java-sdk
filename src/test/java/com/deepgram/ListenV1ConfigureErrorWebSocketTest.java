@@ -7,6 +7,7 @@ import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.listen.v1.types.ListenV1Configure;
 import com.deepgram.resources.listen.v1.types.ListenV1Error;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.ListenV1ErrorException;
 import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.ListenV1Model;
 import java.util.List;
@@ -184,7 +185,13 @@ class ListenV1ConfigureErrorWebSocketTest {
             ws.sendConfigure(ListenV1Configure.builder().build()).get(5, TimeUnit.SECONDS);
 
             assertThat(errorReceived.await(5, TimeUnit.SECONDS)).isTrue();
-            assertThat(error.get()).hasMessage("SchemaError: could not parse control frame");
+            assertThat(error.get())
+                    .isInstanceOf(ListenV1ErrorException.class)
+                    .hasMessage("SchemaError: could not parse control frame");
+            ListenV1Error serverError = ((ListenV1ErrorException) error.get()).getError();
+            assertThat(serverError.getVariant()).isEqualTo("SchemaError");
+            assertThat(serverError.getDescription()).isEqualTo("could not parse control frame");
+            assertThat(serverError.getCode()).isEmpty();
         } finally {
             ws.disconnect();
         }
