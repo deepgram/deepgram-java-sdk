@@ -5,7 +5,8 @@
 
 ### Features
 
-* **regen:** listen V1 reconfiguration and agent custom think-provider messages ([#125](https://github.com/deepgram/deepgram-java-sdk/issues/125)) ([ccbe0fd](https://github.com/deepgram/deepgram-java-sdk/commit/ccbe0fda21c42544cc1f1f2af296dd4403a23d2f))
+* **Listen V1:** Reconfigure an active Nova-3 stream without reconnecting with `sendConfigure(ListenV1Configure)`, including keyterms and formatting features such as numerals. Receive typed server errors with `onErrorMessage(...)`; when only the generic `onError(...)` handler is registered, the SDK delivers a `ListenV1ErrorException` carrying the `ListenV1Error`. ([#125](https://github.com/deepgram/deepgram-java-sdk/issues/125)) ([ccbe0fd](https://github.com/deepgram/deepgram-java-sdk/commit/ccbe0fda21c42544cc1f1f2af296dd4403a23d2f))
+* **Voice Agent:** Exchange custom Think-provider payloads with `sendCustomToThinkProvider(...)` and `onCustomFromThinkProvider(...)`. Payload contents preserve nested objects, arrays, primitive values, and nulls. ([#125](https://github.com/deepgram/deepgram-java-sdk/issues/125)) ([ccbe0fd](https://github.com/deepgram/deepgram-java-sdk/commit/ccbe0fda21c42544cc1f1f2af296dd4403a23d2f))
 
 ## [0.11.0](https://github.com/deepgram/deepgram-java-sdk/compare/v0.10.2...v0.11.0) (2026-10-01)
 
