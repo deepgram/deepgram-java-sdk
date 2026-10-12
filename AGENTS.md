@@ -27,7 +27,7 @@ Current permanently frozen files:
 - `src/main/java/com/deepgram/DeepgramClient.java`, `src/main/java/com/deepgram/AsyncDeepgramClient.java`, `src/main/java/com/deepgram/DeepgramClientBuilder.java`, `src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java` - custom wrapper entrypoints that add Bearer auth, session ID support, and custom transport behavior on top of Fern's generated API client
 - `src/main/java/com/deepgram/core/transport/` - hand-written transport abstraction
 - `src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ErrorException.java` - hand-written exception carrying a Listen V1 server `Error` (`ListenV1Error`) to the generic `onError` handler when no `onErrorMessage` handler is registered; thrown by the frozen listen v1 `V1WebSocketClient`. No Fern equivalent
-- `build.gradle`, `settings.gradle`, `gradle/`, `gradlew`, `gradlew.bat`, `mvnw`, `.mvn/`, `pom.xml`, `Makefile` - build and project configuration
+- `build.gradle`, `settings.gradle`, `gradle/`, `gradlew`, `gradlew.bat`, `mvnw`, `mvnw.cmd`, `.mvn/`, `pom.xml`, `Makefile` - build and project configuration
 - `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `LICENSE`, `docs/` - docs
 - `src/test/` - manually maintained tests
 - `examples/` - manually maintained examples
@@ -88,3 +88,10 @@ The `.bak` files are our manually patched versions protected by `.fernignore`. T
    Ignore `core/Nullable.java` and `core/NullableNonemptyFilter.java` (Jackson utility classes, not message types). Anything else in the list needs the `hashCode()` patch, a `.fernignore` entry, an entry in the list above, and a `RegenTypesTest.FieldsLessMessageContract` assertion. `ListenV2ForceEndTurn` reached `main` unpatched this way.
 7. Run checks (`./gradlew spotlessCheck test compileExamples`) to verify. `test` covers unit/wire tests including the README snippet compilation; `compileExamples` separately compiles the hand-maintained `examples/` directory and catches stale API call sites that `test` alone would miss. **`spotlessCheck` is required** — CI runs it as a separate job, so `test compileExamples` alone can pass locally while CI fails. Re-applying patches by hand almost always trips it: inserted comments and renamed types change line lengths, which changes how the formatter wraps chained calls. Run `./gradlew spotlessApply` to fix, then re-check.
 8. Commit as `chore: re-apply manual patches after regen` and push.
+
+## Releasing to Maven Central
+
+release-please tags the release, then the `publish` job in `.github/workflows/release-please.yml` runs `./mvnw deploy -DskipTests -P release`. The Maven Wrapper (`mvnw`, `.mvn/wrapper/maven-wrapper.properties`) pins Maven 3.9.16 so the build does not depend on the runner's Maven.
+
+- **Do not bump the wrapper to Maven 3.10+** until the Central publishing flow handles it. Maven 3.10 adds `maven-metadata-local.xml` to the Central bundle, and Central rejects the deployment (this blocked 0.11.1 on 2026-10-12). Upgrading `central-publishing-maven-plugin` past 0.7.0 may fix this; verify the bundle contents with `./mvnw deploy -DskipTests -P release -Dgpg.skip=true -DskipPublishing=true` (then inspect `target/central-publishing/central-bundle.zip`) before changing the pin.
+- **If the Central publish fails after release-please has tagged**, fix the cause on `main`, then run the **Retry Maven Central Publish** workflow (`.github/workflows/retry-maven-central-publish.yml`) with the release tag (for example, `v0.11.1`). It builds the tagged commit with the wrapper from `main`, and refuses tags that don't match the version in `.github/.release-please-manifest.json`. Maven Central versions are immutable, so a version that already published cannot be re-uploaded.
