@@ -17,15 +17,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout retry tools
+        uses: actions/checkout@v4
+        with:
+          path: retry-tools
+
       - name: Checkout release tag
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          path: release
           ref: ${{ inputs.release_tag }}
 
       - name: Verify release tag
         env:
           RELEASE_TAG: ${{ inputs.release_tag }}
+        working-directory: release
         run: |
           version=$(jq -er '."."' .github/.release-please-manifest.json)
           if [ "$RELEASE_TAG" != "v${version}" ]; then
@@ -54,4 +61,5 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         # Maven 3.10 adds local metadata to the Central bundle, which Central rejects.
-        run: ./mvnw deploy -DskipTests -P release
+        run: ../retry-tools/mvnw deploy -DskipTests -P release
+        working-directory: release
