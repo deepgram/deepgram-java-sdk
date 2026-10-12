@@ -108,4 +108,5 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: mvn deploy -DskipTests -P release
+        # Maven 3.10 adds local metadata to the Central bundle, which Central rejects.
+        run: ./mvnw deploy -DskipTests -P release
