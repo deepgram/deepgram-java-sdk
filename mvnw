@@ -230,11 +230,13 @@ if [ -n "${distributionSha256Sum-}" ]; then
     if echo "$distributionSha256Sum  $TMP_DOWNLOAD_DIR/$distributionUrlName" | sha256sum -c >/dev/null 2>&1; then
       distributionSha256Result=true
     fi
-  elif command -v shasum >/dev/null; then
+  fi
+  if [ $distributionSha256Result = false ] && command -v shasum >/dev/null; then
     if echo "$distributionSha256Sum  $TMP_DOWNLOAD_DIR/$distributionUrlName" | shasum -a 256 -c >/dev/null 2>&1; then
       distributionSha256Result=true
     fi
-  else
+  fi
+  if [ $distributionSha256Result = false ] && ! command -v sha256sum >/dev/null && ! command -v shasum >/dev/null; then
     echo "Checksum validation was requested but neither 'sha256sum' or 'shasum' are available." >&2
     echo "Please install either command, or disable validation by removing 'distributionSha256Sum' from your maven-wrapper.properties." >&2
     exit 1
