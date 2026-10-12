@@ -92,6 +92,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify manual publish targets the release tag
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          version=$(jq -r '."."' .github/.release-please-manifest.json)
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse "v${version}^{commit}")" ]; then
+            echo "HEAD is not v${version}; dispatch from the tag or from main before new merges." >&2
+            exit 1
+          fi
 
       - name: Set up Java 17
         uses: actions/setup-java@v4

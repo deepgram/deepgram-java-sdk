@@ -106,6 +106,8 @@ gradlew
 gradlew.bat
 pom.xml
 Makefile
+mvnw
+.mvn/
 
 # Documentation
 README.md
