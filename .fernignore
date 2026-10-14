@@ -141,3 +141,6 @@ CLAUDE.md
 AGENTS.md
 .claude/
 .agents/
+.fern/replay.lock
+.fern/replay.yml
+.gitattributes

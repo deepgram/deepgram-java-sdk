@@ -18,15 +18,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = SharedIntentsSegmentsItemIntentsItem.Builder.class)
-public final class SharedIntentsSegmentsItemIntentsItem {
+@JsonDeserialize(builder = SharedIntentsResultsIntentsSegmentsItemIntentsItem.Builder.class)
+public final class SharedIntentsResultsIntentsSegmentsItemIntentsItem {
     private final Optional<String> intent;
 
     private final Optional<Float> confidenceScore;
 
     private final Map<String, Object> additionalProperties;
 
-    private SharedIntentsSegmentsItemIntentsItem(
+    private SharedIntentsResultsIntentsSegmentsItemIntentsItem(
             Optional<String> intent, Optional<Float> confidenceScore, Map<String, Object> additionalProperties) {
         this.intent = intent;
         this.confidenceScore = confidenceScore;
@@ -46,8 +46,8 @@ public final class SharedIntentsSegmentsItemIntentsItem {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof SharedIntentsSegmentsItemIntentsItem
-                && equalTo((SharedIntentsSegmentsItemIntentsItem) other);
+        return other instanceof SharedIntentsResultsIntentsSegmentsItemIntentsItem
+                && equalTo((SharedIntentsResultsIntentsSegmentsItemIntentsItem) other);
     }
 
     @JsonAnyGetter
@@ -55,7 +55,7 @@ public final class SharedIntentsSegmentsItemIntentsItem {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(SharedIntentsSegmentsItemIntentsItem other) {
+    private boolean equalTo(SharedIntentsResultsIntentsSegmentsItemIntentsItem other) {
         return intent.equals(other.intent) && confidenceScore.equals(other.confidenceScore);
     }
 
@@ -84,7 +84,7 @@ public final class SharedIntentsSegmentsItemIntentsItem {
 
         private Builder() {}
 
-        public Builder from(SharedIntentsSegmentsItemIntentsItem other) {
+        public Builder from(SharedIntentsResultsIntentsSegmentsItemIntentsItem other) {
             intent(other.getIntent());
             confidenceScore(other.getConfidenceScore());
             return this;
@@ -112,8 +112,9 @@ public final class SharedIntentsSegmentsItemIntentsItem {
             return this;
         }
 
-        public SharedIntentsSegmentsItemIntentsItem build() {
-            return new SharedIntentsSegmentsItemIntentsItem(intent, confidenceScore, additionalProperties);
+        public SharedIntentsResultsIntentsSegmentsItemIntentsItem build() {
+            return new SharedIntentsResultsIntentsSegmentsItemIntentsItem(
+                    intent, confidenceScore, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

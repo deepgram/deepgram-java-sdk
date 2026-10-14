@@ -18,15 +18,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = SharedTopicsSegmentsItemTopicsItem.Builder.class)
-public final class SharedTopicsSegmentsItemTopicsItem {
+@JsonDeserialize(builder = SharedTopicsResultsTopicsSegmentsItemTopicsItem.Builder.class)
+public final class SharedTopicsResultsTopicsSegmentsItemTopicsItem {
     private final Optional<String> topic;
 
     private final Optional<Float> confidenceScore;
 
     private final Map<String, Object> additionalProperties;
 
-    private SharedTopicsSegmentsItemTopicsItem(
+    private SharedTopicsResultsTopicsSegmentsItemTopicsItem(
             Optional<String> topic, Optional<Float> confidenceScore, Map<String, Object> additionalProperties) {
         this.topic = topic;
         this.confidenceScore = confidenceScore;
@@ -46,8 +46,8 @@ public final class SharedTopicsSegmentsItemTopicsItem {
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof SharedTopicsSegmentsItemTopicsItem
-                && equalTo((SharedTopicsSegmentsItemTopicsItem) other);
+        return other instanceof SharedTopicsResultsTopicsSegmentsItemTopicsItem
+                && equalTo((SharedTopicsResultsTopicsSegmentsItemTopicsItem) other);
     }
 
     @JsonAnyGetter
@@ -55,7 +55,7 @@ public final class SharedTopicsSegmentsItemTopicsItem {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(SharedTopicsSegmentsItemTopicsItem other) {
+    private boolean equalTo(SharedTopicsResultsTopicsSegmentsItemTopicsItem other) {
         return topic.equals(other.topic) && confidenceScore.equals(other.confidenceScore);
     }
 
@@ -84,7 +84,7 @@ public final class SharedTopicsSegmentsItemTopicsItem {
 
         private Builder() {}
 
-        public Builder from(SharedTopicsSegmentsItemTopicsItem other) {
+        public Builder from(SharedTopicsResultsTopicsSegmentsItemTopicsItem other) {
             topic(other.getTopic());
             confidenceScore(other.getConfidenceScore());
             return this;
@@ -112,8 +112,8 @@ public final class SharedTopicsSegmentsItemTopicsItem {
             return this;
         }
 
-        public SharedTopicsSegmentsItemTopicsItem build() {
-            return new SharedTopicsSegmentsItemTopicsItem(topic, confidenceScore, additionalProperties);
+        public SharedTopicsResultsTopicsSegmentsItemTopicsItem build() {
+            return new SharedTopicsResultsTopicsSegmentsItemTopicsItem(topic, confidenceScore, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {
