@@ -21,6 +21,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
+import com.deepgram.resources.speak.v2.types.SpeakV2ConfigureFailureCode;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
@@ -32,7 +33,9 @@ import com.deepgram.types.ListenV1ResponseMetadata;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
 import com.deepgram.types.ListenV2Redact;
 import com.deepgram.types.SharedIntents;
+import com.deepgram.types.SharedIntentsResultsIntentsSegmentsItem;
 import com.deepgram.types.SharedTopics;
+import com.deepgram.types.SharedTopicsResultsTopicsSegmentsItem;
 import com.deepgram.types.ThinkSettingsV1FunctionsItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -381,8 +384,8 @@ public class RegenTypesTest {
     }
 
     /**
-     * Coverage for the 2026-09-30 correction that removes the nonexistent nested {@code results}
-     * wrappers from Topics and Intents response objects.
+     * Coverage for the 2026-09-30 correction that exposes direct segments while preserving the
+     * removed nested {@code results} API as a deprecated source-compatible facade.
      */
     @Nested
     @DisplayName("2026-09-30 Topics and Intents response shapes")
@@ -420,6 +423,75 @@ public class RegenTypesTest {
                             .satisfies(value -> assertThat(value.getIntent()).contains("Book travel")));
                 });
             });
+        }
+
+        @Test
+        @DisplayName("SharedTopics exposes legacy results traversal over direct segments")
+        void topicsLegacyResultsFacade() throws Exception {
+            SharedTopics topics = MAPPER.readValue(
+                    "{\"segments\":[{\"text\":\"Spacewalk\",\"topics\":[{\"topic\":\"Spacewalk\"}]}]}",
+                    SharedTopics.class);
+
+            assertThat(topics.getResults()).hasValueSatisfying(results -> {
+                assertThat(results.getTopics().flatMap(values -> values.getSegments())).hasValueSatisfying(segments -> {
+                        SharedTopicsResultsTopicsSegmentsItem segment = segments.get(0);
+                        assertThat(segment.getText()).contains("Spacewalk");
+                    });
+            });
+        }
+
+        @Test
+        @DisplayName("SharedIntents exposes legacy results traversal over direct segments")
+        void intentsLegacyResultsFacade() throws Exception {
+            SharedIntents intents = MAPPER.readValue(
+                    "{\"segments\":[{\"text\":\"Book a flight\",\"intents\":[{\"intent\":\"Book travel\"}]}]}",
+                    SharedIntents.class);
+
+            assertThat(intents.getResults()).hasValueSatisfying(results -> {
+                assertThat(results.getIntents().flatMap(values -> values.getSegments())).hasValueSatisfying(segments -> {
+                        SharedIntentsResultsIntentsSegmentsItem segment = segments.get(0);
+                        assertThat(segment.getText()).contains("Book a flight");
+                    });
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("SpeakV2 ConfigureFailure visitor compatibility")
+    class ConfigureFailureVisitorCompatibility {
+
+        @Test
+        @DisplayName("control combination invalid uses visitUnknown when an older visitor omits it")
+        void controlCombinationInvalidUsesUnknownVisitorMethod() {
+            SpeakV2ConfigureFailureCode.Visitor<String> visitor = new SpeakV2ConfigureFailureCode.Visitor<>() {
+                @Override
+                public String visitSpeedOutOfRange() {
+                    return "speed-out-of-range";
+                }
+
+                @Override
+                public String visitSpeedIncrementInvalid() {
+                    return "speed-increment-invalid";
+                }
+
+                @Override
+                public String visitSpeedNotSupported() {
+                    return "speed-not-supported";
+                }
+
+                @Override
+                public String visitInternalError() {
+                    return "internal-error";
+                }
+
+                @Override
+                public String visitUnknown(String unknownType) {
+                    return "unknown:" + unknownType;
+                }
+            };
+
+            assertThat(SpeakV2ConfigureFailureCode.CONTROL_COMBINATION_INVALID.visit(visitor))
+                    .isEqualTo("unknown:CONTROL_COMBINATION_INVALID");
         }
     }
 

@@ -6,6 +6,7 @@ package com.deepgram.types;
 import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,6 +35,15 @@ public final class SharedIntents {
     @JsonProperty("segments")
     public Optional<List<SharedIntentsSegmentsItem>> getSegments() {
         return segments;
+    }
+
+    /**
+     * @deprecated The API returns segments directly. Use {@link #getSegments()}.
+     */
+    @Deprecated
+    @JsonIgnore
+    public Optional<SharedIntentsResults> getResults() {
+        return segments.map(SharedIntentsResults::fromCurrent);
     }
 
     @java.lang.Override
@@ -88,6 +98,23 @@ public final class SharedIntents {
         public Builder segments(List<SharedIntentsSegmentsItem> segments) {
             this.segments = Optional.ofNullable(segments);
             return this;
+        }
+
+        /**
+         * @deprecated The API returns segments directly. Use {@link #segments(List)}.
+         */
+        @Deprecated
+        public Builder results(Optional<SharedIntentsResults> results) {
+            this.segments = results.flatMap(SharedIntentsResults::toCurrentSegments);
+            return this;
+        }
+
+        /**
+         * @deprecated The API returns segments directly. Use {@link #segments(List)}.
+         */
+        @Deprecated
+        public Builder results(SharedIntentsResults results) {
+            return results(Optional.ofNullable(results));
         }
 
         public SharedIntents build() {

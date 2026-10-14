@@ -6,6 +6,7 @@ package com.deepgram.types;
 import com.deepgram.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,6 +34,15 @@ public final class SharedTopics {
     @JsonProperty("segments")
     public Optional<List<SharedTopicsSegmentsItem>> getSegments() {
         return segments;
+    }
+
+    /**
+     * @deprecated The API returns segments directly. Use {@link #getSegments()}.
+     */
+    @Deprecated
+    @JsonIgnore
+    public Optional<SharedTopicsResults> getResults() {
+        return segments.map(SharedTopicsResults::fromCurrent);
     }
 
     @java.lang.Override
@@ -87,6 +97,23 @@ public final class SharedTopics {
         public Builder segments(List<SharedTopicsSegmentsItem> segments) {
             this.segments = Optional.ofNullable(segments);
             return this;
+        }
+
+        /**
+         * @deprecated The API returns segments directly. Use {@link #segments(List)}.
+         */
+        @Deprecated
+        public Builder results(Optional<SharedTopicsResults> results) {
+            this.segments = results.flatMap(SharedTopicsResults::toCurrentSegments);
+            return this;
+        }
+
+        /**
+         * @deprecated The API returns segments directly. Use {@link #segments(List)}.
+         */
+        @Deprecated
+        public Builder results(SharedTopicsResults results) {
+            return results(Optional.ofNullable(results));
         }
 
         public SharedTopics build() {
