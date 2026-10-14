@@ -183,6 +183,8 @@ ConversationHistoryMessage msg = ConversationHistoryMessage.builder()
 
 This is called out only because the generator dropped `FLUX_RENEE_EN` in this cycle and the SDK deliberately does not ship that removal. The voice is live: `POST /v2/speak?model=flux-renee-en` returns `200` with valid audio, and the name resolves in the server's model registry (an invented `flux-*` name is rejected with `INVALID_QUERY_PARAMETER`). The constant is restored and frozen, so existing references keep compiling.
 
+> **Later update:** `flux-renee-en` is an unlisted voice, so releases after 0.11.1 mark `DeepgramModel.FLUX_RENEE_EN` `@Deprecated`. The voice still synthesizes and the constant still compiles; prefer a listed Flux voice from `GET /v2/models` for new code.
+
 `DeepgramModel` remains a forward-compatible enum, so if you need to send a value the current SDK does not model, `DeepgramModel.valueOf("some-model-name")` still works.
 
 ### Speak V2 Connect Speed

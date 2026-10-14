@@ -302,8 +302,8 @@ ws.connect(V1ConnectOptions.builder()
     .get(10, TimeUnit.SECONDS);
 
 // Update Nova-3 keyterms and numerals without reconnecting. Keep the keyterm list under the
-// 500-token limit: an over-limit update currently stops transcription without an Error, and
-// the server closes the stream.
+// 500-token limit: an over-limit update does not close the stream, and the server may reply
+// with a ConfigureFailure (CONFIGURE_KEYTERM_LIMIT_EXCEEDED), which this client reports to onError.
 ws.sendConfigure(ListenV1Configure.builder()
     .keyterms(List.of("Deepgram"))
     .features(Map.of("numerals", true))

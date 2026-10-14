@@ -13,7 +13,10 @@ public final class DeepgramModel {
 
     public static final DeepgramModel FLUX_KELSEY_EN = new DeepgramModel(Value.FLUX_KELSEY_EN, "flux-kelsey-en");
 
-    /** @deprecated This live voice is absent from the generated model catalog. */
+    /**
+     * @deprecated {@code flux-renee-en} is an unlisted voice and may be removed in a future major
+     *     release. Prefer a listed Flux voice; {@code GET /v2/models} returns the current catalog.
+     */
     @Deprecated
     public static final DeepgramModel FLUX_RENEE_EN = new DeepgramModel(Value.FLUX_RENEE_EN, "flux-renee-en");
 
@@ -1032,7 +1035,10 @@ public final class DeepgramModel {
 
         T visitFluxKelseyEn();
 
-        /** @deprecated This live voice is absent from the generated model catalog. */
+        /**
+         * @deprecated {@code flux-renee-en} is an unlisted voice and may be removed in a future major
+         *     release. Prefer a listed Flux voice; {@code GET /v2/models} returns the current catalog.
+         */
         @Deprecated
         T visitFluxReneeEn();
 
