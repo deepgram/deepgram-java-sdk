@@ -6,7 +6,6 @@ package com.deepgram.resources.speak.v2.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
-import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
@@ -144,14 +143,7 @@ public class V2WebSocketClient implements AutoCloseable {
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "tag", options.getTag().get().get(), true);
-        }
-        if (options.getAdditionalProperties() != null) {
-            options.getAdditionalProperties().forEach((key, value) -> {
-                if (value != null) {
-                    QueryStringMapper.addQueryParameter(urlBuilder, key, value, true);
-                }
-            });
+            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
@@ -161,22 +153,13 @@ public class V2WebSocketClient implements AutoCloseable {
                 ? this.reconnectOptions
                 : ReconnectingWebSocketListener.ReconnectOptions.builder().build();
         this.reconnectingListener =
-                new ReconnectingWebSocketListener(
-                        reconnectOpts,
-                        () -> {
-                            if (clientOptions.isClosed()) {
-                                throw new IllegalStateException("root client has been closed");
-                            }
-                            if (clientOptions.webSocketFactory().isPresent()) {
-                                return clientOptions
-                                        .webSocketFactory()
-                                        .get()
-                                        .create(request, this.reconnectingListener);
-                            } else {
-                                return okHttpClient.newWebSocket(request, this.reconnectingListener);
-                            }
-                        },
-                        clientOptions::isClosed) {
+                new ReconnectingWebSocketListener(reconnectOpts, () -> {
+                    if (clientOptions.webSocketFactory().isPresent()) {
+                        return clientOptions.webSocketFactory().get().create(request, this.reconnectingListener);
+                    } else {
+                        return okHttpClient.newWebSocket(request, this.reconnectingListener);
+                    }
+                }) {
                     @Override
                     protected void onWebSocketOpen(WebSocket webSocket, Response response) {
                         readyState = WebSocketReadyState.OPEN;
@@ -215,7 +198,6 @@ public class V2WebSocketClient implements AutoCloseable {
                         }
                     }
                 };
-        clientOptions.registerWebSocket(this);
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -224,10 +206,7 @@ public class V2WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
-        clientOptions.unregisterWebSocket(this);
-        if (reconnectingListener != null) {
-            reconnectingListener.disconnect();
-        }
+        reconnectingListener.disconnect();
         if (timeoutExecutor != null) {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
@@ -619,8 +598,11 @@ public class V2WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
-            // The raw frame is already delivered to onMessage(String), so ignore unknown typed
-            // frames for forward compatibility with newly added server control messages.
+            if (onErrorHandler != null) {
+                onErrorHandler.accept(new RuntimeException(
+                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
+                                + "... Update your SDK version to support new message types."));
+            }
         } catch (Exception e) {
             if (onErrorHandler != null) {
                 onErrorHandler.accept(e);
