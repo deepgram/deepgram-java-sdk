@@ -15,8 +15,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Reconfigures an active Nova-3 Listen V1 stream without reconnecting.
  *
- * <p>Keep the keyterm list under the 500-token limit: an over-limit update currently stops transcription without an
- * {@code Error}, and the server closes the stream.
+ * <p>Keep the keyterm list under the 500-token limit: an over-limit update does not close the stream, and the server
+ * may reply with a {@code ConfigureFailure} ({@code CONFIGURE_KEYTERM_LIMIT_EXCEEDED}), which this client reports to
+ * {@code onError}.
  *
  * <p>Usage: {@code DEEPGRAM_API_KEY=... java LiveReconfigure}
  */

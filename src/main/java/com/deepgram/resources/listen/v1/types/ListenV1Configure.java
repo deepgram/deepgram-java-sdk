@@ -50,8 +50,9 @@ public final class ListenV1Configure {
      * including keyterms set with the <code>keyterm</code> query parameter. Send an empty array to clear all keyterms. Omit
      * the field, or set it to <code>null</code>, to keep the current keyterms.
      * <p>Each entry is a plain term or phrase with no weights or intensifiers. The 500-token keyterm limit that
-     * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update returns an
-     * <code>Error</code>, and the stream keeps its previous keyterms.</p>
+     * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update currently stops
+     * transcription without an <code>Error</code>; after about 30 seconds, the server closes the stream with <code>1011</code>
+     * (<code>NET-0000</code>). Keep each list under the limit and check its size before sending.</p>
      */
     @JsonProperty("keyterms")
     public Optional<List<String>> getKeyterms() {
@@ -119,8 +120,9 @@ public final class ListenV1Configure {
          * including keyterms set with the <code>keyterm</code> query parameter. Send an empty array to clear all keyterms. Omit
          * the field, or set it to <code>null</code>, to keep the current keyterms.</p>
          * <p>Each entry is a plain term or phrase with no weights or intensifiers. The 500-token keyterm limit that
-         * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update returns an
-         * <code>Error</code>, and the stream keeps its previous keyterms.</p>
+         * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update currently stops
+         * transcription without an <code>Error</code>; after about 30 seconds, the server closes the stream with <code>1011</code>
+         * (<code>NET-0000</code>). Keep each list under the limit and check its size before sending.</p>
          */
         @JsonSetter(value = "keyterms", nulls = Nulls.SKIP)
         public Builder keyterms(Optional<List<String>> keyterms) {

@@ -98,6 +98,10 @@ src/main/java/com/deepgram/resources/agent/v1/types/AgentV1UpdateListenListenPro
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentListenProvider.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1SettingsAgentContextListenProvider.java
 
+# Preserve binary-compatible Visitor implementations from before this generated enum added
+# CONTROL_COMBINATION_INVALID. The default method routes old visitors through visitUnknown.
+src/main/java/com/deepgram/resources/speak/v2/types/SpeakV2ConfigureFailureCode.java
+
 # Build and project configuration
 build.gradle
 settings.gradle

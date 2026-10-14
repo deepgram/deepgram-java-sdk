@@ -21,6 +21,7 @@ import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoEvent;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfoWordsItem;
 import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.deepgram.resources.speak.v2.types.SpeakV2Close;
+import com.deepgram.resources.speak.v2.types.SpeakV2ConfigureFailureCode;
 import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
@@ -420,6 +421,46 @@ public class RegenTypesTest {
                             .satisfies(value -> assertThat(value.getIntent()).contains("Book travel")));
                 });
             });
+        }
+
+    }
+
+    @Nested
+    @DisplayName("SpeakV2 ConfigureFailure visitor compatibility")
+    class ConfigureFailureVisitorCompatibility {
+
+        @Test
+        @DisplayName("control combination invalid uses visitUnknown when an older visitor omits it")
+        void controlCombinationInvalidUsesUnknownVisitorMethod() {
+            SpeakV2ConfigureFailureCode.Visitor<String> visitor = new SpeakV2ConfigureFailureCode.Visitor<>() {
+                @Override
+                public String visitSpeedOutOfRange() {
+                    return "speed-out-of-range";
+                }
+
+                @Override
+                public String visitSpeedIncrementInvalid() {
+                    return "speed-increment-invalid";
+                }
+
+                @Override
+                public String visitSpeedNotSupported() {
+                    return "speed-not-supported";
+                }
+
+                @Override
+                public String visitInternalError() {
+                    return "internal-error";
+                }
+
+                @Override
+                public String visitUnknown(String unknownType) {
+                    return "unknown:" + unknownType;
+                }
+            };
+
+            assertThat(SpeakV2ConfigureFailureCode.CONTROL_COMBINATION_INVALID.visit(visitor))
+                    .isEqualTo("unknown:CONTROL_COMBINATION_INVALID");
         }
     }
 
