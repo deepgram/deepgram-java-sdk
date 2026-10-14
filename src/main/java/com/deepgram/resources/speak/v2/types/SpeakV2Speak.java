@@ -37,7 +37,7 @@ public final class SpeakV2Speak {
     }
 
     /**
-     * @return The input text to synthesize. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.
+     * @return The input text to synthesize. May contain inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>), which are in Early Access. Inline pause controls are supported on the batch (REST) transport only; a pause marker sent over the WebSocket fails the connection with <code>DATA-0002</code>. Pronunciation cannot be combined with a <code>speed</code> other than <code>1.0</code>: text carrying a pronunciation control on a session opened with <code>speed</code>, or after a <code>Configure</code> that set it, also fails the connection with <code>DATA-0002</code>. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.
      */
     @JsonProperty("text")
     public String getText() {
@@ -75,7 +75,7 @@ public final class SpeakV2Speak {
 
     public interface TextStage {
         /**
-         * <p>The input text to synthesize. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
+         * <p>The input text to synthesize. May contain inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>), which are in Early Access. Inline pause controls are supported on the batch (REST) transport only; a pause marker sent over the WebSocket fails the connection with <code>DATA-0002</code>. Pronunciation cannot be combined with a <code>speed</code> other than <code>1.0</code>: text carrying a pronunciation control on a session opened with <code>speed</code>, or after a <code>Configure</code> that set it, also fails the connection with <code>DATA-0002</code>. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
          */
         _FinalStage text(@NotNull String text);
 
@@ -106,7 +106,7 @@ public final class SpeakV2Speak {
         }
 
         /**
-         * <p>The input text to synthesize. Inline pause and pronunciation controls are not yet applied; they are stripped from the text before synthesis.</p>
+         * <p>The input text to synthesize. May contain inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>), which are in Early Access. Inline pause controls are supported on the batch (REST) transport only; a pause marker sent over the WebSocket fails the connection with <code>DATA-0002</code>. Pronunciation cannot be combined with a <code>speed</code> other than <code>1.0</code>: text carrying a pronunciation control on a session opened with <code>speed</code>, or after a <code>Configure</code> that set it, also fails the connection with <code>DATA-0002</code>. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

@@ -53,7 +53,7 @@ public final class SpeakV2ConfigureFailure {
     }
 
     /**
-     * @return Failure code, in <code>SCREAMING_SNAKE_CASE</code>. <code>SPEED_OUT_OF_RANGE</code>: outside the range the model publishes. <code>SPEED_INCREMENT_INVALID</code>: inside the published range but off the <code>0.05</code> increment. <code>SPEED_NOT_SUPPORTED</code>: this model or language has no runtime speed control at all. <code>INTERNAL_ERROR</code>: the configuration was acceptable but the server could not apply it — unlike the others, a server-side failure rather than a statement about the request.
+     * @return Failure code, in <code>SCREAMING_SNAKE_CASE</code>. <code>SPEED_OUT_OF_RANGE</code>: outside the range the model publishes. <code>SPEED_INCREMENT_INVALID</code>: inside the published range but off the <code>0.05</code> increment. <code>SPEED_NOT_SUPPORTED</code>: this model or language has no runtime speed control at all. <code>CONTROL_COMBINATION_INVALID</code>: <code>speed</code> was set while a turn buffered behind the active one still carries a pronunciation control; pronunciation and speed cannot be combined, so flush that turn before setting speed (pronunciations in the active turn do not block the change). <code>INTERNAL_ERROR</code>: the configuration was acceptable but the server could not apply it — unlike the others, a server-side failure rather than a statement about the request.
      */
     @JsonProperty("code")
     public SpeakV2ConfigureFailureCode getCode() {
@@ -118,7 +118,7 @@ public final class SpeakV2ConfigureFailure {
 
     public interface CodeStage {
         /**
-         * <p>Failure code, in <code>SCREAMING_SNAKE_CASE</code>. <code>SPEED_OUT_OF_RANGE</code>: outside the range the model publishes. <code>SPEED_INCREMENT_INVALID</code>: inside the published range but off the <code>0.05</code> increment. <code>SPEED_NOT_SUPPORTED</code>: this model or language has no runtime speed control at all. <code>INTERNAL_ERROR</code>: the configuration was acceptable but the server could not apply it — unlike the others, a server-side failure rather than a statement about the request.</p>
+         * <p>Failure code, in <code>SCREAMING_SNAKE_CASE</code>. <code>SPEED_OUT_OF_RANGE</code>: outside the range the model publishes. <code>SPEED_INCREMENT_INVALID</code>: inside the published range but off the <code>0.05</code> increment. <code>SPEED_NOT_SUPPORTED</code>: this model or language has no runtime speed control at all. <code>CONTROL_COMBINATION_INVALID</code>: <code>speed</code> was set while a turn buffered behind the active one still carries a pronunciation control; pronunciation and speed cannot be combined, so flush that turn before setting speed (pronunciations in the active turn do not block the change). <code>INTERNAL_ERROR</code>: the configuration was acceptable but the server could not apply it — unlike the others, a server-side failure rather than a statement about the request.</p>
          */
         DescriptionStage code(@NotNull SpeakV2ConfigureFailureCode code);
 
@@ -179,7 +179,7 @@ public final class SpeakV2ConfigureFailure {
         }
 
         /**
-         * <p>Failure code, in <code>SCREAMING_SNAKE_CASE</code>. <code>SPEED_OUT_OF_RANGE</code>: outside the range the model publishes. <code>SPEED_INCREMENT_INVALID</code>: inside the published range but off the <code>0.05</code> increment. <code>SPEED_NOT_SUPPORTED</code>: this model or language has no runtime speed control at all. <code>INTERNAL_ERROR</code>: the configuration was acceptable but the server could not apply it — unlike the others, a server-side failure rather than a statement about the request.</p>
+         * <p>Failure code, in <code>SCREAMING_SNAKE_CASE</code>. <code>SPEED_OUT_OF_RANGE</code>: outside the range the model publishes. <code>SPEED_INCREMENT_INVALID</code>: inside the published range but off the <code>0.05</code> increment. <code>SPEED_NOT_SUPPORTED</code>: this model or language has no runtime speed control at all. <code>CONTROL_COMBINATION_INVALID</code>: <code>speed</code> was set while a turn buffered behind the active one still carries a pronunciation control; pronunciation and speed cannot be combined, so flush that turn before setting speed (pronunciations in the active turn do not block the change). <code>INTERNAL_ERROR</code>: the configuration was acceptable but the server could not apply it — unlike the others, a server-side failure rather than a statement about the request.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

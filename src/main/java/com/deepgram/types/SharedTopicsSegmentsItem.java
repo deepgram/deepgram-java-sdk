@@ -19,28 +19,28 @@ import java.util.Objects;
 import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = SharedIntentsResultsIntentsSegmentsItem.Builder.class)
-public final class SharedIntentsResultsIntentsSegmentsItem {
+@JsonDeserialize(builder = SharedTopicsSegmentsItem.Builder.class)
+public final class SharedTopicsSegmentsItem {
     private final Optional<String> text;
 
     private final Optional<Double> startWord;
 
     private final Optional<Double> endWord;
 
-    private final Optional<List<SharedIntentsResultsIntentsSegmentsItemIntentsItem>> intents;
+    private final Optional<List<SharedTopicsSegmentsItemTopicsItem>> topics;
 
     private final Map<String, Object> additionalProperties;
 
-    private SharedIntentsResultsIntentsSegmentsItem(
+    private SharedTopicsSegmentsItem(
             Optional<String> text,
             Optional<Double> startWord,
             Optional<Double> endWord,
-            Optional<List<SharedIntentsResultsIntentsSegmentsItemIntentsItem>> intents,
+            Optional<List<SharedTopicsSegmentsItemTopicsItem>> topics,
             Map<String, Object> additionalProperties) {
         this.text = text;
         this.startWord = startWord;
         this.endWord = endWord;
-        this.intents = intents;
+        this.topics = topics;
         this.additionalProperties = additionalProperties;
     }
 
@@ -59,16 +59,15 @@ public final class SharedIntentsResultsIntentsSegmentsItem {
         return endWord;
     }
 
-    @JsonProperty("intents")
-    public Optional<List<SharedIntentsResultsIntentsSegmentsItemIntentsItem>> getIntents() {
-        return intents;
+    @JsonProperty("topics")
+    public Optional<List<SharedTopicsSegmentsItemTopicsItem>> getTopics() {
+        return topics;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof SharedIntentsResultsIntentsSegmentsItem
-                && equalTo((SharedIntentsResultsIntentsSegmentsItem) other);
+        return other instanceof SharedTopicsSegmentsItem && equalTo((SharedTopicsSegmentsItem) other);
     }
 
     @JsonAnyGetter
@@ -76,16 +75,16 @@ public final class SharedIntentsResultsIntentsSegmentsItem {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(SharedIntentsResultsIntentsSegmentsItem other) {
+    private boolean equalTo(SharedTopicsSegmentsItem other) {
         return text.equals(other.text)
                 && startWord.equals(other.startWord)
                 && endWord.equals(other.endWord)
-                && intents.equals(other.intents);
+                && topics.equals(other.topics);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.text, this.startWord, this.endWord, this.intents);
+        return Objects.hash(this.text, this.startWord, this.endWord, this.topics);
     }
 
     @java.lang.Override
@@ -105,18 +104,18 @@ public final class SharedIntentsResultsIntentsSegmentsItem {
 
         private Optional<Double> endWord = Optional.empty();
 
-        private Optional<List<SharedIntentsResultsIntentsSegmentsItemIntentsItem>> intents = Optional.empty();
+        private Optional<List<SharedTopicsSegmentsItemTopicsItem>> topics = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        public Builder from(SharedIntentsResultsIntentsSegmentsItem other) {
+        public Builder from(SharedTopicsSegmentsItem other) {
             text(other.getText());
             startWord(other.getStartWord());
             endWord(other.getEndWord());
-            intents(other.getIntents());
+            topics(other.getTopics());
             return this;
         }
 
@@ -153,19 +152,19 @@ public final class SharedIntentsResultsIntentsSegmentsItem {
             return this;
         }
 
-        @JsonSetter(value = "intents", nulls = Nulls.SKIP)
-        public Builder intents(Optional<List<SharedIntentsResultsIntentsSegmentsItemIntentsItem>> intents) {
-            this.intents = intents;
+        @JsonSetter(value = "topics", nulls = Nulls.SKIP)
+        public Builder topics(Optional<List<SharedTopicsSegmentsItemTopicsItem>> topics) {
+            this.topics = topics;
             return this;
         }
 
-        public Builder intents(List<SharedIntentsResultsIntentsSegmentsItemIntentsItem> intents) {
-            this.intents = Optional.ofNullable(intents);
+        public Builder topics(List<SharedTopicsSegmentsItemTopicsItem> topics) {
+            this.topics = Optional.ofNullable(topics);
             return this;
         }
 
-        public SharedIntentsResultsIntentsSegmentsItem build() {
-            return new SharedIntentsResultsIntentsSegmentsItem(text, startWord, endWord, intents, additionalProperties);
+        public SharedTopicsSegmentsItem build() {
+            return new SharedTopicsSegmentsItem(text, startWord, endWord, topics, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

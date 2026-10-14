@@ -10,10 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -23,11 +25,22 @@ public final class ListenV2ConfigureFailure {
 
     private final int sequenceId;
 
+    private final Optional<String> code;
+
+    private final Optional<String> description;
+
     private final Map<String, Object> additionalProperties;
 
-    private ListenV2ConfigureFailure(String requestId, int sequenceId, Map<String, Object> additionalProperties) {
+    private ListenV2ConfigureFailure(
+            String requestId,
+            int sequenceId,
+            Optional<String> code,
+            Optional<String> description,
+            Map<String, Object> additionalProperties) {
         this.requestId = requestId;
         this.sequenceId = sequenceId;
+        this.code = code;
+        this.description = description;
         this.additionalProperties = additionalProperties;
     }
 
@@ -57,6 +70,22 @@ public final class ListenV2ConfigureFailure {
         return sequenceId;
     }
 
+    /**
+     * @return Failure code identifying the rejected configuration
+     */
+    @JsonProperty("code")
+    public Optional<String> getCode() {
+        return code;
+    }
+
+    /**
+     * @return A human-readable description of the configuration failure
+     */
+    @JsonProperty("description")
+    public Optional<String> getDescription() {
+        return description;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -69,12 +98,15 @@ public final class ListenV2ConfigureFailure {
     }
 
     private boolean equalTo(ListenV2ConfigureFailure other) {
-        return requestId.equals(other.requestId) && sequenceId == other.sequenceId;
+        return requestId.equals(other.requestId)
+                && sequenceId == other.sequenceId
+                && code.equals(other.code)
+                && description.equals(other.description);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.requestId, this.sequenceId);
+        return Objects.hash(this.requestId, this.sequenceId, this.code, this.description);
     }
 
     @java.lang.Override
@@ -110,6 +142,20 @@ public final class ListenV2ConfigureFailure {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Failure code identifying the rejected configuration</p>
+         */
+        _FinalStage code(Optional<String> code);
+
+        _FinalStage code(String code);
+
+        /**
+         * <p>A human-readable description of the configuration failure</p>
+         */
+        _FinalStage description(Optional<String> description);
+
+        _FinalStage description(String description);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -117,6 +163,10 @@ public final class ListenV2ConfigureFailure {
         private String requestId;
 
         private int sequenceId;
+
+        private Optional<String> description = Optional.empty();
+
+        private Optional<String> code = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -127,6 +177,8 @@ public final class ListenV2ConfigureFailure {
         public Builder from(ListenV2ConfigureFailure other) {
             requestId(other.getRequestId());
             sequenceId(other.getSequenceId());
+            code(other.getCode());
+            description(other.getDescription());
             return this;
         }
 
@@ -154,9 +206,49 @@ public final class ListenV2ConfigureFailure {
             return this;
         }
 
+        /**
+         * <p>A human-readable description of the configuration failure</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage description(String description) {
+            this.description = Optional.ofNullable(description);
+            return this;
+        }
+
+        /**
+         * <p>A human-readable description of the configuration failure</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "description", nulls = Nulls.SKIP)
+        public _FinalStage description(Optional<String> description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * <p>Failure code identifying the rejected configuration</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage code(String code) {
+            this.code = Optional.ofNullable(code);
+            return this;
+        }
+
+        /**
+         * <p>Failure code identifying the rejected configuration</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "code", nulls = Nulls.SKIP)
+        public _FinalStage code(Optional<String> code) {
+            this.code = code;
+            return this;
+        }
+
         @java.lang.Override
         public ListenV2ConfigureFailure build() {
-            return new ListenV2ConfigureFailure(requestId, sequenceId, additionalProperties);
+            return new ListenV2ConfigureFailure(requestId, sequenceId, code, description, additionalProperties);
         }
 
         @java.lang.Override

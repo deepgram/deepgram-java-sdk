@@ -13,6 +13,8 @@ import com.deepgram.resources.agent.v1.types.AgentV1AgentAudioDone;
 import com.deepgram.resources.agent.v1.types.AgentV1AgentStartedSpeaking;
 import com.deepgram.resources.agent.v1.types.AgentV1AgentThinking;
 import com.deepgram.resources.agent.v1.types.AgentV1ConversationText;
+import com.deepgram.resources.agent.v1.types.AgentV1CustomFromThinkProvider;
+import com.deepgram.resources.agent.v1.types.AgentV1CustomToThinkProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1Error;
 import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallCancelled;
@@ -111,6 +113,8 @@ public class V1WebSocketClient implements AutoCloseable {
 
     private volatile Consumer<AgentV1AgentAudioDone> agentAudioDoneHandler;
 
+    private volatile Consumer<AgentV1CustomFromThinkProvider> customFromThinkProviderHandler;
+
     private volatile Consumer<AgentV1Error> errorHandler;
 
     private volatile Consumer<AgentV1Warning> warningHandler;
@@ -160,13 +164,22 @@ public class V1WebSocketClient implements AutoCloseable {
                 ? this.reconnectOptions
                 : ReconnectingWebSocketListener.ReconnectOptions.builder().build();
         this.reconnectingListener =
-                new ReconnectingWebSocketListener(reconnectOpts, () -> {
-                    if (clientOptions.webSocketFactory().isPresent()) {
-                        return clientOptions.webSocketFactory().get().create(request, this.reconnectingListener);
-                    } else {
-                        return okHttpClient.newWebSocket(request, this.reconnectingListener);
-                    }
-                }) {
+                new ReconnectingWebSocketListener(
+                        reconnectOpts,
+                        () -> {
+                            if (clientOptions.isClosed()) {
+                                throw new IllegalStateException("root client has been closed");
+                            }
+                            if (clientOptions.webSocketFactory().isPresent()) {
+                                return clientOptions
+                                        .webSocketFactory()
+                                        .get()
+                                        .create(request, this.reconnectingListener);
+                            } else {
+                                return okHttpClient.newWebSocket(request, this.reconnectingListener);
+                            }
+                        },
+                        clientOptions::isClosed) {
                     @Override
                     protected void onWebSocketOpen(WebSocket webSocket, Response response) {
                         readyState = WebSocketReadyState.OPEN;
@@ -205,6 +218,7 @@ public class V1WebSocketClient implements AutoCloseable {
                         }
                     }
                 };
+        clientOptions.registerWebSocket(this);
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -213,7 +227,10 @@ public class V1WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
-        reconnectingListener.disconnect();
+        clientOptions.unregisterWebSocket(this);
+        if (reconnectingListener != null) {
+            reconnectingListener.disconnect();
+        }
         if (timeoutExecutor != null) {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
@@ -318,6 +335,15 @@ public class V1WebSocketClient implements AutoCloseable {
      * @return a CompletableFuture that completes when the message is sent
      */
     public CompletableFuture<Void> sendForceEndTurn(AgentV1ForceEndTurn message) {
+        return sendMessage(message);
+    }
+
+    /**
+     * Sends an AgentV1CustomToThinkProvider message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendCustomToThinkProvider(AgentV1CustomToThinkProvider message) {
         return sendMessage(message);
     }
 
@@ -465,6 +491,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onAgentAudioDone(Consumer<AgentV1AgentAudioDone> handler) {
         this.agentAudioDoneHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1CustomFromThinkProvider messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onCustomFromThinkProvider(Consumer<AgentV1CustomFromThinkProvider> handler) {
+        this.customFromThinkProviderHandler = handler;
     }
 
     /**
@@ -731,6 +765,21 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (functionCallCancelledHandlerEvent != null) {
                     if (functionCallCancelledHandler != null) {
                         functionCallCancelledHandler.accept(functionCallCancelledHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("content")
+                    && "__customFromThinkProvider".equals(node.path("type").asText())) {
+                AgentV1CustomFromThinkProvider customFromThinkProviderHandlerEvent = null;
+                try {
+                    customFromThinkProviderHandlerEvent =
+                            objectMapper.treeToValue(node, AgentV1CustomFromThinkProvider.class);
+                } catch (Exception e) {
+                }
+                if (customFromThinkProviderHandlerEvent != null) {
+                    if (customFromThinkProviderHandler != null) {
+                        customFromThinkProviderHandler.accept(customFromThinkProviderHandlerEvent);
                     }
                     return;
                 }

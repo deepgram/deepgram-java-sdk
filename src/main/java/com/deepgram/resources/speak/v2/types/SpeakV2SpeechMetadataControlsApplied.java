@@ -38,7 +38,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
     }
 
     /**
-     * @return Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Currently always <code>0</code>.
+     * @return Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.
      */
     @JsonProperty("pronunciations_applied")
     public int getPronunciationsApplied() {
@@ -46,7 +46,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
     }
 
     /**
-     * @return Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Currently always <code>0</code>.
+     * @return Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Always <code>0</code> on the WebSocket, where inline pause controls are not supported.
      */
     @JsonProperty("breaks_applied")
     public int getBreaksApplied() {
@@ -54,7 +54,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
     }
 
     /**
-     * @return Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Currently always <code>0</code>.
+     * @return Pronunciation entries that triggered a warning (invalid IPA, word too long). On batch requests the corresponding <code>PRON-NNN</code> codes are returned in the <code>dg-warnings</code> response header.
      */
     @JsonProperty("pronunciation_warnings")
     public int getPronunciationWarnings() {
@@ -95,7 +95,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
 
     public interface PronunciationsAppliedStage {
         /**
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Currently always <code>0</code>.</p>
+         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.</p>
          */
         BreaksAppliedStage pronunciationsApplied(int pronunciationsApplied);
 
@@ -104,14 +104,14 @@ public final class SpeakV2SpeechMetadataControlsApplied {
 
     public interface BreaksAppliedStage {
         /**
-         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Currently always <code>0</code>.</p>
+         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Always <code>0</code> on the WebSocket, where inline pause controls are not supported.</p>
          */
         PronunciationWarningsStage breaksApplied(int breaksApplied);
     }
 
     public interface PronunciationWarningsStage {
         /**
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Currently always <code>0</code>.</p>
+         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). On batch requests the corresponding <code>PRON-NNN</code> codes are returned in the <code>dg-warnings</code> response header.</p>
          */
         _FinalStage pronunciationWarnings(int pronunciationWarnings);
     }
@@ -147,7 +147,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
         }
 
         /**
-         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header. Currently always <code>0</code>.</p>
+         * <p>Pronunciation overrides successfully applied. Mirrors the Aura-2 <code>dg-pronunciations-applied</code> REST header.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -158,7 +158,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
         }
 
         /**
-         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Currently always <code>0</code>.</p>
+         * <p>Pause (break) controls successfully applied. Mirrors the Aura-2 <code>dg-breaks-applied</code> REST header. Always <code>0</code> on the WebSocket, where inline pause controls are not supported.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -169,7 +169,7 @@ public final class SpeakV2SpeechMetadataControlsApplied {
         }
 
         /**
-         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). Mirrors the Aura-2 <code>dg-pronunciation-warnings</code> REST header. Currently always <code>0</code>.</p>
+         * <p>Pronunciation entries that triggered a warning (invalid IPA, word too long). On batch requests the corresponding <code>PRON-NNN</code> codes are returned in the <code>dg-warnings</code> response header.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

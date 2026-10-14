@@ -79,7 +79,7 @@ public final class SpeakV2SpeechInterruptedMetadata {
     }
 
     /**
-     * @return Counts of the inline controls the server acted on during the turn. Inline pause and pronunciation controls are not applied at launch — support is coming soon — so every count is currently <code>0</code>.
+     * @return Counts of the inline controls the server acted on during the turn. A pronunciation override that triggers an IPA warning is still applied best-effort and counted in <code>pronunciations_applied</code>; the warning is reported separately through a <code>Warning</code> and <code>pronunciation_warnings</code>.
      */
     @JsonProperty("controls_applied")
     public SpeakV2SpeechInterruptedMetadataControlsApplied getControlsApplied() {
@@ -156,7 +156,7 @@ public final class SpeakV2SpeechInterruptedMetadata {
 
     public interface ControlsAppliedStage {
         /**
-         * <p>Counts of the inline controls the server acted on during the turn. Inline pause and pronunciation controls are not applied at launch — support is coming soon — so every count is currently <code>0</code>.</p>
+         * <p>Counts of the inline controls the server acted on during the turn. A pronunciation override that triggers an IPA warning is still applied best-effort and counted in <code>pronunciations_applied</code>; the warning is reported separately through a <code>Warning</code> and <code>pronunciation_warnings</code>.</p>
          */
         _FinalStage controlsApplied(@NotNull SpeakV2SpeechInterruptedMetadataControlsApplied controlsApplied);
     }
@@ -247,7 +247,7 @@ public final class SpeakV2SpeechInterruptedMetadata {
         }
 
         /**
-         * <p>Counts of the inline controls the server acted on during the turn. Inline pause and pronunciation controls are not applied at launch — support is coming soon — so every count is currently <code>0</code>.</p>
+         * <p>Counts of the inline controls the server acted on during the turn. A pronunciation override that triggers an IPA warning is still applied best-effort and counted in <code>pronunciations_applied</code>; the warning is reported separately through a <code>Warning</code> and <code>pronunciation_warnings</code>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

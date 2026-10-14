@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,18 +21,18 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = SharedTopics.Builder.class)
 public final class SharedTopics {
-    private final Optional<SharedTopicsResults> results;
+    private final Optional<List<SharedTopicsSegmentsItem>> segments;
 
     private final Map<String, Object> additionalProperties;
 
-    private SharedTopics(Optional<SharedTopicsResults> results, Map<String, Object> additionalProperties) {
-        this.results = results;
+    private SharedTopics(Optional<List<SharedTopicsSegmentsItem>> segments, Map<String, Object> additionalProperties) {
+        this.segments = segments;
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("results")
-    public Optional<SharedTopicsResults> getResults() {
-        return results;
+    @JsonProperty("segments")
+    public Optional<List<SharedTopicsSegmentsItem>> getSegments() {
+        return segments;
     }
 
     @java.lang.Override
@@ -46,12 +47,12 @@ public final class SharedTopics {
     }
 
     private boolean equalTo(SharedTopics other) {
-        return results.equals(other.results);
+        return segments.equals(other.segments);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.results);
+        return Objects.hash(this.segments);
     }
 
     @java.lang.Override
@@ -65,7 +66,7 @@ public final class SharedTopics {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
-        private Optional<SharedTopicsResults> results = Optional.empty();
+        private Optional<List<SharedTopicsSegmentsItem>> segments = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -73,23 +74,23 @@ public final class SharedTopics {
         private Builder() {}
 
         public Builder from(SharedTopics other) {
-            results(other.getResults());
+            segments(other.getSegments());
             return this;
         }
 
-        @JsonSetter(value = "results", nulls = Nulls.SKIP)
-        public Builder results(Optional<SharedTopicsResults> results) {
-            this.results = results;
+        @JsonSetter(value = "segments", nulls = Nulls.SKIP)
+        public Builder segments(Optional<List<SharedTopicsSegmentsItem>> segments) {
+            this.segments = segments;
             return this;
         }
 
-        public Builder results(SharedTopicsResults results) {
-            this.results = Optional.ofNullable(results);
+        public Builder segments(List<SharedTopicsSegmentsItem> segments) {
+            this.segments = Optional.ofNullable(segments);
             return this;
         }
 
         public SharedTopics build() {
-            return new SharedTopics(results, additionalProperties);
+            return new SharedTopics(segments, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

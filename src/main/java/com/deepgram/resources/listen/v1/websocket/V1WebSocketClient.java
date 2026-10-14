@@ -10,6 +10,8 @@ import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.listen.v1.types.ListenV1CloseStream;
+import com.deepgram.resources.listen.v1.types.ListenV1Configure;
+import com.deepgram.resources.listen.v1.types.ListenV1Error;
 import com.deepgram.resources.listen.v1.types.ListenV1Finalize;
 import com.deepgram.resources.listen.v1.types.ListenV1KeepAlive;
 import com.deepgram.resources.listen.v1.types.ListenV1Metadata;
@@ -64,6 +66,8 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<ListenV1UtteranceEnd> utteranceEndHandler;
 
     private volatile Consumer<ListenV1SpeechStarted> speechStartedHandler;
+
+    private volatile Consumer<ListenV1Error> errorHandler;
 
     /**
      * Creates a new async WebSocket client for the v1 channel.
@@ -224,13 +228,22 @@ public class V1WebSocketClient implements AutoCloseable {
                 ? this.reconnectOptions
                 : ReconnectingWebSocketListener.ReconnectOptions.builder().build();
         this.reconnectingListener =
-                new ReconnectingWebSocketListener(reconnectOpts, () -> {
-                    if (clientOptions.webSocketFactory().isPresent()) {
-                        return clientOptions.webSocketFactory().get().create(request, this.reconnectingListener);
-                    } else {
-                        return okHttpClient.newWebSocket(request, this.reconnectingListener);
-                    }
-                }) {
+                new ReconnectingWebSocketListener(
+                        reconnectOpts,
+                        () -> {
+                            if (clientOptions.isClosed()) {
+                                throw new IllegalStateException("root client has been closed");
+                            }
+                            if (clientOptions.webSocketFactory().isPresent()) {
+                                return clientOptions
+                                        .webSocketFactory()
+                                        .get()
+                                        .create(request, this.reconnectingListener);
+                            } else {
+                                return okHttpClient.newWebSocket(request, this.reconnectingListener);
+                            }
+                        },
+                        clientOptions::isClosed) {
                     @Override
                     protected void onWebSocketOpen(WebSocket webSocket, Response response) {
                         readyState = WebSocketReadyState.OPEN;
@@ -265,6 +278,7 @@ public class V1WebSocketClient implements AutoCloseable {
                         }
                     }
                 };
+        clientOptions.registerWebSocket(this);
         reconnectingListener.connect();
         return connectionFuture;
     }
@@ -273,7 +287,10 @@ public class V1WebSocketClient implements AutoCloseable {
      * Disconnects the WebSocket connection and releases resources.
      */
     public void disconnect() {
-        reconnectingListener.disconnect();
+        clientOptions.unregisterWebSocket(this);
+        if (reconnectingListener != null) {
+            reconnectingListener.disconnect();
+        }
         if (timeoutExecutor != null) {
             timeoutExecutor.shutdownNow();
             timeoutExecutor = null;
@@ -337,6 +354,15 @@ public class V1WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends a ListenV1Configure message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendConfigure(ListenV1Configure message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Registers a handler for ListenV1Results messages from the server.
      * @param handler the handler to invoke when a message is received
      */
@@ -366,6 +392,14 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onSpeechStarted(Consumer<ListenV1SpeechStarted> handler) {
         this.speechStartedHandler = handler;
+    }
+
+    /**
+     * Registers a handler for ListenV1Error messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onErrorMessage(Consumer<ListenV1Error> handler) {
+        this.errorHandler = handler;
     }
 
     /**
@@ -520,6 +554,21 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (speechStartedHandlerEvent != null) {
                     if (speechStartedHandler != null) {
                         speechStartedHandler.accept(speechStartedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if (node.has("variant")
+                    && node.has("description")
+                    && "Error".equals(node.path("type").asText())) {
+                ListenV1Error errorHandlerEvent = null;
+                try {
+                    errorHandlerEvent = objectMapper.treeToValue(node, ListenV1Error.class);
+                } catch (Exception e) {
+                }
+                if (errorHandlerEvent != null) {
+                    if (errorHandler != null) {
+                        errorHandler.accept(errorHandlerEvent);
                     }
                     return;
                 }
