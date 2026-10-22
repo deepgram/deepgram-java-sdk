@@ -266,7 +266,7 @@ class AgentV1ControlFrameWireTest {
     }
 
     @Test
-    void dispatchesConversationalEventsAndPreservesGenericFallback() throws Exception {
+    void dispatchesConversationalEventsToTypedHandlers() throws Exception {
         CountDownLatch typedEvents = new CountDownLatch(2);
         AtomicReference<AgentV1FrustrationDetected> frustration = new AtomicReference<>();
         AtomicReference<AgentV1ThinkConversationalUpdated> updated = new AtomicReference<>();
@@ -298,6 +298,40 @@ class AgentV1ControlFrameWireTest {
             assertThat(frustration.get().getCount()).isEqualTo(2);
             assertThat(frustration.get().getEscalated()).isTrue();
             assertThat(updated.get()).isNotNull();
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesConversationalEventsToGenericErrorHandlerWithoutTypedHandlers() throws Exception {
+        CountDownLatch genericErrors = new CountDownLatch(2);
+        BlockingQueue<Exception> errors = new LinkedBlockingQueue<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send("{\"type\":\"FrustrationDetected\",\"count\":2,\"escalated\":true}");
+                webSocket.send("{\"type\":\"ThinkConversationalUpdated\"}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onError(error -> {
+            errors.add(error);
+            genericErrors.countDown();
+        });
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+            assertThat(genericErrors.await(5, TimeUnit.SECONDS)).isTrue();
+
+            String messages = errors.poll(5, TimeUnit.SECONDS).getMessage()
+                    + errors.poll(5, TimeUnit.SECONDS).getMessage();
+            assertThat(messages).contains("FrustrationDetected").contains("ThinkConversationalUpdated");
         } finally {
             ws.disconnect();
         }
