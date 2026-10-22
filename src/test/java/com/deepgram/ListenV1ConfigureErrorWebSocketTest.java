@@ -196,4 +196,39 @@ class ListenV1ConfigureErrorWebSocketTest {
             ws.disconnect();
         }
     }
+
+    @Test
+    void dispatchesConfigureFailuresToGenericHandlerWithoutTypedHandler() throws Exception {
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                webSocket.send("{\"type\":\"ConfigureFailure\",\"request_id\":\"req-1\","
+                        + "\"code\":\"CONFIGURE_KEYTERMS_NOT_SUPPORTED\","
+                        + "\"description\":\"keyterms unavailable\"}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        CountDownLatch errorReceived = new CountDownLatch(1);
+        AtomicReference<Exception> error = new AtomicReference<>();
+        V1WebSocketClient ws = client.listen().v1().v1WebSocket();
+        ws.onError(event -> {
+            error.set(event);
+            errorReceived.countDown();
+        });
+        try {
+            ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
+                    .get(5, TimeUnit.SECONDS);
+            ws.sendConfigure(ListenV1Configure.builder().build()).get(5, TimeUnit.SECONDS);
+
+            assertThat(errorReceived.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(error.get()).hasMessageContaining("ConfigureFailure");
+        } finally {
+            ws.disconnect();
+        }
+    }
 }

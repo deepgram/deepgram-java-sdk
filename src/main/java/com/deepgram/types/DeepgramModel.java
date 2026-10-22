@@ -2923,465 +2923,925 @@ public final class DeepgramModel {
 
         T visitFluxWesEn();
 
-        T visitFluxAfsanaBn();
-
-        T visitFluxIshratBn();
-
-        T visitFluxMamunBn();
-
-        T visitFluxSabbirBn();
-
-        T visitFluxShuvoBn();
-
-        T visitFluxSumaiyaBn();
-
-        T visitFluxDesislavaBg();
-
-        T visitFluxGerganaBg();
-
-        T visitFluxJordiCa();
-
-        T visitFluxJuditCa();
-
-        T visitFluxBoZh();
-
-        T visitFluxHaoranZh();
-
-        T visitFluxJianZh();
-
-        T visitFluxJieZh();
-
-        T visitFluxLijuanZh();
-
-        T visitFluxShufenZh();
-
-        T visitFluxWenboZh();
-
-        T visitFluxWenjingZh();
-
-        T visitFluxZhenZh();
-
-        T visitFluxChiayingZh();
-
-        T visitFluxKuanyuZh();
-
-        T visitFluxYawenZh();
-
-        T visitFluxYutingZh();
-
-        T visitFluxManlokZh();
-
-        T visitFluxDaliborHr();
-
-        T visitFluxDanijelaHr();
-
-        T visitFluxDomagojHr();
-
-        T visitFluxJasnaHr();
-
-        T visitFluxJosipaHr();
-
-        T visitFluxMihaelaHr();
-
-        T visitFluxVedranHr();
-
-        T visitFluxJakubCs();
-
-        T visitFluxPernilleDa();
-
-        T visitFluxRasmusDa();
-
-        T visitFluxRikkeDa();
-
-        T visitFluxAnoukNl();
-
-        T visitFluxBramNl();
-
-        T visitFluxFleurNl();
-
-        T visitFluxIreneNl();
-
-        T visitFluxLuukNl();
-
-        T visitFluxMoniqueNl();
-
-        T visitFluxRubenNl();
-
-        T visitFluxSanneNl();
-
-        T visitFluxYvonneNl();
-
-        T visitFluxDirkNl();
-
-        T visitFluxLotteNl();
-
-        T visitFluxNielsNl();
-
-        T visitFluxVeerleNl();
-
-        T visitFluxTriinEt();
-
-        T visitFluxKirsiFi();
-
-        T visitFluxTeemuFi();
-
-        T visitFluxArnaudFr();
-
-        T visitFluxBenoitFr();
-
-        T visitFluxBrigitteFr();
-
-        T visitFluxCamilleFr();
-
-        T visitFluxChloeFr();
-
-        T visitFluxFlorianFr();
-
-        T visitFluxJulienFr();
-
-        T visitFluxMathieuFr();
-
-        T visitFluxPierreFr();
-
-        T visitFluxThierryFr();
-
-        T visitFluxVeroniqueFr();
-
-        T visitFluxYasmineFr();
-
-        T visitFluxBenjaminDe();
-
-        T visitFluxChristianDe();
-
-        T visitFluxJanineDe();
-
-        T visitFluxMagdalenaDe();
-
-        T visitFluxMoritzDe();
-
-        T visitFluxNadineDe();
-
-        T visitFluxRolfDe();
-
-        T visitFluxSonjaDe();
-
-        T visitFluxSvenDe();
-
-        T visitFluxTobiasDe();
-
-        T visitFluxVerenaDe();
-
-        T visitFluxLeonieDe();
-
-        T visitFluxYannickDe();
-
-        T visitFluxKostasEl();
-
-        T visitFluxBhavnaGu();
-
-        T visitFluxHetalGu();
-
-        T visitFluxJigneshGu();
-
-        T visitFluxAjayHi();
-
-        T visitFluxAnjaliHi();
-
-        T visitFluxArjunHi();
-
-        T visitFluxDivyaHi();
-
-        T visitFluxJyotiHi();
-
-        T visitFluxNikhilHi();
-
-        T visitFluxPallaviHi();
-
-        T visitFluxPrachiHi();
-
-        T visitFluxRahulHi();
-
-        T visitFluxRajeshHi();
-
-        T visitFluxRituHi();
-
-        T visitFluxShreyaHi();
-
-        T visitFluxSunitaHi();
-
-        T visitFluxVikramHi();
-
-        T visitFluxBenceHu();
-
-        T visitFluxEszterHu();
-
-        T visitFluxKingaHu();
-
-        T visitFluxTiborHu();
-
-        T visitFluxDewiId();
-
-        T visitFluxFajarId();
-
-        T visitFluxFitriId();
-
-        T visitFluxRizkyId();
-
-        T visitFluxTeguhId();
-
-        T visitFluxAngelaIt();
-
-        T visitFluxChiaraIt();
-
-        T visitFluxFedericoIt();
-
-        T visitFluxGiorgioIt();
-
-        T visitFluxMatteoIt();
-
-        T visitFluxPaolaIt();
-
-        T visitFluxRoccoIt();
-
-        T visitFluxSofiaIt();
-
-        T visitFluxStefanoIt();
-
-        T visitFluxVincenzoIt();
-
-        T visitFluxVitoIt();
-
-        T visitFluxAyumiJa();
-
-        T visitFluxHayatoJa();
-
-        T visitFluxNozomiJa();
-
-        T visitFluxSayakaJa();
-
-        T visitFluxManjunathKn();
-
-        T visitFluxEunjiKo();
-
-        T visitFluxHyunwooKo();
-
-        T visitFluxMikyungKo();
-
-        T visitFluxMinjunKo();
-
-        T visitFluxSoojinKo();
-
-        T visitFluxSungminKo();
-
-        T visitFluxAgneseLv();
-
-        T visitFluxEdgarsLv();
-
-        T visitFluxGodaLt();
-
-        T visitFluxNeringaLt();
-
-        T visitFluxHaziqMs();
-
-        T visitFluxIzzahMs();
-
-        T visitFluxPoojaMr();
-
-        T visitFluxPratikMr();
-
-        T visitFluxSnehaMr();
-
-        T visitFluxErlendNo();
-
-        T visitFluxEspenNo();
-
-        T visitFluxIdaNo();
-
-        T visitFluxSigneNo();
-
-        T visitFluxSiljeNo();
-
-        T visitFluxVegardNo();
-
-        T visitFluxBartoszPl();
-
-        T visitFluxEwaPl();
-
-        T visitFluxJustynaPl();
-
-        T visitFluxKacperPl();
-
-        T visitFluxKonradPl();
-
-        T visitFluxZuzannaPl();
-
-        T visitFluxBiancaPt();
-
-        T visitFluxBrunoPt();
-
-        T visitFluxClaudiaPt();
-
-        T visitFluxLeandroPt();
-
-        T visitFluxMarciaPt();
-
-        T visitFluxMarianaPt();
-
-        T visitFluxMartaPt();
-
-        T visitFluxMateusPt();
-
-        T visitFluxMiguelPt();
-
-        T visitFluxRenatoPt();
-
-        T visitFluxRobertoPt();
-
-        T visitFluxRodrigoPt();
-
-        T visitFluxArturPt();
-
-        T visitFluxBeneditaPt();
-
-        T visitFluxCatarinaPt();
-
-        T visitFluxHugoPt();
-
-        T visitFluxPedroPt();
-
-        T visitFluxRicardoPt();
-
-        T visitFluxCosminRo();
-
-        T visitFluxIoanaRo();
-
-        T visitFluxAndreiRu();
-
-        T visitFluxKirillRu();
-
-        T visitFluxMaximRu();
-
-        T visitFluxMikhailRu();
-
-        T visitFluxNataliaRu();
-
-        T visitFluxNikolaiRu();
-
-        T visitFluxOlgaRu();
-
-        T visitFluxPolinaRu();
-
-        T visitFluxVladimirRu();
-
-        T visitFluxDominikaSk();
-
-        T visitFluxJurajSk();
-
-        T visitFluxGregorSl();
-
-        T visitFluxKatjaSl();
-
-        T visitFluxAinaEs();
-
-        T visitFluxAlfredoEs();
-
-        T visitFluxCarmenEs();
-
-        T visitFluxCeciliaEs();
-
-        T visitFluxDuvanEs();
-
-        T visitFluxEduardoEs();
-
-        T visitFluxErnestoEs();
-
-        T visitFluxFernandaEs();
-
-        T visitFluxFiorellaEs();
-
-        T visitFluxGustavoEs();
-
-        T visitFluxJaimeEs();
-
-        T visitFluxMartinEs();
-
-        T visitFluxMauricioEs();
-
-        T visitFluxPatriciaEs();
-
-        T visitFluxPilarEs();
-
-        T visitFluxRafaelEs();
-
-        T visitFluxTomasEs();
-
-        T visitFluxValentinaEs();
-
-        T visitFluxYsabelEs();
-
-        T visitFluxAxelSv();
-
-        T visitFluxCharlottaSv();
-
-        T visitFluxFridaSv();
-
-        T visitFluxLudvigSv();
-
-        T visitFluxOskarSv();
-
-        T visitFluxPontusSv();
-
-        T visitFluxWilmaSv();
-
-        T visitFluxJeromeTl();
-
-        T visitFluxJomarTl();
-
-        T visitFluxLiezelTl();
-
-        T visitFluxNoelTl();
-
-        T visitFluxTrishaTl();
-
-        T visitFluxGokulTa();
-
-        T visitFluxKavyaTa();
-
-        T visitFluxSowmyaTa();
-
-        T visitFluxVinothTa();
-
-        T visitFluxPavanTe();
-
-        T visitFluxRaviTe();
-
-        T visitFluxSravaniTe();
-
-        T visitFluxDilekTr();
-
-        T visitFluxEcemTr();
-
-        T visitFluxEmreTr();
-
-        T visitFluxGizemTr();
-
-        T visitFluxMehmetTr();
-
-        T visitFluxSerkanTr();
-
-        T visitFluxZeynepTr();
-
-        T visitFluxDenysUk();
-
-        T visitFluxSolomiyaUk();
-
-        T visitFluxAmbreenUr();
-
-        T visitFluxUsmanUr();
-
-        T visitFluxHoaVi();
-
-        T visitFluxMinhVi();
+        default T visitFluxAfsanaBn() {
+            return visitUnknown("flux-afsana-bn");
+        }
+
+        default T visitFluxIshratBn() {
+            return visitUnknown("flux-ishrat-bn");
+        }
+
+        default T visitFluxMamunBn() {
+            return visitUnknown("flux-mamun-bn");
+        }
+
+        default T visitFluxSabbirBn() {
+            return visitUnknown("flux-sabbir-bn");
+        }
+
+        default T visitFluxShuvoBn() {
+            return visitUnknown("flux-shuvo-bn");
+        }
+
+        default T visitFluxSumaiyaBn() {
+            return visitUnknown("flux-sumaiya-bn");
+        }
+
+        default T visitFluxDesislavaBg() {
+            return visitUnknown("flux-desislava-bg");
+        }
+
+        default T visitFluxGerganaBg() {
+            return visitUnknown("flux-gergana-bg");
+        }
+
+        default T visitFluxJordiCa() {
+            return visitUnknown("flux-jordi-ca");
+        }
+
+        default T visitFluxJuditCa() {
+            return visitUnknown("flux-judit-ca");
+        }
+
+        default T visitFluxBoZh() {
+            return visitUnknown("flux-bo-zh");
+        }
+
+        default T visitFluxHaoranZh() {
+            return visitUnknown("flux-haoran-zh");
+        }
+
+        default T visitFluxJianZh() {
+            return visitUnknown("flux-jian-zh");
+        }
+
+        default T visitFluxJieZh() {
+            return visitUnknown("flux-jie-zh");
+        }
+
+        default T visitFluxLijuanZh() {
+            return visitUnknown("flux-lijuan-zh");
+        }
+
+        default T visitFluxShufenZh() {
+            return visitUnknown("flux-shufen-zh");
+        }
+
+        default T visitFluxWenboZh() {
+            return visitUnknown("flux-wenbo-zh");
+        }
+
+        default T visitFluxWenjingZh() {
+            return visitUnknown("flux-wenjing-zh");
+        }
+
+        default T visitFluxZhenZh() {
+            return visitUnknown("flux-zhen-zh");
+        }
+
+        default T visitFluxChiayingZh() {
+            return visitUnknown("flux-chiaying-zh");
+        }
+
+        default T visitFluxKuanyuZh() {
+            return visitUnknown("flux-kuanyu-zh");
+        }
+
+        default T visitFluxYawenZh() {
+            return visitUnknown("flux-yawen-zh");
+        }
+
+        default T visitFluxYutingZh() {
+            return visitUnknown("flux-yuting-zh");
+        }
+
+        default T visitFluxManlokZh() {
+            return visitUnknown("flux-manlok-zh");
+        }
+
+        default T visitFluxDaliborHr() {
+            return visitUnknown("flux-dalibor-hr");
+        }
+
+        default T visitFluxDanijelaHr() {
+            return visitUnknown("flux-danijela-hr");
+        }
+
+        default T visitFluxDomagojHr() {
+            return visitUnknown("flux-domagoj-hr");
+        }
+
+        default T visitFluxJasnaHr() {
+            return visitUnknown("flux-jasna-hr");
+        }
+
+        default T visitFluxJosipaHr() {
+            return visitUnknown("flux-josipa-hr");
+        }
+
+        default T visitFluxMihaelaHr() {
+            return visitUnknown("flux-mihaela-hr");
+        }
+
+        default T visitFluxVedranHr() {
+            return visitUnknown("flux-vedran-hr");
+        }
+
+        default T visitFluxJakubCs() {
+            return visitUnknown("flux-jakub-cs");
+        }
+
+        default T visitFluxPernilleDa() {
+            return visitUnknown("flux-pernille-da");
+        }
+
+        default T visitFluxRasmusDa() {
+            return visitUnknown("flux-rasmus-da");
+        }
+
+        default T visitFluxRikkeDa() {
+            return visitUnknown("flux-rikke-da");
+        }
+
+        default T visitFluxAnoukNl() {
+            return visitUnknown("flux-anouk-nl");
+        }
+
+        default T visitFluxBramNl() {
+            return visitUnknown("flux-bram-nl");
+        }
+
+        default T visitFluxFleurNl() {
+            return visitUnknown("flux-fleur-nl");
+        }
+
+        default T visitFluxIreneNl() {
+            return visitUnknown("flux-irene-nl");
+        }
+
+        default T visitFluxLuukNl() {
+            return visitUnknown("flux-luuk-nl");
+        }
+
+        default T visitFluxMoniqueNl() {
+            return visitUnknown("flux-monique-nl");
+        }
+
+        default T visitFluxRubenNl() {
+            return visitUnknown("flux-ruben-nl");
+        }
+
+        default T visitFluxSanneNl() {
+            return visitUnknown("flux-sanne-nl");
+        }
+
+        default T visitFluxYvonneNl() {
+            return visitUnknown("flux-yvonne-nl");
+        }
+
+        default T visitFluxDirkNl() {
+            return visitUnknown("flux-dirk-nl");
+        }
+
+        default T visitFluxLotteNl() {
+            return visitUnknown("flux-lotte-nl");
+        }
+
+        default T visitFluxNielsNl() {
+            return visitUnknown("flux-niels-nl");
+        }
+
+        default T visitFluxVeerleNl() {
+            return visitUnknown("flux-veerle-nl");
+        }
+
+        default T visitFluxTriinEt() {
+            return visitUnknown("flux-triin-et");
+        }
+
+        default T visitFluxKirsiFi() {
+            return visitUnknown("flux-kirsi-fi");
+        }
+
+        default T visitFluxTeemuFi() {
+            return visitUnknown("flux-teemu-fi");
+        }
+
+        default T visitFluxArnaudFr() {
+            return visitUnknown("flux-arnaud-fr");
+        }
+
+        default T visitFluxBenoitFr() {
+            return visitUnknown("flux-benoit-fr");
+        }
+
+        default T visitFluxBrigitteFr() {
+            return visitUnknown("flux-brigitte-fr");
+        }
+
+        default T visitFluxCamilleFr() {
+            return visitUnknown("flux-camille-fr");
+        }
+
+        default T visitFluxChloeFr() {
+            return visitUnknown("flux-chloe-fr");
+        }
+
+        default T visitFluxFlorianFr() {
+            return visitUnknown("flux-florian-fr");
+        }
+
+        default T visitFluxJulienFr() {
+            return visitUnknown("flux-julien-fr");
+        }
+
+        default T visitFluxMathieuFr() {
+            return visitUnknown("flux-mathieu-fr");
+        }
+
+        default T visitFluxPierreFr() {
+            return visitUnknown("flux-pierre-fr");
+        }
+
+        default T visitFluxThierryFr() {
+            return visitUnknown("flux-thierry-fr");
+        }
+
+        default T visitFluxVeroniqueFr() {
+            return visitUnknown("flux-veronique-fr");
+        }
+
+        default T visitFluxYasmineFr() {
+            return visitUnknown("flux-yasmine-fr");
+        }
+
+        default T visitFluxBenjaminDe() {
+            return visitUnknown("flux-benjamin-de");
+        }
+
+        default T visitFluxChristianDe() {
+            return visitUnknown("flux-christian-de");
+        }
+
+        default T visitFluxJanineDe() {
+            return visitUnknown("flux-janine-de");
+        }
+
+        default T visitFluxMagdalenaDe() {
+            return visitUnknown("flux-magdalena-de");
+        }
+
+        default T visitFluxMoritzDe() {
+            return visitUnknown("flux-moritz-de");
+        }
+
+        default T visitFluxNadineDe() {
+            return visitUnknown("flux-nadine-de");
+        }
+
+        default T visitFluxRolfDe() {
+            return visitUnknown("flux-rolf-de");
+        }
+
+        default T visitFluxSonjaDe() {
+            return visitUnknown("flux-sonja-de");
+        }
+
+        default T visitFluxSvenDe() {
+            return visitUnknown("flux-sven-de");
+        }
+
+        default T visitFluxTobiasDe() {
+            return visitUnknown("flux-tobias-de");
+        }
+
+        default T visitFluxVerenaDe() {
+            return visitUnknown("flux-verena-de");
+        }
+
+        default T visitFluxLeonieDe() {
+            return visitUnknown("flux-leonie-de");
+        }
+
+        default T visitFluxYannickDe() {
+            return visitUnknown("flux-yannick-de");
+        }
+
+        default T visitFluxKostasEl() {
+            return visitUnknown("flux-kostas-el");
+        }
+
+        default T visitFluxBhavnaGu() {
+            return visitUnknown("flux-bhavna-gu");
+        }
+
+        default T visitFluxHetalGu() {
+            return visitUnknown("flux-hetal-gu");
+        }
+
+        default T visitFluxJigneshGu() {
+            return visitUnknown("flux-jignesh-gu");
+        }
+
+        default T visitFluxAjayHi() {
+            return visitUnknown("flux-ajay-hi");
+        }
+
+        default T visitFluxAnjaliHi() {
+            return visitUnknown("flux-anjali-hi");
+        }
+
+        default T visitFluxArjunHi() {
+            return visitUnknown("flux-arjun-hi");
+        }
+
+        default T visitFluxDivyaHi() {
+            return visitUnknown("flux-divya-hi");
+        }
+
+        default T visitFluxJyotiHi() {
+            return visitUnknown("flux-jyoti-hi");
+        }
+
+        default T visitFluxNikhilHi() {
+            return visitUnknown("flux-nikhil-hi");
+        }
+
+        default T visitFluxPallaviHi() {
+            return visitUnknown("flux-pallavi-hi");
+        }
+
+        default T visitFluxPrachiHi() {
+            return visitUnknown("flux-prachi-hi");
+        }
+
+        default T visitFluxRahulHi() {
+            return visitUnknown("flux-rahul-hi");
+        }
+
+        default T visitFluxRajeshHi() {
+            return visitUnknown("flux-rajesh-hi");
+        }
+
+        default T visitFluxRituHi() {
+            return visitUnknown("flux-ritu-hi");
+        }
+
+        default T visitFluxShreyaHi() {
+            return visitUnknown("flux-shreya-hi");
+        }
+
+        default T visitFluxSunitaHi() {
+            return visitUnknown("flux-sunita-hi");
+        }
+
+        default T visitFluxVikramHi() {
+            return visitUnknown("flux-vikram-hi");
+        }
+
+        default T visitFluxBenceHu() {
+            return visitUnknown("flux-bence-hu");
+        }
+
+        default T visitFluxEszterHu() {
+            return visitUnknown("flux-eszter-hu");
+        }
+
+        default T visitFluxKingaHu() {
+            return visitUnknown("flux-kinga-hu");
+        }
+
+        default T visitFluxTiborHu() {
+            return visitUnknown("flux-tibor-hu");
+        }
+
+        default T visitFluxDewiId() {
+            return visitUnknown("flux-dewi-id");
+        }
+
+        default T visitFluxFajarId() {
+            return visitUnknown("flux-fajar-id");
+        }
+
+        default T visitFluxFitriId() {
+            return visitUnknown("flux-fitri-id");
+        }
+
+        default T visitFluxRizkyId() {
+            return visitUnknown("flux-rizky-id");
+        }
+
+        default T visitFluxTeguhId() {
+            return visitUnknown("flux-teguh-id");
+        }
+
+        default T visitFluxAngelaIt() {
+            return visitUnknown("flux-angela-it");
+        }
+
+        default T visitFluxChiaraIt() {
+            return visitUnknown("flux-chiara-it");
+        }
+
+        default T visitFluxFedericoIt() {
+            return visitUnknown("flux-federico-it");
+        }
+
+        default T visitFluxGiorgioIt() {
+            return visitUnknown("flux-giorgio-it");
+        }
+
+        default T visitFluxMatteoIt() {
+            return visitUnknown("flux-matteo-it");
+        }
+
+        default T visitFluxPaolaIt() {
+            return visitUnknown("flux-paola-it");
+        }
+
+        default T visitFluxRoccoIt() {
+            return visitUnknown("flux-rocco-it");
+        }
+
+        default T visitFluxSofiaIt() {
+            return visitUnknown("flux-sofia-it");
+        }
+
+        default T visitFluxStefanoIt() {
+            return visitUnknown("flux-stefano-it");
+        }
+
+        default T visitFluxVincenzoIt() {
+            return visitUnknown("flux-vincenzo-it");
+        }
+
+        default T visitFluxVitoIt() {
+            return visitUnknown("flux-vito-it");
+        }
+
+        default T visitFluxAyumiJa() {
+            return visitUnknown("flux-ayumi-ja");
+        }
+
+        default T visitFluxHayatoJa() {
+            return visitUnknown("flux-hayato-ja");
+        }
+
+        default T visitFluxNozomiJa() {
+            return visitUnknown("flux-nozomi-ja");
+        }
+
+        default T visitFluxSayakaJa() {
+            return visitUnknown("flux-sayaka-ja");
+        }
+
+        default T visitFluxManjunathKn() {
+            return visitUnknown("flux-manjunath-kn");
+        }
+
+        default T visitFluxEunjiKo() {
+            return visitUnknown("flux-eunji-ko");
+        }
+
+        default T visitFluxHyunwooKo() {
+            return visitUnknown("flux-hyunwoo-ko");
+        }
+
+        default T visitFluxMikyungKo() {
+            return visitUnknown("flux-mikyung-ko");
+        }
+
+        default T visitFluxMinjunKo() {
+            return visitUnknown("flux-minjun-ko");
+        }
+
+        default T visitFluxSoojinKo() {
+            return visitUnknown("flux-soojin-ko");
+        }
+
+        default T visitFluxSungminKo() {
+            return visitUnknown("flux-sungmin-ko");
+        }
+
+        default T visitFluxAgneseLv() {
+            return visitUnknown("flux-agnese-lv");
+        }
+
+        default T visitFluxEdgarsLv() {
+            return visitUnknown("flux-edgars-lv");
+        }
+
+        default T visitFluxGodaLt() {
+            return visitUnknown("flux-goda-lt");
+        }
+
+        default T visitFluxNeringaLt() {
+            return visitUnknown("flux-neringa-lt");
+        }
+
+        default T visitFluxHaziqMs() {
+            return visitUnknown("flux-haziq-ms");
+        }
+
+        default T visitFluxIzzahMs() {
+            return visitUnknown("flux-izzah-ms");
+        }
+
+        default T visitFluxPoojaMr() {
+            return visitUnknown("flux-pooja-mr");
+        }
+
+        default T visitFluxPratikMr() {
+            return visitUnknown("flux-pratik-mr");
+        }
+
+        default T visitFluxSnehaMr() {
+            return visitUnknown("flux-sneha-mr");
+        }
+
+        default T visitFluxErlendNo() {
+            return visitUnknown("flux-erlend-no");
+        }
+
+        default T visitFluxEspenNo() {
+            return visitUnknown("flux-espen-no");
+        }
+
+        default T visitFluxIdaNo() {
+            return visitUnknown("flux-ida-no");
+        }
+
+        default T visitFluxSigneNo() {
+            return visitUnknown("flux-signe-no");
+        }
+
+        default T visitFluxSiljeNo() {
+            return visitUnknown("flux-silje-no");
+        }
+
+        default T visitFluxVegardNo() {
+            return visitUnknown("flux-vegard-no");
+        }
+
+        default T visitFluxBartoszPl() {
+            return visitUnknown("flux-bartosz-pl");
+        }
+
+        default T visitFluxEwaPl() {
+            return visitUnknown("flux-ewa-pl");
+        }
+
+        default T visitFluxJustynaPl() {
+            return visitUnknown("flux-justyna-pl");
+        }
+
+        default T visitFluxKacperPl() {
+            return visitUnknown("flux-kacper-pl");
+        }
+
+        default T visitFluxKonradPl() {
+            return visitUnknown("flux-konrad-pl");
+        }
+
+        default T visitFluxZuzannaPl() {
+            return visitUnknown("flux-zuzanna-pl");
+        }
+
+        default T visitFluxBiancaPt() {
+            return visitUnknown("flux-bianca-pt");
+        }
+
+        default T visitFluxBrunoPt() {
+            return visitUnknown("flux-bruno-pt");
+        }
+
+        default T visitFluxClaudiaPt() {
+            return visitUnknown("flux-claudia-pt");
+        }
+
+        default T visitFluxLeandroPt() {
+            return visitUnknown("flux-leandro-pt");
+        }
+
+        default T visitFluxMarciaPt() {
+            return visitUnknown("flux-marcia-pt");
+        }
+
+        default T visitFluxMarianaPt() {
+            return visitUnknown("flux-mariana-pt");
+        }
+
+        default T visitFluxMartaPt() {
+            return visitUnknown("flux-marta-pt");
+        }
+
+        default T visitFluxMateusPt() {
+            return visitUnknown("flux-mateus-pt");
+        }
+
+        default T visitFluxMiguelPt() {
+            return visitUnknown("flux-miguel-pt");
+        }
+
+        default T visitFluxRenatoPt() {
+            return visitUnknown("flux-renato-pt");
+        }
+
+        default T visitFluxRobertoPt() {
+            return visitUnknown("flux-roberto-pt");
+        }
+
+        default T visitFluxRodrigoPt() {
+            return visitUnknown("flux-rodrigo-pt");
+        }
+
+        default T visitFluxArturPt() {
+            return visitUnknown("flux-artur-pt");
+        }
+
+        default T visitFluxBeneditaPt() {
+            return visitUnknown("flux-benedita-pt");
+        }
+
+        default T visitFluxCatarinaPt() {
+            return visitUnknown("flux-catarina-pt");
+        }
+
+        default T visitFluxHugoPt() {
+            return visitUnknown("flux-hugo-pt");
+        }
+
+        default T visitFluxPedroPt() {
+            return visitUnknown("flux-pedro-pt");
+        }
+
+        default T visitFluxRicardoPt() {
+            return visitUnknown("flux-ricardo-pt");
+        }
+
+        default T visitFluxCosminRo() {
+            return visitUnknown("flux-cosmin-ro");
+        }
+
+        default T visitFluxIoanaRo() {
+            return visitUnknown("flux-ioana-ro");
+        }
+
+        default T visitFluxAndreiRu() {
+            return visitUnknown("flux-andrei-ru");
+        }
+
+        default T visitFluxKirillRu() {
+            return visitUnknown("flux-kirill-ru");
+        }
+
+        default T visitFluxMaximRu() {
+            return visitUnknown("flux-maxim-ru");
+        }
+
+        default T visitFluxMikhailRu() {
+            return visitUnknown("flux-mikhail-ru");
+        }
+
+        default T visitFluxNataliaRu() {
+            return visitUnknown("flux-natalia-ru");
+        }
+
+        default T visitFluxNikolaiRu() {
+            return visitUnknown("flux-nikolai-ru");
+        }
+
+        default T visitFluxOlgaRu() {
+            return visitUnknown("flux-olga-ru");
+        }
+
+        default T visitFluxPolinaRu() {
+            return visitUnknown("flux-polina-ru");
+        }
+
+        default T visitFluxVladimirRu() {
+            return visitUnknown("flux-vladimir-ru");
+        }
+
+        default T visitFluxDominikaSk() {
+            return visitUnknown("flux-dominika-sk");
+        }
+
+        default T visitFluxJurajSk() {
+            return visitUnknown("flux-juraj-sk");
+        }
+
+        default T visitFluxGregorSl() {
+            return visitUnknown("flux-gregor-sl");
+        }
+
+        default T visitFluxKatjaSl() {
+            return visitUnknown("flux-katja-sl");
+        }
+
+        default T visitFluxAinaEs() {
+            return visitUnknown("flux-aina-es");
+        }
+
+        default T visitFluxAlfredoEs() {
+            return visitUnknown("flux-alfredo-es");
+        }
+
+        default T visitFluxCarmenEs() {
+            return visitUnknown("flux-carmen-es");
+        }
+
+        default T visitFluxCeciliaEs() {
+            return visitUnknown("flux-cecilia-es");
+        }
+
+        default T visitFluxDuvanEs() {
+            return visitUnknown("flux-duvan-es");
+        }
+
+        default T visitFluxEduardoEs() {
+            return visitUnknown("flux-eduardo-es");
+        }
+
+        default T visitFluxErnestoEs() {
+            return visitUnknown("flux-ernesto-es");
+        }
+
+        default T visitFluxFernandaEs() {
+            return visitUnknown("flux-fernanda-es");
+        }
+
+        default T visitFluxFiorellaEs() {
+            return visitUnknown("flux-fiorella-es");
+        }
+
+        default T visitFluxGustavoEs() {
+            return visitUnknown("flux-gustavo-es");
+        }
+
+        default T visitFluxJaimeEs() {
+            return visitUnknown("flux-jaime-es");
+        }
+
+        default T visitFluxMartinEs() {
+            return visitUnknown("flux-martin-es");
+        }
+
+        default T visitFluxMauricioEs() {
+            return visitUnknown("flux-mauricio-es");
+        }
+
+        default T visitFluxPatriciaEs() {
+            return visitUnknown("flux-patricia-es");
+        }
+
+        default T visitFluxPilarEs() {
+            return visitUnknown("flux-pilar-es");
+        }
+
+        default T visitFluxRafaelEs() {
+            return visitUnknown("flux-rafael-es");
+        }
+
+        default T visitFluxTomasEs() {
+            return visitUnknown("flux-tomas-es");
+        }
+
+        default T visitFluxValentinaEs() {
+            return visitUnknown("flux-valentina-es");
+        }
+
+        default T visitFluxYsabelEs() {
+            return visitUnknown("flux-ysabel-es");
+        }
+
+        default T visitFluxAxelSv() {
+            return visitUnknown("flux-axel-sv");
+        }
+
+        default T visitFluxCharlottaSv() {
+            return visitUnknown("flux-charlotta-sv");
+        }
+
+        default T visitFluxFridaSv() {
+            return visitUnknown("flux-frida-sv");
+        }
+
+        default T visitFluxLudvigSv() {
+            return visitUnknown("flux-ludvig-sv");
+        }
+
+        default T visitFluxOskarSv() {
+            return visitUnknown("flux-oskar-sv");
+        }
+
+        default T visitFluxPontusSv() {
+            return visitUnknown("flux-pontus-sv");
+        }
+
+        default T visitFluxWilmaSv() {
+            return visitUnknown("flux-wilma-sv");
+        }
+
+        default T visitFluxJeromeTl() {
+            return visitUnknown("flux-jerome-tl");
+        }
+
+        default T visitFluxJomarTl() {
+            return visitUnknown("flux-jomar-tl");
+        }
+
+        default T visitFluxLiezelTl() {
+            return visitUnknown("flux-liezel-tl");
+        }
+
+        default T visitFluxNoelTl() {
+            return visitUnknown("flux-noel-tl");
+        }
+
+        default T visitFluxTrishaTl() {
+            return visitUnknown("flux-trisha-tl");
+        }
+
+        default T visitFluxGokulTa() {
+            return visitUnknown("flux-gokul-ta");
+        }
+
+        default T visitFluxKavyaTa() {
+            return visitUnknown("flux-kavya-ta");
+        }
+
+        default T visitFluxSowmyaTa() {
+            return visitUnknown("flux-sowmya-ta");
+        }
+
+        default T visitFluxVinothTa() {
+            return visitUnknown("flux-vinoth-ta");
+        }
+
+        default T visitFluxPavanTe() {
+            return visitUnknown("flux-pavan-te");
+        }
+
+        default T visitFluxRaviTe() {
+            return visitUnknown("flux-ravi-te");
+        }
+
+        default T visitFluxSravaniTe() {
+            return visitUnknown("flux-sravani-te");
+        }
+
+        default T visitFluxDilekTr() {
+            return visitUnknown("flux-dilek-tr");
+        }
+
+        default T visitFluxEcemTr() {
+            return visitUnknown("flux-ecem-tr");
+        }
+
+        default T visitFluxEmreTr() {
+            return visitUnknown("flux-emre-tr");
+        }
+
+        default T visitFluxGizemTr() {
+            return visitUnknown("flux-gizem-tr");
+        }
+
+        default T visitFluxMehmetTr() {
+            return visitUnknown("flux-mehmet-tr");
+        }
+
+        default T visitFluxSerkanTr() {
+            return visitUnknown("flux-serkan-tr");
+        }
+
+        default T visitFluxZeynepTr() {
+            return visitUnknown("flux-zeynep-tr");
+        }
+
+        default T visitFluxDenysUk() {
+            return visitUnknown("flux-denys-uk");
+        }
+
+        default T visitFluxSolomiyaUk() {
+            return visitUnknown("flux-solomiya-uk");
+        }
+
+        default T visitFluxAmbreenUr() {
+            return visitUnknown("flux-ambreen-ur");
+        }
+
+        default T visitFluxUsmanUr() {
+            return visitUnknown("flux-usman-ur");
+        }
+
+        default T visitFluxHoaVi() {
+            return visitUnknown("flux-hoa-vi");
+        }
+
+        default T visitFluxMinhVi() {
+            return visitUnknown("flux-minh-vi");
+        }
 
         T visitUnknown(String unknownType);
     }

@@ -692,8 +692,8 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (frustrationDetectedHandlerEvent != null) {
                     if (frustrationDetectedHandler != null) {
                         frustrationDetectedHandler.accept(frustrationDetectedHandlerEvent);
+                        return;
                     }
-                    return;
                 }
             }
             if (node.has("name")
@@ -877,8 +877,8 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (thinkConversationalUpdatedHandlerEvent != null) {
                     if (thinkConversationalUpdatedHandler != null) {
                         thinkConversationalUpdatedHandler.accept(thinkConversationalUpdatedHandlerEvent);
+                        return;
                     }
-                    return;
                 }
             }
             if ("PromptUpdated".equals(node.path("type").asText())) {

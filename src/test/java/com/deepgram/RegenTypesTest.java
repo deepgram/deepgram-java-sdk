@@ -227,6 +227,18 @@ public class RegenTypesTest {
         }
     }
 
+    @Nested
+    @DisplayName("DeepgramModel Visitor compatibility")
+    class DeepgramModelVisitorCompatibility {
+
+        @Test
+        @DisplayName("new catalog methods remain default methods")
+        void newCatalogMethodsRemainDefaultMethods() throws Exception {
+            assertThat(DeepgramModel.Visitor.class.getMethod("visitFluxAfsanaBn").isDefault()).isTrue();
+            assertThat(DeepgramModel.Visitor.class.getMethod("visitFluxMinhVi").isDefault()).isTrue();
+        }
+    }
+
     /**
      * Coverage for public-surface changes introduced by the 2026-08-11 regeneration. These are
      * breaking (documented in {@code docs/Migrating-v0.7-to-v0.8.md}); the tests pin the new typed
