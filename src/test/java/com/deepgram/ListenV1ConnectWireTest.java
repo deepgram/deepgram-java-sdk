@@ -7,6 +7,8 @@ import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
 import com.deepgram.types.ListenV1Extra;
 import com.deepgram.types.ListenV1Keyterm;
 import com.deepgram.types.ListenV1Keywords;
+import com.deepgram.types.ListenV1Language;
+import com.deepgram.types.ListenV1LanguageHint;
 import com.deepgram.types.ListenV1Model;
 import com.deepgram.types.ListenV1Replace;
 import com.deepgram.types.ListenV1Search;
@@ -104,6 +106,30 @@ class ListenV1ConnectWireTest {
                 .build());
 
         assertThat(url.queryParameterValues("keywords")).containsExactly("a:2", "b");
+    }
+
+    @Test
+    @DisplayName("multiple language hints are sent as repeated params")
+    void languageHintListSentAsRepeatedParams() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .language(ListenV1Language.of("multi"))
+                .languageHint(ListenV1LanguageHint.of(List.of("en", "es")))
+                .build());
+
+        assertThat(url.queryParameterValues("language_hint")).containsExactly("en", "es");
+    }
+
+    @Test
+    @DisplayName("a single language hint is sent as one param")
+    void languageHintStringSentAsOneParam() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .language(ListenV1Language.of("multi"))
+                .languageHint(ListenV1LanguageHint.of("en"))
+                .build());
+
+        assertThat(url.queryParameterValues("language_hint")).containsExactly("en");
     }
 
     @Test

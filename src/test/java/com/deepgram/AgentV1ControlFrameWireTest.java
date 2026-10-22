@@ -8,7 +8,14 @@ import com.deepgram.resources.agent.v1.types.AgentV1CustomFromThinkProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1CustomToThinkProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallCancelled;
 import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
+import com.deepgram.resources.agent.v1.types.AgentV1FrustrationDetected;
+import com.deepgram.resources.agent.v1.types.AgentV1InjectDynamicAgentMessage;
+import com.deepgram.resources.agent.v1.types.AgentV1InjectDynamicAgentMessageBehavior;
+import com.deepgram.resources.agent.v1.types.AgentV1ThinkConversationalUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1UpdateThinkConversational;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.DeepgramThinkConversationalProviderV1;
+import com.deepgram.types.ThinkConversationalSettingsV1;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,6 +208,96 @@ class AgentV1ControlFrameWireTest {
             assertThat(content.get("enabled")).isEqualTo(false);
             assertThat(content.get("empty")).isNull();
             assertThat(genericErrorCount).hasValue(0);
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void sendsConversationalControlFrames() throws Exception {
+        BlockingQueue<String> received = new LinkedBlockingQueue<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                received.add(text);
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        ThinkConversationalSettingsV1 settings = ThinkConversationalSettingsV1.builder()
+                .provider(DeepgramThinkConversationalProviderV1.builder()
+                        .frustrationMaxCount(2)
+                        .restrictedTerms(List.of("account number"))
+                        .build())
+                .build();
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+            ws.sendUpdateThinkConversational(AgentV1UpdateThinkConversational.builder()
+                            .thinkConversational(settings)
+                            .build())
+                    .get(5, TimeUnit.SECONDS);
+            ws.sendInjectDynamicAgentMessage(AgentV1InjectDynamicAgentMessage.builder()
+                            .behavior(AgentV1InjectDynamicAgentMessageBehavior.QUEUE)
+                            .build())
+                    .get(5, TimeUnit.SECONDS);
+
+            com.fasterxml.jackson.databind.JsonNode update =
+                    ObjectMappers.JSON_MAPPER.readTree(received.poll(5, TimeUnit.SECONDS));
+            assertThat(update.path("type").asText()).isEqualTo("UpdateThink_Conversational");
+            assertThat(update.path("think_conversational").path("provider").path("type").asText())
+                    .isEqualTo("deepgram");
+            assertThat(update.path("think_conversational").path("provider").path("version").asText())
+                    .isEqualTo("v1");
+
+            com.fasterxml.jackson.databind.JsonNode injection =
+                    ObjectMappers.JSON_MAPPER.readTree(received.poll(5, TimeUnit.SECONDS));
+            assertThat(injection.path("type").asText()).isEqualTo("InjectAgentMessage");
+            assertThat(injection.path("is_dynamic").asBoolean()).isTrue();
+            assertThat(injection.path("behavior").asText()).isEqualTo("queue");
+            assertThat(injection.has("message")).isFalse();
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesConversationalEventsAndPreservesGenericFallback() throws Exception {
+        CountDownLatch typedEvents = new CountDownLatch(2);
+        AtomicReference<AgentV1FrustrationDetected> frustration = new AtomicReference<>();
+        AtomicReference<AgentV1ThinkConversationalUpdated> updated = new AtomicReference<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send("{\"type\":\"FrustrationDetected\",\"count\":2,\"escalated\":true}");
+                webSocket.send("{\"type\":\"ThinkConversationalUpdated\"}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onFrustrationDetected(event -> {
+            frustration.set(event);
+            typedEvents.countDown();
+        });
+        ws.onThinkConversationalUpdated(event -> {
+            updated.set(event);
+            typedEvents.countDown();
+        });
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+            assertThat(typedEvents.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(frustration.get().getCount()).isEqualTo(2);
+            assertThat(frustration.get().getEscalated()).isTrue();
+            assertThat(updated.get()).isNotNull();
         } finally {
             ws.disconnect();
         }

@@ -15,6 +15,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1ThinkConversationalUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.listen.v1.types.ListenV1ResultsMetadata;
+import com.deepgram.resources.listen.v1.types.ListenV1ResultsChannelAlternativesItem;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
@@ -27,17 +28,21 @@ import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.deepgram.types.DeepgramModel;
+import com.deepgram.types.DeepgramThinkConversationalProviderV1;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.GoogleVersion;
 import com.deepgram.types.ListenV1ResponseMetadata;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
 import com.deepgram.types.ListenV2Redact;
 import com.deepgram.types.SharedIntents;
 import com.deepgram.types.SharedTopics;
 import com.deepgram.types.ThinkSettingsV1FunctionsItem;
+import com.deepgram.types.ThinkConversationalSettingsV1;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -236,6 +241,56 @@ public class RegenTypesTest {
         void newCatalogMethodsRemainDefaultMethods() throws Exception {
             assertThat(DeepgramModel.Visitor.class.getMethod("visitFluxAfsanaBn").isDefault()).isTrue();
             assertThat(DeepgramModel.Visitor.class.getMethod("visitFluxMinhVi").isDefault()).isTrue();
+        }
+    }
+
+    @Nested
+    @DisplayName("2026-10-22 multilingual Listen V1 fields")
+    class MultilingualListenV1 {
+
+        @Test
+        void deserializesStreamingAndPreRecordedLanguageMetadata() throws Exception {
+            String json = "{\"transcript\":\"hola\",\"confidence\":0.9,\"languages\":[\"es\"],"
+                    + "\"languages_hinted\":[\"en\",\"es\"],\"words\":[]}";
+
+            ListenV1ResultsChannelAlternativesItem streaming =
+                    MAPPER.readValue(json, ListenV1ResultsChannelAlternativesItem.class);
+            ListenV1ResponseResultsChannelsItemAlternativesItem prerecorded =
+                    MAPPER.readValue(json, ListenV1ResponseResultsChannelsItemAlternativesItem.class);
+
+            assertThat(streaming.getLanguages()).contains(List.of("es"));
+            assertThat(streaming.getLanguagesHinted()).contains(List.of("en", "es"));
+            assertThat(prerecorded.getLanguages()).contains(List.of("es"));
+            assertThat(prerecorded.getLanguagesHinted()).contains(List.of("en", "es"));
+        }
+    }
+
+    @Nested
+    @DisplayName("2026-10-22 conversational settings")
+    class ConversationalSettings {
+
+        @Test
+        void serializesProviderAndFunctionFillerFields() throws Exception {
+            ThinkConversationalSettingsV1 settings = ThinkConversationalSettingsV1.builder()
+                    .provider(DeepgramThinkConversationalProviderV1.builder()
+                            .frustrationMaxCount(2)
+                            .restrictedTerms(List.of("account number"))
+                            .build())
+                    .build();
+            ThinkSettingsV1FunctionsItem function = ThinkSettingsV1FunctionsItem.builder()
+                    .name("lookup")
+                    .initialAgentFiller(true)
+                    .agentFillerMaxCount(2)
+                    .agentFillerIntervalMs(1500)
+                    .build();
+
+            String settingsJson = MAPPER.writeValueAsString(settings);
+            String functionJson = MAPPER.writeValueAsString(function);
+
+            assertThat(settingsJson).contains("\"type\":\"deepgram\"", "\"version\":\"v1\"");
+            assertThat(functionJson)
+                    .contains("\"initial_agent_filler\":true", "\"agent_filler_max_count\":2")
+                    .contains("\"agent_filler_interval_ms\":1500");
         }
     }
 

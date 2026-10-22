@@ -295,6 +295,14 @@ ws.onErrorMessage(error -> {
     System.err.println("Server error: " + error.getVariant() + ": " + error.getDescription());
 });
 
+ws.onConfigureSuccess(success -> {
+    System.out.println("Configuration applied: " + success.getRequestId());
+});
+
+ws.onConfigureFailure(failure -> {
+    System.err.println("Configuration rejected: " + failure.getCode() + ": " + failure.getDescription());
+});
+
 // Connect with options (model is required)
 ws.connect(V1ConnectOptions.builder()
     .model(ListenV1Model.NOVA3)
@@ -303,7 +311,7 @@ ws.connect(V1ConnectOptions.builder()
 
 // Update Nova-3 keyterms and numerals without reconnecting. Keep the keyterm list under the
 // 500-token limit: an over-limit update does not close the stream, and the server may reply
-// with a ConfigureFailure (CONFIGURE_KEYTERM_LIMIT_EXCEEDED), which this client reports to onError.
+// with a typed ConfigureFailure (CONFIGURE_KEYTERM_LIMIT_EXCEEDED).
 ws.sendConfigure(ListenV1Configure.builder()
     .keyterms(List.of("Deepgram"))
     .features(Map.of("numerals", true))
