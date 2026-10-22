@@ -36,6 +36,11 @@ public final class AgentV1ThinkConversationalUpdated {
         return other instanceof AgentV1ThinkConversationalUpdated;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
