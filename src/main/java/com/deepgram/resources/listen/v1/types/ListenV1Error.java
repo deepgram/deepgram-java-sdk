@@ -54,7 +54,6 @@ public final class ListenV1Error {
 
     /**
      * @return The error category. <code>SchemaError</code> means the server could not parse a client text message.
-     * <code>InvalidConfigureMessage</code> means the server rejected a <code>Configure</code> message.
      */
     @JsonProperty("variant")
     public String getVariant() {
@@ -70,8 +69,8 @@ public final class ListenV1Error {
     }
 
     /**
-     * @return Identifies the reason for an <code>InvalidConfigureMessage</code> error, for example <code>KeytermsNotSupported</code>
-     * when <code>keyterms</code> are sent on a model other than Nova-3.
+     * @return Deprecated. Present only on legacy error frames; use <code>ConfigureFailure.code</code> for <code>Configure</code>
+     * rejections.
      */
     @JsonProperty("code")
     public Optional<String> getCode() {
@@ -120,8 +119,7 @@ public final class ListenV1Error {
 
     public interface VariantStage {
         /**
-         * <p>The error category. <code>SchemaError</code> means the server could not parse a client text message.
-         * <code>InvalidConfigureMessage</code> means the server rejected a <code>Configure</code> message.</p>
+         * <p>The error category. <code>SchemaError</code> means the server could not parse a client text message.</p>
          */
         DescriptionStage variant(@NotNull String variant);
 
@@ -143,8 +141,8 @@ public final class ListenV1Error {
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
-         * <p>Identifies the reason for an <code>InvalidConfigureMessage</code> error, for example <code>KeytermsNotSupported</code>
-         * when <code>keyterms</code> are sent on a model other than Nova-3.</p>
+         * <p>Deprecated. Present only on legacy error frames; use <code>ConfigureFailure.code</code> for <code>Configure</code>
+         * rejections.</p>
          */
         _FinalStage code(Optional<String> code);
 
@@ -183,8 +181,7 @@ public final class ListenV1Error {
         }
 
         /**
-         * <p>The error category. <code>SchemaError</code> means the server could not parse a client text message.
-         * <code>InvalidConfigureMessage</code> means the server rejected a <code>Configure</code> message.</p>
+         * <p>The error category. <code>SchemaError</code> means the server could not parse a client text message.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -226,8 +223,8 @@ public final class ListenV1Error {
         }
 
         /**
-         * <p>Identifies the reason for an <code>InvalidConfigureMessage</code> error, for example <code>KeytermsNotSupported</code>
-         * when <code>keyterms</code> are sent on a model other than Nova-3.</p>
+         * <p>Deprecated. Present only on legacy error frames; use <code>ConfigureFailure.code</code> for <code>Configure</code>
+         * rejections.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -237,8 +234,8 @@ public final class ListenV1Error {
         }
 
         /**
-         * <p>Identifies the reason for an <code>InvalidConfigureMessage</code> error, for example <code>KeytermsNotSupported</code>
-         * when <code>keyterms</code> are sent on a model other than Nova-3.</p>
+         * <p>Deprecated. Present only on legacy error frames; use <code>ConfigureFailure.code</code> for <code>Configure</code>
+         * rejections.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "code", nulls = Nulls.SKIP)

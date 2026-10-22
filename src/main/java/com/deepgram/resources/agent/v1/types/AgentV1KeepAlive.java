@@ -36,11 +36,6 @@ public final class AgentV1KeepAlive {
         return other instanceof AgentV1KeepAlive;
     }
 
-    @java.lang.Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

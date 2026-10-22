@@ -31,6 +31,8 @@ public final class ListenV1ResponseResultsUtterancesItem {
 
     private final Optional<String> transcript;
 
+    private final Optional<List<String>> languages;
+
     private final Optional<List<ListenV1ResponseResultsUtterancesItemWordsItem>> words;
 
     private final Optional<Integer> speaker;
@@ -45,6 +47,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
             Optional<Float> confidence,
             Optional<Integer> channel,
             Optional<String> transcript,
+            Optional<List<String>> languages,
             Optional<List<ListenV1ResponseResultsUtterancesItemWordsItem>> words,
             Optional<Integer> speaker,
             Optional<String> id,
@@ -54,6 +57,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
         this.confidence = confidence;
         this.channel = channel;
         this.transcript = transcript;
+        this.languages = languages;
         this.words = words;
         this.speaker = speaker;
         this.id = id;
@@ -83,6 +87,14 @@ public final class ListenV1ResponseResultsUtterancesItem {
     @JsonProperty("transcript")
     public Optional<String> getTranscript() {
         return transcript;
+    }
+
+    /**
+     * @return <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the utterance, sorted by word count in descending order. Only present when <code>language=multi</code>.
+     */
+    @JsonProperty("languages")
+    public Optional<List<String>> getLanguages() {
+        return languages;
     }
 
     @JsonProperty("words")
@@ -118,6 +130,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
                 && confidence.equals(other.confidence)
                 && channel.equals(other.channel)
                 && transcript.equals(other.transcript)
+                && languages.equals(other.languages)
                 && words.equals(other.words)
                 && speaker.equals(other.speaker)
                 && id.equals(other.id);
@@ -131,6 +144,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
                 this.confidence,
                 this.channel,
                 this.transcript,
+                this.languages,
                 this.words,
                 this.speaker,
                 this.id);
@@ -157,6 +171,8 @@ public final class ListenV1ResponseResultsUtterancesItem {
 
         private Optional<String> transcript = Optional.empty();
 
+        private Optional<List<String>> languages = Optional.empty();
+
         private Optional<List<ListenV1ResponseResultsUtterancesItemWordsItem>> words = Optional.empty();
 
         private Optional<Integer> speaker = Optional.empty();
@@ -174,6 +190,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
             confidence(other.getConfidence());
             channel(other.getChannel());
             transcript(other.getTranscript());
+            languages(other.getLanguages());
             words(other.getWords());
             speaker(other.getSpeaker());
             id(other.getId());
@@ -235,6 +252,20 @@ public final class ListenV1ResponseResultsUtterancesItem {
             return this;
         }
 
+        /**
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the utterance, sorted by word count in descending order. Only present when <code>language=multi</code>.</p>
+         */
+        @JsonSetter(value = "languages", nulls = Nulls.SKIP)
+        public Builder languages(Optional<List<String>> languages) {
+            this.languages = languages;
+            return this;
+        }
+
+        public Builder languages(List<String> languages) {
+            this.languages = Optional.ofNullable(languages);
+            return this;
+        }
+
         @JsonSetter(value = "words", nulls = Nulls.SKIP)
         public Builder words(Optional<List<ListenV1ResponseResultsUtterancesItemWordsItem>> words) {
             this.words = words;
@@ -270,7 +301,7 @@ public final class ListenV1ResponseResultsUtterancesItem {
 
         public ListenV1ResponseResultsUtterancesItem build() {
             return new ListenV1ResponseResultsUtterancesItem(
-                    start, end, confidence, channel, transcript, words, speaker, id, additionalProperties);
+                    start, end, confidence, channel, transcript, languages, words, speaker, id, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

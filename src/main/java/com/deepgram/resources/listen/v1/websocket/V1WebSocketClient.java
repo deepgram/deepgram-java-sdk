@@ -6,12 +6,13 @@ package com.deepgram.resources.listen.v1.websocket;
 import com.deepgram.core.ClientOptions;
 import com.deepgram.core.DisconnectReason;
 import com.deepgram.core.ObjectMappers;
-import com.deepgram.core.QueryStringMapper;
 import com.deepgram.core.ReconnectingWebSocketListener;
 import com.deepgram.core.RequestOptions;
 import com.deepgram.core.WebSocketReadyState;
 import com.deepgram.resources.listen.v1.types.ListenV1CloseStream;
 import com.deepgram.resources.listen.v1.types.ListenV1Configure;
+import com.deepgram.resources.listen.v1.types.ListenV1ConfigureFailure;
+import com.deepgram.resources.listen.v1.types.ListenV1ConfigureSuccess;
 import com.deepgram.resources.listen.v1.types.ListenV1Error;
 import com.deepgram.resources.listen.v1.types.ListenV1Finalize;
 import com.deepgram.resources.listen.v1.types.ListenV1KeepAlive;
@@ -59,6 +60,10 @@ public class V1WebSocketClient implements AutoCloseable {
     private CompletableFuture<Void> connectionFuture;
 
     private ReconnectingWebSocketListener reconnectingListener;
+
+    private volatile Consumer<ListenV1ConfigureSuccess> configureSuccessHandler;
+
+    private volatile Consumer<ListenV1ConfigureFailure> configureFailureHandler;
 
     private volatile Consumer<ListenV1Results> resultsHandler;
 
@@ -143,7 +148,8 @@ public class V1WebSocketClient implements AutoCloseable {
                     "endpointing", String.valueOf(options.getEndpointing().get()));
         }
         if (options.getExtra() != null && options.getExtra().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "extra", options.getExtra().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "extra", String.valueOf(options.getExtra().get()));
         }
         if (options.getInterimResults() != null && options.getInterimResults().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -151,14 +157,20 @@ public class V1WebSocketClient implements AutoCloseable {
                     String.valueOf(options.getInterimResults().get()));
         }
         if (options.getKeyterm() != null && options.getKeyterm().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "keyterm", options.getKeyterm().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "keyterm", String.valueOf(options.getKeyterm().get()));
         }
         if (options.getKeywords() != null && options.getKeywords().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "keywords", options.getKeywords().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "keywords", String.valueOf(options.getKeywords().get()));
         }
         if (options.getLanguage() != null && options.getLanguage().isPresent()) {
             urlBuilder.addQueryParameter(
                     "language", String.valueOf(options.getLanguage().get()));
+        }
+        if (options.getLanguageHint() != null && options.getLanguageHint().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "language_hint", String.valueOf(options.getLanguageHint().get()));
         }
         if (options.getMipOptOut() != null && options.getMipOptOut().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -187,21 +199,23 @@ public class V1WebSocketClient implements AutoCloseable {
                     "redact", String.valueOf(options.getRedact().get()));
         }
         if (options.getReplace() != null && options.getReplace().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "replace", options.getReplace().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "replace", String.valueOf(options.getReplace().get()));
         }
         if (options.getSampleRate() != null && options.getSampleRate().isPresent()) {
             urlBuilder.addQueryParameter(
                     "sample_rate", String.valueOf(options.getSampleRate().get()));
         }
         if (options.getSearch() != null && options.getSearch().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "search", options.getSearch().get().get(), true);
+            urlBuilder.addQueryParameter(
+                    "search", String.valueOf(options.getSearch().get()));
         }
         if (options.getSmartFormat() != null && options.getSmartFormat().isPresent()) {
             urlBuilder.addQueryParameter(
                     "smart_format", String.valueOf(options.getSmartFormat().get()));
         }
         if (options.getTag() != null && options.getTag().isPresent()) {
-            QueryStringMapper.addQueryParameter(urlBuilder, "tag", options.getTag().get().get(), true);
+            urlBuilder.addQueryParameter("tag", String.valueOf(options.getTag().get()));
         }
         if (options.getUtteranceEndMs() != null && options.getUtteranceEndMs().isPresent()) {
             urlBuilder.addQueryParameter(
@@ -215,13 +229,6 @@ public class V1WebSocketClient implements AutoCloseable {
         if (options.getVersion() != null && options.getVersion().isPresent()) {
             urlBuilder.addQueryParameter(
                     "version", String.valueOf(options.getVersion().get()));
-        }
-        if (options.getAdditionalProperties() != null) {
-            options.getAdditionalProperties().forEach((key, value) -> {
-                if (value != null) {
-                    QueryStringMapper.addQueryParameter(urlBuilder, key, value, true);
-                }
-            });
         }
         Request.Builder requestBuilder = new Request.Builder().url(urlBuilder.build());
         clientOptions.headers((RequestOptions) null).forEach(requestBuilder::addHeader);
@@ -363,6 +370,22 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public CompletableFuture<Void> sendConfigure(ListenV1Configure message) {
         return sendMessage(message);
+    }
+
+    /**
+     * Registers a handler for ListenV1ConfigureSuccess messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureSuccess(Consumer<ListenV1ConfigureSuccess> handler) {
+        this.configureSuccessHandler = handler;
+    }
+
+    /**
+     * Registers a handler for ListenV1ConfigureFailure messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onConfigureFailure(Consumer<ListenV1ConfigureFailure> handler) {
+        this.configureFailureHandler = handler;
     }
 
     /**
@@ -531,6 +554,22 @@ public class V1WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
+            if (node.has("request_id")
+                    && node.has("code")
+                    && node.has("description")
+                    && "ConfigureFailure".equals(node.path("type").asText())) {
+                ListenV1ConfigureFailure configureFailureHandlerEvent = null;
+                try {
+                    configureFailureHandlerEvent = objectMapper.treeToValue(node, ListenV1ConfigureFailure.class);
+                } catch (Exception e) {
+                }
+                if (configureFailureHandlerEvent != null) {
+                    if (configureFailureHandler != null) {
+                        configureFailureHandler.accept(configureFailureHandlerEvent);
+                    }
+                    return;
+                }
+            }
             if (node.has("channel")
                     && node.has("last_word_end")
                     && "UtteranceEnd".equals(node.path("type").asText())) {
@@ -572,8 +611,20 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (errorHandlerEvent != null) {
                     if (errorHandler != null) {
                         errorHandler.accept(errorHandlerEvent);
-                    } else if (onErrorHandler != null) {
-                        onErrorHandler.accept(new ListenV1ErrorException(errorHandlerEvent));
+                    }
+                    return;
+                }
+            }
+            if (node.has("request_id")
+                    && "ConfigureSuccess".equals(node.path("type").asText())) {
+                ListenV1ConfigureSuccess configureSuccessHandlerEvent = null;
+                try {
+                    configureSuccessHandlerEvent = objectMapper.treeToValue(node, ListenV1ConfigureSuccess.class);
+                } catch (Exception e) {
+                }
+                if (configureSuccessHandlerEvent != null) {
+                    if (configureSuccessHandler != null) {
+                        configureSuccessHandler.accept(configureSuccessHandlerEvent);
                     }
                     return;
                 }

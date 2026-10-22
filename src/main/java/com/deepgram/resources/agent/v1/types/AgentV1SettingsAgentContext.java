@@ -4,6 +4,7 @@
 package com.deepgram.resources.agent.v1.types;
 
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.types.ThinkConversationalSettingsV1;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,6 +29,8 @@ public final class AgentV1SettingsAgentContext {
 
     private final Optional<AgentV1SettingsAgentContextThink> think;
 
+    private final Optional<ThinkConversationalSettingsV1> thinkConversational;
+
     private final Optional<AgentV1SettingsAgentContextSpeak> speak;
 
     private final Optional<String> greeting;
@@ -39,6 +42,7 @@ public final class AgentV1SettingsAgentContext {
             Optional<AgentV1SettingsAgentContextContext> context,
             Optional<AgentV1SettingsAgentContextListen> listen,
             Optional<AgentV1SettingsAgentContextThink> think,
+            Optional<ThinkConversationalSettingsV1> thinkConversational,
             Optional<AgentV1SettingsAgentContextSpeak> speak,
             Optional<String> greeting,
             Map<String, Object> additionalProperties) {
@@ -46,6 +50,7 @@ public final class AgentV1SettingsAgentContext {
         this.context = context;
         this.listen = listen;
         this.think = think;
+        this.thinkConversational = thinkConversational;
         this.speak = speak;
         this.greeting = greeting;
         this.additionalProperties = additionalProperties;
@@ -72,9 +77,17 @@ public final class AgentV1SettingsAgentContext {
         return listen;
     }
 
+    /**
+     * @return Your reasoning LLM. Under Conversational Mode this is the reasoning half of the pair, running alongside the Conversational LLM configured in <code>think_conversational</code>
+     */
     @JsonProperty("think")
     public Optional<AgentV1SettingsAgentContextThink> getThink() {
         return think;
+    }
+
+    @JsonProperty("think_conversational")
+    public Optional<ThinkConversationalSettingsV1> getThinkConversational() {
+        return thinkConversational;
     }
 
     @JsonProperty("speak")
@@ -106,13 +119,21 @@ public final class AgentV1SettingsAgentContext {
                 && context.equals(other.context)
                 && listen.equals(other.listen)
                 && think.equals(other.think)
+                && thinkConversational.equals(other.thinkConversational)
                 && speak.equals(other.speak)
                 && greeting.equals(other.greeting);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.language, this.context, this.listen, this.think, this.speak, this.greeting);
+        return Objects.hash(
+                this.language,
+                this.context,
+                this.listen,
+                this.think,
+                this.thinkConversational,
+                this.speak,
+                this.greeting);
     }
 
     @java.lang.Override
@@ -134,6 +155,8 @@ public final class AgentV1SettingsAgentContext {
 
         private Optional<AgentV1SettingsAgentContextThink> think = Optional.empty();
 
+        private Optional<ThinkConversationalSettingsV1> thinkConversational = Optional.empty();
+
         private Optional<AgentV1SettingsAgentContextSpeak> speak = Optional.empty();
 
         private Optional<String> greeting = Optional.empty();
@@ -148,6 +171,7 @@ public final class AgentV1SettingsAgentContext {
             context(other.getContext());
             listen(other.getListen());
             think(other.getThink());
+            thinkConversational(other.getThinkConversational());
             speak(other.getSpeak());
             greeting(other.getGreeting());
             return this;
@@ -192,6 +216,9 @@ public final class AgentV1SettingsAgentContext {
             return this;
         }
 
+        /**
+         * <p>Your reasoning LLM. Under Conversational Mode this is the reasoning half of the pair, running alongside the Conversational LLM configured in <code>think_conversational</code></p>
+         */
         @JsonSetter(value = "think", nulls = Nulls.SKIP)
         public Builder think(Optional<AgentV1SettingsAgentContextThink> think) {
             this.think = think;
@@ -200,6 +227,17 @@ public final class AgentV1SettingsAgentContext {
 
         public Builder think(AgentV1SettingsAgentContextThink think) {
             this.think = Optional.ofNullable(think);
+            return this;
+        }
+
+        @JsonSetter(value = "think_conversational", nulls = Nulls.SKIP)
+        public Builder thinkConversational(Optional<ThinkConversationalSettingsV1> thinkConversational) {
+            this.thinkConversational = thinkConversational;
+            return this;
+        }
+
+        public Builder thinkConversational(ThinkConversationalSettingsV1 thinkConversational) {
+            this.thinkConversational = Optional.ofNullable(thinkConversational);
             return this;
         }
 
@@ -230,7 +268,7 @@ public final class AgentV1SettingsAgentContext {
 
         public AgentV1SettingsAgentContext build() {
             return new AgentV1SettingsAgentContext(
-                    language, context, listen, think, speak, greeting, additionalProperties);
+                    language, context, listen, think, thinkConversational, speak, greeting, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

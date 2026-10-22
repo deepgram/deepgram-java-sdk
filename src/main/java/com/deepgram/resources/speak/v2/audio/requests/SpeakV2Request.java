@@ -151,7 +151,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.
+     * @return Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted.
      */
     @JsonIgnore
     public String getModel() {
@@ -246,7 +246,7 @@ public final class SpeakV2Request {
 
     public interface ModelStage {
         /**
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
+         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted.</p>
          */
         TextStage model(@NotNull String model);
 
@@ -399,7 +399,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
+         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override

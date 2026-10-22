@@ -7,20 +7,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public final class DeepgramModel {
-    public static final DeepgramModel AURA2SIRIO_ES = new DeepgramModel(Value.AURA2SIRIO_ES, "aura-2-sirio-es");
-
     public static final DeepgramModel AURA2HERA_EN = new DeepgramModel(Value.AURA2HERA_EN, "aura-2-hera-en");
 
-    public static final DeepgramModel FLUX_KELSEY_EN = new DeepgramModel(Value.FLUX_KELSEY_EN, "flux-kelsey-en");
+    public static final DeepgramModel FLUX_RITU_HI = new DeepgramModel(Value.FLUX_RITU_HI, "flux-ritu-hi");
 
-    /**
-     * @deprecated {@code flux-renee-en} is an unlisted voice and may be removed in a future major
-     *     release. Prefer a listed Flux voice; {@code GET /v2/models} returns the current catalog.
-     */
-    @Deprecated
-    public static final DeepgramModel FLUX_RENEE_EN = new DeepgramModel(Value.FLUX_RENEE_EN, "flux-renee-en");
+    public static final DeepgramModel FLUX_TOMAS_ES = new DeepgramModel(Value.FLUX_TOMAS_ES, "flux-tomas-es");
 
-    public static final DeepgramModel FLUX_SIENNA_EN = new DeepgramModel(Value.FLUX_SIENNA_EN, "flux-sienna-en");
+    public static final DeepgramModel FLUX_OLGA_RU = new DeepgramModel(Value.FLUX_OLGA_RU, "flux-olga-ru");
 
     public static final DeepgramModel AURA2HARMONIA_EN =
             new DeepgramModel(Value.AURA2HARMONIA_EN, "aura-2-harmonia-en");
@@ -29,138 +22,234 @@ public final class DeepgramModel {
 
     public static final DeepgramModel FLUX_MEENA_EN = new DeepgramModel(Value.FLUX_MEENA_EN, "flux-meena-en");
 
-    public static final DeepgramModel FLUX_MEGHAN_EN = new DeepgramModel(Value.FLUX_MEGHAN_EN, "flux-meghan-en");
+    public static final DeepgramModel FLUX_POLINA_RU = new DeepgramModel(Value.FLUX_POLINA_RU, "flux-polina-ru");
 
     public static final DeepgramModel AURA_ZEUS_EN = new DeepgramModel(Value.AURA_ZEUS_EN, "aura-zeus-en");
 
-    public static final DeepgramModel AURA2HERMES_EN = new DeepgramModel(Value.AURA2HERMES_EN, "aura-2-hermes-en");
+    public static final DeepgramModel FLUX_SRAVANI_TE = new DeepgramModel(Value.FLUX_SRAVANI_TE, "flux-sravani-te");
 
-    public static final DeepgramModel FLUX_CONOR_EN = new DeepgramModel(Value.FLUX_CONOR_EN, "flux-conor-en");
+    public static final DeepgramModel FLUX_KONRAD_PL = new DeepgramModel(Value.FLUX_KONRAD_PL, "flux-konrad-pl");
 
     public static final DeepgramModel AURA2NEPTUNE_EN = new DeepgramModel(Value.AURA2NEPTUNE_EN, "aura-2-neptune-en");
 
     public static final DeepgramModel FLUX_BROOKE_EN = new DeepgramModel(Value.FLUX_BROOKE_EN, "flux-brooke-en");
 
-    public static final DeepgramModel FLUX_RUFUS_EN = new DeepgramModel(Value.FLUX_RUFUS_EN, "flux-rufus-en");
-
-    public static final DeepgramModel FLUX_WES_EN = new DeepgramModel(Value.FLUX_WES_EN, "flux-wes-en");
-
     public static final DeepgramModel AURA2CALLISTA_EN =
             new DeepgramModel(Value.AURA2CALLISTA_EN, "aura-2-callista-en");
 
-    public static final DeepgramModel AURA2AURORA_EN = new DeepgramModel(Value.AURA2AURORA_EN, "aura-2-aurora-en");
+    public static final DeepgramModel FLUX_JAKUB_CS = new DeepgramModel(Value.FLUX_JAKUB_CS, "flux-jakub-cs");
 
     public static final DeepgramModel AURA2OPHELIA_EN = new DeepgramModel(Value.AURA2OPHELIA_EN, "aura-2-ophelia-en");
 
+    public static final DeepgramModel FLUX_SABBIR_BN = new DeepgramModel(Value.FLUX_SABBIR_BN, "flux-sabbir-bn");
+
     public static final DeepgramModel FLUX_BRUCE_EN = new DeepgramModel(Value.FLUX_BRUCE_EN, "flux-bruce-en");
 
-    public static final DeepgramModel AURA2APOLLO_EN = new DeepgramModel(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
+    public static final DeepgramModel FLUX_SUMAIYA_BN = new DeepgramModel(Value.FLUX_SUMAIYA_BN, "flux-sumaiya-bn");
 
-    public static final DeepgramModel AURA2DELIA_EN = new DeepgramModel(Value.AURA2DELIA_EN, "aura-2-delia-en");
+    public static final DeepgramModel FLUX_ANJALI_HI = new DeepgramModel(Value.FLUX_ANJALI_HI, "flux-anjali-hi");
 
-    public static final DeepgramModel AURA2MARS_EN = new DeepgramModel(Value.AURA2MARS_EN, "aura-2-mars-en");
+    public static final DeepgramModel FLUX_MAURICIO_ES = new DeepgramModel(Value.FLUX_MAURICIO_ES, "flux-mauricio-es");
 
-    public static final DeepgramModel AURA_HERA_EN = new DeepgramModel(Value.AURA_HERA_EN, "aura-hera-en");
+    public static final DeepgramModel FLUX_GERGANA_BG = new DeepgramModel(Value.FLUX_GERGANA_BG, "flux-gergana-bg");
 
-    public static final DeepgramModel FLUX_MAEVE_EN = new DeepgramModel(Value.FLUX_MAEVE_EN, "flux-maeve-en");
+    public static final DeepgramModel FLUX_CHRISTIAN_DE =
+            new DeepgramModel(Value.FLUX_CHRISTIAN_DE, "flux-christian-de");
+
+    public static final DeepgramModel FLUX_IDA_NO = new DeepgramModel(Value.FLUX_IDA_NO, "flux-ida-no");
+
+    public static final DeepgramModel FLUX_TRIIN_ET = new DeepgramModel(Value.FLUX_TRIIN_ET, "flux-triin-et");
+
+    public static final DeepgramModel FLUX_JYOTI_HI = new DeepgramModel(Value.FLUX_JYOTI_HI, "flux-jyoti-hi");
 
     public static final DeepgramModel FLUX_MARCUS_EN = new DeepgramModel(Value.FLUX_MARCUS_EN, "flux-marcus-en");
 
-    public static final DeepgramModel AURA2ARIES_EN = new DeepgramModel(Value.AURA2ARIES_EN, "aura-2-aries-en");
+    public static final DeepgramModel FLUX_WENBO_ZH = new DeepgramModel(Value.FLUX_WENBO_ZH, "flux-wenbo-zh");
+
+    public static final DeepgramModel FLUX_SHUFEN_ZH = new DeepgramModel(Value.FLUX_SHUFEN_ZH, "flux-shufen-zh");
 
     public static final DeepgramModel FLUX_PAIGE_EN = new DeepgramModel(Value.FLUX_PAIGE_EN, "flux-paige-en");
 
-    public static final DeepgramModel AURA2JUNO_EN = new DeepgramModel(Value.AURA2JUNO_EN, "aura-2-juno-en");
+    public static final DeepgramModel FLUX_VINOTH_TA = new DeepgramModel(Value.FLUX_VINOTH_TA, "flux-vinoth-ta");
 
     public static final DeepgramModel FLUX_DREW_EN = new DeepgramModel(Value.FLUX_DREW_EN, "flux-drew-en");
 
+    public static final DeepgramModel FLUX_CHARLOTTA_SV =
+            new DeepgramModel(Value.FLUX_CHARLOTTA_SV, "flux-charlotta-sv");
+
     public static final DeepgramModel AURA2JAVIER_ES = new DeepgramModel(Value.AURA2JAVIER_ES, "aura-2-javier-es");
 
-    public static final DeepgramModel AURA2ANDROMEDA_EN =
-            new DeepgramModel(Value.AURA2ANDROMEDA_EN, "aura-2-andromeda-en");
+    public static final DeepgramModel FLUX_CHLOE_FR = new DeepgramModel(Value.FLUX_CHLOE_FR, "flux-chloe-fr");
+
+    public static final DeepgramModel FLUX_FIORELLA_ES = new DeepgramModel(Value.FLUX_FIORELLA_ES, "flux-fiorella-es");
 
     public static final DeepgramModel AURA2SATURN_EN = new DeepgramModel(Value.AURA2SATURN_EN, "aura-2-saturn-en");
 
+    public static final DeepgramModel FLUX_PALLAVI_HI = new DeepgramModel(Value.FLUX_PALLAVI_HI, "flux-pallavi-hi");
+
     public static final DeepgramModel AURA2IRIS_EN = new DeepgramModel(Value.AURA2IRIS_EN, "aura-2-iris-en");
 
-    public static final DeepgramModel AURA_ANGUS_EN = new DeepgramModel(Value.AURA_ANGUS_EN, "aura-angus-en");
+    public static final DeepgramModel FLUX_AINA_ES = new DeepgramModel(Value.FLUX_AINA_ES, "flux-aina-es");
 
-    public static final DeepgramModel FLUX_KAI_EN = new DeepgramModel(Value.FLUX_KAI_EN, "flux-kai-en");
+    public static final DeepgramModel FLUX_MAXIM_RU = new DeepgramModel(Value.FLUX_MAXIM_RU, "flux-maxim-ru");
+
+    public static final DeepgramModel FLUX_ROLF_DE = new DeepgramModel(Value.FLUX_ROLF_DE, "flux-rolf-de");
+
+    public static final DeepgramModel FLUX_VEGARD_NO = new DeepgramModel(Value.FLUX_VEGARD_NO, "flux-vegard-no");
+
+    public static final DeepgramModel FLUX_HAZIQ_MS = new DeepgramModel(Value.FLUX_HAZIQ_MS, "flux-haziq-ms");
+
+    public static final DeepgramModel FLUX_LUUK_NL = new DeepgramModel(Value.FLUX_LUUK_NL, "flux-luuk-nl");
+
+    public static final DeepgramModel FLUX_PILAR_ES = new DeepgramModel(Value.FLUX_PILAR_ES, "flux-pilar-es");
+
+    public static final DeepgramModel FLUX_MEHMET_TR = new DeepgramModel(Value.FLUX_MEHMET_TR, "flux-mehmet-tr");
+
+    public static final DeepgramModel FLUX_RAHUL_HI = new DeepgramModel(Value.FLUX_RAHUL_HI, "flux-rahul-hi");
 
     public static final DeepgramModel FLUX_BRITTANY_EN = new DeepgramModel(Value.FLUX_BRITTANY_EN, "flux-brittany-en");
 
     public static final DeepgramModel FLUX_SEAN_EN = new DeepgramModel(Value.FLUX_SEAN_EN, "flux-sean-en");
 
+    public static final DeepgramModel FLUX_EUNJI_KO = new DeepgramModel(Value.FLUX_EUNJI_KO, "flux-eunji-ko");
+
+    public static final DeepgramModel FLUX_SILJE_NO = new DeepgramModel(Value.FLUX_SILJE_NO, "flux-silje-no");
+
+    public static final DeepgramModel FLUX_NOEL_TL = new DeepgramModel(Value.FLUX_NOEL_TL, "flux-noel-tl");
+
     public static final DeepgramModel AURA2HELENA_EN = new DeepgramModel(Value.AURA2HELENA_EN, "aura-2-helena-en");
 
-    public static final DeepgramModel FLUX_HALEY_EN = new DeepgramModel(Value.FLUX_HALEY_EN, "flux-haley-en");
+    public static final DeepgramModel FLUX_JULIEN_FR = new DeepgramModel(Value.FLUX_JULIEN_FR, "flux-julien-fr");
 
-    public static final DeepgramModel AURA_STELLA_EN = new DeepgramModel(Value.AURA_STELLA_EN, "aura-stella-en");
+    public static final DeepgramModel FLUX_AYUMI_JA = new DeepgramModel(Value.FLUX_AYUMI_JA, "flux-ayumi-ja");
 
     public static final DeepgramModel FLUX_JACK_EN = new DeepgramModel(Value.FLUX_JACK_EN, "flux-jack-en");
-
-    public static final DeepgramModel AURA2DRACO_EN = new DeepgramModel(Value.AURA2DRACO_EN, "aura-2-draco-en");
 
     public static final DeepgramModel FLUX_PRIYA_EN = new DeepgramModel(Value.FLUX_PRIYA_EN, "flux-priya-en");
 
     public static final DeepgramModel AURA_HELIOS_EN = new DeepgramModel(Value.AURA_HELIOS_EN, "aura-helios-en");
 
+    public static final DeepgramModel FLUX_KIRSI_FI = new DeepgramModel(Value.FLUX_KIRSI_FI, "flux-kirsi-fi");
+
+    public static final DeepgramModel FLUX_WILMA_SV = new DeepgramModel(Value.FLUX_WILMA_SV, "flux-wilma-sv");
+
+    public static final DeepgramModel FLUX_LEANDRO_PT = new DeepgramModel(Value.FLUX_LEANDRO_PT, "flux-leandro-pt");
+
     public static final DeepgramModel AURA2JANUS_EN = new DeepgramModel(Value.AURA2JANUS_EN, "aura-2-janus-en");
 
     public static final DeepgramModel AURA2NESTOR_ES = new DeepgramModel(Value.AURA2NESTOR_ES, "aura-2-nestor-es");
 
-    public static final DeepgramModel AURA2ORION_EN = new DeepgramModel(Value.AURA2ORION_EN, "aura-2-orion-en");
+    public static final DeepgramModel FLUX_BRAM_NL = new DeepgramModel(Value.FLUX_BRAM_NL, "flux-bram-nl");
+
+    public static final DeepgramModel FLUX_FEDERICO_IT = new DeepgramModel(Value.FLUX_FEDERICO_IT, "flux-federico-it");
+
+    public static final DeepgramModel FLUX_TIBOR_HU = new DeepgramModel(Value.FLUX_TIBOR_HU, "flux-tibor-hu");
+
+    public static final DeepgramModel FLUX_EDGARS_LV = new DeepgramModel(Value.FLUX_EDGARS_LV, "flux-edgars-lv");
+
+    public static final DeepgramModel FLUX_MANJUNATH_KN =
+            new DeepgramModel(Value.FLUX_MANJUNATH_KN, "flux-manjunath-kn");
+
+    public static final DeepgramModel FLUX_ZUZANNA_PL = new DeepgramModel(Value.FLUX_ZUZANNA_PL, "flux-zuzanna-pl");
 
     public static final DeepgramModel AURA2MINERVA_EN = new DeepgramModel(Value.AURA2MINERVA_EN, "aura-2-minerva-en");
 
+    public static final DeepgramModel FLUX_PONTUS_SV = new DeepgramModel(Value.FLUX_PONTUS_SV, "flux-pontus-sv");
+
     public static final DeepgramModel AURA2ALVARO_ES = new DeepgramModel(Value.AURA2ALVARO_ES, "aura-2-alvaro-es");
 
-    public static final DeepgramModel AURA_PERSEUS_EN = new DeepgramModel(Value.AURA_PERSEUS_EN, "aura-perseus-en");
-
-    public static final DeepgramModel AURA2VESTA_EN = new DeepgramModel(Value.AURA2VESTA_EN, "aura-2-vesta-en");
+    public static final DeepgramModel FLUX_AXEL_SV = new DeepgramModel(Value.FLUX_AXEL_SV, "flux-axel-sv");
 
     public static final DeepgramModel FLUX_COLE_EN = new DeepgramModel(Value.FLUX_COLE_EN, "flux-cole-en");
 
-    public static final DeepgramModel AURA2ZEUS_EN = new DeepgramModel(Value.AURA2ZEUS_EN, "aura-2-zeus-en");
+    public static final DeepgramModel FLUX_VEDRAN_HR = new DeepgramModel(Value.FLUX_VEDRAN_HR, "flux-vedran-hr");
 
-    public static final DeepgramModel AURA2ORPHEUS_EN = new DeepgramModel(Value.AURA2ORPHEUS_EN, "aura-2-orpheus-en");
+    public static final DeepgramModel FLUX_DUVAN_ES = new DeepgramModel(Value.FLUX_DUVAN_ES, "flux-duvan-es");
 
-    public static final DeepgramModel AURA2THALIA_EN = new DeepgramModel(Value.AURA2THALIA_EN, "aura-2-thalia-en");
+    public static final DeepgramModel FLUX_JIE_ZH = new DeepgramModel(Value.FLUX_JIE_ZH, "flux-jie-zh");
 
-    public static final DeepgramModel FLUX_NAVEEN_EN = new DeepgramModel(Value.FLUX_NAVEEN_EN, "flux-naveen-en");
+    public static final DeepgramModel FLUX_JUDIT_CA = new DeepgramModel(Value.FLUX_JUDIT_CA, "flux-judit-ca");
+
+    public static final DeepgramModel FLUX_MORITZ_DE = new DeepgramModel(Value.FLUX_MORITZ_DE, "flux-moritz-de");
+
+    public static final DeepgramModel FLUX_KINGA_HU = new DeepgramModel(Value.FLUX_KINGA_HU, "flux-kinga-hu");
+
+    public static final DeepgramModel FLUX_HOA_VI = new DeepgramModel(Value.FLUX_HOA_VI, "flux-hoa-vi");
 
     public static final DeepgramModel AURA2ASTERIA_EN = new DeepgramModel(Value.AURA2ASTERIA_EN, "aura-2-asteria-en");
 
-    public static final DeepgramModel AURA2SELENA_ES = new DeepgramModel(Value.AURA2SELENA_ES, "aura-2-selena-es");
+    public static final DeepgramModel FLUX_ANOUK_NL = new DeepgramModel(Value.FLUX_ANOUK_NL, "flux-anouk-nl");
+
+    public static final DeepgramModel FLUX_NIKHIL_HI = new DeepgramModel(Value.FLUX_NIKHIL_HI, "flux-nikhil-hi");
+
+    public static final DeepgramModel FLUX_YSABEL_ES = new DeepgramModel(Value.FLUX_YSABEL_ES, "flux-ysabel-es");
+
+    public static final DeepgramModel FLUX_POOJA_MR = new DeepgramModel(Value.FLUX_POOJA_MR, "flux-pooja-mr");
+
+    public static final DeepgramModel FLUX_NERINGA_LT = new DeepgramModel(Value.FLUX_NERINGA_LT, "flux-neringa-lt");
 
     public static final DeepgramModel FLUX_MARCELO_EN = new DeepgramModel(Value.FLUX_MARCELO_EN, "flux-marcelo-en");
 
+    public static final DeepgramModel FLUX_MIHAELA_HR = new DeepgramModel(Value.FLUX_MIHAELA_HR, "flux-mihaela-hr");
+
+    public static final DeepgramModel FLUX_KOSTAS_EL = new DeepgramModel(Value.FLUX_KOSTAS_EL, "flux-kostas-el");
+
+    public static final DeepgramModel FLUX_MARIANA_PT = new DeepgramModel(Value.FLUX_MARIANA_PT, "flux-mariana-pt");
+
+    public static final DeepgramModel FLUX_ISHRAT_BN = new DeepgramModel(Value.FLUX_ISHRAT_BN, "flux-ishrat-bn");
+
+    public static final DeepgramModel FLUX_VITO_IT = new DeepgramModel(Value.FLUX_VITO_IT, "flux-vito-it");
+
+    public static final DeepgramModel FLUX_DEWI_ID = new DeepgramModel(Value.FLUX_DEWI_ID, "flux-dewi-id");
+
     public static final DeepgramModel FLUX_ELISE_EN = new DeepgramModel(Value.FLUX_ELISE_EN, "flux-elise-en");
+
+    public static final DeepgramModel FLUX_TEEMU_FI = new DeepgramModel(Value.FLUX_TEEMU_FI, "flux-teemu-fi");
+
+    public static final DeepgramModel FLUX_SOWMYA_TA = new DeepgramModel(Value.FLUX_SOWMYA_TA, "flux-sowmya-ta");
 
     public static final DeepgramModel FLUX_ALEXIS_EN = new DeepgramModel(Value.FLUX_ALEXIS_EN, "flux-alexis-en");
 
-    public static final DeepgramModel AURA_LUNA_EN = new DeepgramModel(Value.AURA_LUNA_EN, "aura-luna-en");
-
-    public static final DeepgramModel AURA_ORPHEUS_EN = new DeepgramModel(Value.AURA_ORPHEUS_EN, "aura-orpheus-en");
+    public static final DeepgramModel FLUX_HAORAN_ZH = new DeepgramModel(Value.FLUX_HAORAN_ZH, "flux-haoran-zh");
 
     public static final DeepgramModel AURA2AMALTHEA_EN =
             new DeepgramModel(Value.AURA2AMALTHEA_EN, "aura-2-amalthea-en");
 
-    public static final DeepgramModel FLUX_DONOVAN_EN = new DeepgramModel(Value.FLUX_DONOVAN_EN, "flux-donovan-en");
-
     public static final DeepgramModel AURA2SELENE_EN = new DeepgramModel(Value.AURA2SELENE_EN, "aura-2-selene-en");
+
+    public static final DeepgramModel FLUX_ROBERTO_PT = new DeepgramModel(Value.FLUX_ROBERTO_PT, "flux-roberto-pt");
 
     public static final DeepgramModel FLUX_TANNER_EN = new DeepgramModel(Value.FLUX_TANNER_EN, "flux-tanner-en");
 
+    public static final DeepgramModel FLUX_JEROME_TL = new DeepgramModel(Value.FLUX_JEROME_TL, "flux-jerome-tl");
+
+    public static final DeepgramModel FLUX_BENOIT_FR = new DeepgramModel(Value.FLUX_BENOIT_FR, "flux-benoit-fr");
+
+    public static final DeepgramModel FLUX_SOFIA_IT = new DeepgramModel(Value.FLUX_SOFIA_IT, "flux-sofia-it");
+
+    public static final DeepgramModel FLUX_WENJING_ZH = new DeepgramModel(Value.FLUX_WENJING_ZH, "flux-wenjing-zh");
+
+    public static final DeepgramModel FLUX_SERKAN_TR = new DeepgramModel(Value.FLUX_SERKAN_TR, "flux-serkan-tr");
+
     public static final DeepgramModel FLUX_SHARON_EN = new DeepgramModel(Value.FLUX_SHARON_EN, "flux-sharon-en");
+
+    public static final DeepgramModel FLUX_LIEZEL_TL = new DeepgramModel(Value.FLUX_LIEZEL_TL, "flux-liezel-tl");
+
+    public static final DeepgramModel FLUX_TEGUH_ID = new DeepgramModel(Value.FLUX_TEGUH_ID, "flux-teguh-id");
+
+    public static final DeepgramModel FLUX_RIZKY_ID = new DeepgramModel(Value.FLUX_RIZKY_ID, "flux-rizky-id");
+
+    public static final DeepgramModel FLUX_MARTA_PT = new DeepgramModel(Value.FLUX_MARTA_PT, "flux-marta-pt");
+
+    public static final DeepgramModel FLUX_RASMUS_DA = new DeepgramModel(Value.FLUX_RASMUS_DA, "flux-rasmus-da");
 
     public static final DeepgramModel AURA2LUNA_EN = new DeepgramModel(Value.AURA2LUNA_EN, "aura-2-luna-en");
 
-    public static final DeepgramModel AURA2PHOEBE_EN = new DeepgramModel(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
+    public static final DeepgramModel FLUX_FLORIAN_FR = new DeepgramModel(Value.FLUX_FLORIAN_FR, "flux-florian-fr");
+
+    public static final DeepgramModel FLUX_ERLEND_NO = new DeepgramModel(Value.FLUX_ERLEND_NO, "flux-erlend-no");
 
     public static final DeepgramModel FLUX_HANNAH_EN = new DeepgramModel(Value.FLUX_HANNAH_EN, "flux-hannah-en");
-
-    public static final DeepgramModel AURA2DIANA_ES = new DeepgramModel(Value.AURA2DIANA_ES, "aura-2-diana-es");
 
     public static final DeepgramModel AURA_ORION_EN = new DeepgramModel(Value.AURA_ORION_EN, "aura-orion-en");
 
@@ -168,39 +257,404 @@ public final class DeepgramModel {
 
     public static final DeepgramModel AURA_ARCAS_EN = new DeepgramModel(Value.AURA_ARCAS_EN, "aura-arcas-en");
 
-    public static final DeepgramModel AURA2THEIA_EN = new DeepgramModel(Value.AURA2THEIA_EN, "aura-2-theia-en");
+    public static final DeepgramModel FLUX_ECEM_TR = new DeepgramModel(Value.FLUX_ECEM_TR, "flux-ecem-tr");
 
-    public static final DeepgramModel FLUX_WADE_EN = new DeepgramModel(Value.FLUX_WADE_EN, "flux-wade-en");
+    public static final DeepgramModel FLUX_SANNE_NL = new DeepgramModel(Value.FLUX_SANNE_NL, "flux-sanne-nl");
+
+    public static final DeepgramModel FLUX_BIANCA_PT = new DeepgramModel(Value.FLUX_BIANCA_PT, "flux-bianca-pt");
 
     public static final DeepgramModel FLUX_HEATHER_EN = new DeepgramModel(Value.FLUX_HEATHER_EN, "flux-heather-en");
 
-    public static final DeepgramModel FLUX_CLIFF_EN = new DeepgramModel(Value.FLUX_CLIFF_EN, "flux-cliff-en");
+    public static final DeepgramModel FLUX_SUNITA_HI = new DeepgramModel(Value.FLUX_SUNITA_HI, "flux-sunita-hi");
 
-    public static final DeepgramModel AURA2JUPITER_EN = new DeepgramModel(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
+    public static final DeepgramModel FLUX_OSKAR_SV = new DeepgramModel(Value.FLUX_OSKAR_SV, "flux-oskar-sv");
 
-    public static final DeepgramModel FLUX_KIT_EN = new DeepgramModel(Value.FLUX_KIT_EN, "flux-kit-en");
+    public static final DeepgramModel FLUX_FAJAR_ID = new DeepgramModel(Value.FLUX_FAJAR_ID, "flux-fajar-id");
 
-    public static final DeepgramModel AURA2AQUILA_ES = new DeepgramModel(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
+    public static final DeepgramModel FLUX_VINCENZO_IT = new DeepgramModel(Value.FLUX_VINCENZO_IT, "flux-vincenzo-it");
 
-    public static final DeepgramModel AURA2CORA_EN = new DeepgramModel(Value.AURA2CORA_EN, "aura-2-cora-en");
+    public static final DeepgramModel FLUX_CATARINA_PT = new DeepgramModel(Value.FLUX_CATARINA_PT, "flux-catarina-pt");
+
+    public static final DeepgramModel FLUX_KATJA_SL = new DeepgramModel(Value.FLUX_KATJA_SL, "flux-katja-sl");
+
+    public static final DeepgramModel FLUX_JASNA_HR = new DeepgramModel(Value.FLUX_JASNA_HR, "flux-jasna-hr");
+
+    public static final DeepgramModel FLUX_BRIGITTE_FR = new DeepgramModel(Value.FLUX_BRIGITTE_FR, "flux-brigitte-fr");
+
+    public static final DeepgramModel FLUX_MATEUS_PT = new DeepgramModel(Value.FLUX_MATEUS_PT, "flux-mateus-pt");
+
+    public static final DeepgramModel FLUX_GIORGIO_IT = new DeepgramModel(Value.FLUX_GIORGIO_IT, "flux-giorgio-it");
 
     public static final DeepgramModel AURA2CORDELIA_EN =
             new DeepgramModel(Value.AURA2CORDELIA_EN, "aura-2-cordelia-en");
 
     public static final DeepgramModel AURA2ATLAS_EN = new DeepgramModel(Value.AURA2ATLAS_EN, "aura-2-atlas-en");
 
-    public static final DeepgramModel AURA2HYPERION_EN =
-            new DeepgramModel(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
+    public static final DeepgramModel FLUX_DIRK_NL = new DeepgramModel(Value.FLUX_DIRK_NL, "flux-dirk-nl");
 
-    public static final DeepgramModel AURA2CELESTE_ES = new DeepgramModel(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
+    public static final DeepgramModel FLUX_DILEK_TR = new DeepgramModel(Value.FLUX_DILEK_TR, "flux-dilek-tr");
 
     public static final DeepgramModel AURA2PLUTO_EN = new DeepgramModel(Value.AURA2PLUTO_EN, "aura-2-pluto-en");
 
     public static final DeepgramModel FLUX_BREE_EN = new DeepgramModel(Value.FLUX_BREE_EN, "flux-bree-en");
 
+    public static final DeepgramModel FLUX_BHAVNA_GU = new DeepgramModel(Value.FLUX_BHAVNA_GU, "flux-bhavna-gu");
+
+    public static final DeepgramModel FLUX_AJAY_HI = new DeepgramModel(Value.FLUX_AJAY_HI, "flux-ajay-hi");
+
+    public static final DeepgramModel FLUX_BRUNO_PT = new DeepgramModel(Value.FLUX_BRUNO_PT, "flux-bruno-pt");
+
+    public static final DeepgramModel FLUX_HUGO_PT = new DeepgramModel(Value.FLUX_HUGO_PT, "flux-hugo-pt");
+
+    public static final DeepgramModel FLUX_MILES_EN = new DeepgramModel(Value.FLUX_MILES_EN, "flux-miles-en");
+
+    public static final DeepgramModel FLUX_JIAN_ZH = new DeepgramModel(Value.FLUX_JIAN_ZH, "flux-jian-zh");
+
+    public static final DeepgramModel AURA_ASTERIA_EN = new DeepgramModel(Value.AURA_ASTERIA_EN, "aura-asteria-en");
+
+    public static final DeepgramModel AURA2ELECTRA_EN = new DeepgramModel(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
+
+    public static final DeepgramModel FLUX_IOANA_RO = new DeepgramModel(Value.FLUX_IOANA_RO, "flux-ioana-ro");
+
+    public static final DeepgramModel FLUX_DENYS_UK = new DeepgramModel(Value.FLUX_DENYS_UK, "flux-denys-uk");
+
+    public static final DeepgramModel FLUX_YASMINE_FR = new DeepgramModel(Value.FLUX_YASMINE_FR, "flux-yasmine-fr");
+
+    public static final DeepgramModel FLUX_BARTOSZ_PL = new DeepgramModel(Value.FLUX_BARTOSZ_PL, "flux-bartosz-pl");
+
+    public static final DeepgramModel FLUX_NATALIA_RU = new DeepgramModel(Value.FLUX_NATALIA_RU, "flux-natalia-ru");
+
+    public static final DeepgramModel AURA2SIRIO_ES = new DeepgramModel(Value.AURA2SIRIO_ES, "aura-2-sirio-es");
+
+    public static final DeepgramModel FLUX_KELSEY_EN = new DeepgramModel(Value.FLUX_KELSEY_EN, "flux-kelsey-en");
+
+    public static final DeepgramModel FLUX_SIENNA_EN = new DeepgramModel(Value.FLUX_SIENNA_EN, "flux-sienna-en");
+
+    public static final DeepgramModel FLUX_IRENE_NL = new DeepgramModel(Value.FLUX_IRENE_NL, "flux-irene-nl");
+
+    public static final DeepgramModel FLUX_GIZEM_TR = new DeepgramModel(Value.FLUX_GIZEM_TR, "flux-gizem-tr");
+
+    public static final DeepgramModel FLUX_PERNILLE_DA = new DeepgramModel(Value.FLUX_PERNILLE_DA, "flux-pernille-da");
+
+    public static final DeepgramModel FLUX_MEGHAN_EN = new DeepgramModel(Value.FLUX_MEGHAN_EN, "flux-meghan-en");
+
+    public static final DeepgramModel FLUX_MATTEO_IT = new DeepgramModel(Value.FLUX_MATTEO_IT, "flux-matteo-it");
+
+    public static final DeepgramModel FLUX_FRIDA_SV = new DeepgramModel(Value.FLUX_FRIDA_SV, "flux-frida-sv");
+
+    public static final DeepgramModel AURA2HERMES_EN = new DeepgramModel(Value.AURA2HERMES_EN, "aura-2-hermes-en");
+
+    public static final DeepgramModel FLUX_CONOR_EN = new DeepgramModel(Value.FLUX_CONOR_EN, "flux-conor-en");
+
+    public static final DeepgramModel FLUX_MAMUN_BN = new DeepgramModel(Value.FLUX_MAMUN_BN, "flux-mamun-bn");
+
+    public static final DeepgramModel FLUX_CLAUDIA_PT = new DeepgramModel(Value.FLUX_CLAUDIA_PT, "flux-claudia-pt");
+
+    public static final DeepgramModel FLUX_RUFUS_EN = new DeepgramModel(Value.FLUX_RUFUS_EN, "flux-rufus-en");
+
+    public static final DeepgramModel FLUX_BO_ZH = new DeepgramModel(Value.FLUX_BO_ZH, "flux-bo-zh");
+
+    public static final DeepgramModel FLUX_HETAL_GU = new DeepgramModel(Value.FLUX_HETAL_GU, "flux-hetal-gu");
+
+    public static final DeepgramModel FLUX_WES_EN = new DeepgramModel(Value.FLUX_WES_EN, "flux-wes-en");
+
+    public static final DeepgramModel AURA2AURORA_EN = new DeepgramModel(Value.AURA2AURORA_EN, "aura-2-aurora-en");
+
+    public static final DeepgramModel FLUX_ZHEN_ZH = new DeepgramModel(Value.FLUX_ZHEN_ZH, "flux-zhen-zh");
+
+    public static final DeepgramModel FLUX_BENEDITA_PT = new DeepgramModel(Value.FLUX_BENEDITA_PT, "flux-benedita-pt");
+
+    public static final DeepgramModel FLUX_SHREYA_HI = new DeepgramModel(Value.FLUX_SHREYA_HI, "flux-shreya-hi");
+
+    public static final DeepgramModel FLUX_MINH_VI = new DeepgramModel(Value.FLUX_MINH_VI, "flux-minh-vi");
+
+    public static final DeepgramModel AURA2APOLLO_EN = new DeepgramModel(Value.AURA2APOLLO_EN, "aura-2-apollo-en");
+
+    public static final DeepgramModel FLUX_ZEYNEP_TR = new DeepgramModel(Value.FLUX_ZEYNEP_TR, "flux-zeynep-tr");
+
+    public static final DeepgramModel AURA2DELIA_EN = new DeepgramModel(Value.AURA2DELIA_EN, "aura-2-delia-en");
+
+    public static final DeepgramModel AURA2MARS_EN = new DeepgramModel(Value.AURA2MARS_EN, "aura-2-mars-en");
+
+    public static final DeepgramModel FLUX_CAMILLE_FR = new DeepgramModel(Value.FLUX_CAMILLE_FR, "flux-camille-fr");
+
+    public static final DeepgramModel AURA_HERA_EN = new DeepgramModel(Value.AURA_HERA_EN, "aura-hera-en");
+
+    public static final DeepgramModel FLUX_MAEVE_EN = new DeepgramModel(Value.FLUX_MAEVE_EN, "flux-maeve-en");
+
+    public static final DeepgramModel FLUX_TOBIAS_DE = new DeepgramModel(Value.FLUX_TOBIAS_DE, "flux-tobias-de");
+
+    public static final DeepgramModel FLUX_KUANYU_ZH = new DeepgramModel(Value.FLUX_KUANYU_ZH, "flux-kuanyu-zh");
+
+    public static final DeepgramModel FLUX_EWA_PL = new DeepgramModel(Value.FLUX_EWA_PL, "flux-ewa-pl");
+
+    public static final DeepgramModel FLUX_SONJA_DE = new DeepgramModel(Value.FLUX_SONJA_DE, "flux-sonja-de");
+
+    public static final DeepgramModel FLUX_ANGELA_IT = new DeepgramModel(Value.FLUX_ANGELA_IT, "flux-angela-it");
+
+    public static final DeepgramModel AURA2ARIES_EN = new DeepgramModel(Value.AURA2ARIES_EN, "aura-2-aries-en");
+
+    public static final DeepgramModel FLUX_BENJAMIN_DE = new DeepgramModel(Value.FLUX_BENJAMIN_DE, "flux-benjamin-de");
+
+    public static final DeepgramModel AURA2JUNO_EN = new DeepgramModel(Value.AURA2JUNO_EN, "aura-2-juno-en");
+
+    public static final DeepgramModel FLUX_TRISHA_TL = new DeepgramModel(Value.FLUX_TRISHA_TL, "flux-trisha-tl");
+
+    public static final DeepgramModel FLUX_RENATO_PT = new DeepgramModel(Value.FLUX_RENATO_PT, "flux-renato-pt");
+
+    public static final DeepgramModel FLUX_PAVAN_TE = new DeepgramModel(Value.FLUX_PAVAN_TE, "flux-pavan-te");
+
+    public static final DeepgramModel AURA2ANDROMEDA_EN =
+            new DeepgramModel(Value.AURA2ANDROMEDA_EN, "aura-2-andromeda-en");
+
+    public static final DeepgramModel FLUX_SIGNE_NO = new DeepgramModel(Value.FLUX_SIGNE_NO, "flux-signe-no");
+
+    public static final DeepgramModel FLUX_KACPER_PL = new DeepgramModel(Value.FLUX_KACPER_PL, "flux-kacper-pl");
+
+    public static final DeepgramModel FLUX_RAVI_TE = new DeepgramModel(Value.FLUX_RAVI_TE, "flux-ravi-te");
+
+    public static final DeepgramModel FLUX_KAVYA_TA = new DeepgramModel(Value.FLUX_KAVYA_TA, "flux-kavya-ta");
+
+    public static final DeepgramModel FLUX_JOMAR_TL = new DeepgramModel(Value.FLUX_JOMAR_TL, "flux-jomar-tl");
+
+    public static final DeepgramModel FLUX_DIVYA_HI = new DeepgramModel(Value.FLUX_DIVYA_HI, "flux-divya-hi");
+
+    public static final DeepgramModel AURA_ANGUS_EN = new DeepgramModel(Value.AURA_ANGUS_EN, "aura-angus-en");
+
+    public static final DeepgramModel FLUX_VEERLE_NL = new DeepgramModel(Value.FLUX_VEERLE_NL, "flux-veerle-nl");
+
+    public static final DeepgramModel FLUX_KAI_EN = new DeepgramModel(Value.FLUX_KAI_EN, "flux-kai-en");
+
+    public static final DeepgramModel FLUX_MARTIN_ES = new DeepgramModel(Value.FLUX_MARTIN_ES, "flux-martin-es");
+
+    public static final DeepgramModel FLUX_DOMINIKA_SK = new DeepgramModel(Value.FLUX_DOMINIKA_SK, "flux-dominika-sk");
+
+    public static final DeepgramModel FLUX_HALEY_EN = new DeepgramModel(Value.FLUX_HALEY_EN, "flux-haley-en");
+
+    public static final DeepgramModel FLUX_ESPEN_NO = new DeepgramModel(Value.FLUX_ESPEN_NO, "flux-espen-no");
+
+    public static final DeepgramModel AURA_STELLA_EN = new DeepgramModel(Value.AURA_STELLA_EN, "aura-stella-en");
+
+    public static final DeepgramModel FLUX_MIKYUNG_KO = new DeepgramModel(Value.FLUX_MIKYUNG_KO, "flux-mikyung-ko");
+
+    public static final DeepgramModel FLUX_PEDRO_PT = new DeepgramModel(Value.FLUX_PEDRO_PT, "flux-pedro-pt");
+
+    public static final DeepgramModel FLUX_JUSTYNA_PL = new DeepgramModel(Value.FLUX_JUSTYNA_PL, "flux-justyna-pl");
+
+    public static final DeepgramModel AURA2DRACO_EN = new DeepgramModel(Value.AURA2DRACO_EN, "aura-2-draco-en");
+
+    public static final DeepgramModel FLUX_AMBREEN_UR = new DeepgramModel(Value.FLUX_AMBREEN_UR, "flux-ambreen-ur");
+
+    public static final DeepgramModel AURA2ORION_EN = new DeepgramModel(Value.AURA2ORION_EN, "aura-2-orion-en");
+
+    public static final DeepgramModel FLUX_SNEHA_MR = new DeepgramModel(Value.FLUX_SNEHA_MR, "flux-sneha-mr");
+
+    public static final DeepgramModel FLUX_GUSTAVO_ES = new DeepgramModel(Value.FLUX_GUSTAVO_ES, "flux-gustavo-es");
+
+    public static final DeepgramModel FLUX_LUDVIG_SV = new DeepgramModel(Value.FLUX_LUDVIG_SV, "flux-ludvig-sv");
+
+    public static final DeepgramModel FLUX_MONIQUE_NL = new DeepgramModel(Value.FLUX_MONIQUE_NL, "flux-monique-nl");
+
+    public static final DeepgramModel AURA_PERSEUS_EN = new DeepgramModel(Value.AURA_PERSEUS_EN, "aura-perseus-en");
+
+    public static final DeepgramModel AURA2VESTA_EN = new DeepgramModel(Value.AURA2VESTA_EN, "aura-2-vesta-en");
+
+    public static final DeepgramModel FLUX_ARTUR_PT = new DeepgramModel(Value.FLUX_ARTUR_PT, "flux-artur-pt");
+
+    public static final DeepgramModel FLUX_FITRI_ID = new DeepgramModel(Value.FLUX_FITRI_ID, "flux-fitri-id");
+
+    public static final DeepgramModel AURA2ZEUS_EN = new DeepgramModel(Value.AURA2ZEUS_EN, "aura-2-zeus-en");
+
+    public static final DeepgramModel FLUX_CECILIA_ES = new DeepgramModel(Value.FLUX_CECILIA_ES, "flux-cecilia-es");
+
+    public static final DeepgramModel FLUX_FERNANDA_ES = new DeepgramModel(Value.FLUX_FERNANDA_ES, "flux-fernanda-es");
+
+    public static final DeepgramModel AURA2ORPHEUS_EN = new DeepgramModel(Value.AURA2ORPHEUS_EN, "aura-2-orpheus-en");
+
+    public static final DeepgramModel FLUX_PRACHI_HI = new DeepgramModel(Value.FLUX_PRACHI_HI, "flux-prachi-hi");
+
+    public static final DeepgramModel FLUX_MANLOK_ZH = new DeepgramModel(Value.FLUX_MANLOK_ZH, "flux-manlok-zh");
+
+    public static final DeepgramModel FLUX_HYUNWOO_KO = new DeepgramModel(Value.FLUX_HYUNWOO_KO, "flux-hyunwoo-ko");
+
+    public static final DeepgramModel AURA2THALIA_EN = new DeepgramModel(Value.AURA2THALIA_EN, "aura-2-thalia-en");
+
+    public static final DeepgramModel FLUX_NAVEEN_EN = new DeepgramModel(Value.FLUX_NAVEEN_EN, "flux-naveen-en");
+
+    public static final DeepgramModel FLUX_STEFANO_IT = new DeepgramModel(Value.FLUX_STEFANO_IT, "flux-stefano-it");
+
+    public static final DeepgramModel FLUX_LOTTE_NL = new DeepgramModel(Value.FLUX_LOTTE_NL, "flux-lotte-nl");
+
+    public static final DeepgramModel FLUX_LEONIE_DE = new DeepgramModel(Value.FLUX_LEONIE_DE, "flux-leonie-de");
+
+    public static final DeepgramModel FLUX_JANINE_DE = new DeepgramModel(Value.FLUX_JANINE_DE, "flux-janine-de");
+
+    public static final DeepgramModel FLUX_AGNESE_LV = new DeepgramModel(Value.FLUX_AGNESE_LV, "flux-agnese-lv");
+
+    public static final DeepgramModel FLUX_VERENA_DE = new DeepgramModel(Value.FLUX_VERENA_DE, "flux-verena-de");
+
+    public static final DeepgramModel AURA2SELENA_ES = new DeepgramModel(Value.AURA2SELENA_ES, "aura-2-selena-es");
+
+    public static final DeepgramModel FLUX_RICARDO_PT = new DeepgramModel(Value.FLUX_RICARDO_PT, "flux-ricardo-pt");
+
+    public static final DeepgramModel FLUX_AFSANA_BN = new DeepgramModel(Value.FLUX_AFSANA_BN, "flux-afsana-bn");
+
+    public static final DeepgramModel FLUX_DESISLAVA_BG =
+            new DeepgramModel(Value.FLUX_DESISLAVA_BG, "flux-desislava-bg");
+
+    public static final DeepgramModel FLUX_NADINE_DE = new DeepgramModel(Value.FLUX_NADINE_DE, "flux-nadine-de");
+
+    public static final DeepgramModel FLUX_YAWEN_ZH = new DeepgramModel(Value.FLUX_YAWEN_ZH, "flux-yawen-zh");
+
+    public static final DeepgramModel FLUX_MIKHAIL_RU = new DeepgramModel(Value.FLUX_MIKHAIL_RU, "flux-mikhail-ru");
+
+    public static final DeepgramModel FLUX_VALENTINA_ES =
+            new DeepgramModel(Value.FLUX_VALENTINA_ES, "flux-valentina-es");
+
+    public static final DeepgramModel FLUX_YUTING_ZH = new DeepgramModel(Value.FLUX_YUTING_ZH, "flux-yuting-zh");
+
+    public static final DeepgramModel FLUX_DALIBOR_HR = new DeepgramModel(Value.FLUX_DALIBOR_HR, "flux-dalibor-hr");
+
+    public static final DeepgramModel FLUX_MIGUEL_PT = new DeepgramModel(Value.FLUX_MIGUEL_PT, "flux-miguel-pt");
+
+    public static final DeepgramModel AURA_LUNA_EN = new DeepgramModel(Value.AURA_LUNA_EN, "aura-luna-en");
+
+    public static final DeepgramModel AURA_ORPHEUS_EN = new DeepgramModel(Value.AURA_ORPHEUS_EN, "aura-orpheus-en");
+
+    public static final DeepgramModel FLUX_PATRICIA_ES = new DeepgramModel(Value.FLUX_PATRICIA_ES, "flux-patricia-es");
+
+    public static final DeepgramModel FLUX_RODRIGO_PT = new DeepgramModel(Value.FLUX_RODRIGO_PT, "flux-rodrigo-pt");
+
+    public static final DeepgramModel FLUX_GOKUL_TA = new DeepgramModel(Value.FLUX_GOKUL_TA, "flux-gokul-ta");
+
+    public static final DeepgramModel FLUX_DONOVAN_EN = new DeepgramModel(Value.FLUX_DONOVAN_EN, "flux-donovan-en");
+
+    public static final DeepgramModel FLUX_THIERRY_FR = new DeepgramModel(Value.FLUX_THIERRY_FR, "flux-thierry-fr");
+
+    public static final DeepgramModel FLUX_PAOLA_IT = new DeepgramModel(Value.FLUX_PAOLA_IT, "flux-paola-it");
+
+    public static final DeepgramModel FLUX_CHIAYING_ZH = new DeepgramModel(Value.FLUX_CHIAYING_ZH, "flux-chiaying-zh");
+
+    public static final DeepgramModel FLUX_MATHIEU_FR = new DeepgramModel(Value.FLUX_MATHIEU_FR, "flux-mathieu-fr");
+
+    public static final DeepgramModel FLUX_ALFREDO_ES = new DeepgramModel(Value.FLUX_ALFREDO_ES, "flux-alfredo-es");
+
+    public static final DeepgramModel FLUX_GREGOR_SL = new DeepgramModel(Value.FLUX_GREGOR_SL, "flux-gregor-sl");
+
+    public static final DeepgramModel FLUX_HAYATO_JA = new DeepgramModel(Value.FLUX_HAYATO_JA, "flux-hayato-ja");
+
+    public static final DeepgramModel FLUX_SHUVO_BN = new DeepgramModel(Value.FLUX_SHUVO_BN, "flux-shuvo-bn");
+
+    public static final DeepgramModel FLUX_NIELS_NL = new DeepgramModel(Value.FLUX_NIELS_NL, "flux-niels-nl");
+
+    public static final DeepgramModel FLUX_ARJUN_HI = new DeepgramModel(Value.FLUX_ARJUN_HI, "flux-arjun-hi");
+
+    public static final DeepgramModel FLUX_ROCCO_IT = new DeepgramModel(Value.FLUX_ROCCO_IT, "flux-rocco-it");
+
+    public static final DeepgramModel FLUX_CARMEN_ES = new DeepgramModel(Value.FLUX_CARMEN_ES, "flux-carmen-es");
+
+    public static final DeepgramModel AURA2PHOEBE_EN = new DeepgramModel(Value.AURA2PHOEBE_EN, "aura-2-phoebe-en");
+
+    public static final DeepgramModel FLUX_ESZTER_HU = new DeepgramModel(Value.FLUX_ESZTER_HU, "flux-eszter-hu");
+
+    public static final DeepgramModel FLUX_PRATIK_MR = new DeepgramModel(Value.FLUX_PRATIK_MR, "flux-pratik-mr");
+
+    public static final DeepgramModel FLUX_FLEUR_NL = new DeepgramModel(Value.FLUX_FLEUR_NL, "flux-fleur-nl");
+
+    public static final DeepgramModel FLUX_RAFAEL_ES = new DeepgramModel(Value.FLUX_RAFAEL_ES, "flux-rafael-es");
+
+    public static final DeepgramModel AURA2DIANA_ES = new DeepgramModel(Value.AURA2DIANA_ES, "aura-2-diana-es");
+
+    public static final DeepgramModel FLUX_JOSIPA_HR = new DeepgramModel(Value.FLUX_JOSIPA_HR, "flux-josipa-hr");
+
+    public static final DeepgramModel FLUX_CHIARA_IT = new DeepgramModel(Value.FLUX_CHIARA_IT, "flux-chiara-it");
+
+    public static final DeepgramModel FLUX_ANDREI_RU = new DeepgramModel(Value.FLUX_ANDREI_RU, "flux-andrei-ru");
+
+    public static final DeepgramModel AURA2THEIA_EN = new DeepgramModel(Value.AURA2THEIA_EN, "aura-2-theia-en");
+
+    public static final DeepgramModel FLUX_VERONIQUE_FR =
+            new DeepgramModel(Value.FLUX_VERONIQUE_FR, "flux-veronique-fr");
+
+    public static final DeepgramModel FLUX_WADE_EN = new DeepgramModel(Value.FLUX_WADE_EN, "flux-wade-en");
+
+    public static final DeepgramModel FLUX_JAIME_ES = new DeepgramModel(Value.FLUX_JAIME_ES, "flux-jaime-es");
+
+    public static final DeepgramModel FLUX_DOMAGOJ_HR = new DeepgramModel(Value.FLUX_DOMAGOJ_HR, "flux-domagoj-hr");
+
+    public static final DeepgramModel FLUX_NOZOMI_JA = new DeepgramModel(Value.FLUX_NOZOMI_JA, "flux-nozomi-ja");
+
+    public static final DeepgramModel FLUX_VIKRAM_HI = new DeepgramModel(Value.FLUX_VIKRAM_HI, "flux-vikram-hi");
+
+    public static final DeepgramModel FLUX_SOLOMIYA_UK = new DeepgramModel(Value.FLUX_SOLOMIYA_UK, "flux-solomiya-uk");
+
+    public static final DeepgramModel FLUX_RIKKE_DA = new DeepgramModel(Value.FLUX_RIKKE_DA, "flux-rikke-da");
+
+    public static final DeepgramModel FLUX_MARCIA_PT = new DeepgramModel(Value.FLUX_MARCIA_PT, "flux-marcia-pt");
+
+    public static final DeepgramModel FLUX_ARNAUD_FR = new DeepgramModel(Value.FLUX_ARNAUD_FR, "flux-arnaud-fr");
+
+    public static final DeepgramModel FLUX_SVEN_DE = new DeepgramModel(Value.FLUX_SVEN_DE, "flux-sven-de");
+
+    public static final DeepgramModel FLUX_RAJESH_HI = new DeepgramModel(Value.FLUX_RAJESH_HI, "flux-rajesh-hi");
+
+    public static final DeepgramModel FLUX_CLIFF_EN = new DeepgramModel(Value.FLUX_CLIFF_EN, "flux-cliff-en");
+
+    public static final DeepgramModel FLUX_YVONNE_NL = new DeepgramModel(Value.FLUX_YVONNE_NL, "flux-yvonne-nl");
+
+    public static final DeepgramModel FLUX_ERNESTO_ES = new DeepgramModel(Value.FLUX_ERNESTO_ES, "flux-ernesto-es");
+
+    public static final DeepgramModel FLUX_MAGDALENA_DE =
+            new DeepgramModel(Value.FLUX_MAGDALENA_DE, "flux-magdalena-de");
+
+    public static final DeepgramModel AURA2JUPITER_EN = new DeepgramModel(Value.AURA2JUPITER_EN, "aura-2-jupiter-en");
+
+    public static final DeepgramModel FLUX_JURAJ_SK = new DeepgramModel(Value.FLUX_JURAJ_SK, "flux-juraj-sk");
+
+    public static final DeepgramModel FLUX_KIT_EN = new DeepgramModel(Value.FLUX_KIT_EN, "flux-kit-en");
+
+    public static final DeepgramModel FLUX_MINJUN_KO = new DeepgramModel(Value.FLUX_MINJUN_KO, "flux-minjun-ko");
+
+    public static final DeepgramModel FLUX_KIRILL_RU = new DeepgramModel(Value.FLUX_KIRILL_RU, "flux-kirill-ru");
+
+    public static final DeepgramModel AURA2AQUILA_ES = new DeepgramModel(Value.AURA2AQUILA_ES, "aura-2-aquila-es");
+
+    public static final DeepgramModel AURA2CORA_EN = new DeepgramModel(Value.AURA2CORA_EN, "aura-2-cora-en");
+
+    public static final DeepgramModel FLUX_DANIJELA_HR = new DeepgramModel(Value.FLUX_DANIJELA_HR, "flux-danijela-hr");
+
+    public static final DeepgramModel FLUX_NIKOLAI_RU = new DeepgramModel(Value.FLUX_NIKOLAI_RU, "flux-nikolai-ru");
+
+    public static final DeepgramModel FLUX_LIJUAN_ZH = new DeepgramModel(Value.FLUX_LIJUAN_ZH, "flux-lijuan-zh");
+
+    public static final DeepgramModel FLUX_SUNGMIN_KO = new DeepgramModel(Value.FLUX_SUNGMIN_KO, "flux-sungmin-ko");
+
+    public static final DeepgramModel FLUX_JORDI_CA = new DeepgramModel(Value.FLUX_JORDI_CA, "flux-jordi-ca");
+
+    public static final DeepgramModel FLUX_YANNICK_DE = new DeepgramModel(Value.FLUX_YANNICK_DE, "flux-yannick-de");
+
+    public static final DeepgramModel FLUX_EDUARDO_ES = new DeepgramModel(Value.FLUX_EDUARDO_ES, "flux-eduardo-es");
+
+    public static final DeepgramModel FLUX_GODA_LT = new DeepgramModel(Value.FLUX_GODA_LT, "flux-goda-lt");
+
+    public static final DeepgramModel FLUX_BENCE_HU = new DeepgramModel(Value.FLUX_BENCE_HU, "flux-bence-hu");
+
+    public static final DeepgramModel FLUX_COSMIN_RO = new DeepgramModel(Value.FLUX_COSMIN_RO, "flux-cosmin-ro");
+
+    public static final DeepgramModel FLUX_EMRE_TR = new DeepgramModel(Value.FLUX_EMRE_TR, "flux-emre-tr");
+
+    public static final DeepgramModel AURA2HYPERION_EN =
+            new DeepgramModel(Value.AURA2HYPERION_EN, "aura-2-hyperion-en");
+
+    public static final DeepgramModel AURA2CELESTE_ES = new DeepgramModel(Value.AURA2CELESTE_ES, "aura-2-celeste-es");
+
+    public static final DeepgramModel FLUX_RUBEN_NL = new DeepgramModel(Value.FLUX_RUBEN_NL, "flux-ruben-nl");
+
     public static final DeepgramModel AURA2ARCAS_EN = new DeepgramModel(Value.AURA2ARCAS_EN, "aura-2-arcas-en");
 
     public static final DeepgramModel FLUX_COLIN_EN = new DeepgramModel(Value.FLUX_COLIN_EN, "flux-colin-en");
+
+    public static final DeepgramModel FLUX_SOOJIN_KO = new DeepgramModel(Value.FLUX_SOOJIN_KO, "flux-soojin-ko");
 
     public static final DeepgramModel AURA_ATHENA_EN = new DeepgramModel(Value.AURA_ATHENA_EN, "aura-athena-en");
 
@@ -209,16 +663,22 @@ public final class DeepgramModel {
 
     public static final DeepgramModel AURA2PANDORA_EN = new DeepgramModel(Value.AURA2PANDORA_EN, "aura-2-pandora-en");
 
-    public static final DeepgramModel FLUX_MILES_EN = new DeepgramModel(Value.FLUX_MILES_EN, "flux-miles-en");
+    public static final DeepgramModel FLUX_PIERRE_FR = new DeepgramModel(Value.FLUX_PIERRE_FR, "flux-pierre-fr");
 
-    public static final DeepgramModel AURA_ASTERIA_EN = new DeepgramModel(Value.AURA_ASTERIA_EN, "aura-asteria-en");
+    public static final DeepgramModel FLUX_JIGNESH_GU = new DeepgramModel(Value.FLUX_JIGNESH_GU, "flux-jignesh-gu");
 
-    public static final DeepgramModel AURA2ELECTRA_EN = new DeepgramModel(Value.AURA2ELECTRA_EN, "aura-2-electra-en");
+    public static final DeepgramModel FLUX_IZZAH_MS = new DeepgramModel(Value.FLUX_IZZAH_MS, "flux-izzah-ms");
+
+    public static final DeepgramModel FLUX_USMAN_UR = new DeepgramModel(Value.FLUX_USMAN_UR, "flux-usman-ur");
+
+    public static final DeepgramModel FLUX_SAYAKA_JA = new DeepgramModel(Value.FLUX_SAYAKA_JA, "flux-sayaka-ja");
 
     public static final DeepgramModel FLUX_GEMMA_EN = new DeepgramModel(Value.FLUX_GEMMA_EN, "flux-gemma-en");
 
     public static final DeepgramModel AURA2ESTRELLA_ES =
             new DeepgramModel(Value.AURA2ESTRELLA_ES, "aura-2-estrella-es");
+
+    public static final DeepgramModel FLUX_VLADIMIR_RU = new DeepgramModel(Value.FLUX_VLADIMIR_RU, "flux-vladimir-ru");
 
     private final Value value;
 
@@ -252,206 +712,664 @@ public final class DeepgramModel {
 
     public <T> T visit(Visitor<T> visitor) {
         switch (value) {
-            case AURA2SIRIO_ES:
-                return visitor.visitAura2SirioEs();
             case AURA2HERA_EN:
                 return visitor.visitAura2HeraEn();
-            case FLUX_KELSEY_EN:
-                return visitor.visitFluxKelseyEn();
-            case FLUX_RENEE_EN:
-                return visitor.visitFluxReneeEn();
-            case FLUX_SIENNA_EN:
-                return visitor.visitFluxSiennaEn();
+            case FLUX_RITU_HI:
+                return visitor.visitFluxRituHi();
+            case FLUX_TOMAS_ES:
+                return visitor.visitFluxTomasEs();
+            case FLUX_OLGA_RU:
+                return visitor.visitFluxOlgaRu();
             case AURA2HARMONIA_EN:
                 return visitor.visitAura2HarmoniaEn();
             case AURA2CARINA_ES:
                 return visitor.visitAura2CarinaEs();
             case FLUX_MEENA_EN:
                 return visitor.visitFluxMeenaEn();
-            case FLUX_MEGHAN_EN:
-                return visitor.visitFluxMeghanEn();
+            case FLUX_POLINA_RU:
+                return visitor.visitFluxPolinaRu();
             case AURA_ZEUS_EN:
                 return visitor.visitAuraZeusEn();
-            case AURA2HERMES_EN:
-                return visitor.visitAura2HermesEn();
-            case FLUX_CONOR_EN:
-                return visitor.visitFluxConorEn();
+            case FLUX_SRAVANI_TE:
+                return visitor.visitFluxSravaniTe();
+            case FLUX_KONRAD_PL:
+                return visitor.visitFluxKonradPl();
             case AURA2NEPTUNE_EN:
                 return visitor.visitAura2NeptuneEn();
             case FLUX_BROOKE_EN:
                 return visitor.visitFluxBrookeEn();
-            case FLUX_RUFUS_EN:
-                return visitor.visitFluxRufusEn();
-            case FLUX_WES_EN:
-                return visitor.visitFluxWesEn();
             case AURA2CALLISTA_EN:
                 return visitor.visitAura2CallistaEn();
-            case AURA2AURORA_EN:
-                return visitor.visitAura2AuroraEn();
+            case FLUX_JAKUB_CS:
+                return visitor.visitFluxJakubCs();
             case AURA2OPHELIA_EN:
                 return visitor.visitAura2OpheliaEn();
+            case FLUX_SABBIR_BN:
+                return visitor.visitFluxSabbirBn();
             case FLUX_BRUCE_EN:
                 return visitor.visitFluxBruceEn();
-            case AURA2APOLLO_EN:
-                return visitor.visitAura2ApolloEn();
-            case AURA2DELIA_EN:
-                return visitor.visitAura2DeliaEn();
-            case AURA2MARS_EN:
-                return visitor.visitAura2MarsEn();
-            case AURA_HERA_EN:
-                return visitor.visitAuraHeraEn();
-            case FLUX_MAEVE_EN:
-                return visitor.visitFluxMaeveEn();
+            case FLUX_SUMAIYA_BN:
+                return visitor.visitFluxSumaiyaBn();
+            case FLUX_ANJALI_HI:
+                return visitor.visitFluxAnjaliHi();
+            case FLUX_MAURICIO_ES:
+                return visitor.visitFluxMauricioEs();
+            case FLUX_GERGANA_BG:
+                return visitor.visitFluxGerganaBg();
+            case FLUX_CHRISTIAN_DE:
+                return visitor.visitFluxChristianDe();
+            case FLUX_IDA_NO:
+                return visitor.visitFluxIdaNo();
+            case FLUX_TRIIN_ET:
+                return visitor.visitFluxTriinEt();
+            case FLUX_JYOTI_HI:
+                return visitor.visitFluxJyotiHi();
             case FLUX_MARCUS_EN:
                 return visitor.visitFluxMarcusEn();
-            case AURA2ARIES_EN:
-                return visitor.visitAura2AriesEn();
+            case FLUX_WENBO_ZH:
+                return visitor.visitFluxWenboZh();
+            case FLUX_SHUFEN_ZH:
+                return visitor.visitFluxShufenZh();
             case FLUX_PAIGE_EN:
                 return visitor.visitFluxPaigeEn();
-            case AURA2JUNO_EN:
-                return visitor.visitAura2JunoEn();
+            case FLUX_VINOTH_TA:
+                return visitor.visitFluxVinothTa();
             case FLUX_DREW_EN:
                 return visitor.visitFluxDrewEn();
+            case FLUX_CHARLOTTA_SV:
+                return visitor.visitFluxCharlottaSv();
             case AURA2JAVIER_ES:
                 return visitor.visitAura2JavierEs();
-            case AURA2ANDROMEDA_EN:
-                return visitor.visitAura2AndromedaEn();
+            case FLUX_CHLOE_FR:
+                return visitor.visitFluxChloeFr();
+            case FLUX_FIORELLA_ES:
+                return visitor.visitFluxFiorellaEs();
             case AURA2SATURN_EN:
                 return visitor.visitAura2SaturnEn();
+            case FLUX_PALLAVI_HI:
+                return visitor.visitFluxPallaviHi();
             case AURA2IRIS_EN:
                 return visitor.visitAura2IrisEn();
-            case AURA_ANGUS_EN:
-                return visitor.visitAuraAngusEn();
-            case FLUX_KAI_EN:
-                return visitor.visitFluxKaiEn();
+            case FLUX_AINA_ES:
+                return visitor.visitFluxAinaEs();
+            case FLUX_MAXIM_RU:
+                return visitor.visitFluxMaximRu();
+            case FLUX_ROLF_DE:
+                return visitor.visitFluxRolfDe();
+            case FLUX_VEGARD_NO:
+                return visitor.visitFluxVegardNo();
+            case FLUX_HAZIQ_MS:
+                return visitor.visitFluxHaziqMs();
+            case FLUX_LUUK_NL:
+                return visitor.visitFluxLuukNl();
+            case FLUX_PILAR_ES:
+                return visitor.visitFluxPilarEs();
+            case FLUX_MEHMET_TR:
+                return visitor.visitFluxMehmetTr();
+            case FLUX_RAHUL_HI:
+                return visitor.visitFluxRahulHi();
             case FLUX_BRITTANY_EN:
                 return visitor.visitFluxBrittanyEn();
             case FLUX_SEAN_EN:
                 return visitor.visitFluxSeanEn();
+            case FLUX_EUNJI_KO:
+                return visitor.visitFluxEunjiKo();
+            case FLUX_SILJE_NO:
+                return visitor.visitFluxSiljeNo();
+            case FLUX_NOEL_TL:
+                return visitor.visitFluxNoelTl();
             case AURA2HELENA_EN:
                 return visitor.visitAura2HelenaEn();
-            case FLUX_HALEY_EN:
-                return visitor.visitFluxHaleyEn();
-            case AURA_STELLA_EN:
-                return visitor.visitAuraStellaEn();
+            case FLUX_JULIEN_FR:
+                return visitor.visitFluxJulienFr();
+            case FLUX_AYUMI_JA:
+                return visitor.visitFluxAyumiJa();
             case FLUX_JACK_EN:
                 return visitor.visitFluxJackEn();
-            case AURA2DRACO_EN:
-                return visitor.visitAura2DracoEn();
             case FLUX_PRIYA_EN:
                 return visitor.visitFluxPriyaEn();
             case AURA_HELIOS_EN:
                 return visitor.visitAuraHeliosEn();
+            case FLUX_KIRSI_FI:
+                return visitor.visitFluxKirsiFi();
+            case FLUX_WILMA_SV:
+                return visitor.visitFluxWilmaSv();
+            case FLUX_LEANDRO_PT:
+                return visitor.visitFluxLeandroPt();
             case AURA2JANUS_EN:
                 return visitor.visitAura2JanusEn();
             case AURA2NESTOR_ES:
                 return visitor.visitAura2NestorEs();
-            case AURA2ORION_EN:
-                return visitor.visitAura2OrionEn();
+            case FLUX_BRAM_NL:
+                return visitor.visitFluxBramNl();
+            case FLUX_FEDERICO_IT:
+                return visitor.visitFluxFedericoIt();
+            case FLUX_TIBOR_HU:
+                return visitor.visitFluxTiborHu();
+            case FLUX_EDGARS_LV:
+                return visitor.visitFluxEdgarsLv();
+            case FLUX_MANJUNATH_KN:
+                return visitor.visitFluxManjunathKn();
+            case FLUX_ZUZANNA_PL:
+                return visitor.visitFluxZuzannaPl();
             case AURA2MINERVA_EN:
                 return visitor.visitAura2MinervaEn();
+            case FLUX_PONTUS_SV:
+                return visitor.visitFluxPontusSv();
             case AURA2ALVARO_ES:
                 return visitor.visitAura2AlvaroEs();
-            case AURA_PERSEUS_EN:
-                return visitor.visitAuraPerseusEn();
-            case AURA2VESTA_EN:
-                return visitor.visitAura2VestaEn();
+            case FLUX_AXEL_SV:
+                return visitor.visitFluxAxelSv();
             case FLUX_COLE_EN:
                 return visitor.visitFluxColeEn();
-            case AURA2ZEUS_EN:
-                return visitor.visitAura2ZeusEn();
-            case AURA2ORPHEUS_EN:
-                return visitor.visitAura2OrpheusEn();
-            case AURA2THALIA_EN:
-                return visitor.visitAura2ThaliaEn();
-            case FLUX_NAVEEN_EN:
-                return visitor.visitFluxNaveenEn();
+            case FLUX_VEDRAN_HR:
+                return visitor.visitFluxVedranHr();
+            case FLUX_DUVAN_ES:
+                return visitor.visitFluxDuvanEs();
+            case FLUX_JIE_ZH:
+                return visitor.visitFluxJieZh();
+            case FLUX_JUDIT_CA:
+                return visitor.visitFluxJuditCa();
+            case FLUX_MORITZ_DE:
+                return visitor.visitFluxMoritzDe();
+            case FLUX_KINGA_HU:
+                return visitor.visitFluxKingaHu();
+            case FLUX_HOA_VI:
+                return visitor.visitFluxHoaVi();
             case AURA2ASTERIA_EN:
                 return visitor.visitAura2AsteriaEn();
-            case AURA2SELENA_ES:
-                return visitor.visitAura2SelenaEs();
+            case FLUX_ANOUK_NL:
+                return visitor.visitFluxAnoukNl();
+            case FLUX_NIKHIL_HI:
+                return visitor.visitFluxNikhilHi();
+            case FLUX_YSABEL_ES:
+                return visitor.visitFluxYsabelEs();
+            case FLUX_POOJA_MR:
+                return visitor.visitFluxPoojaMr();
+            case FLUX_NERINGA_LT:
+                return visitor.visitFluxNeringaLt();
             case FLUX_MARCELO_EN:
                 return visitor.visitFluxMarceloEn();
+            case FLUX_MIHAELA_HR:
+                return visitor.visitFluxMihaelaHr();
+            case FLUX_KOSTAS_EL:
+                return visitor.visitFluxKostasEl();
+            case FLUX_MARIANA_PT:
+                return visitor.visitFluxMarianaPt();
+            case FLUX_ISHRAT_BN:
+                return visitor.visitFluxIshratBn();
+            case FLUX_VITO_IT:
+                return visitor.visitFluxVitoIt();
+            case FLUX_DEWI_ID:
+                return visitor.visitFluxDewiId();
             case FLUX_ELISE_EN:
                 return visitor.visitFluxEliseEn();
+            case FLUX_TEEMU_FI:
+                return visitor.visitFluxTeemuFi();
+            case FLUX_SOWMYA_TA:
+                return visitor.visitFluxSowmyaTa();
             case FLUX_ALEXIS_EN:
                 return visitor.visitFluxAlexisEn();
-            case AURA_LUNA_EN:
-                return visitor.visitAuraLunaEn();
-            case AURA_ORPHEUS_EN:
-                return visitor.visitAuraOrpheusEn();
+            case FLUX_HAORAN_ZH:
+                return visitor.visitFluxHaoranZh();
             case AURA2AMALTHEA_EN:
                 return visitor.visitAura2AmaltheaEn();
-            case FLUX_DONOVAN_EN:
-                return visitor.visitFluxDonovanEn();
             case AURA2SELENE_EN:
                 return visitor.visitAura2SeleneEn();
+            case FLUX_ROBERTO_PT:
+                return visitor.visitFluxRobertoPt();
             case FLUX_TANNER_EN:
                 return visitor.visitFluxTannerEn();
+            case FLUX_JEROME_TL:
+                return visitor.visitFluxJeromeTl();
+            case FLUX_BENOIT_FR:
+                return visitor.visitFluxBenoitFr();
+            case FLUX_SOFIA_IT:
+                return visitor.visitFluxSofiaIt();
+            case FLUX_WENJING_ZH:
+                return visitor.visitFluxWenjingZh();
+            case FLUX_SERKAN_TR:
+                return visitor.visitFluxSerkanTr();
             case FLUX_SHARON_EN:
                 return visitor.visitFluxSharonEn();
+            case FLUX_LIEZEL_TL:
+                return visitor.visitFluxLiezelTl();
+            case FLUX_TEGUH_ID:
+                return visitor.visitFluxTeguhId();
+            case FLUX_RIZKY_ID:
+                return visitor.visitFluxRizkyId();
+            case FLUX_MARTA_PT:
+                return visitor.visitFluxMartaPt();
+            case FLUX_RASMUS_DA:
+                return visitor.visitFluxRasmusDa();
             case AURA2LUNA_EN:
                 return visitor.visitAura2LunaEn();
-            case AURA2PHOEBE_EN:
-                return visitor.visitAura2PhoebeEn();
+            case FLUX_FLORIAN_FR:
+                return visitor.visitFluxFlorianFr();
+            case FLUX_ERLEND_NO:
+                return visitor.visitFluxErlendNo();
             case FLUX_HANNAH_EN:
                 return visitor.visitFluxHannahEn();
-            case AURA2DIANA_ES:
-                return visitor.visitAura2DianaEs();
             case AURA_ORION_EN:
                 return visitor.visitAuraOrionEn();
             case AURA2ATHENA_EN:
                 return visitor.visitAura2AthenaEn();
             case AURA_ARCAS_EN:
                 return visitor.visitAuraArcasEn();
-            case AURA2THEIA_EN:
-                return visitor.visitAura2TheiaEn();
-            case FLUX_WADE_EN:
-                return visitor.visitFluxWadeEn();
+            case FLUX_ECEM_TR:
+                return visitor.visitFluxEcemTr();
+            case FLUX_SANNE_NL:
+                return visitor.visitFluxSanneNl();
+            case FLUX_BIANCA_PT:
+                return visitor.visitFluxBiancaPt();
             case FLUX_HEATHER_EN:
                 return visitor.visitFluxHeatherEn();
-            case FLUX_CLIFF_EN:
-                return visitor.visitFluxCliffEn();
-            case AURA2JUPITER_EN:
-                return visitor.visitAura2JupiterEn();
-            case FLUX_KIT_EN:
-                return visitor.visitFluxKitEn();
-            case AURA2AQUILA_ES:
-                return visitor.visitAura2AquilaEs();
-            case AURA2CORA_EN:
-                return visitor.visitAura2CoraEn();
+            case FLUX_SUNITA_HI:
+                return visitor.visitFluxSunitaHi();
+            case FLUX_OSKAR_SV:
+                return visitor.visitFluxOskarSv();
+            case FLUX_FAJAR_ID:
+                return visitor.visitFluxFajarId();
+            case FLUX_VINCENZO_IT:
+                return visitor.visitFluxVincenzoIt();
+            case FLUX_CATARINA_PT:
+                return visitor.visitFluxCatarinaPt();
+            case FLUX_KATJA_SL:
+                return visitor.visitFluxKatjaSl();
+            case FLUX_JASNA_HR:
+                return visitor.visitFluxJasnaHr();
+            case FLUX_BRIGITTE_FR:
+                return visitor.visitFluxBrigitteFr();
+            case FLUX_MATEUS_PT:
+                return visitor.visitFluxMateusPt();
+            case FLUX_GIORGIO_IT:
+                return visitor.visitFluxGiorgioIt();
             case AURA2CORDELIA_EN:
                 return visitor.visitAura2CordeliaEn();
             case AURA2ATLAS_EN:
                 return visitor.visitAura2AtlasEn();
-            case AURA2HYPERION_EN:
-                return visitor.visitAura2HyperionEn();
-            case AURA2CELESTE_ES:
-                return visitor.visitAura2CelesteEs();
+            case FLUX_DIRK_NL:
+                return visitor.visitFluxDirkNl();
+            case FLUX_DILEK_TR:
+                return visitor.visitFluxDilekTr();
             case AURA2PLUTO_EN:
                 return visitor.visitAura2PlutoEn();
             case FLUX_BREE_EN:
                 return visitor.visitFluxBreeEn();
+            case FLUX_BHAVNA_GU:
+                return visitor.visitFluxBhavnaGu();
+            case FLUX_AJAY_HI:
+                return visitor.visitFluxAjayHi();
+            case FLUX_BRUNO_PT:
+                return visitor.visitFluxBrunoPt();
+            case FLUX_HUGO_PT:
+                return visitor.visitFluxHugoPt();
+            case FLUX_MILES_EN:
+                return visitor.visitFluxMilesEn();
+            case FLUX_JIAN_ZH:
+                return visitor.visitFluxJianZh();
+            case AURA_ASTERIA_EN:
+                return visitor.visitAuraAsteriaEn();
+            case AURA2ELECTRA_EN:
+                return visitor.visitAura2ElectraEn();
+            case FLUX_IOANA_RO:
+                return visitor.visitFluxIoanaRo();
+            case FLUX_DENYS_UK:
+                return visitor.visitFluxDenysUk();
+            case FLUX_YASMINE_FR:
+                return visitor.visitFluxYasmineFr();
+            case FLUX_BARTOSZ_PL:
+                return visitor.visitFluxBartoszPl();
+            case FLUX_NATALIA_RU:
+                return visitor.visitFluxNataliaRu();
+            case AURA2SIRIO_ES:
+                return visitor.visitAura2SirioEs();
+            case FLUX_KELSEY_EN:
+                return visitor.visitFluxKelseyEn();
+            case FLUX_SIENNA_EN:
+                return visitor.visitFluxSiennaEn();
+            case FLUX_IRENE_NL:
+                return visitor.visitFluxIreneNl();
+            case FLUX_GIZEM_TR:
+                return visitor.visitFluxGizemTr();
+            case FLUX_PERNILLE_DA:
+                return visitor.visitFluxPernilleDa();
+            case FLUX_MEGHAN_EN:
+                return visitor.visitFluxMeghanEn();
+            case FLUX_MATTEO_IT:
+                return visitor.visitFluxMatteoIt();
+            case FLUX_FRIDA_SV:
+                return visitor.visitFluxFridaSv();
+            case AURA2HERMES_EN:
+                return visitor.visitAura2HermesEn();
+            case FLUX_CONOR_EN:
+                return visitor.visitFluxConorEn();
+            case FLUX_MAMUN_BN:
+                return visitor.visitFluxMamunBn();
+            case FLUX_CLAUDIA_PT:
+                return visitor.visitFluxClaudiaPt();
+            case FLUX_RUFUS_EN:
+                return visitor.visitFluxRufusEn();
+            case FLUX_BO_ZH:
+                return visitor.visitFluxBoZh();
+            case FLUX_HETAL_GU:
+                return visitor.visitFluxHetalGu();
+            case FLUX_WES_EN:
+                return visitor.visitFluxWesEn();
+            case AURA2AURORA_EN:
+                return visitor.visitAura2AuroraEn();
+            case FLUX_ZHEN_ZH:
+                return visitor.visitFluxZhenZh();
+            case FLUX_BENEDITA_PT:
+                return visitor.visitFluxBeneditaPt();
+            case FLUX_SHREYA_HI:
+                return visitor.visitFluxShreyaHi();
+            case FLUX_MINH_VI:
+                return visitor.visitFluxMinhVi();
+            case AURA2APOLLO_EN:
+                return visitor.visitAura2ApolloEn();
+            case FLUX_ZEYNEP_TR:
+                return visitor.visitFluxZeynepTr();
+            case AURA2DELIA_EN:
+                return visitor.visitAura2DeliaEn();
+            case AURA2MARS_EN:
+                return visitor.visitAura2MarsEn();
+            case FLUX_CAMILLE_FR:
+                return visitor.visitFluxCamilleFr();
+            case AURA_HERA_EN:
+                return visitor.visitAuraHeraEn();
+            case FLUX_MAEVE_EN:
+                return visitor.visitFluxMaeveEn();
+            case FLUX_TOBIAS_DE:
+                return visitor.visitFluxTobiasDe();
+            case FLUX_KUANYU_ZH:
+                return visitor.visitFluxKuanyuZh();
+            case FLUX_EWA_PL:
+                return visitor.visitFluxEwaPl();
+            case FLUX_SONJA_DE:
+                return visitor.visitFluxSonjaDe();
+            case FLUX_ANGELA_IT:
+                return visitor.visitFluxAngelaIt();
+            case AURA2ARIES_EN:
+                return visitor.visitAura2AriesEn();
+            case FLUX_BENJAMIN_DE:
+                return visitor.visitFluxBenjaminDe();
+            case AURA2JUNO_EN:
+                return visitor.visitAura2JunoEn();
+            case FLUX_TRISHA_TL:
+                return visitor.visitFluxTrishaTl();
+            case FLUX_RENATO_PT:
+                return visitor.visitFluxRenatoPt();
+            case FLUX_PAVAN_TE:
+                return visitor.visitFluxPavanTe();
+            case AURA2ANDROMEDA_EN:
+                return visitor.visitAura2AndromedaEn();
+            case FLUX_SIGNE_NO:
+                return visitor.visitFluxSigneNo();
+            case FLUX_KACPER_PL:
+                return visitor.visitFluxKacperPl();
+            case FLUX_RAVI_TE:
+                return visitor.visitFluxRaviTe();
+            case FLUX_KAVYA_TA:
+                return visitor.visitFluxKavyaTa();
+            case FLUX_JOMAR_TL:
+                return visitor.visitFluxJomarTl();
+            case FLUX_DIVYA_HI:
+                return visitor.visitFluxDivyaHi();
+            case AURA_ANGUS_EN:
+                return visitor.visitAuraAngusEn();
+            case FLUX_VEERLE_NL:
+                return visitor.visitFluxVeerleNl();
+            case FLUX_KAI_EN:
+                return visitor.visitFluxKaiEn();
+            case FLUX_MARTIN_ES:
+                return visitor.visitFluxMartinEs();
+            case FLUX_DOMINIKA_SK:
+                return visitor.visitFluxDominikaSk();
+            case FLUX_HALEY_EN:
+                return visitor.visitFluxHaleyEn();
+            case FLUX_ESPEN_NO:
+                return visitor.visitFluxEspenNo();
+            case AURA_STELLA_EN:
+                return visitor.visitAuraStellaEn();
+            case FLUX_MIKYUNG_KO:
+                return visitor.visitFluxMikyungKo();
+            case FLUX_PEDRO_PT:
+                return visitor.visitFluxPedroPt();
+            case FLUX_JUSTYNA_PL:
+                return visitor.visitFluxJustynaPl();
+            case AURA2DRACO_EN:
+                return visitor.visitAura2DracoEn();
+            case FLUX_AMBREEN_UR:
+                return visitor.visitFluxAmbreenUr();
+            case AURA2ORION_EN:
+                return visitor.visitAura2OrionEn();
+            case FLUX_SNEHA_MR:
+                return visitor.visitFluxSnehaMr();
+            case FLUX_GUSTAVO_ES:
+                return visitor.visitFluxGustavoEs();
+            case FLUX_LUDVIG_SV:
+                return visitor.visitFluxLudvigSv();
+            case FLUX_MONIQUE_NL:
+                return visitor.visitFluxMoniqueNl();
+            case AURA_PERSEUS_EN:
+                return visitor.visitAuraPerseusEn();
+            case AURA2VESTA_EN:
+                return visitor.visitAura2VestaEn();
+            case FLUX_ARTUR_PT:
+                return visitor.visitFluxArturPt();
+            case FLUX_FITRI_ID:
+                return visitor.visitFluxFitriId();
+            case AURA2ZEUS_EN:
+                return visitor.visitAura2ZeusEn();
+            case FLUX_CECILIA_ES:
+                return visitor.visitFluxCeciliaEs();
+            case FLUX_FERNANDA_ES:
+                return visitor.visitFluxFernandaEs();
+            case AURA2ORPHEUS_EN:
+                return visitor.visitAura2OrpheusEn();
+            case FLUX_PRACHI_HI:
+                return visitor.visitFluxPrachiHi();
+            case FLUX_MANLOK_ZH:
+                return visitor.visitFluxManlokZh();
+            case FLUX_HYUNWOO_KO:
+                return visitor.visitFluxHyunwooKo();
+            case AURA2THALIA_EN:
+                return visitor.visitAura2ThaliaEn();
+            case FLUX_NAVEEN_EN:
+                return visitor.visitFluxNaveenEn();
+            case FLUX_STEFANO_IT:
+                return visitor.visitFluxStefanoIt();
+            case FLUX_LOTTE_NL:
+                return visitor.visitFluxLotteNl();
+            case FLUX_LEONIE_DE:
+                return visitor.visitFluxLeonieDe();
+            case FLUX_JANINE_DE:
+                return visitor.visitFluxJanineDe();
+            case FLUX_AGNESE_LV:
+                return visitor.visitFluxAgneseLv();
+            case FLUX_VERENA_DE:
+                return visitor.visitFluxVerenaDe();
+            case AURA2SELENA_ES:
+                return visitor.visitAura2SelenaEs();
+            case FLUX_RICARDO_PT:
+                return visitor.visitFluxRicardoPt();
+            case FLUX_AFSANA_BN:
+                return visitor.visitFluxAfsanaBn();
+            case FLUX_DESISLAVA_BG:
+                return visitor.visitFluxDesislavaBg();
+            case FLUX_NADINE_DE:
+                return visitor.visitFluxNadineDe();
+            case FLUX_YAWEN_ZH:
+                return visitor.visitFluxYawenZh();
+            case FLUX_MIKHAIL_RU:
+                return visitor.visitFluxMikhailRu();
+            case FLUX_VALENTINA_ES:
+                return visitor.visitFluxValentinaEs();
+            case FLUX_YUTING_ZH:
+                return visitor.visitFluxYutingZh();
+            case FLUX_DALIBOR_HR:
+                return visitor.visitFluxDaliborHr();
+            case FLUX_MIGUEL_PT:
+                return visitor.visitFluxMiguelPt();
+            case AURA_LUNA_EN:
+                return visitor.visitAuraLunaEn();
+            case AURA_ORPHEUS_EN:
+                return visitor.visitAuraOrpheusEn();
+            case FLUX_PATRICIA_ES:
+                return visitor.visitFluxPatriciaEs();
+            case FLUX_RODRIGO_PT:
+                return visitor.visitFluxRodrigoPt();
+            case FLUX_GOKUL_TA:
+                return visitor.visitFluxGokulTa();
+            case FLUX_DONOVAN_EN:
+                return visitor.visitFluxDonovanEn();
+            case FLUX_THIERRY_FR:
+                return visitor.visitFluxThierryFr();
+            case FLUX_PAOLA_IT:
+                return visitor.visitFluxPaolaIt();
+            case FLUX_CHIAYING_ZH:
+                return visitor.visitFluxChiayingZh();
+            case FLUX_MATHIEU_FR:
+                return visitor.visitFluxMathieuFr();
+            case FLUX_ALFREDO_ES:
+                return visitor.visitFluxAlfredoEs();
+            case FLUX_GREGOR_SL:
+                return visitor.visitFluxGregorSl();
+            case FLUX_HAYATO_JA:
+                return visitor.visitFluxHayatoJa();
+            case FLUX_SHUVO_BN:
+                return visitor.visitFluxShuvoBn();
+            case FLUX_NIELS_NL:
+                return visitor.visitFluxNielsNl();
+            case FLUX_ARJUN_HI:
+                return visitor.visitFluxArjunHi();
+            case FLUX_ROCCO_IT:
+                return visitor.visitFluxRoccoIt();
+            case FLUX_CARMEN_ES:
+                return visitor.visitFluxCarmenEs();
+            case AURA2PHOEBE_EN:
+                return visitor.visitAura2PhoebeEn();
+            case FLUX_ESZTER_HU:
+                return visitor.visitFluxEszterHu();
+            case FLUX_PRATIK_MR:
+                return visitor.visitFluxPratikMr();
+            case FLUX_FLEUR_NL:
+                return visitor.visitFluxFleurNl();
+            case FLUX_RAFAEL_ES:
+                return visitor.visitFluxRafaelEs();
+            case AURA2DIANA_ES:
+                return visitor.visitAura2DianaEs();
+            case FLUX_JOSIPA_HR:
+                return visitor.visitFluxJosipaHr();
+            case FLUX_CHIARA_IT:
+                return visitor.visitFluxChiaraIt();
+            case FLUX_ANDREI_RU:
+                return visitor.visitFluxAndreiRu();
+            case AURA2THEIA_EN:
+                return visitor.visitAura2TheiaEn();
+            case FLUX_VERONIQUE_FR:
+                return visitor.visitFluxVeroniqueFr();
+            case FLUX_WADE_EN:
+                return visitor.visitFluxWadeEn();
+            case FLUX_JAIME_ES:
+                return visitor.visitFluxJaimeEs();
+            case FLUX_DOMAGOJ_HR:
+                return visitor.visitFluxDomagojHr();
+            case FLUX_NOZOMI_JA:
+                return visitor.visitFluxNozomiJa();
+            case FLUX_VIKRAM_HI:
+                return visitor.visitFluxVikramHi();
+            case FLUX_SOLOMIYA_UK:
+                return visitor.visitFluxSolomiyaUk();
+            case FLUX_RIKKE_DA:
+                return visitor.visitFluxRikkeDa();
+            case FLUX_MARCIA_PT:
+                return visitor.visitFluxMarciaPt();
+            case FLUX_ARNAUD_FR:
+                return visitor.visitFluxArnaudFr();
+            case FLUX_SVEN_DE:
+                return visitor.visitFluxSvenDe();
+            case FLUX_RAJESH_HI:
+                return visitor.visitFluxRajeshHi();
+            case FLUX_CLIFF_EN:
+                return visitor.visitFluxCliffEn();
+            case FLUX_YVONNE_NL:
+                return visitor.visitFluxYvonneNl();
+            case FLUX_ERNESTO_ES:
+                return visitor.visitFluxErnestoEs();
+            case FLUX_MAGDALENA_DE:
+                return visitor.visitFluxMagdalenaDe();
+            case AURA2JUPITER_EN:
+                return visitor.visitAura2JupiterEn();
+            case FLUX_JURAJ_SK:
+                return visitor.visitFluxJurajSk();
+            case FLUX_KIT_EN:
+                return visitor.visitFluxKitEn();
+            case FLUX_MINJUN_KO:
+                return visitor.visitFluxMinjunKo();
+            case FLUX_KIRILL_RU:
+                return visitor.visitFluxKirillRu();
+            case AURA2AQUILA_ES:
+                return visitor.visitAura2AquilaEs();
+            case AURA2CORA_EN:
+                return visitor.visitAura2CoraEn();
+            case FLUX_DANIJELA_HR:
+                return visitor.visitFluxDanijelaHr();
+            case FLUX_NIKOLAI_RU:
+                return visitor.visitFluxNikolaiRu();
+            case FLUX_LIJUAN_ZH:
+                return visitor.visitFluxLijuanZh();
+            case FLUX_SUNGMIN_KO:
+                return visitor.visitFluxSungminKo();
+            case FLUX_JORDI_CA:
+                return visitor.visitFluxJordiCa();
+            case FLUX_YANNICK_DE:
+                return visitor.visitFluxYannickDe();
+            case FLUX_EDUARDO_ES:
+                return visitor.visitFluxEduardoEs();
+            case FLUX_GODA_LT:
+                return visitor.visitFluxGodaLt();
+            case FLUX_BENCE_HU:
+                return visitor.visitFluxBenceHu();
+            case FLUX_COSMIN_RO:
+                return visitor.visitFluxCosminRo();
+            case FLUX_EMRE_TR:
+                return visitor.visitFluxEmreTr();
+            case AURA2HYPERION_EN:
+                return visitor.visitAura2HyperionEn();
+            case AURA2CELESTE_ES:
+                return visitor.visitAura2CelesteEs();
+            case FLUX_RUBEN_NL:
+                return visitor.visitFluxRubenNl();
             case AURA2ARCAS_EN:
                 return visitor.visitAura2ArcasEn();
             case FLUX_COLIN_EN:
                 return visitor.visitFluxColinEn();
+            case FLUX_SOOJIN_KO:
+                return visitor.visitFluxSoojinKo();
             case AURA_ATHENA_EN:
                 return visitor.visitAuraAthenaEn();
             case AURA2ODYSSEUS_EN:
                 return visitor.visitAura2OdysseusEn();
             case AURA2PANDORA_EN:
                 return visitor.visitAura2PandoraEn();
-            case FLUX_MILES_EN:
-                return visitor.visitFluxMilesEn();
-            case AURA_ASTERIA_EN:
-                return visitor.visitAuraAsteriaEn();
-            case AURA2ELECTRA_EN:
-                return visitor.visitAura2ElectraEn();
+            case FLUX_PIERRE_FR:
+                return visitor.visitFluxPierreFr();
+            case FLUX_JIGNESH_GU:
+                return visitor.visitFluxJigneshGu();
+            case FLUX_IZZAH_MS:
+                return visitor.visitFluxIzzahMs();
+            case FLUX_USMAN_UR:
+                return visitor.visitFluxUsmanUr();
+            case FLUX_SAYAKA_JA:
+                return visitor.visitFluxSayakaJa();
             case FLUX_GEMMA_EN:
                 return visitor.visitFluxGemmaEn();
             case AURA2ESTRELLA_ES:
                 return visitor.visitAura2EstrellaEs();
+            case FLUX_VLADIMIR_RU:
+                return visitor.visitFluxVladimirRu();
             case UNKNOWN:
             default:
                 return visitor.visitUnknown(string);
@@ -461,206 +1379,664 @@ public final class DeepgramModel {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static DeepgramModel valueOf(String value) {
         switch (value) {
-            case "aura-2-sirio-es":
-                return AURA2SIRIO_ES;
             case "aura-2-hera-en":
                 return AURA2HERA_EN;
-            case "flux-kelsey-en":
-                return FLUX_KELSEY_EN;
-            case "flux-renee-en":
-                return FLUX_RENEE_EN;
-            case "flux-sienna-en":
-                return FLUX_SIENNA_EN;
+            case "flux-ritu-hi":
+                return FLUX_RITU_HI;
+            case "flux-tomas-es":
+                return FLUX_TOMAS_ES;
+            case "flux-olga-ru":
+                return FLUX_OLGA_RU;
             case "aura-2-harmonia-en":
                 return AURA2HARMONIA_EN;
             case "aura-2-carina-es":
                 return AURA2CARINA_ES;
             case "flux-meena-en":
                 return FLUX_MEENA_EN;
-            case "flux-meghan-en":
-                return FLUX_MEGHAN_EN;
+            case "flux-polina-ru":
+                return FLUX_POLINA_RU;
             case "aura-zeus-en":
                 return AURA_ZEUS_EN;
-            case "aura-2-hermes-en":
-                return AURA2HERMES_EN;
-            case "flux-conor-en":
-                return FLUX_CONOR_EN;
+            case "flux-sravani-te":
+                return FLUX_SRAVANI_TE;
+            case "flux-konrad-pl":
+                return FLUX_KONRAD_PL;
             case "aura-2-neptune-en":
                 return AURA2NEPTUNE_EN;
             case "flux-brooke-en":
                 return FLUX_BROOKE_EN;
-            case "flux-rufus-en":
-                return FLUX_RUFUS_EN;
-            case "flux-wes-en":
-                return FLUX_WES_EN;
             case "aura-2-callista-en":
                 return AURA2CALLISTA_EN;
-            case "aura-2-aurora-en":
-                return AURA2AURORA_EN;
+            case "flux-jakub-cs":
+                return FLUX_JAKUB_CS;
             case "aura-2-ophelia-en":
                 return AURA2OPHELIA_EN;
+            case "flux-sabbir-bn":
+                return FLUX_SABBIR_BN;
             case "flux-bruce-en":
                 return FLUX_BRUCE_EN;
-            case "aura-2-apollo-en":
-                return AURA2APOLLO_EN;
-            case "aura-2-delia-en":
-                return AURA2DELIA_EN;
-            case "aura-2-mars-en":
-                return AURA2MARS_EN;
-            case "aura-hera-en":
-                return AURA_HERA_EN;
-            case "flux-maeve-en":
-                return FLUX_MAEVE_EN;
+            case "flux-sumaiya-bn":
+                return FLUX_SUMAIYA_BN;
+            case "flux-anjali-hi":
+                return FLUX_ANJALI_HI;
+            case "flux-mauricio-es":
+                return FLUX_MAURICIO_ES;
+            case "flux-gergana-bg":
+                return FLUX_GERGANA_BG;
+            case "flux-christian-de":
+                return FLUX_CHRISTIAN_DE;
+            case "flux-ida-no":
+                return FLUX_IDA_NO;
+            case "flux-triin-et":
+                return FLUX_TRIIN_ET;
+            case "flux-jyoti-hi":
+                return FLUX_JYOTI_HI;
             case "flux-marcus-en":
                 return FLUX_MARCUS_EN;
-            case "aura-2-aries-en":
-                return AURA2ARIES_EN;
+            case "flux-wenbo-zh":
+                return FLUX_WENBO_ZH;
+            case "flux-shufen-zh":
+                return FLUX_SHUFEN_ZH;
             case "flux-paige-en":
                 return FLUX_PAIGE_EN;
-            case "aura-2-juno-en":
-                return AURA2JUNO_EN;
+            case "flux-vinoth-ta":
+                return FLUX_VINOTH_TA;
             case "flux-drew-en":
                 return FLUX_DREW_EN;
+            case "flux-charlotta-sv":
+                return FLUX_CHARLOTTA_SV;
             case "aura-2-javier-es":
                 return AURA2JAVIER_ES;
-            case "aura-2-andromeda-en":
-                return AURA2ANDROMEDA_EN;
+            case "flux-chloe-fr":
+                return FLUX_CHLOE_FR;
+            case "flux-fiorella-es":
+                return FLUX_FIORELLA_ES;
             case "aura-2-saturn-en":
                 return AURA2SATURN_EN;
+            case "flux-pallavi-hi":
+                return FLUX_PALLAVI_HI;
             case "aura-2-iris-en":
                 return AURA2IRIS_EN;
-            case "aura-angus-en":
-                return AURA_ANGUS_EN;
-            case "flux-kai-en":
-                return FLUX_KAI_EN;
+            case "flux-aina-es":
+                return FLUX_AINA_ES;
+            case "flux-maxim-ru":
+                return FLUX_MAXIM_RU;
+            case "flux-rolf-de":
+                return FLUX_ROLF_DE;
+            case "flux-vegard-no":
+                return FLUX_VEGARD_NO;
+            case "flux-haziq-ms":
+                return FLUX_HAZIQ_MS;
+            case "flux-luuk-nl":
+                return FLUX_LUUK_NL;
+            case "flux-pilar-es":
+                return FLUX_PILAR_ES;
+            case "flux-mehmet-tr":
+                return FLUX_MEHMET_TR;
+            case "flux-rahul-hi":
+                return FLUX_RAHUL_HI;
             case "flux-brittany-en":
                 return FLUX_BRITTANY_EN;
             case "flux-sean-en":
                 return FLUX_SEAN_EN;
+            case "flux-eunji-ko":
+                return FLUX_EUNJI_KO;
+            case "flux-silje-no":
+                return FLUX_SILJE_NO;
+            case "flux-noel-tl":
+                return FLUX_NOEL_TL;
             case "aura-2-helena-en":
                 return AURA2HELENA_EN;
-            case "flux-haley-en":
-                return FLUX_HALEY_EN;
-            case "aura-stella-en":
-                return AURA_STELLA_EN;
+            case "flux-julien-fr":
+                return FLUX_JULIEN_FR;
+            case "flux-ayumi-ja":
+                return FLUX_AYUMI_JA;
             case "flux-jack-en":
                 return FLUX_JACK_EN;
-            case "aura-2-draco-en":
-                return AURA2DRACO_EN;
             case "flux-priya-en":
                 return FLUX_PRIYA_EN;
             case "aura-helios-en":
                 return AURA_HELIOS_EN;
+            case "flux-kirsi-fi":
+                return FLUX_KIRSI_FI;
+            case "flux-wilma-sv":
+                return FLUX_WILMA_SV;
+            case "flux-leandro-pt":
+                return FLUX_LEANDRO_PT;
             case "aura-2-janus-en":
                 return AURA2JANUS_EN;
             case "aura-2-nestor-es":
                 return AURA2NESTOR_ES;
-            case "aura-2-orion-en":
-                return AURA2ORION_EN;
+            case "flux-bram-nl":
+                return FLUX_BRAM_NL;
+            case "flux-federico-it":
+                return FLUX_FEDERICO_IT;
+            case "flux-tibor-hu":
+                return FLUX_TIBOR_HU;
+            case "flux-edgars-lv":
+                return FLUX_EDGARS_LV;
+            case "flux-manjunath-kn":
+                return FLUX_MANJUNATH_KN;
+            case "flux-zuzanna-pl":
+                return FLUX_ZUZANNA_PL;
             case "aura-2-minerva-en":
                 return AURA2MINERVA_EN;
+            case "flux-pontus-sv":
+                return FLUX_PONTUS_SV;
             case "aura-2-alvaro-es":
                 return AURA2ALVARO_ES;
-            case "aura-perseus-en":
-                return AURA_PERSEUS_EN;
-            case "aura-2-vesta-en":
-                return AURA2VESTA_EN;
+            case "flux-axel-sv":
+                return FLUX_AXEL_SV;
             case "flux-cole-en":
                 return FLUX_COLE_EN;
-            case "aura-2-zeus-en":
-                return AURA2ZEUS_EN;
-            case "aura-2-orpheus-en":
-                return AURA2ORPHEUS_EN;
-            case "aura-2-thalia-en":
-                return AURA2THALIA_EN;
-            case "flux-naveen-en":
-                return FLUX_NAVEEN_EN;
+            case "flux-vedran-hr":
+                return FLUX_VEDRAN_HR;
+            case "flux-duvan-es":
+                return FLUX_DUVAN_ES;
+            case "flux-jie-zh":
+                return FLUX_JIE_ZH;
+            case "flux-judit-ca":
+                return FLUX_JUDIT_CA;
+            case "flux-moritz-de":
+                return FLUX_MORITZ_DE;
+            case "flux-kinga-hu":
+                return FLUX_KINGA_HU;
+            case "flux-hoa-vi":
+                return FLUX_HOA_VI;
             case "aura-2-asteria-en":
                 return AURA2ASTERIA_EN;
-            case "aura-2-selena-es":
-                return AURA2SELENA_ES;
+            case "flux-anouk-nl":
+                return FLUX_ANOUK_NL;
+            case "flux-nikhil-hi":
+                return FLUX_NIKHIL_HI;
+            case "flux-ysabel-es":
+                return FLUX_YSABEL_ES;
+            case "flux-pooja-mr":
+                return FLUX_POOJA_MR;
+            case "flux-neringa-lt":
+                return FLUX_NERINGA_LT;
             case "flux-marcelo-en":
                 return FLUX_MARCELO_EN;
+            case "flux-mihaela-hr":
+                return FLUX_MIHAELA_HR;
+            case "flux-kostas-el":
+                return FLUX_KOSTAS_EL;
+            case "flux-mariana-pt":
+                return FLUX_MARIANA_PT;
+            case "flux-ishrat-bn":
+                return FLUX_ISHRAT_BN;
+            case "flux-vito-it":
+                return FLUX_VITO_IT;
+            case "flux-dewi-id":
+                return FLUX_DEWI_ID;
             case "flux-elise-en":
                 return FLUX_ELISE_EN;
+            case "flux-teemu-fi":
+                return FLUX_TEEMU_FI;
+            case "flux-sowmya-ta":
+                return FLUX_SOWMYA_TA;
             case "flux-alexis-en":
                 return FLUX_ALEXIS_EN;
-            case "aura-luna-en":
-                return AURA_LUNA_EN;
-            case "aura-orpheus-en":
-                return AURA_ORPHEUS_EN;
+            case "flux-haoran-zh":
+                return FLUX_HAORAN_ZH;
             case "aura-2-amalthea-en":
                 return AURA2AMALTHEA_EN;
-            case "flux-donovan-en":
-                return FLUX_DONOVAN_EN;
             case "aura-2-selene-en":
                 return AURA2SELENE_EN;
+            case "flux-roberto-pt":
+                return FLUX_ROBERTO_PT;
             case "flux-tanner-en":
                 return FLUX_TANNER_EN;
+            case "flux-jerome-tl":
+                return FLUX_JEROME_TL;
+            case "flux-benoit-fr":
+                return FLUX_BENOIT_FR;
+            case "flux-sofia-it":
+                return FLUX_SOFIA_IT;
+            case "flux-wenjing-zh":
+                return FLUX_WENJING_ZH;
+            case "flux-serkan-tr":
+                return FLUX_SERKAN_TR;
             case "flux-sharon-en":
                 return FLUX_SHARON_EN;
+            case "flux-liezel-tl":
+                return FLUX_LIEZEL_TL;
+            case "flux-teguh-id":
+                return FLUX_TEGUH_ID;
+            case "flux-rizky-id":
+                return FLUX_RIZKY_ID;
+            case "flux-marta-pt":
+                return FLUX_MARTA_PT;
+            case "flux-rasmus-da":
+                return FLUX_RASMUS_DA;
             case "aura-2-luna-en":
                 return AURA2LUNA_EN;
-            case "aura-2-phoebe-en":
-                return AURA2PHOEBE_EN;
+            case "flux-florian-fr":
+                return FLUX_FLORIAN_FR;
+            case "flux-erlend-no":
+                return FLUX_ERLEND_NO;
             case "flux-hannah-en":
                 return FLUX_HANNAH_EN;
-            case "aura-2-diana-es":
-                return AURA2DIANA_ES;
             case "aura-orion-en":
                 return AURA_ORION_EN;
             case "aura-2-athena-en":
                 return AURA2ATHENA_EN;
             case "aura-arcas-en":
                 return AURA_ARCAS_EN;
-            case "aura-2-theia-en":
-                return AURA2THEIA_EN;
-            case "flux-wade-en":
-                return FLUX_WADE_EN;
+            case "flux-ecem-tr":
+                return FLUX_ECEM_TR;
+            case "flux-sanne-nl":
+                return FLUX_SANNE_NL;
+            case "flux-bianca-pt":
+                return FLUX_BIANCA_PT;
             case "flux-heather-en":
                 return FLUX_HEATHER_EN;
-            case "flux-cliff-en":
-                return FLUX_CLIFF_EN;
-            case "aura-2-jupiter-en":
-                return AURA2JUPITER_EN;
-            case "flux-kit-en":
-                return FLUX_KIT_EN;
-            case "aura-2-aquila-es":
-                return AURA2AQUILA_ES;
-            case "aura-2-cora-en":
-                return AURA2CORA_EN;
+            case "flux-sunita-hi":
+                return FLUX_SUNITA_HI;
+            case "flux-oskar-sv":
+                return FLUX_OSKAR_SV;
+            case "flux-fajar-id":
+                return FLUX_FAJAR_ID;
+            case "flux-vincenzo-it":
+                return FLUX_VINCENZO_IT;
+            case "flux-catarina-pt":
+                return FLUX_CATARINA_PT;
+            case "flux-katja-sl":
+                return FLUX_KATJA_SL;
+            case "flux-jasna-hr":
+                return FLUX_JASNA_HR;
+            case "flux-brigitte-fr":
+                return FLUX_BRIGITTE_FR;
+            case "flux-mateus-pt":
+                return FLUX_MATEUS_PT;
+            case "flux-giorgio-it":
+                return FLUX_GIORGIO_IT;
             case "aura-2-cordelia-en":
                 return AURA2CORDELIA_EN;
             case "aura-2-atlas-en":
                 return AURA2ATLAS_EN;
-            case "aura-2-hyperion-en":
-                return AURA2HYPERION_EN;
-            case "aura-2-celeste-es":
-                return AURA2CELESTE_ES;
+            case "flux-dirk-nl":
+                return FLUX_DIRK_NL;
+            case "flux-dilek-tr":
+                return FLUX_DILEK_TR;
             case "aura-2-pluto-en":
                 return AURA2PLUTO_EN;
             case "flux-bree-en":
                 return FLUX_BREE_EN;
+            case "flux-bhavna-gu":
+                return FLUX_BHAVNA_GU;
+            case "flux-ajay-hi":
+                return FLUX_AJAY_HI;
+            case "flux-bruno-pt":
+                return FLUX_BRUNO_PT;
+            case "flux-hugo-pt":
+                return FLUX_HUGO_PT;
+            case "flux-miles-en":
+                return FLUX_MILES_EN;
+            case "flux-jian-zh":
+                return FLUX_JIAN_ZH;
+            case "aura-asteria-en":
+                return AURA_ASTERIA_EN;
+            case "aura-2-electra-en":
+                return AURA2ELECTRA_EN;
+            case "flux-ioana-ro":
+                return FLUX_IOANA_RO;
+            case "flux-denys-uk":
+                return FLUX_DENYS_UK;
+            case "flux-yasmine-fr":
+                return FLUX_YASMINE_FR;
+            case "flux-bartosz-pl":
+                return FLUX_BARTOSZ_PL;
+            case "flux-natalia-ru":
+                return FLUX_NATALIA_RU;
+            case "aura-2-sirio-es":
+                return AURA2SIRIO_ES;
+            case "flux-kelsey-en":
+                return FLUX_KELSEY_EN;
+            case "flux-sienna-en":
+                return FLUX_SIENNA_EN;
+            case "flux-irene-nl":
+                return FLUX_IRENE_NL;
+            case "flux-gizem-tr":
+                return FLUX_GIZEM_TR;
+            case "flux-pernille-da":
+                return FLUX_PERNILLE_DA;
+            case "flux-meghan-en":
+                return FLUX_MEGHAN_EN;
+            case "flux-matteo-it":
+                return FLUX_MATTEO_IT;
+            case "flux-frida-sv":
+                return FLUX_FRIDA_SV;
+            case "aura-2-hermes-en":
+                return AURA2HERMES_EN;
+            case "flux-conor-en":
+                return FLUX_CONOR_EN;
+            case "flux-mamun-bn":
+                return FLUX_MAMUN_BN;
+            case "flux-claudia-pt":
+                return FLUX_CLAUDIA_PT;
+            case "flux-rufus-en":
+                return FLUX_RUFUS_EN;
+            case "flux-bo-zh":
+                return FLUX_BO_ZH;
+            case "flux-hetal-gu":
+                return FLUX_HETAL_GU;
+            case "flux-wes-en":
+                return FLUX_WES_EN;
+            case "aura-2-aurora-en":
+                return AURA2AURORA_EN;
+            case "flux-zhen-zh":
+                return FLUX_ZHEN_ZH;
+            case "flux-benedita-pt":
+                return FLUX_BENEDITA_PT;
+            case "flux-shreya-hi":
+                return FLUX_SHREYA_HI;
+            case "flux-minh-vi":
+                return FLUX_MINH_VI;
+            case "aura-2-apollo-en":
+                return AURA2APOLLO_EN;
+            case "flux-zeynep-tr":
+                return FLUX_ZEYNEP_TR;
+            case "aura-2-delia-en":
+                return AURA2DELIA_EN;
+            case "aura-2-mars-en":
+                return AURA2MARS_EN;
+            case "flux-camille-fr":
+                return FLUX_CAMILLE_FR;
+            case "aura-hera-en":
+                return AURA_HERA_EN;
+            case "flux-maeve-en":
+                return FLUX_MAEVE_EN;
+            case "flux-tobias-de":
+                return FLUX_TOBIAS_DE;
+            case "flux-kuanyu-zh":
+                return FLUX_KUANYU_ZH;
+            case "flux-ewa-pl":
+                return FLUX_EWA_PL;
+            case "flux-sonja-de":
+                return FLUX_SONJA_DE;
+            case "flux-angela-it":
+                return FLUX_ANGELA_IT;
+            case "aura-2-aries-en":
+                return AURA2ARIES_EN;
+            case "flux-benjamin-de":
+                return FLUX_BENJAMIN_DE;
+            case "aura-2-juno-en":
+                return AURA2JUNO_EN;
+            case "flux-trisha-tl":
+                return FLUX_TRISHA_TL;
+            case "flux-renato-pt":
+                return FLUX_RENATO_PT;
+            case "flux-pavan-te":
+                return FLUX_PAVAN_TE;
+            case "aura-2-andromeda-en":
+                return AURA2ANDROMEDA_EN;
+            case "flux-signe-no":
+                return FLUX_SIGNE_NO;
+            case "flux-kacper-pl":
+                return FLUX_KACPER_PL;
+            case "flux-ravi-te":
+                return FLUX_RAVI_TE;
+            case "flux-kavya-ta":
+                return FLUX_KAVYA_TA;
+            case "flux-jomar-tl":
+                return FLUX_JOMAR_TL;
+            case "flux-divya-hi":
+                return FLUX_DIVYA_HI;
+            case "aura-angus-en":
+                return AURA_ANGUS_EN;
+            case "flux-veerle-nl":
+                return FLUX_VEERLE_NL;
+            case "flux-kai-en":
+                return FLUX_KAI_EN;
+            case "flux-martin-es":
+                return FLUX_MARTIN_ES;
+            case "flux-dominika-sk":
+                return FLUX_DOMINIKA_SK;
+            case "flux-haley-en":
+                return FLUX_HALEY_EN;
+            case "flux-espen-no":
+                return FLUX_ESPEN_NO;
+            case "aura-stella-en":
+                return AURA_STELLA_EN;
+            case "flux-mikyung-ko":
+                return FLUX_MIKYUNG_KO;
+            case "flux-pedro-pt":
+                return FLUX_PEDRO_PT;
+            case "flux-justyna-pl":
+                return FLUX_JUSTYNA_PL;
+            case "aura-2-draco-en":
+                return AURA2DRACO_EN;
+            case "flux-ambreen-ur":
+                return FLUX_AMBREEN_UR;
+            case "aura-2-orion-en":
+                return AURA2ORION_EN;
+            case "flux-sneha-mr":
+                return FLUX_SNEHA_MR;
+            case "flux-gustavo-es":
+                return FLUX_GUSTAVO_ES;
+            case "flux-ludvig-sv":
+                return FLUX_LUDVIG_SV;
+            case "flux-monique-nl":
+                return FLUX_MONIQUE_NL;
+            case "aura-perseus-en":
+                return AURA_PERSEUS_EN;
+            case "aura-2-vesta-en":
+                return AURA2VESTA_EN;
+            case "flux-artur-pt":
+                return FLUX_ARTUR_PT;
+            case "flux-fitri-id":
+                return FLUX_FITRI_ID;
+            case "aura-2-zeus-en":
+                return AURA2ZEUS_EN;
+            case "flux-cecilia-es":
+                return FLUX_CECILIA_ES;
+            case "flux-fernanda-es":
+                return FLUX_FERNANDA_ES;
+            case "aura-2-orpheus-en":
+                return AURA2ORPHEUS_EN;
+            case "flux-prachi-hi":
+                return FLUX_PRACHI_HI;
+            case "flux-manlok-zh":
+                return FLUX_MANLOK_ZH;
+            case "flux-hyunwoo-ko":
+                return FLUX_HYUNWOO_KO;
+            case "aura-2-thalia-en":
+                return AURA2THALIA_EN;
+            case "flux-naveen-en":
+                return FLUX_NAVEEN_EN;
+            case "flux-stefano-it":
+                return FLUX_STEFANO_IT;
+            case "flux-lotte-nl":
+                return FLUX_LOTTE_NL;
+            case "flux-leonie-de":
+                return FLUX_LEONIE_DE;
+            case "flux-janine-de":
+                return FLUX_JANINE_DE;
+            case "flux-agnese-lv":
+                return FLUX_AGNESE_LV;
+            case "flux-verena-de":
+                return FLUX_VERENA_DE;
+            case "aura-2-selena-es":
+                return AURA2SELENA_ES;
+            case "flux-ricardo-pt":
+                return FLUX_RICARDO_PT;
+            case "flux-afsana-bn":
+                return FLUX_AFSANA_BN;
+            case "flux-desislava-bg":
+                return FLUX_DESISLAVA_BG;
+            case "flux-nadine-de":
+                return FLUX_NADINE_DE;
+            case "flux-yawen-zh":
+                return FLUX_YAWEN_ZH;
+            case "flux-mikhail-ru":
+                return FLUX_MIKHAIL_RU;
+            case "flux-valentina-es":
+                return FLUX_VALENTINA_ES;
+            case "flux-yuting-zh":
+                return FLUX_YUTING_ZH;
+            case "flux-dalibor-hr":
+                return FLUX_DALIBOR_HR;
+            case "flux-miguel-pt":
+                return FLUX_MIGUEL_PT;
+            case "aura-luna-en":
+                return AURA_LUNA_EN;
+            case "aura-orpheus-en":
+                return AURA_ORPHEUS_EN;
+            case "flux-patricia-es":
+                return FLUX_PATRICIA_ES;
+            case "flux-rodrigo-pt":
+                return FLUX_RODRIGO_PT;
+            case "flux-gokul-ta":
+                return FLUX_GOKUL_TA;
+            case "flux-donovan-en":
+                return FLUX_DONOVAN_EN;
+            case "flux-thierry-fr":
+                return FLUX_THIERRY_FR;
+            case "flux-paola-it":
+                return FLUX_PAOLA_IT;
+            case "flux-chiaying-zh":
+                return FLUX_CHIAYING_ZH;
+            case "flux-mathieu-fr":
+                return FLUX_MATHIEU_FR;
+            case "flux-alfredo-es":
+                return FLUX_ALFREDO_ES;
+            case "flux-gregor-sl":
+                return FLUX_GREGOR_SL;
+            case "flux-hayato-ja":
+                return FLUX_HAYATO_JA;
+            case "flux-shuvo-bn":
+                return FLUX_SHUVO_BN;
+            case "flux-niels-nl":
+                return FLUX_NIELS_NL;
+            case "flux-arjun-hi":
+                return FLUX_ARJUN_HI;
+            case "flux-rocco-it":
+                return FLUX_ROCCO_IT;
+            case "flux-carmen-es":
+                return FLUX_CARMEN_ES;
+            case "aura-2-phoebe-en":
+                return AURA2PHOEBE_EN;
+            case "flux-eszter-hu":
+                return FLUX_ESZTER_HU;
+            case "flux-pratik-mr":
+                return FLUX_PRATIK_MR;
+            case "flux-fleur-nl":
+                return FLUX_FLEUR_NL;
+            case "flux-rafael-es":
+                return FLUX_RAFAEL_ES;
+            case "aura-2-diana-es":
+                return AURA2DIANA_ES;
+            case "flux-josipa-hr":
+                return FLUX_JOSIPA_HR;
+            case "flux-chiara-it":
+                return FLUX_CHIARA_IT;
+            case "flux-andrei-ru":
+                return FLUX_ANDREI_RU;
+            case "aura-2-theia-en":
+                return AURA2THEIA_EN;
+            case "flux-veronique-fr":
+                return FLUX_VERONIQUE_FR;
+            case "flux-wade-en":
+                return FLUX_WADE_EN;
+            case "flux-jaime-es":
+                return FLUX_JAIME_ES;
+            case "flux-domagoj-hr":
+                return FLUX_DOMAGOJ_HR;
+            case "flux-nozomi-ja":
+                return FLUX_NOZOMI_JA;
+            case "flux-vikram-hi":
+                return FLUX_VIKRAM_HI;
+            case "flux-solomiya-uk":
+                return FLUX_SOLOMIYA_UK;
+            case "flux-rikke-da":
+                return FLUX_RIKKE_DA;
+            case "flux-marcia-pt":
+                return FLUX_MARCIA_PT;
+            case "flux-arnaud-fr":
+                return FLUX_ARNAUD_FR;
+            case "flux-sven-de":
+                return FLUX_SVEN_DE;
+            case "flux-rajesh-hi":
+                return FLUX_RAJESH_HI;
+            case "flux-cliff-en":
+                return FLUX_CLIFF_EN;
+            case "flux-yvonne-nl":
+                return FLUX_YVONNE_NL;
+            case "flux-ernesto-es":
+                return FLUX_ERNESTO_ES;
+            case "flux-magdalena-de":
+                return FLUX_MAGDALENA_DE;
+            case "aura-2-jupiter-en":
+                return AURA2JUPITER_EN;
+            case "flux-juraj-sk":
+                return FLUX_JURAJ_SK;
+            case "flux-kit-en":
+                return FLUX_KIT_EN;
+            case "flux-minjun-ko":
+                return FLUX_MINJUN_KO;
+            case "flux-kirill-ru":
+                return FLUX_KIRILL_RU;
+            case "aura-2-aquila-es":
+                return AURA2AQUILA_ES;
+            case "aura-2-cora-en":
+                return AURA2CORA_EN;
+            case "flux-danijela-hr":
+                return FLUX_DANIJELA_HR;
+            case "flux-nikolai-ru":
+                return FLUX_NIKOLAI_RU;
+            case "flux-lijuan-zh":
+                return FLUX_LIJUAN_ZH;
+            case "flux-sungmin-ko":
+                return FLUX_SUNGMIN_KO;
+            case "flux-jordi-ca":
+                return FLUX_JORDI_CA;
+            case "flux-yannick-de":
+                return FLUX_YANNICK_DE;
+            case "flux-eduardo-es":
+                return FLUX_EDUARDO_ES;
+            case "flux-goda-lt":
+                return FLUX_GODA_LT;
+            case "flux-bence-hu":
+                return FLUX_BENCE_HU;
+            case "flux-cosmin-ro":
+                return FLUX_COSMIN_RO;
+            case "flux-emre-tr":
+                return FLUX_EMRE_TR;
+            case "aura-2-hyperion-en":
+                return AURA2HYPERION_EN;
+            case "aura-2-celeste-es":
+                return AURA2CELESTE_ES;
+            case "flux-ruben-nl":
+                return FLUX_RUBEN_NL;
             case "aura-2-arcas-en":
                 return AURA2ARCAS_EN;
             case "flux-colin-en":
                 return FLUX_COLIN_EN;
+            case "flux-soojin-ko":
+                return FLUX_SOOJIN_KO;
             case "aura-athena-en":
                 return AURA_ATHENA_EN;
             case "aura-2-odysseus-en":
                 return AURA2ODYSSEUS_EN;
             case "aura-2-pandora-en":
                 return AURA2PANDORA_EN;
-            case "flux-miles-en":
-                return FLUX_MILES_EN;
-            case "aura-asteria-en":
-                return AURA_ASTERIA_EN;
-            case "aura-2-electra-en":
-                return AURA2ELECTRA_EN;
+            case "flux-pierre-fr":
+                return FLUX_PIERRE_FR;
+            case "flux-jignesh-gu":
+                return FLUX_JIGNESH_GU;
+            case "flux-izzah-ms":
+                return FLUX_IZZAH_MS;
+            case "flux-usman-ur":
+                return FLUX_USMAN_UR;
+            case "flux-sayaka-ja":
+                return FLUX_SAYAKA_JA;
             case "flux-gemma-en":
                 return FLUX_GEMMA_EN;
             case "aura-2-estrella-es":
                 return AURA2ESTRELLA_ES;
+            case "flux-vladimir-ru":
+                return FLUX_VLADIMIR_RU;
             default:
                 return new DeepgramModel(Value.UNKNOWN, value);
         }
@@ -831,8 +2207,6 @@ public final class DeepgramModel {
 
         FLUX_KELSEY_EN,
 
-        FLUX_RENEE_EN,
-
         FLUX_KIT_EN,
 
         FLUX_MAEVE_EN,
@@ -866,6 +2240,466 @@ public final class DeepgramModel {
         FLUX_WADE_EN,
 
         FLUX_WES_EN,
+
+        FLUX_AFSANA_BN,
+
+        FLUX_ISHRAT_BN,
+
+        FLUX_MAMUN_BN,
+
+        FLUX_SABBIR_BN,
+
+        FLUX_SHUVO_BN,
+
+        FLUX_SUMAIYA_BN,
+
+        FLUX_DESISLAVA_BG,
+
+        FLUX_GERGANA_BG,
+
+        FLUX_JORDI_CA,
+
+        FLUX_JUDIT_CA,
+
+        FLUX_BO_ZH,
+
+        FLUX_HAORAN_ZH,
+
+        FLUX_JIAN_ZH,
+
+        FLUX_JIE_ZH,
+
+        FLUX_LIJUAN_ZH,
+
+        FLUX_SHUFEN_ZH,
+
+        FLUX_WENBO_ZH,
+
+        FLUX_WENJING_ZH,
+
+        FLUX_ZHEN_ZH,
+
+        FLUX_CHIAYING_ZH,
+
+        FLUX_KUANYU_ZH,
+
+        FLUX_YAWEN_ZH,
+
+        FLUX_YUTING_ZH,
+
+        FLUX_MANLOK_ZH,
+
+        FLUX_DALIBOR_HR,
+
+        FLUX_DANIJELA_HR,
+
+        FLUX_DOMAGOJ_HR,
+
+        FLUX_JASNA_HR,
+
+        FLUX_JOSIPA_HR,
+
+        FLUX_MIHAELA_HR,
+
+        FLUX_VEDRAN_HR,
+
+        FLUX_JAKUB_CS,
+
+        FLUX_PERNILLE_DA,
+
+        FLUX_RASMUS_DA,
+
+        FLUX_RIKKE_DA,
+
+        FLUX_ANOUK_NL,
+
+        FLUX_BRAM_NL,
+
+        FLUX_FLEUR_NL,
+
+        FLUX_IRENE_NL,
+
+        FLUX_LUUK_NL,
+
+        FLUX_MONIQUE_NL,
+
+        FLUX_RUBEN_NL,
+
+        FLUX_SANNE_NL,
+
+        FLUX_YVONNE_NL,
+
+        FLUX_DIRK_NL,
+
+        FLUX_LOTTE_NL,
+
+        FLUX_NIELS_NL,
+
+        FLUX_VEERLE_NL,
+
+        FLUX_TRIIN_ET,
+
+        FLUX_KIRSI_FI,
+
+        FLUX_TEEMU_FI,
+
+        FLUX_ARNAUD_FR,
+
+        FLUX_BENOIT_FR,
+
+        FLUX_BRIGITTE_FR,
+
+        FLUX_CAMILLE_FR,
+
+        FLUX_CHLOE_FR,
+
+        FLUX_FLORIAN_FR,
+
+        FLUX_JULIEN_FR,
+
+        FLUX_MATHIEU_FR,
+
+        FLUX_PIERRE_FR,
+
+        FLUX_THIERRY_FR,
+
+        FLUX_VERONIQUE_FR,
+
+        FLUX_YASMINE_FR,
+
+        FLUX_BENJAMIN_DE,
+
+        FLUX_CHRISTIAN_DE,
+
+        FLUX_JANINE_DE,
+
+        FLUX_MAGDALENA_DE,
+
+        FLUX_MORITZ_DE,
+
+        FLUX_NADINE_DE,
+
+        FLUX_ROLF_DE,
+
+        FLUX_SONJA_DE,
+
+        FLUX_SVEN_DE,
+
+        FLUX_TOBIAS_DE,
+
+        FLUX_VERENA_DE,
+
+        FLUX_LEONIE_DE,
+
+        FLUX_YANNICK_DE,
+
+        FLUX_KOSTAS_EL,
+
+        FLUX_BHAVNA_GU,
+
+        FLUX_HETAL_GU,
+
+        FLUX_JIGNESH_GU,
+
+        FLUX_AJAY_HI,
+
+        FLUX_ANJALI_HI,
+
+        FLUX_ARJUN_HI,
+
+        FLUX_DIVYA_HI,
+
+        FLUX_JYOTI_HI,
+
+        FLUX_NIKHIL_HI,
+
+        FLUX_PALLAVI_HI,
+
+        FLUX_PRACHI_HI,
+
+        FLUX_RAHUL_HI,
+
+        FLUX_RAJESH_HI,
+
+        FLUX_RITU_HI,
+
+        FLUX_SHREYA_HI,
+
+        FLUX_SUNITA_HI,
+
+        FLUX_VIKRAM_HI,
+
+        FLUX_BENCE_HU,
+
+        FLUX_ESZTER_HU,
+
+        FLUX_KINGA_HU,
+
+        FLUX_TIBOR_HU,
+
+        FLUX_DEWI_ID,
+
+        FLUX_FAJAR_ID,
+
+        FLUX_FITRI_ID,
+
+        FLUX_RIZKY_ID,
+
+        FLUX_TEGUH_ID,
+
+        FLUX_ANGELA_IT,
+
+        FLUX_CHIARA_IT,
+
+        FLUX_FEDERICO_IT,
+
+        FLUX_GIORGIO_IT,
+
+        FLUX_MATTEO_IT,
+
+        FLUX_PAOLA_IT,
+
+        FLUX_ROCCO_IT,
+
+        FLUX_SOFIA_IT,
+
+        FLUX_STEFANO_IT,
+
+        FLUX_VINCENZO_IT,
+
+        FLUX_VITO_IT,
+
+        FLUX_AYUMI_JA,
+
+        FLUX_HAYATO_JA,
+
+        FLUX_NOZOMI_JA,
+
+        FLUX_SAYAKA_JA,
+
+        FLUX_MANJUNATH_KN,
+
+        FLUX_EUNJI_KO,
+
+        FLUX_HYUNWOO_KO,
+
+        FLUX_MIKYUNG_KO,
+
+        FLUX_MINJUN_KO,
+
+        FLUX_SOOJIN_KO,
+
+        FLUX_SUNGMIN_KO,
+
+        FLUX_AGNESE_LV,
+
+        FLUX_EDGARS_LV,
+
+        FLUX_GODA_LT,
+
+        FLUX_NERINGA_LT,
+
+        FLUX_HAZIQ_MS,
+
+        FLUX_IZZAH_MS,
+
+        FLUX_POOJA_MR,
+
+        FLUX_PRATIK_MR,
+
+        FLUX_SNEHA_MR,
+
+        FLUX_ERLEND_NO,
+
+        FLUX_ESPEN_NO,
+
+        FLUX_IDA_NO,
+
+        FLUX_SIGNE_NO,
+
+        FLUX_SILJE_NO,
+
+        FLUX_VEGARD_NO,
+
+        FLUX_BARTOSZ_PL,
+
+        FLUX_EWA_PL,
+
+        FLUX_JUSTYNA_PL,
+
+        FLUX_KACPER_PL,
+
+        FLUX_KONRAD_PL,
+
+        FLUX_ZUZANNA_PL,
+
+        FLUX_BIANCA_PT,
+
+        FLUX_BRUNO_PT,
+
+        FLUX_CLAUDIA_PT,
+
+        FLUX_LEANDRO_PT,
+
+        FLUX_MARCIA_PT,
+
+        FLUX_MARIANA_PT,
+
+        FLUX_MARTA_PT,
+
+        FLUX_MATEUS_PT,
+
+        FLUX_MIGUEL_PT,
+
+        FLUX_RENATO_PT,
+
+        FLUX_ROBERTO_PT,
+
+        FLUX_RODRIGO_PT,
+
+        FLUX_ARTUR_PT,
+
+        FLUX_BENEDITA_PT,
+
+        FLUX_CATARINA_PT,
+
+        FLUX_HUGO_PT,
+
+        FLUX_PEDRO_PT,
+
+        FLUX_RICARDO_PT,
+
+        FLUX_COSMIN_RO,
+
+        FLUX_IOANA_RO,
+
+        FLUX_ANDREI_RU,
+
+        FLUX_KIRILL_RU,
+
+        FLUX_MAXIM_RU,
+
+        FLUX_MIKHAIL_RU,
+
+        FLUX_NATALIA_RU,
+
+        FLUX_NIKOLAI_RU,
+
+        FLUX_OLGA_RU,
+
+        FLUX_POLINA_RU,
+
+        FLUX_VLADIMIR_RU,
+
+        FLUX_DOMINIKA_SK,
+
+        FLUX_JURAJ_SK,
+
+        FLUX_GREGOR_SL,
+
+        FLUX_KATJA_SL,
+
+        FLUX_AINA_ES,
+
+        FLUX_ALFREDO_ES,
+
+        FLUX_CARMEN_ES,
+
+        FLUX_CECILIA_ES,
+
+        FLUX_DUVAN_ES,
+
+        FLUX_EDUARDO_ES,
+
+        FLUX_ERNESTO_ES,
+
+        FLUX_FERNANDA_ES,
+
+        FLUX_FIORELLA_ES,
+
+        FLUX_GUSTAVO_ES,
+
+        FLUX_JAIME_ES,
+
+        FLUX_MARTIN_ES,
+
+        FLUX_MAURICIO_ES,
+
+        FLUX_PATRICIA_ES,
+
+        FLUX_PILAR_ES,
+
+        FLUX_RAFAEL_ES,
+
+        FLUX_TOMAS_ES,
+
+        FLUX_VALENTINA_ES,
+
+        FLUX_YSABEL_ES,
+
+        FLUX_AXEL_SV,
+
+        FLUX_CHARLOTTA_SV,
+
+        FLUX_FRIDA_SV,
+
+        FLUX_LUDVIG_SV,
+
+        FLUX_OSKAR_SV,
+
+        FLUX_PONTUS_SV,
+
+        FLUX_WILMA_SV,
+
+        FLUX_JEROME_TL,
+
+        FLUX_JOMAR_TL,
+
+        FLUX_LIEZEL_TL,
+
+        FLUX_NOEL_TL,
+
+        FLUX_TRISHA_TL,
+
+        FLUX_GOKUL_TA,
+
+        FLUX_KAVYA_TA,
+
+        FLUX_SOWMYA_TA,
+
+        FLUX_VINOTH_TA,
+
+        FLUX_PAVAN_TE,
+
+        FLUX_RAVI_TE,
+
+        FLUX_SRAVANI_TE,
+
+        FLUX_DILEK_TR,
+
+        FLUX_ECEM_TR,
+
+        FLUX_EMRE_TR,
+
+        FLUX_GIZEM_TR,
+
+        FLUX_MEHMET_TR,
+
+        FLUX_SERKAN_TR,
+
+        FLUX_ZEYNEP_TR,
+
+        FLUX_DENYS_UK,
+
+        FLUX_SOLOMIYA_UK,
+
+        FLUX_AMBREEN_UR,
+
+        FLUX_USMAN_UR,
+
+        FLUX_HOA_VI,
+
+        FLUX_MINH_VI,
 
         UNKNOWN
     }
@@ -1035,13 +2869,6 @@ public final class DeepgramModel {
 
         T visitFluxKelseyEn();
 
-        /**
-         * @deprecated {@code flux-renee-en} is an unlisted voice and may be removed in a future major
-         *     release. Prefer a listed Flux voice; {@code GET /v2/models} returns the current catalog.
-         */
-        @Deprecated
-        T visitFluxReneeEn();
-
         T visitFluxKitEn();
 
         T visitFluxMaeveEn();
@@ -1075,6 +2902,466 @@ public final class DeepgramModel {
         T visitFluxWadeEn();
 
         T visitFluxWesEn();
+
+        T visitFluxAfsanaBn();
+
+        T visitFluxIshratBn();
+
+        T visitFluxMamunBn();
+
+        T visitFluxSabbirBn();
+
+        T visitFluxShuvoBn();
+
+        T visitFluxSumaiyaBn();
+
+        T visitFluxDesislavaBg();
+
+        T visitFluxGerganaBg();
+
+        T visitFluxJordiCa();
+
+        T visitFluxJuditCa();
+
+        T visitFluxBoZh();
+
+        T visitFluxHaoranZh();
+
+        T visitFluxJianZh();
+
+        T visitFluxJieZh();
+
+        T visitFluxLijuanZh();
+
+        T visitFluxShufenZh();
+
+        T visitFluxWenboZh();
+
+        T visitFluxWenjingZh();
+
+        T visitFluxZhenZh();
+
+        T visitFluxChiayingZh();
+
+        T visitFluxKuanyuZh();
+
+        T visitFluxYawenZh();
+
+        T visitFluxYutingZh();
+
+        T visitFluxManlokZh();
+
+        T visitFluxDaliborHr();
+
+        T visitFluxDanijelaHr();
+
+        T visitFluxDomagojHr();
+
+        T visitFluxJasnaHr();
+
+        T visitFluxJosipaHr();
+
+        T visitFluxMihaelaHr();
+
+        T visitFluxVedranHr();
+
+        T visitFluxJakubCs();
+
+        T visitFluxPernilleDa();
+
+        T visitFluxRasmusDa();
+
+        T visitFluxRikkeDa();
+
+        T visitFluxAnoukNl();
+
+        T visitFluxBramNl();
+
+        T visitFluxFleurNl();
+
+        T visitFluxIreneNl();
+
+        T visitFluxLuukNl();
+
+        T visitFluxMoniqueNl();
+
+        T visitFluxRubenNl();
+
+        T visitFluxSanneNl();
+
+        T visitFluxYvonneNl();
+
+        T visitFluxDirkNl();
+
+        T visitFluxLotteNl();
+
+        T visitFluxNielsNl();
+
+        T visitFluxVeerleNl();
+
+        T visitFluxTriinEt();
+
+        T visitFluxKirsiFi();
+
+        T visitFluxTeemuFi();
+
+        T visitFluxArnaudFr();
+
+        T visitFluxBenoitFr();
+
+        T visitFluxBrigitteFr();
+
+        T visitFluxCamilleFr();
+
+        T visitFluxChloeFr();
+
+        T visitFluxFlorianFr();
+
+        T visitFluxJulienFr();
+
+        T visitFluxMathieuFr();
+
+        T visitFluxPierreFr();
+
+        T visitFluxThierryFr();
+
+        T visitFluxVeroniqueFr();
+
+        T visitFluxYasmineFr();
+
+        T visitFluxBenjaminDe();
+
+        T visitFluxChristianDe();
+
+        T visitFluxJanineDe();
+
+        T visitFluxMagdalenaDe();
+
+        T visitFluxMoritzDe();
+
+        T visitFluxNadineDe();
+
+        T visitFluxRolfDe();
+
+        T visitFluxSonjaDe();
+
+        T visitFluxSvenDe();
+
+        T visitFluxTobiasDe();
+
+        T visitFluxVerenaDe();
+
+        T visitFluxLeonieDe();
+
+        T visitFluxYannickDe();
+
+        T visitFluxKostasEl();
+
+        T visitFluxBhavnaGu();
+
+        T visitFluxHetalGu();
+
+        T visitFluxJigneshGu();
+
+        T visitFluxAjayHi();
+
+        T visitFluxAnjaliHi();
+
+        T visitFluxArjunHi();
+
+        T visitFluxDivyaHi();
+
+        T visitFluxJyotiHi();
+
+        T visitFluxNikhilHi();
+
+        T visitFluxPallaviHi();
+
+        T visitFluxPrachiHi();
+
+        T visitFluxRahulHi();
+
+        T visitFluxRajeshHi();
+
+        T visitFluxRituHi();
+
+        T visitFluxShreyaHi();
+
+        T visitFluxSunitaHi();
+
+        T visitFluxVikramHi();
+
+        T visitFluxBenceHu();
+
+        T visitFluxEszterHu();
+
+        T visitFluxKingaHu();
+
+        T visitFluxTiborHu();
+
+        T visitFluxDewiId();
+
+        T visitFluxFajarId();
+
+        T visitFluxFitriId();
+
+        T visitFluxRizkyId();
+
+        T visitFluxTeguhId();
+
+        T visitFluxAngelaIt();
+
+        T visitFluxChiaraIt();
+
+        T visitFluxFedericoIt();
+
+        T visitFluxGiorgioIt();
+
+        T visitFluxMatteoIt();
+
+        T visitFluxPaolaIt();
+
+        T visitFluxRoccoIt();
+
+        T visitFluxSofiaIt();
+
+        T visitFluxStefanoIt();
+
+        T visitFluxVincenzoIt();
+
+        T visitFluxVitoIt();
+
+        T visitFluxAyumiJa();
+
+        T visitFluxHayatoJa();
+
+        T visitFluxNozomiJa();
+
+        T visitFluxSayakaJa();
+
+        T visitFluxManjunathKn();
+
+        T visitFluxEunjiKo();
+
+        T visitFluxHyunwooKo();
+
+        T visitFluxMikyungKo();
+
+        T visitFluxMinjunKo();
+
+        T visitFluxSoojinKo();
+
+        T visitFluxSungminKo();
+
+        T visitFluxAgneseLv();
+
+        T visitFluxEdgarsLv();
+
+        T visitFluxGodaLt();
+
+        T visitFluxNeringaLt();
+
+        T visitFluxHaziqMs();
+
+        T visitFluxIzzahMs();
+
+        T visitFluxPoojaMr();
+
+        T visitFluxPratikMr();
+
+        T visitFluxSnehaMr();
+
+        T visitFluxErlendNo();
+
+        T visitFluxEspenNo();
+
+        T visitFluxIdaNo();
+
+        T visitFluxSigneNo();
+
+        T visitFluxSiljeNo();
+
+        T visitFluxVegardNo();
+
+        T visitFluxBartoszPl();
+
+        T visitFluxEwaPl();
+
+        T visitFluxJustynaPl();
+
+        T visitFluxKacperPl();
+
+        T visitFluxKonradPl();
+
+        T visitFluxZuzannaPl();
+
+        T visitFluxBiancaPt();
+
+        T visitFluxBrunoPt();
+
+        T visitFluxClaudiaPt();
+
+        T visitFluxLeandroPt();
+
+        T visitFluxMarciaPt();
+
+        T visitFluxMarianaPt();
+
+        T visitFluxMartaPt();
+
+        T visitFluxMateusPt();
+
+        T visitFluxMiguelPt();
+
+        T visitFluxRenatoPt();
+
+        T visitFluxRobertoPt();
+
+        T visitFluxRodrigoPt();
+
+        T visitFluxArturPt();
+
+        T visitFluxBeneditaPt();
+
+        T visitFluxCatarinaPt();
+
+        T visitFluxHugoPt();
+
+        T visitFluxPedroPt();
+
+        T visitFluxRicardoPt();
+
+        T visitFluxCosminRo();
+
+        T visitFluxIoanaRo();
+
+        T visitFluxAndreiRu();
+
+        T visitFluxKirillRu();
+
+        T visitFluxMaximRu();
+
+        T visitFluxMikhailRu();
+
+        T visitFluxNataliaRu();
+
+        T visitFluxNikolaiRu();
+
+        T visitFluxOlgaRu();
+
+        T visitFluxPolinaRu();
+
+        T visitFluxVladimirRu();
+
+        T visitFluxDominikaSk();
+
+        T visitFluxJurajSk();
+
+        T visitFluxGregorSl();
+
+        T visitFluxKatjaSl();
+
+        T visitFluxAinaEs();
+
+        T visitFluxAlfredoEs();
+
+        T visitFluxCarmenEs();
+
+        T visitFluxCeciliaEs();
+
+        T visitFluxDuvanEs();
+
+        T visitFluxEduardoEs();
+
+        T visitFluxErnestoEs();
+
+        T visitFluxFernandaEs();
+
+        T visitFluxFiorellaEs();
+
+        T visitFluxGustavoEs();
+
+        T visitFluxJaimeEs();
+
+        T visitFluxMartinEs();
+
+        T visitFluxMauricioEs();
+
+        T visitFluxPatriciaEs();
+
+        T visitFluxPilarEs();
+
+        T visitFluxRafaelEs();
+
+        T visitFluxTomasEs();
+
+        T visitFluxValentinaEs();
+
+        T visitFluxYsabelEs();
+
+        T visitFluxAxelSv();
+
+        T visitFluxCharlottaSv();
+
+        T visitFluxFridaSv();
+
+        T visitFluxLudvigSv();
+
+        T visitFluxOskarSv();
+
+        T visitFluxPontusSv();
+
+        T visitFluxWilmaSv();
+
+        T visitFluxJeromeTl();
+
+        T visitFluxJomarTl();
+
+        T visitFluxLiezelTl();
+
+        T visitFluxNoelTl();
+
+        T visitFluxTrishaTl();
+
+        T visitFluxGokulTa();
+
+        T visitFluxKavyaTa();
+
+        T visitFluxSowmyaTa();
+
+        T visitFluxVinothTa();
+
+        T visitFluxPavanTe();
+
+        T visitFluxRaviTe();
+
+        T visitFluxSravaniTe();
+
+        T visitFluxDilekTr();
+
+        T visitFluxEcemTr();
+
+        T visitFluxEmreTr();
+
+        T visitFluxGizemTr();
+
+        T visitFluxMehmetTr();
+
+        T visitFluxSerkanTr();
+
+        T visitFluxZeynepTr();
+
+        T visitFluxDenysUk();
+
+        T visitFluxSolomiyaUk();
+
+        T visitFluxAmbreenUr();
+
+        T visitFluxUsmanUr();
+
+        T visitFluxHoaVi();
+
+        T visitFluxMinhVi();
 
         T visitUnknown(String unknownType);
     }

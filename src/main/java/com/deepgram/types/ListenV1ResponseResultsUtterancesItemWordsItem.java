@@ -28,6 +28,8 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
 
     private final Optional<Float> confidence;
 
+    private final Optional<String> language;
+
     private final Optional<Integer> speaker;
 
     private final Optional<Float> speakerConfidence;
@@ -41,6 +43,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
             Optional<Float> start,
             Optional<Float> end,
             Optional<Float> confidence,
+            Optional<String> language,
             Optional<Integer> speaker,
             Optional<Float> speakerConfidence,
             Optional<String> punctuatedWord,
@@ -49,6 +52,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
         this.start = start;
         this.end = end;
         this.confidence = confidence;
+        this.language = language;
         this.speaker = speaker;
         this.speakerConfidence = speakerConfidence;
         this.punctuatedWord = punctuatedWord;
@@ -73,6 +77,14 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
     @JsonProperty("confidence")
     public Optional<Float> getConfidence() {
         return confidence;
+    }
+
+    /**
+     * @return <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.
+     */
+    @JsonProperty("language")
+    public Optional<String> getLanguage() {
+        return language;
     }
 
     @JsonProperty("speaker")
@@ -107,6 +119,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
                 && start.equals(other.start)
                 && end.equals(other.end)
                 && confidence.equals(other.confidence)
+                && language.equals(other.language)
                 && speaker.equals(other.speaker)
                 && speakerConfidence.equals(other.speakerConfidence)
                 && punctuatedWord.equals(other.punctuatedWord);
@@ -119,6 +132,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
                 this.start,
                 this.end,
                 this.confidence,
+                this.language,
                 this.speaker,
                 this.speakerConfidence,
                 this.punctuatedWord);
@@ -143,6 +157,8 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
 
         private Optional<Float> confidence = Optional.empty();
 
+        private Optional<String> language = Optional.empty();
+
         private Optional<Integer> speaker = Optional.empty();
 
         private Optional<Float> speakerConfidence = Optional.empty();
@@ -159,6 +175,7 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
             start(other.getStart());
             end(other.getEnd());
             confidence(other.getConfidence());
+            language(other.getLanguage());
             speaker(other.getSpeaker());
             speakerConfidence(other.getSpeakerConfidence());
             punctuatedWord(other.getPunctuatedWord());
@@ -209,6 +226,20 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
             return this;
         }
 
+        /**
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
+         */
+        @JsonSetter(value = "language", nulls = Nulls.SKIP)
+        public Builder language(Optional<String> language) {
+            this.language = language;
+            return this;
+        }
+
+        public Builder language(String language) {
+            this.language = Optional.ofNullable(language);
+            return this;
+        }
+
         @JsonSetter(value = "speaker", nulls = Nulls.SKIP)
         public Builder speaker(Optional<Integer> speaker) {
             this.speaker = speaker;
@@ -244,7 +275,15 @@ public final class ListenV1ResponseResultsUtterancesItemWordsItem {
 
         public ListenV1ResponseResultsUtterancesItemWordsItem build() {
             return new ListenV1ResponseResultsUtterancesItemWordsItem(
-                    word, start, end, confidence, speaker, speakerConfidence, punctuatedWord, additionalProperties);
+                    word,
+                    start,
+                    end,
+                    confidence,
+                    language,
+                    speaker,
+                    speakerConfidence,
+                    punctuatedWord,
+                    additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

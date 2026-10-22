@@ -26,6 +26,8 @@ public final class AgentV1ConversationText {
 
     private final String content;
 
+    private final Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior;
+
     private final Optional<List<String>> languagesHinted;
 
     private final Optional<List<String>> languages;
@@ -35,11 +37,13 @@ public final class AgentV1ConversationText {
     private AgentV1ConversationText(
             AgentV1ConversationTextRole role,
             String content,
+            Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior,
             Optional<List<String>> languagesHinted,
             Optional<List<String>> languages,
             Map<String, Object> additionalProperties) {
         this.role = role;
         this.content = content;
+        this.conversationalBehavior = conversationalBehavior;
         this.languagesHinted = languagesHinted;
         this.languages = languages;
         this.additionalProperties = additionalProperties;
@@ -67,6 +71,14 @@ public final class AgentV1ConversationText {
     @JsonProperty("content")
     public String getContent() {
         return content;
+    }
+
+    /**
+     * @return Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Conversational Mode is off
+     */
+    @JsonProperty("conversational_behavior")
+    public Optional<AgentV1ConversationTextConversationalBehavior> getConversationalBehavior() {
+        return conversationalBehavior;
     }
 
     /**
@@ -99,13 +111,14 @@ public final class AgentV1ConversationText {
     private boolean equalTo(AgentV1ConversationText other) {
         return role.equals(other.role)
                 && content.equals(other.content)
+                && conversationalBehavior.equals(other.conversationalBehavior)
                 && languagesHinted.equals(other.languagesHinted)
                 && languages.equals(other.languages);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.role, this.content, this.languagesHinted, this.languages);
+        return Objects.hash(this.role, this.content, this.conversationalBehavior, this.languagesHinted, this.languages);
     }
 
     @java.lang.Override
@@ -141,6 +154,14 @@ public final class AgentV1ConversationText {
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
+         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Conversational Mode is off</p>
+         */
+        _FinalStage conversationalBehavior(
+                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior);
+
+        _FinalStage conversationalBehavior(AgentV1ConversationTextConversationalBehavior conversationalBehavior);
+
+        /**
          * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
          */
         _FinalStage languagesHinted(Optional<List<String>> languagesHinted);
@@ -165,6 +186,8 @@ public final class AgentV1ConversationText {
 
         private Optional<List<String>> languagesHinted = Optional.empty();
 
+        private Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -174,6 +197,7 @@ public final class AgentV1ConversationText {
         public Builder from(AgentV1ConversationText other) {
             role(other.getRole());
             content(other.getContent());
+            conversationalBehavior(other.getConversationalBehavior());
             languagesHinted(other.getLanguagesHinted());
             languages(other.getLanguages());
             return this;
@@ -241,9 +265,32 @@ public final class AgentV1ConversationText {
             return this;
         }
 
+        /**
+         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Conversational Mode is off</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage conversationalBehavior(
+                AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
+            this.conversationalBehavior = Optional.ofNullable(conversationalBehavior);
+            return this;
+        }
+
+        /**
+         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Conversational Mode is off</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "conversational_behavior", nulls = Nulls.SKIP)
+        public _FinalStage conversationalBehavior(
+                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
+            this.conversationalBehavior = conversationalBehavior;
+            return this;
+        }
+
         @java.lang.Override
         public AgentV1ConversationText build() {
-            return new AgentV1ConversationText(role, content, languagesHinted, languages, additionalProperties);
+            return new AgentV1ConversationText(
+                    role, content, conversationalBehavior, languagesHinted, languages, additionalProperties);
         }
 
         @java.lang.Override

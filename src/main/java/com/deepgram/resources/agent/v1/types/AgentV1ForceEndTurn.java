@@ -36,11 +36,6 @@ public final class AgentV1ForceEndTurn {
         return other instanceof AgentV1ForceEndTurn;
     }
 
-    @java.lang.Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

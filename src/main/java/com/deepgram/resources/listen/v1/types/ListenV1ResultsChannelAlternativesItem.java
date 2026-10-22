@@ -29,6 +29,8 @@ public final class ListenV1ResultsChannelAlternativesItem {
 
     private final Optional<List<String>> languages;
 
+    private final Optional<List<String>> languagesHinted;
+
     private final List<ListenV1ResultsChannelAlternativesItemWordsItem> words;
 
     private final Map<String, Object> additionalProperties;
@@ -37,11 +39,13 @@ public final class ListenV1ResultsChannelAlternativesItem {
             String transcript,
             double confidence,
             Optional<List<String>> languages,
+            Optional<List<String>> languagesHinted,
             List<ListenV1ResultsChannelAlternativesItemWordsItem> words,
             Map<String, Object> additionalProperties) {
         this.transcript = transcript;
         this.confidence = confidence;
         this.languages = languages;
+        this.languagesHinted = languagesHinted;
         this.words = words;
         this.additionalProperties = additionalProperties;
     }
@@ -62,9 +66,20 @@ public final class ListenV1ResultsChannelAlternativesItem {
         return confidence;
     }
 
+    /**
+     * @return <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the transcript, sorted by word count in descending order. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.
+     */
     @JsonProperty("languages")
     public Optional<List<String>> getLanguages() {
         return languages;
+    }
+
+    /**
+     * @return The <code>language_hint</code> values set at connection time, normalized: codes are returned in canonical form (<code>ES</code> → <code>es</code>, <code>zh-hk</code> → <code>zh-HK</code>), and a regional code the model has no tag for is returned as its base language (<code>en-GB</code> → <code>en</code>). Present on interim and final results of every Nova-3 multilingual stream (<code>model=nova-3&amp;language=multi</code>); an empty array when no <code>language_hint</code> was sent.
+     */
+    @JsonProperty("languages_hinted")
+    public Optional<List<String>> getLanguagesHinted() {
+        return languagesHinted;
     }
 
     @JsonProperty("words")
@@ -88,12 +103,13 @@ public final class ListenV1ResultsChannelAlternativesItem {
         return transcript.equals(other.transcript)
                 && confidence == other.confidence
                 && languages.equals(other.languages)
+                && languagesHinted.equals(other.languagesHinted)
                 && words.equals(other.words);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.transcript, this.confidence, this.languages, this.words);
+        return Objects.hash(this.transcript, this.confidence, this.languages, this.languagesHinted, this.words);
     }
 
     @java.lang.Override
@@ -128,9 +144,19 @@ public final class ListenV1ResultsChannelAlternativesItem {
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
+        /**
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the transcript, sorted by word count in descending order. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
+         */
         _FinalStage languages(Optional<List<String>> languages);
 
         _FinalStage languages(List<String> languages);
+
+        /**
+         * <p>The <code>language_hint</code> values set at connection time, normalized: codes are returned in canonical form (<code>ES</code> → <code>es</code>, <code>zh-hk</code> → <code>zh-HK</code>), and a regional code the model has no tag for is returned as its base language (<code>en-GB</code> → <code>en</code>). Present on interim and final results of every Nova-3 multilingual stream (<code>model=nova-3&amp;language=multi</code>); an empty array when no <code>language_hint</code> was sent.</p>
+         */
+        _FinalStage languagesHinted(Optional<List<String>> languagesHinted);
+
+        _FinalStage languagesHinted(List<String> languagesHinted);
 
         _FinalStage words(List<ListenV1ResultsChannelAlternativesItemWordsItem> words);
 
@@ -147,6 +173,8 @@ public final class ListenV1ResultsChannelAlternativesItem {
 
         private List<ListenV1ResultsChannelAlternativesItemWordsItem> words = new ArrayList<>();
 
+        private Optional<List<String>> languagesHinted = Optional.empty();
+
         private Optional<List<String>> languages = Optional.empty();
 
         @JsonAnySetter
@@ -159,6 +187,7 @@ public final class ListenV1ResultsChannelAlternativesItem {
             transcript(other.getTranscript());
             confidence(other.getConfidence());
             languages(other.getLanguages());
+            languagesHinted(other.getLanguagesHinted());
             words(other.getWords());
             return this;
         }
@@ -209,12 +238,39 @@ public final class ListenV1ResultsChannelAlternativesItem {
             return this;
         }
 
+        /**
+         * <p>The <code>language_hint</code> values set at connection time, normalized: codes are returned in canonical form (<code>ES</code> → <code>es</code>, <code>zh-hk</code> → <code>zh-HK</code>), and a regional code the model has no tag for is returned as its base language (<code>en-GB</code> → <code>en</code>). Present on interim and final results of every Nova-3 multilingual stream (<code>model=nova-3&amp;language=multi</code>); an empty array when no <code>language_hint</code> was sent.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languagesHinted(List<String> languagesHinted) {
+            this.languagesHinted = Optional.ofNullable(languagesHinted);
+            return this;
+        }
+
+        /**
+         * <p>The <code>language_hint</code> values set at connection time, normalized: codes are returned in canonical form (<code>ES</code> → <code>es</code>, <code>zh-hk</code> → <code>zh-HK</code>), and a regional code the model has no tag for is returned as its base language (<code>en-GB</code> → <code>en</code>). Present on interim and final results of every Nova-3 multilingual stream (<code>model=nova-3&amp;language=multi</code>); an empty array when no <code>language_hint</code> was sent.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "languages_hinted", nulls = Nulls.SKIP)
+        public _FinalStage languagesHinted(Optional<List<String>> languagesHinted) {
+            this.languagesHinted = languagesHinted;
+            return this;
+        }
+
+        /**
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the transcript, sorted by word count in descending order. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @java.lang.Override
         public _FinalStage languages(List<String> languages) {
             this.languages = Optional.ofNullable(languages);
             return this;
         }
 
+        /**
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the transcript, sorted by word count in descending order. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
+         */
         @java.lang.Override
         @JsonSetter(value = "languages", nulls = Nulls.SKIP)
         public _FinalStage languages(Optional<List<String>> languages) {
@@ -225,7 +281,7 @@ public final class ListenV1ResultsChannelAlternativesItem {
         @java.lang.Override
         public ListenV1ResultsChannelAlternativesItem build() {
             return new ListenV1ResultsChannelAlternativesItem(
-                    transcript, confidence, languages, words, additionalProperties);
+                    transcript, confidence, languages, languagesHinted, words, additionalProperties);
         }
 
         @java.lang.Override

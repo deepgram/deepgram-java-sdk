@@ -17,10 +17,12 @@ import com.deepgram.resources.agent.v1.types.AgentV1CustomFromThinkProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1CustomToThinkProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1Error;
 import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
+import com.deepgram.resources.agent.v1.types.AgentV1FrustrationDetected;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallCancelled;
 import com.deepgram.resources.agent.v1.types.AgentV1FunctionCallRequest;
 import com.deepgram.resources.agent.v1.types.AgentV1History;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectAgentMessage;
+import com.deepgram.resources.agent.v1.types.AgentV1InjectDynamicAgentMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectUserMessage;
 import com.deepgram.resources.agent.v1.types.AgentV1InjectionRefused;
 import com.deepgram.resources.agent.v1.types.AgentV1KeepAlive;
@@ -32,11 +34,13 @@ import com.deepgram.resources.agent.v1.types.AgentV1SendFunctionCallResponse;
 import com.deepgram.resources.agent.v1.types.AgentV1Settings;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsApplied;
 import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1ThinkConversationalUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateListen;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdatePrompt;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateSpeak;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateThink;
+import com.deepgram.resources.agent.v1.types.AgentV1UpdateThinkConversational;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
 import com.deepgram.resources.agent.v1.types.AgentV1Warning;
 import com.deepgram.resources.agent.v1.types.AgentV1Welcome;
@@ -84,6 +88,10 @@ public class V1WebSocketClient implements AutoCloseable {
     private volatile Consumer<AgentV1ListenUpdated> listenUpdatedHandler;
 
     private volatile Consumer<AgentV1ThinkUpdated> thinkUpdatedHandler;
+
+    private volatile Consumer<AgentV1ThinkConversationalUpdated> thinkConversationalUpdatedHandler;
+
+    private volatile Consumer<AgentV1FrustrationDetected> frustrationDetectedHandler;
 
     private volatile Consumer<AgentV1ReceiveFunctionCallResponse> onFunctionCallResponseHandler;
 
@@ -276,6 +284,15 @@ public class V1WebSocketClient implements AutoCloseable {
     }
 
     /**
+     * Sends an AgentV1UpdateThinkConversational message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendUpdateThinkConversational(AgentV1UpdateThinkConversational message) {
+        return sendMessage(message);
+    }
+
+    /**
      * Sends an AgentV1UpdateSpeak message to the server asynchronously.
      * @param message the message to send
      * @return a CompletableFuture that completes when the message is sent
@@ -299,6 +316,15 @@ public class V1WebSocketClient implements AutoCloseable {
      * @return a CompletableFuture that completes when the message is sent
      */
     public CompletableFuture<Void> sendInjectAgentMessage(AgentV1InjectAgentMessage message) {
+        return sendMessage(message);
+    }
+
+    /**
+     * Sends an AgentV1InjectDynamicAgentMessage message to the server asynchronously.
+     * @param message the message to send
+     * @return a CompletableFuture that completes when the message is sent
+     */
+    public CompletableFuture<Void> sendInjectDynamicAgentMessage(AgentV1InjectDynamicAgentMessage message) {
         return sendMessage(message);
     }
 
@@ -379,6 +405,22 @@ public class V1WebSocketClient implements AutoCloseable {
      */
     public void onThinkUpdated(Consumer<AgentV1ThinkUpdated> handler) {
         this.thinkUpdatedHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1ThinkConversationalUpdated messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onThinkConversationalUpdated(Consumer<AgentV1ThinkConversationalUpdated> handler) {
+        this.thinkConversationalUpdatedHandler = handler;
+    }
+
+    /**
+     * Registers a handler for AgentV1FrustrationDetected messages from the server.
+     * @param handler the handler to invoke when a message is received
+     */
+    public void onFrustrationDetected(Consumer<AgentV1FrustrationDetected> handler) {
+        this.frustrationDetectedHandler = handler;
     }
 
     /**
@@ -639,6 +681,21 @@ public class V1WebSocketClient implements AutoCloseable {
                     return;
                 }
             }
+            if (node.has("count")
+                    && node.has("escalated")
+                    && "FrustrationDetected".equals(node.path("type").asText())) {
+                AgentV1FrustrationDetected frustrationDetectedHandlerEvent = null;
+                try {
+                    frustrationDetectedHandlerEvent = objectMapper.treeToValue(node, AgentV1FrustrationDetected.class);
+                } catch (Exception e) {
+                }
+                if (frustrationDetectedHandlerEvent != null) {
+                    if (frustrationDetectedHandler != null) {
+                        frustrationDetectedHandler.accept(frustrationDetectedHandlerEvent);
+                    }
+                    return;
+                }
+            }
             if (node.has("name")
                     && node.has("content")
                     && "FunctionCallResponse".equals(node.path("type").asText())) {
@@ -806,6 +863,20 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (thinkUpdatedHandlerEvent != null) {
                     if (thinkUpdatedHandler != null) {
                         thinkUpdatedHandler.accept(thinkUpdatedHandlerEvent);
+                    }
+                    return;
+                }
+            }
+            if ("ThinkConversationalUpdated".equals(node.path("type").asText())) {
+                AgentV1ThinkConversationalUpdated thinkConversationalUpdatedHandlerEvent = null;
+                try {
+                    thinkConversationalUpdatedHandlerEvent =
+                            objectMapper.treeToValue(node, AgentV1ThinkConversationalUpdated.class);
+                } catch (Exception e) {
+                }
+                if (thinkConversationalUpdatedHandlerEvent != null) {
+                    if (thinkConversationalUpdatedHandler != null) {
+                        thinkConversationalUpdatedHandler.accept(thinkConversationalUpdatedHandlerEvent);
                     }
                     return;
                 }

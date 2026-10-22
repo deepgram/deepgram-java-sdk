@@ -195,6 +195,10 @@ public class AsyncRawMediaClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "keywords", request.getKeywords().get(), true);
         }
+        if (request.getLanguageHint().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "language_hint", request.getLanguageHint().get(), true);
+        }
         if (request.getReplace().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "replace", request.getReplace().get(), true);
@@ -447,6 +451,10 @@ public class AsyncRawMediaClient {
         if (request.getKeywords().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "keywords", request.getKeywords().get(), true);
+        }
+        if (request.getLanguageHint().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "language_hint", request.getLanguageHint().get(), true);
         }
         if (request.getReplace().isPresent()) {
             QueryStringMapper.addQueryParameter(
