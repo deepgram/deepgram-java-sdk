@@ -110,9 +110,7 @@ public final class SpeakV2ConfigureFailureCode {
 
         T visitSpeedNotSupported();
 
-        default T visitControlCombinationInvalid() {
-            return visitUnknown("CONTROL_COMBINATION_INVALID");
-        }
+        T visitControlCombinationInvalid();
 
         T visitInternalError();
 

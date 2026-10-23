@@ -28,6 +28,12 @@ public final class ThinkSettingsV1FunctionsItem {
 
     private final Optional<Boolean> deferUntilEot;
 
+    private final Optional<Boolean> initialAgentFiller;
+
+    private final Optional<Integer> agentFillerMaxCount;
+
+    private final Optional<Integer> agentFillerIntervalMs;
+
     private final Optional<ThinkSettingsV1FunctionsItemEndpoint> endpoint;
 
     private final Map<String, Object> additionalProperties;
@@ -37,12 +43,18 @@ public final class ThinkSettingsV1FunctionsItem {
             Optional<String> description,
             Optional<Map<String, Object>> parameters,
             Optional<Boolean> deferUntilEot,
+            Optional<Boolean> initialAgentFiller,
+            Optional<Integer> agentFillerMaxCount,
+            Optional<Integer> agentFillerIntervalMs,
             Optional<ThinkSettingsV1FunctionsItemEndpoint> endpoint,
             Map<String, Object> additionalProperties) {
         this.name = name;
         this.description = description;
         this.parameters = parameters;
         this.deferUntilEot = deferUntilEot;
+        this.initialAgentFiller = initialAgentFiller;
+        this.agentFillerMaxCount = agentFillerMaxCount;
+        this.agentFillerIntervalMs = agentFillerIntervalMs;
         this.endpoint = endpoint;
         this.additionalProperties = additionalProperties;
     }
@@ -80,6 +92,30 @@ public final class ThinkSettingsV1FunctionsItem {
     }
 
     /**
+     * @return Requires <code>agent.think_live</code>. Speak one short filler line after the function is dispatched and the user's turn is confirmed, if the function response has not yet arrived. Skipped when the reasoning LLM already announced the call in the same response
+     */
+    @JsonProperty("initial_agent_filler")
+    public Optional<Boolean> getInitialAgentFiller() {
+        return initialAgentFiller;
+    }
+
+    /**
+     * @return Requires <code>agent.think_live</code>. Number of additional filler lines the agent may speak while this function call is outstanding. Set to 0 to disable additional filler
+     */
+    @JsonProperty("agent_filler_max_count")
+    public Optional<Integer> getAgentFillerMaxCount() {
+        return agentFillerMaxCount;
+    }
+
+    /**
+     * @return Requires <code>agent.think_live</code>. Silence in milliseconds, counted from when the agent last stopped speaking, before each additional filler line. Ignored when <code>agent_filler_max_count</code> is 0, which is also the only case in which a value outside the 1000 to 60000 range is accepted. Setting any filler field without <code>agent.think_live</code>, or an out-of-range interval while <code>agent_filler_max_count</code> is greater than 0, returns an <code>INVALID_SETTINGS</code> error and closes the session
+     */
+    @JsonProperty("agent_filler_interval_ms")
+    public Optional<Integer> getAgentFillerIntervalMs() {
+        return agentFillerIntervalMs;
+    }
+
+    /**
      * @return The Function endpoint to call. if not passed, function is called client-side
      */
     @JsonProperty("endpoint")
@@ -103,12 +139,23 @@ public final class ThinkSettingsV1FunctionsItem {
                 && description.equals(other.description)
                 && parameters.equals(other.parameters)
                 && deferUntilEot.equals(other.deferUntilEot)
+                && initialAgentFiller.equals(other.initialAgentFiller)
+                && agentFillerMaxCount.equals(other.agentFillerMaxCount)
+                && agentFillerIntervalMs.equals(other.agentFillerIntervalMs)
                 && endpoint.equals(other.endpoint);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.name, this.description, this.parameters, this.deferUntilEot, this.endpoint);
+        return Objects.hash(
+                this.name,
+                this.description,
+                this.parameters,
+                this.deferUntilEot,
+                this.initialAgentFiller,
+                this.agentFillerMaxCount,
+                this.agentFillerIntervalMs,
+                this.endpoint);
     }
 
     @java.lang.Override
@@ -130,6 +177,12 @@ public final class ThinkSettingsV1FunctionsItem {
 
         private Optional<Boolean> deferUntilEot = Optional.empty();
 
+        private Optional<Boolean> initialAgentFiller = Optional.empty();
+
+        private Optional<Integer> agentFillerMaxCount = Optional.empty();
+
+        private Optional<Integer> agentFillerIntervalMs = Optional.empty();
+
         private Optional<ThinkSettingsV1FunctionsItemEndpoint> endpoint = Optional.empty();
 
         @JsonAnySetter
@@ -142,6 +195,9 @@ public final class ThinkSettingsV1FunctionsItem {
             description(other.getDescription());
             parameters(other.getParameters());
             deferUntilEot(other.getDeferUntilEot());
+            initialAgentFiller(other.getInitialAgentFiller());
+            agentFillerMaxCount(other.getAgentFillerMaxCount());
+            agentFillerIntervalMs(other.getAgentFillerIntervalMs());
             endpoint(other.getEndpoint());
             return this;
         }
@@ -203,6 +259,48 @@ public final class ThinkSettingsV1FunctionsItem {
         }
 
         /**
+         * <p>Requires <code>agent.think_live</code>. Speak one short filler line after the function is dispatched and the user's turn is confirmed, if the function response has not yet arrived. Skipped when the reasoning LLM already announced the call in the same response</p>
+         */
+        @JsonSetter(value = "initial_agent_filler", nulls = Nulls.SKIP)
+        public Builder initialAgentFiller(Optional<Boolean> initialAgentFiller) {
+            this.initialAgentFiller = initialAgentFiller;
+            return this;
+        }
+
+        public Builder initialAgentFiller(Boolean initialAgentFiller) {
+            this.initialAgentFiller = Optional.ofNullable(initialAgentFiller);
+            return this;
+        }
+
+        /**
+         * <p>Requires <code>agent.think_live</code>. Number of additional filler lines the agent may speak while this function call is outstanding. Set to 0 to disable additional filler</p>
+         */
+        @JsonSetter(value = "agent_filler_max_count", nulls = Nulls.SKIP)
+        public Builder agentFillerMaxCount(Optional<Integer> agentFillerMaxCount) {
+            this.agentFillerMaxCount = agentFillerMaxCount;
+            return this;
+        }
+
+        public Builder agentFillerMaxCount(Integer agentFillerMaxCount) {
+            this.agentFillerMaxCount = Optional.ofNullable(agentFillerMaxCount);
+            return this;
+        }
+
+        /**
+         * <p>Requires <code>agent.think_live</code>. Silence in milliseconds, counted from when the agent last stopped speaking, before each additional filler line. Ignored when <code>agent_filler_max_count</code> is 0, which is also the only case in which a value outside the 1000 to 60000 range is accepted. Setting any filler field without <code>agent.think_live</code>, or an out-of-range interval while <code>agent_filler_max_count</code> is greater than 0, returns an <code>INVALID_SETTINGS</code> error and closes the session</p>
+         */
+        @JsonSetter(value = "agent_filler_interval_ms", nulls = Nulls.SKIP)
+        public Builder agentFillerIntervalMs(Optional<Integer> agentFillerIntervalMs) {
+            this.agentFillerIntervalMs = agentFillerIntervalMs;
+            return this;
+        }
+
+        public Builder agentFillerIntervalMs(Integer agentFillerIntervalMs) {
+            this.agentFillerIntervalMs = Optional.ofNullable(agentFillerIntervalMs);
+            return this;
+        }
+
+        /**
          * <p>The Function endpoint to call. if not passed, function is called client-side</p>
          */
         @JsonSetter(value = "endpoint", nulls = Nulls.SKIP)
@@ -218,7 +316,15 @@ public final class ThinkSettingsV1FunctionsItem {
 
         public ThinkSettingsV1FunctionsItem build() {
             return new ThinkSettingsV1FunctionsItem(
-                    name, description, parameters, deferUntilEot, endpoint, additionalProperties);
+                    name,
+                    description,
+                    parameters,
+                    deferUntilEot,
+                    initialAgentFiller,
+                    agentFillerMaxCount,
+                    agentFillerIntervalMs,
+                    endpoint,
+                    additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

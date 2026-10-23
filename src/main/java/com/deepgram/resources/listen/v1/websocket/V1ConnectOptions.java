@@ -503,19 +503,9 @@ public final class V1ConnectOptions {
 
         _FinalStage language(ListenV1Language language);
 
-        /**
-         * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Hints bias detection and do not restrict it. A list is sent as repeated <code>language_hint</code> query parameters, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> rejects the WebSocket connection with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
-         */
-        default _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint) {
-            return this;
-        }
+        _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint);
 
-        /**
-         * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Hints bias detection and do not restrict it. A list is sent as repeated <code>language_hint</code> query parameters, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> rejects the WebSocket connection with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
-         */
-        default _FinalStage languageHint(ListenV1LanguageHint languageHint) {
-            return this;
-        }
+        _FinalStage languageHint(ListenV1LanguageHint languageHint);
 
         _FinalStage mipOptOut(Optional<ListenV1MipOptOut> mipOptOut);
 
