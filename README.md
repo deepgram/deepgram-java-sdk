@@ -337,6 +337,8 @@ import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
 import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.ListenV1AcceptedResponse;
 import com.deepgram.types.ListenV1Language;
 import com.deepgram.types.ListenV1LanguageHint;
 import com.deepgram.types.ListenV1Model;
@@ -364,13 +366,10 @@ result.visit(new MediaTranscribeResponse.Visitor<Void>() {
         return null;
     }
 
-    @Override
-    public Void _visitUnknown(Object unknown) {
-        return null;
-    }
 });
 
 // Streaming
+V1WebSocketClient ws = client.listen().v1().v1WebSocket();
 ws.connect(V1ConnectOptions.builder()
     .model(ListenV1Model.NOVA3)
     .language(ListenV1Language.of("multi"))
