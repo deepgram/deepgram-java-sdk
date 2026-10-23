@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.deepgram.core.Environment;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.listen.v1.types.ListenV1Configure;
+import com.deepgram.resources.listen.v1.types.ListenV1ConfigureFailure;
+import com.deepgram.resources.listen.v1.types.ListenV1ConfigureSuccess;
 import com.deepgram.resources.listen.v1.types.ListenV1Error;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.ListenV1ConfigureFailureException;
 import com.deepgram.resources.listen.v1.websocket.ListenV1ErrorException;
 import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.ListenV1Model;
@@ -192,6 +195,124 @@ class ListenV1ConfigureErrorWebSocketTest {
             assertThat(serverError.getVariant()).isEqualTo("SchemaError");
             assertThat(serverError.getDescription()).isEqualTo("could not parse control frame");
             assertThat(serverError.getCode()).isEmpty();
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesConfigureFailuresToGenericHandlerWithoutTypedHandler() throws Exception {
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                webSocket.send("{\"type\":\"ConfigureFailure\",\"request_id\":\"req-1\","
+                        + "\"code\":\"CONFIGURE_KEYTERMS_NOT_SUPPORTED\","
+                        + "\"description\":\"keyterms unavailable\"}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        CountDownLatch errorReceived = new CountDownLatch(1);
+        AtomicReference<Exception> error = new AtomicReference<>();
+        V1WebSocketClient ws = client.listen().v1().v1WebSocket();
+        ws.onError(event -> {
+            error.set(event);
+            errorReceived.countDown();
+        });
+        try {
+            ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
+                    .get(5, TimeUnit.SECONDS);
+            ws.sendConfigure(ListenV1Configure.builder().build()).get(5, TimeUnit.SECONDS);
+
+            assertThat(errorReceived.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(error.get()).isInstanceOf(ListenV1ConfigureFailureException.class);
+            ListenV1ConfigureFailure failure = ((ListenV1ConfigureFailureException) error.get()).getFailure();
+            assertThat(failure.getRequestId()).isEqualTo("req-1");
+            assertThat(failure.getCode().toString()).isEqualTo("CONFIGURE_KEYTERMS_NOT_SUPPORTED");
+            assertThat(failure.getDescription()).isEqualTo("keyterms unavailable");
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesConfigureSuccessToTypedHandler() throws Exception {
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                webSocket.send("{\"type\":\"ConfigureSuccess\",\"request_id\":\"req-1\","
+                        + "\"keyterms\":[\"Deepgram\"]}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        CountDownLatch received = new CountDownLatch(1);
+        AtomicReference<ListenV1ConfigureSuccess> success = new AtomicReference<>();
+        AtomicInteger genericErrorCount = new AtomicInteger();
+        V1WebSocketClient ws = client.listen().v1().v1WebSocket();
+        ws.onConfigureSuccess(event -> {
+            success.set(event);
+            received.countDown();
+        });
+        ws.onError(event -> genericErrorCount.incrementAndGet());
+        try {
+            ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
+                    .get(5, TimeUnit.SECONDS);
+            ws.sendConfigure(ListenV1Configure.builder().keyterms(List.of("Deepgram")).build())
+                    .get(5, TimeUnit.SECONDS);
+
+            assertThat(received.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(success.get().getRequestId()).isEqualTo("req-1");
+            assertThat(success.get().getKeyterms()).contains(List.of("Deepgram"));
+            assertThat(genericErrorCount).hasValue(0);
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesConfigureFailureToTypedHandler() throws Exception {
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                webSocket.send("{\"type\":\"ConfigureFailure\",\"request_id\":\"req-1\","
+                        + "\"code\":\"CONFIGURE_KEYTERMS_NOT_SUPPORTED\","
+                        + "\"description\":\"keyterms unavailable\"}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        CountDownLatch received = new CountDownLatch(1);
+        AtomicReference<ListenV1ConfigureFailure> failure = new AtomicReference<>();
+        AtomicInteger genericErrorCount = new AtomicInteger();
+        V1WebSocketClient ws = client.listen().v1().v1WebSocket();
+        ws.onConfigureFailure(event -> {
+            failure.set(event);
+            received.countDown();
+        });
+        ws.onError(event -> genericErrorCount.incrementAndGet());
+        try {
+            ws.connect(V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build())
+                    .get(5, TimeUnit.SECONDS);
+            ws.sendConfigure(ListenV1Configure.builder().build()).get(5, TimeUnit.SECONDS);
+
+            assertThat(received.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(failure.get().getRequestId()).isEqualTo("req-1");
+            assertThat(failure.get().getCode().toString()).isEqualTo("CONFIGURE_KEYTERMS_NOT_SUPPORTED");
+            assertThat(failure.get().getDescription()).isEqualTo("keyterms unavailable");
+            assertThat(genericErrorCount).hasValue(0);
         } finally {
             ws.disconnect();
         }

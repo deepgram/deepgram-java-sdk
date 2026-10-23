@@ -25,6 +25,10 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
 
     private final Optional<Float> confidence;
 
+    private final Optional<List<String>> languages;
+
+    private final Optional<List<String>> languagesHinted;
+
     private final Optional<List<ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem>> words;
 
     private final Optional<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs> paragraphs;
@@ -40,6 +44,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
     private ListenV1ResponseResultsChannelsItemAlternativesItem(
             Optional<String> transcript,
             Optional<Float> confidence,
+            Optional<List<String>> languages,
+            Optional<List<String>> languagesHinted,
             Optional<List<ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem>> words,
             Optional<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs> paragraphs,
             Optional<List<ListenV1ResponseResultsChannelsItemAlternativesItemEntitiesItem>> entities,
@@ -48,6 +54,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
             Map<String, Object> additionalProperties) {
         this.transcript = transcript;
         this.confidence = confidence;
+        this.languages = languages;
+        this.languagesHinted = languagesHinted;
         this.words = words;
         this.paragraphs = paragraphs;
         this.entities = entities;
@@ -64,6 +72,22 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
     @JsonProperty("confidence")
     public Optional<Float> getConfidence() {
         return confidence;
+    }
+
+    /**
+     * @return <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the transcript, sorted by word count in descending order. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.
+     */
+    @JsonProperty("languages")
+    public Optional<List<String>> getLanguages() {
+        return languages;
+    }
+
+    /**
+     * @return The <code>language_hint</code> values for the request, normalized: codes are returned in canonical form (<code>ES</code> → <code>es</code>, <code>zh-hk</code> → <code>zh-HK</code>), and a regional code the model has no tag for is returned as its base language (<code>en-GB</code> → <code>en</code>). Returned on every Nova-3 multilingual response (<code>model=nova-3&amp;language=multi</code>); an empty array when no <code>language_hint</code> was sent.
+     */
+    @JsonProperty("languages_hinted")
+    public Optional<List<String>> getLanguagesHinted() {
+        return languagesHinted;
     }
 
     @JsonProperty("words")
@@ -106,6 +130,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
     private boolean equalTo(ListenV1ResponseResultsChannelsItemAlternativesItem other) {
         return transcript.equals(other.transcript)
                 && confidence.equals(other.confidence)
+                && languages.equals(other.languages)
+                && languagesHinted.equals(other.languagesHinted)
                 && words.equals(other.words)
                 && paragraphs.equals(other.paragraphs)
                 && entities.equals(other.entities)
@@ -118,6 +144,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
         return Objects.hash(
                 this.transcript,
                 this.confidence,
+                this.languages,
+                this.languagesHinted,
                 this.words,
                 this.paragraphs,
                 this.entities,
@@ -140,6 +168,10 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
 
         private Optional<Float> confidence = Optional.empty();
 
+        private Optional<List<String>> languages = Optional.empty();
+
+        private Optional<List<String>> languagesHinted = Optional.empty();
+
         private Optional<List<ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem>> words = Optional.empty();
 
         private Optional<ListenV1ResponseResultsChannelsItemAlternativesItemParagraphs> paragraphs = Optional.empty();
@@ -160,6 +192,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
         public Builder from(ListenV1ResponseResultsChannelsItemAlternativesItem other) {
             transcript(other.getTranscript());
             confidence(other.getConfidence());
+            languages(other.getLanguages());
+            languagesHinted(other.getLanguagesHinted());
             words(other.getWords());
             paragraphs(other.getParagraphs());
             entities(other.getEntities());
@@ -187,6 +221,34 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
 
         public Builder confidence(Float confidence) {
             this.confidence = Optional.ofNullable(confidence);
+            return this;
+        }
+
+        /**
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags of the languages detected in the transcript, sorted by word count in descending order. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
+         */
+        @JsonSetter(value = "languages", nulls = Nulls.SKIP)
+        public Builder languages(Optional<List<String>> languages) {
+            this.languages = languages;
+            return this;
+        }
+
+        public Builder languages(List<String> languages) {
+            this.languages = Optional.ofNullable(languages);
+            return this;
+        }
+
+        /**
+         * <p>The <code>language_hint</code> values for the request, normalized: codes are returned in canonical form (<code>ES</code> → <code>es</code>, <code>zh-hk</code> → <code>zh-HK</code>), and a regional code the model has no tag for is returned as its base language (<code>en-GB</code> → <code>en</code>). Returned on every Nova-3 multilingual response (<code>model=nova-3&amp;language=multi</code>); an empty array when no <code>language_hint</code> was sent.</p>
+         */
+        @JsonSetter(value = "languages_hinted", nulls = Nulls.SKIP)
+        public Builder languagesHinted(Optional<List<String>> languagesHinted) {
+            this.languagesHinted = languagesHinted;
+            return this;
+        }
+
+        public Builder languagesHinted(List<String> languagesHinted) {
+            this.languagesHinted = Optional.ofNullable(languagesHinted);
             return this;
         }
 
@@ -249,7 +311,16 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItem {
 
         public ListenV1ResponseResultsChannelsItemAlternativesItem build() {
             return new ListenV1ResponseResultsChannelsItemAlternativesItem(
-                    transcript, confidence, words, paragraphs, entities, summaries, topics, additionalProperties);
+                    transcript,
+                    confidence,
+                    languages,
+                    languagesHinted,
+                    words,
+                    paragraphs,
+                    entities,
+                    summaries,
+                    topics,
+                    additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

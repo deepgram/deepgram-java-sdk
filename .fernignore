@@ -25,6 +25,7 @@ src/main/java/com/deepgram/core/transport/
 # (thrown by the frozen listen v1 V1WebSocketClient below when no onErrorMessage handler is set).
 # No Fern equivalent; the generator would delete it.
 src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ErrorException.java
+src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ConfigureFailureException.java
 
 # Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
 # configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
@@ -56,6 +57,12 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 # repeats and serializes additionalProperties on the WS connect path (tracked as an upstream Fern request).
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
 src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
+
+# Source and binary compatibility for third-party implementations of generated builder stages.
+# Generated concrete builders override languageHint; default interface methods preserve existing custom implementations.
+src/main/java/com/deepgram/resources/listen/v1/websocket/V1ConnectOptions.java
+src/main/java/com/deepgram/resources/listen/v1/media/requests/ListenV1RequestUrl.java
+src/main/java/com/deepgram/resources/listen/v1/media/requests/MediaTranscribeRequestOctetStream.java
 
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the

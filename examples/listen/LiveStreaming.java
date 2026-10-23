@@ -4,6 +4,8 @@ import com.deepgram.resources.listen.v1.types.ListenV1CloseStreamType;
 import com.deepgram.resources.listen.v1.types.ListenV1ResultsChannelAlternativesItem;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
 import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.ListenV1Language;
+import com.deepgram.types.ListenV1LanguageHint;
 import com.deepgram.types.ListenV1Model;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
@@ -53,6 +55,7 @@ public class LiveStreaming {
                         String label = isFinal ? "[final]  " : "[interim]";
                         System.out.printf("%s %s%n", label, transcript);
                     }
+                    alt.getLanguagesHinted().ifPresent(hints -> System.out.println("Language hints: " + hints));
                 }
             });
 
@@ -79,8 +82,11 @@ public class LiveStreaming {
             });
 
             // Connect to the WebSocket
-            CompletableFuture<Void> connectFuture = wsClient.connect(
-                    V1ConnectOptions.builder().model(ListenV1Model.NOVA3).build());
+            CompletableFuture<Void> connectFuture = wsClient.connect(V1ConnectOptions.builder()
+                    .model(ListenV1Model.NOVA3)
+                    .language(ListenV1Language.of("multi"))
+                    .languageHint(ListenV1LanguageHint.of(java.util.List.of("en", "es")))
+                    .build());
             connectFuture.get(10, TimeUnit.SECONDS);
 
             System.out.println("WebSocket connected. In a real application, you would stream");

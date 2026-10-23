@@ -16,8 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Reconfigures an active Nova-3 Listen V1 stream without reconnecting.
  *
  * <p>Keep the keyterm list under the 500-token limit: an over-limit update does not close the stream, and the server
- * may reply with a {@code ConfigureFailure} ({@code CONFIGURE_KEYTERM_LIMIT_EXCEEDED}), which this client reports to
- * {@code onError}.
+ * may reply with a typed {@code ConfigureFailure} ({@code CONFIGURE_KEYTERM_LIMIT_EXCEEDED}).
  *
  * <p>Usage: {@code DEEPGRAM_API_KEY=... java LiveReconfigure}
  */
@@ -32,6 +31,7 @@ public class LiveReconfigure {
         DeepgramClient client = DeepgramClient.builder().apiKey(apiKey).build();
         V1WebSocketClient wsClient = client.listen().v1().v1WebSocket();
         CountDownLatch closeLatch = new CountDownLatch(1);
+        CountDownLatch configureLatch = new CountDownLatch(1);
 
         try {
             wsClient.onConnected(() -> System.out.println("Connected to Deepgram"));
@@ -48,6 +48,15 @@ public class LiveReconfigure {
                 }
             });
             wsClient.onErrorMessage(LiveReconfigure::printListenError);
+            wsClient.onConfigureSuccess(success -> {
+                System.out.println("Configuration applied: request_id=" + success.getRequestId());
+                success.getKeyterms().ifPresent(keyterms -> System.out.println("Active keyterms: " + keyterms));
+                configureLatch.countDown();
+            });
+            wsClient.onConfigureFailure(failure -> {
+                System.err.println("Configuration rejected (" + failure.getCode() + "): " + failure.getDescription());
+                configureLatch.countDown();
+            });
             wsClient.onError(error -> System.err.println("WebSocket error occurred: " + error.getMessage()));
             wsClient.onDisconnected(reason -> {
                 System.out.println("Connection closed.");
@@ -65,6 +74,9 @@ public class LiveReconfigure {
                             .build())
                     .get(10, TimeUnit.SECONDS);
             System.out.println("Sent live reconfiguration for keyterms and numerals.");
+            if (!configureLatch.await(10, TimeUnit.SECONDS)) {
+                throw new IllegalStateException("Timed out waiting for ConfigureSuccess or ConfigureFailure");
+            }
 
             // Stream audio after this point, for example: wsClient.sendMedia(audioChunk);
             wsClient.sendCloseStream(ListenV1CloseStream.builder()

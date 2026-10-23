@@ -295,6 +295,14 @@ ws.onErrorMessage(error -> {
     System.err.println("Server error: " + error.getVariant() + ": " + error.getDescription());
 });
 
+ws.onConfigureSuccess(success -> {
+    System.out.println("Configuration applied: " + success.getRequestId());
+});
+
+ws.onConfigureFailure(failure -> {
+    System.err.println("Configuration rejected: " + failure.getCode() + ": " + failure.getDescription());
+});
+
 // Connect with options (model is required)
 ws.connect(V1ConnectOptions.builder()
     .model(ListenV1Model.NOVA3)
@@ -303,7 +311,7 @@ ws.connect(V1ConnectOptions.builder()
 
 // Update Nova-3 keyterms and numerals without reconnecting. Keep the keyterm list under the
 // 500-token limit: an over-limit update does not close the stream, and the server may reply
-// with a ConfigureFailure (CONFIGURE_KEYTERM_LIMIT_EXCEEDED), which this client reports to onError.
+// with a typed ConfigureFailure (CONFIGURE_KEYTERM_LIMIT_EXCEEDED).
 ws.sendConfigure(ListenV1Configure.builder()
     .keyterms(List.of("Deepgram"))
     .features(Map.of("numerals", true))
@@ -318,6 +326,56 @@ ws.sendCloseStream(ListenV1CloseStream.builder()
 
 // Close when done
 ws.close();
+```
+
+### Nova-3 multilingual language hints
+
+With `model=nova-3` and `language=multi`, `language_hint` biases language detection toward the languages you expect; it does not restrict the transcript to them, and it is ignored with any other `language`. Each alternative carries the detected `languages` and the normalized `languages_hinted` (an empty list when no hint was sent). A code outside the Nova-3 multilingual list fails the request with HTTP 400.
+
+```java
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.ListenV1AcceptedResponse;
+import com.deepgram.types.ListenV1Language;
+import com.deepgram.types.ListenV1LanguageHint;
+import com.deepgram.types.ListenV1Model;
+import com.deepgram.types.ListenV1Response;
+
+// Pre-recorded (MediaTranscribeResponse is a union type; see "Access transcription" above)
+MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(ListenV1RequestUrl.builder()
+    .url("https://dpgr.am/spacewalk.wav")
+    .model(MediaTranscribeRequestModel.NOVA3)
+    .language("multi")
+    .languageHint(List.of("en", "es"))
+    .build());
+result.visit(new MediaTranscribeResponse.Visitor<Void>() {
+    @Override
+    public Void visit(ListenV1Response response) {
+        response.getResults().getChannels().get(0).getAlternatives().ifPresent(alts -> {
+            alts.get(0).getLanguagesHinted().ifPresent(hinted -> System.out.println("Hints applied: " + hinted));
+            alts.get(0).getLanguages().ifPresent(detected -> System.out.println("Detected: " + detected));
+        });
+        return null;
+    }
+
+    @Override
+    public Void visit(ListenV1AcceptedResponse accepted) {
+        return null;
+    }
+
+});
+
+// Streaming
+V1WebSocketClient ws = client.listen().v1().v1WebSocket();
+ws.connect(V1ConnectOptions.builder()
+    .model(ListenV1Model.NOVA3)
+    .language(ListenV1Language.of("multi"))
+    .languageHint(ListenV1LanguageHint.of(List.of("en", "es")))
+    .build())
+    .get(10, TimeUnit.SECONDS);
 ```
 
 ### Flux Transcription (Listen V2 WebSocket)
