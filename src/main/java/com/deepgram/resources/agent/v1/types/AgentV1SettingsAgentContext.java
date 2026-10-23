@@ -4,6 +4,7 @@
 package com.deepgram.resources.agent.v1.types;
 
 import com.deepgram.core.ObjectMappers;
+import com.deepgram.types.ThinkLiveSettingsV1;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,6 +29,8 @@ public final class AgentV1SettingsAgentContext {
 
     private final Optional<AgentV1SettingsAgentContextThink> think;
 
+    private final Optional<ThinkLiveSettingsV1> thinkLive;
+
     private final Optional<AgentV1SettingsAgentContextSpeak> speak;
 
     private final Optional<String> greeting;
@@ -39,6 +42,7 @@ public final class AgentV1SettingsAgentContext {
             Optional<AgentV1SettingsAgentContextContext> context,
             Optional<AgentV1SettingsAgentContextListen> listen,
             Optional<AgentV1SettingsAgentContextThink> think,
+            Optional<ThinkLiveSettingsV1> thinkLive,
             Optional<AgentV1SettingsAgentContextSpeak> speak,
             Optional<String> greeting,
             Map<String, Object> additionalProperties) {
@@ -46,6 +50,7 @@ public final class AgentV1SettingsAgentContext {
         this.context = context;
         this.listen = listen;
         this.think = think;
+        this.thinkLive = thinkLive;
         this.speak = speak;
         this.greeting = greeting;
         this.additionalProperties = additionalProperties;
@@ -72,9 +77,17 @@ public final class AgentV1SettingsAgentContext {
         return listen;
     }
 
+    /**
+     * @return Your reasoning LLM. With Think Live on, this is the reasoning half of the pair, running alongside the Think Live model configured in <code>think_live</code>
+     */
     @JsonProperty("think")
     public Optional<AgentV1SettingsAgentContextThink> getThink() {
         return think;
+    }
+
+    @JsonProperty("think_live")
+    public Optional<ThinkLiveSettingsV1> getThinkLive() {
+        return thinkLive;
     }
 
     @JsonProperty("speak")
@@ -106,13 +119,15 @@ public final class AgentV1SettingsAgentContext {
                 && context.equals(other.context)
                 && listen.equals(other.listen)
                 && think.equals(other.think)
+                && thinkLive.equals(other.thinkLive)
                 && speak.equals(other.speak)
                 && greeting.equals(other.greeting);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.language, this.context, this.listen, this.think, this.speak, this.greeting);
+        return Objects.hash(
+                this.language, this.context, this.listen, this.think, this.thinkLive, this.speak, this.greeting);
     }
 
     @java.lang.Override
@@ -134,6 +149,8 @@ public final class AgentV1SettingsAgentContext {
 
         private Optional<AgentV1SettingsAgentContextThink> think = Optional.empty();
 
+        private Optional<ThinkLiveSettingsV1> thinkLive = Optional.empty();
+
         private Optional<AgentV1SettingsAgentContextSpeak> speak = Optional.empty();
 
         private Optional<String> greeting = Optional.empty();
@@ -148,6 +165,7 @@ public final class AgentV1SettingsAgentContext {
             context(other.getContext());
             listen(other.getListen());
             think(other.getThink());
+            thinkLive(other.getThinkLive());
             speak(other.getSpeak());
             greeting(other.getGreeting());
             return this;
@@ -192,6 +210,9 @@ public final class AgentV1SettingsAgentContext {
             return this;
         }
 
+        /**
+         * <p>Your reasoning LLM. With Think Live on, this is the reasoning half of the pair, running alongside the Think Live model configured in <code>think_live</code></p>
+         */
         @JsonSetter(value = "think", nulls = Nulls.SKIP)
         public Builder think(Optional<AgentV1SettingsAgentContextThink> think) {
             this.think = think;
@@ -200,6 +221,17 @@ public final class AgentV1SettingsAgentContext {
 
         public Builder think(AgentV1SettingsAgentContextThink think) {
             this.think = Optional.ofNullable(think);
+            return this;
+        }
+
+        @JsonSetter(value = "think_live", nulls = Nulls.SKIP)
+        public Builder thinkLive(Optional<ThinkLiveSettingsV1> thinkLive) {
+            this.thinkLive = thinkLive;
+            return this;
+        }
+
+        public Builder thinkLive(ThinkLiveSettingsV1 thinkLive) {
+            this.thinkLive = Optional.ofNullable(thinkLive);
             return this;
         }
 
@@ -230,7 +262,7 @@ public final class AgentV1SettingsAgentContext {
 
         public AgentV1SettingsAgentContext build() {
             return new AgentV1SettingsAgentContext(
-                    language, context, listen, think, speak, greeting, additionalProperties);
+                    language, context, listen, think, thinkLive, speak, greeting, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

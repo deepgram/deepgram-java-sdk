@@ -58,11 +58,17 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
 src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 
+# Agent V1 forwards raw frames through onMessage(String); unknown control frames must not be errors.
+src/main/java/com/deepgram/resources/agent/v1/websocket/V1WebSocketClient.java
+
 # Source and binary compatibility for third-party implementations of generated builder stages.
 # Generated concrete builders override languageHint; default interface methods preserve existing custom implementations.
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1ConnectOptions.java
 src/main/java/com/deepgram/resources/listen/v1/media/requests/ListenV1RequestUrl.java
 src/main/java/com/deepgram/resources/listen/v1/media/requests/MediaTranscribeRequestOctetStream.java
+
+# Preserve existing AgentV1ConversationText builder implementations after adding conversationalBehavior.
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ConversationText.java
 
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the
@@ -93,6 +99,7 @@ src/main/java/com/deepgram/resources/agent/v1/types/AgentV1KeepAlive.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkUpdated.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1PromptUpdated.java
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ForceEndTurn.java
+src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ThinkLiveUpdated.java
 
 # Union default-variant fix (STOPGAP). The agent listen-provider unions declare `version` as an
 # optional discriminator, so a provider payload without it is valid (and is what 0.7.x emits). Fern

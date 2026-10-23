@@ -4,12 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.resources.agent.v1.types.AgentV1AgentAudioDone;
+import com.deepgram.resources.agent.v1.types.AgentV1ConversationText;
+import com.deepgram.resources.agent.v1.types.AgentV1ConversationTextConversationalBehavior;
+import com.deepgram.resources.agent.v1.types.AgentV1ConversationTextRole;
 import com.deepgram.resources.agent.v1.types.AgentV1ForceEndTurn;
 import com.deepgram.resources.agent.v1.types.AgentV1KeepAlive;
 import com.deepgram.resources.agent.v1.types.AgentV1ListenUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1PromptUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1SettingsApplied;
 import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
+import com.deepgram.resources.agent.v1.types.AgentV1ThinkLiveUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
@@ -164,6 +168,7 @@ public class RegenTypesTest {
                     AgentV1UserStartedSpeaking.builder().build());
             assertContract(AgentV1KeepAlive.builder().build(), AgentV1KeepAlive.builder().build());
             assertContract(AgentV1ThinkUpdated.builder().build(), AgentV1ThinkUpdated.builder().build());
+            assertContract(AgentV1ThinkLiveUpdated.builder().build(), AgentV1ThinkLiveUpdated.builder().build());
             assertContract(AgentV1PromptUpdated.builder().build(), AgentV1PromptUpdated.builder().build());
             assertContract(AgentV1ForceEndTurn.builder().build(), AgentV1ForceEndTurn.builder().build());
             assertContract(ListenV2ForceEndTurn.builder().build(), ListenV2ForceEndTurn.builder().build());
@@ -172,6 +177,41 @@ public class RegenTypesTest {
         private void assertContract(Object a, Object b) {
             assertThat(a).isEqualTo(b);
             assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        }
+    }
+
+    @Nested
+    @DisplayName("Agent V1 ConversationText builder compatibility")
+    class AgentV1ConversationTextBuilderCompatibility {
+
+        @Test
+        void conversationalBehaviorMethodsRemainDefaultForExistingBuilderImplementations() throws Exception {
+            assertThat(AgentV1ConversationText._FinalStage.class
+                            .getMethod("conversationalBehavior", Optional.class)
+                            .isDefault())
+                    .isTrue();
+            assertThat(AgentV1ConversationText._FinalStage.class
+                            .getMethod(
+                                    "conversationalBehavior",
+                                    AgentV1ConversationTextConversationalBehavior.class)
+                            .isDefault())
+                    .isTrue();
+
+            AgentV1ConversationText fromValue = AgentV1ConversationText.builder()
+                    .role(AgentV1ConversationTextRole.ASSISTANT)
+                    .content("hello")
+                    .conversationalBehavior(AgentV1ConversationTextConversationalBehavior.FILLER)
+                    .build();
+            AgentV1ConversationText fromOptional = AgentV1ConversationText.builder()
+                    .role(AgentV1ConversationTextRole.ASSISTANT)
+                    .content("hello")
+                    .conversationalBehavior(Optional.of(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL))
+                    .build();
+
+            assertThat(fromValue.getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.FILLER);
+            assertThat(fromOptional.getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL);
         }
     }
 
