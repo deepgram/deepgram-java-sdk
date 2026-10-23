@@ -585,7 +585,7 @@ public abstract class ReconnectingWebSocketListener extends WebSocketListener {
              *
              * Validates that:
              * - All delay values are positive
-             * - minReconnectionDelayMs <= maxReconnectionDelayMs
+             * - minReconnectionDelayMs &lt;= maxReconnectionDelayMs
              * - reconnectionDelayGrowFactor >= 1.0
              * - maxRetries and maxEnqueuedMessages are non-negative
              *

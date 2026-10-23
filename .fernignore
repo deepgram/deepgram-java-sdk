@@ -27,8 +27,9 @@ src/main/java/com/deepgram/core/transport/
 src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ErrorException.java
 src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ConfigureFailureException.java
 
-# Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
-# configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
+# Bug fixes for maxRetries(0) semantics ("connect once, don't retry"), a
+# configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms),
+# and Javadoc-safe comparator markup (`&lt;=` rather than a raw `<=`).
 # Pull this back out once the fixes are upstreamed into the Fern generator.
 src/main/java/com/deepgram/core/ReconnectingWebSocketListener.java
 
