@@ -26,7 +26,7 @@ Current permanently frozen files:
 
 - `src/main/java/com/deepgram/DeepgramClient.java`, `src/main/java/com/deepgram/AsyncDeepgramClient.java`, `src/main/java/com/deepgram/DeepgramClientBuilder.java`, `src/main/java/com/deepgram/AsyncDeepgramClientBuilder.java` - custom wrapper entrypoints that add Bearer auth, session ID support, and custom transport behavior on top of Fern's generated API client
 - `src/main/java/com/deepgram/core/transport/` - hand-written transport abstraction
-- `src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ErrorException.java` - hand-written exception carrying a Listen V1 server `Error` (`ListenV1Error`) to the generic `onError` handler when no `onErrorMessage` handler is registered; thrown by the frozen listen v1 `V1WebSocketClient`. No Fern equivalent
+- `src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ErrorException.java` and `src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ConfigureFailureException.java` - hand-written exceptions carrying Listen V1 server `Error` and `ConfigureFailure` frames to the generic `onError` handler when no typed handler is registered; thrown by the frozen listen v1 `V1WebSocketClient`. No Fern equivalent
 - `build.gradle`, `settings.gradle`, `gradle/`, `gradlew`, `gradlew.bat`, `mvnw`, `mvnw.cmd`, `.mvn/`, `pom.xml`, `Makefile` - build and project configuration
 - `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `LICENSE`, `docs/` - docs
 - `src/test/` - manually maintained tests

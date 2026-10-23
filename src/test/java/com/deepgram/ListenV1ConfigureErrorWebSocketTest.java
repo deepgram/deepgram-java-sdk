@@ -9,6 +9,7 @@ import com.deepgram.resources.listen.v1.types.ListenV1ConfigureFailure;
 import com.deepgram.resources.listen.v1.types.ListenV1ConfigureSuccess;
 import com.deepgram.resources.listen.v1.types.ListenV1Error;
 import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.resources.listen.v1.websocket.ListenV1ConfigureFailureException;
 import com.deepgram.resources.listen.v1.websocket.ListenV1ErrorException;
 import com.deepgram.resources.listen.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.ListenV1Model;
@@ -228,7 +229,11 @@ class ListenV1ConfigureErrorWebSocketTest {
             ws.sendConfigure(ListenV1Configure.builder().build()).get(5, TimeUnit.SECONDS);
 
             assertThat(errorReceived.await(5, TimeUnit.SECONDS)).isTrue();
-            assertThat(error.get()).hasMessageContaining("ConfigureFailure");
+            assertThat(error.get()).isInstanceOf(ListenV1ConfigureFailureException.class);
+            ListenV1ConfigureFailure failure = ((ListenV1ConfigureFailureException) error.get()).getFailure();
+            assertThat(failure.getRequestId()).isEqualTo("req-1");
+            assertThat(failure.getCode().toString()).isEqualTo("CONFIGURE_KEYTERMS_NOT_SUPPORTED");
+            assertThat(failure.getDescription()).isEqualTo("keyterms unavailable");
         } finally {
             ws.disconnect();
         }

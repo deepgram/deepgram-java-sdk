@@ -25,6 +25,7 @@ src/main/java/com/deepgram/core/transport/
 # (thrown by the frozen listen v1 V1WebSocketClient below when no onErrorMessage handler is set).
 # No Fern equivalent; the generator would delete it.
 src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ErrorException.java
+src/main/java/com/deepgram/resources/listen/v1/websocket/ListenV1ConfigureFailureException.java
 
 # Bug fixes for maxRetries(0) semantics ("connect once, don't retry") and a
 # configurable connectionTimeoutMs on ReconnectOptions (was hardcoded 4000ms).
