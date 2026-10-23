@@ -328,6 +328,57 @@ ws.sendCloseStream(ListenV1CloseStream.builder()
 ws.close();
 ```
 
+### Nova-3 multilingual language hints
+
+With `model=nova-3` and `language=multi`, `language_hint` biases language detection toward the languages you expect; it does not restrict the transcript to them, and it is ignored with any other `language`. Each alternative carries the detected `languages` and the normalized `languages_hinted` (an empty list when no hint was sent). A code outside the Nova-3 multilingual list fails the request with HTTP 400.
+
+```java
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeRequestModel;
+import com.deepgram.resources.listen.v1.media.types.MediaTranscribeResponse;
+import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
+import com.deepgram.types.ListenV1Language;
+import com.deepgram.types.ListenV1LanguageHint;
+import com.deepgram.types.ListenV1Model;
+import com.deepgram.types.ListenV1Response;
+
+// Pre-recorded (MediaTranscribeResponse is a union type; see "Access transcription" above)
+MediaTranscribeResponse result = client.listen().v1().media().transcribeUrl(ListenV1RequestUrl.builder()
+    .url("https://dpgr.am/spacewalk.wav")
+    .model(MediaTranscribeRequestModel.NOVA3)
+    .language("multi")
+    .languageHint(List.of("en", "es"))
+    .build());
+result.visit(new MediaTranscribeResponse.Visitor<Void>() {
+    @Override
+    public Void visit(ListenV1Response response) {
+        response.getResults().getChannels().get(0).getAlternatives().ifPresent(alts -> {
+            alts.get(0).getLanguagesHinted().ifPresent(hinted -> System.out.println("Hints applied: " + hinted));
+            alts.get(0).getLanguages().ifPresent(detected -> System.out.println("Detected: " + detected));
+        });
+        return null;
+    }
+
+    @Override
+    public Void visit(ListenV1AcceptedResponse accepted) {
+        return null;
+    }
+
+    @Override
+    public Void _visitUnknown(Object unknown) {
+        return null;
+    }
+});
+
+// Streaming
+ws.connect(V1ConnectOptions.builder()
+    .model(ListenV1Model.NOVA3)
+    .language(ListenV1Language.of("multi"))
+    .languageHint(ListenV1LanguageHint.of(List.of("en", "es")))
+    .build())
+    .get(10, TimeUnit.SECONDS);
+```
+
 ### Flux Transcription (Listen V2 WebSocket)
 
 Flux supports turn-aware streaming transcription. Set `numerals` when connecting, or change it for turns transcribed
