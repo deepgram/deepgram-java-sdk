@@ -13,6 +13,7 @@ import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
+import com.deepgram.resources.listen.v1.types.ListenV1ResultsChannelAlternativesItem;
 import com.deepgram.resources.listen.v1.types.ListenV1ResultsMetadata;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
@@ -30,6 +31,7 @@ import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.GoogleVersion;
 import com.deepgram.types.ListenV1ResponseMetadata;
+import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
 import com.deepgram.types.ListenV2Redact;
 import com.deepgram.types.SharedIntents;
@@ -37,6 +39,7 @@ import com.deepgram.types.SharedTopics;
 import com.deepgram.types.ThinkSettingsV1FunctionsItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -220,6 +223,27 @@ public class RegenTypesTest {
             String json = MAPPER.writeValueAsString(DeepgramModel.FLUX_RENEE_EN);
             assertThat(json).isEqualTo("\"flux-renee-en\"");
             assertThat(MAPPER.readValue(json, DeepgramModel.class)).isEqualTo(DeepgramModel.FLUX_RENEE_EN);
+        }
+    }
+
+    @Nested
+    @DisplayName("2026-10-23 multilingual Listen V1 fields")
+    class MultilingualListenV1 {
+
+        @Test
+        void deserializesStreamingAndPreRecordedLanguageMetadata() throws Exception {
+            String json = "{\"transcript\":\"hola\",\"confidence\":0.9,\"languages\":[\"es\"],"
+                    + "\"languages_hinted\":[\"en\",\"es\"],\"words\":[]}";
+
+            ListenV1ResultsChannelAlternativesItem streaming =
+                    MAPPER.readValue(json, ListenV1ResultsChannelAlternativesItem.class);
+            ListenV1ResponseResultsChannelsItemAlternativesItem prerecorded =
+                    MAPPER.readValue(json, ListenV1ResponseResultsChannelsItemAlternativesItem.class);
+
+            assertThat(streaming.getLanguages()).contains(List.of("es"));
+            assertThat(streaming.getLanguagesHinted()).contains(List.of("en", "es"));
+            assertThat(prerecorded.getLanguages()).contains(List.of("es"));
+            assertThat(prerecorded.getLanguagesHinted()).contains(List.of("en", "es"));
         }
     }
 

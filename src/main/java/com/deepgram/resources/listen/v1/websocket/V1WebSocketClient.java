@@ -569,8 +569,8 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (configureFailureHandlerEvent != null) {
                     if (configureFailureHandler != null) {
                         configureFailureHandler.accept(configureFailureHandlerEvent);
+                        return;
                     }
-                    return;
                 }
             }
             if (node.has("channel")
