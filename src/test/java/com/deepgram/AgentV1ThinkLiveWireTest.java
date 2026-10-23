@@ -188,4 +188,36 @@ class AgentV1ThinkLiveWireTest {
             ws.disconnect();
         }
     }
+
+    @Test
+    void reportsUnknownFramesToLegacyErrorHandlersWithoutRawHandler() throws Exception {
+        String unknownFrame = "{\"type\":\"FutureAgentControl\",\"feature\":true}";
+        CountDownLatch errorReceived = new CountDownLatch(1);
+        AtomicReference<Exception> error = new AtomicReference<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send(unknownFrame);
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onError(event -> {
+            error.set(event);
+            errorReceived.countDown();
+        });
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+
+            assertThat(errorReceived.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(error.get()).hasMessageContaining("FutureAgentControl");
+        } finally {
+            ws.disconnect();
+        }
+    }
 }
