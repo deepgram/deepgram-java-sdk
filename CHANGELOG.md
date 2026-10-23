@@ -5,7 +5,7 @@
 
 ### Features
 
-* **regen:** add nova-3 multilingual Listen V1 support ([#131](https://github.com/deepgram/deepgram-java-sdk/issues/131)) ([148a29a](https://github.com/deepgram/deepgram-java-sdk/commit/148a29a0684881b6a231ae7a3c5cb89ed0271a2f))
+* **Listen V1 (Nova-3 multilingual):** Add `languageHint(...)` for prerecorded and streaming requests with `language("multi")`; typed results expose detected `getLanguages()` and normalized `getLanguagesHinted()` values. Live reconfiguration now emits `onConfigureSuccess(...)` or `onConfigureFailure(...)`; generic `onError(...)` receives `ListenV1ConfigureFailureException` when no typed failure handler is registered. ([#131](https://github.com/deepgram/deepgram-java-sdk/issues/131)) ([148a29a](https://github.com/deepgram/deepgram-java-sdk/commit/148a29a0684881b6a231ae7a3c5cb89ed0271a2f))
 
 ## [0.11.1](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.0...v0.11.1) (2026-10-08)
 
