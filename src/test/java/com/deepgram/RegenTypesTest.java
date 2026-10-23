@@ -13,8 +13,11 @@ import com.deepgram.resources.agent.v1.types.AgentV1SpeakUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateListenListenProvider;
 import com.deepgram.resources.agent.v1.types.AgentV1UserStartedSpeaking;
+import com.deepgram.resources.listen.v1.media.requests.ListenV1RequestUrl;
+import com.deepgram.resources.listen.v1.media.requests.MediaTranscribeRequestOctetStream;
 import com.deepgram.resources.listen.v1.types.ListenV1ResultsChannelAlternativesItem;
 import com.deepgram.resources.listen.v1.types.ListenV1ResultsMetadata;
+import com.deepgram.resources.listen.v1.websocket.V1ConnectOptions;
 import com.deepgram.resources.listen.v2.types.ListenV2CloseStream;
 import com.deepgram.resources.listen.v2.types.ListenV2ForceEndTurn;
 import com.deepgram.resources.listen.v2.types.ListenV2TurnInfo;
@@ -30,6 +33,7 @@ import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.GoogleVersion;
+import com.deepgram.types.ListenV1LanguageHint;
 import com.deepgram.types.ListenV1ResponseMetadata;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItem;
 import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem;
@@ -40,6 +44,7 @@ import com.deepgram.types.ThinkSettingsV1FunctionsItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -244,6 +249,31 @@ public class RegenTypesTest {
             assertThat(streaming.getLanguagesHinted()).contains(List.of("en", "es"));
             assertThat(prerecorded.getLanguages()).contains(List.of("es"));
             assertThat(prerecorded.getLanguagesHinted()).contains(List.of("en", "es"));
+        }
+    }
+
+    @Nested
+    @DisplayName("2026-10-23 Listen V1 builder compatibility")
+    class ListenV1BuilderCompatibility {
+
+        @Test
+        void languageHintMethodsRemainDefaultForExistingBuilderImplementations() throws Exception {
+            assertThat(V1ConnectOptions._FinalStage.class
+                            .getMethod("languageHint", Optional.class)
+                            .isDefault())
+                    .isTrue();
+            assertThat(V1ConnectOptions._FinalStage.class
+                            .getMethod("languageHint", ListenV1LanguageHint.class)
+                            .isDefault())
+                    .isTrue();
+            assertLanguageHintDefaults(ListenV1RequestUrl._FinalStage.class);
+            assertLanguageHintDefaults(MediaTranscribeRequestOctetStream._FinalStage.class);
+        }
+
+        private void assertLanguageHintDefaults(Class<?> builderStage) throws Exception {
+            assertThat(builderStage.getMethod("languageHint", Optional.class).isDefault()).isTrue();
+            assertThat(builderStage.getMethod("languageHint", List.class).isDefault()).isTrue();
+            assertThat(builderStage.getMethod("languageHint", String.class).isDefault()).isTrue();
         }
     }
 

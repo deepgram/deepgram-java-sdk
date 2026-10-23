@@ -503,9 +503,13 @@ public final class V1ConnectOptions {
 
         _FinalStage language(ListenV1Language language);
 
-        _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint);
+        default _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint) {
+            return this;
+        }
 
-        _FinalStage languageHint(ListenV1LanguageHint languageHint);
+        default _FinalStage languageHint(ListenV1LanguageHint languageHint) {
+            return this;
+        }
 
         _FinalStage mipOptOut(Optional<ListenV1MipOptOut> mipOptOut);
 
