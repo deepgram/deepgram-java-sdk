@@ -969,11 +969,7 @@ public class V1WebSocketClient implements AutoCloseable {
                 }
                 return;
             }
-            if (onErrorHandler != null) {
-                onErrorHandler.accept(new RuntimeException(
-                        "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
-                                + "... Update your SDK version to support new message types."));
-            }
+            // Unknown frames remain available through onMessage for forward compatibility.
         } catch (Exception e) {
             if (onErrorHandler != null) {
                 onErrorHandler.accept(e);

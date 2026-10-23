@@ -36,6 +36,11 @@ public final class AgentV1ThinkLiveUpdated {
         return other instanceof AgentV1ThinkLiveUpdated;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+        return 1;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

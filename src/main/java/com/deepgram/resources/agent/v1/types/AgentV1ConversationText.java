@@ -156,10 +156,14 @@ public final class AgentV1ConversationText {
         /**
          * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off</p>
          */
-        _FinalStage conversationalBehavior(
-                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior);
+        default _FinalStage conversationalBehavior(
+                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
+            return this;
+        }
 
-        _FinalStage conversationalBehavior(AgentV1ConversationTextConversationalBehavior conversationalBehavior);
+        default _FinalStage conversationalBehavior(AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
+            return this;
+        }
 
         /**
          * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
