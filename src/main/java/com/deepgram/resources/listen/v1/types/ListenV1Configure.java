@@ -46,13 +46,12 @@ public final class ListenV1Configure {
 
     /**
      * @return Replaces the stream's keyterms. Compatible with all Nova-3 models, monolingual and multilingual; on other
-     * models the server returns an <code>Error</code> with code <code>KeytermsNotSupported</code>. Each array replaces the entire list,
-     * including keyterms set with the <code>keyterm</code> query parameter. Send an empty array to clear all keyterms. Omit
-     * the field, or set it to <code>null</code>, to keep the current keyterms.
+     * models the server returns a <code>ConfigureFailure</code> with code <code>CONFIGURE_KEYTERMS_NOT_SUPPORTED</code>. Each array
+     * replaces the entire list, including keyterms set with the <code>keyterm</code> query parameter. Send an empty array to
+     * clear all keyterms. Omit the field, or set it to <code>null</code>, to keep the current keyterms.
      * <p>Each entry is a plain term or phrase with no weights or intensifiers. The 500-token keyterm limit that
-     * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update currently stops
-     * transcription without an <code>Error</code>; after about 30 seconds, the server closes the stream with <code>1011</code>
-     * (<code>NET-0000</code>). Keep each list under the limit and check its size before sending.</p>
+     * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update returns a
+     * <code>ConfigureFailure</code> with code <code>CONFIGURE_KEYTERM_LIMIT_EXCEEDED</code>.</p>
      */
     @JsonProperty("keyterms")
     public Optional<List<String>> getKeyterms() {
@@ -116,13 +115,12 @@ public final class ListenV1Configure {
 
         /**
          * <p>Replaces the stream's keyterms. Compatible with all Nova-3 models, monolingual and multilingual; on other
-         * models the server returns an <code>Error</code> with code <code>KeytermsNotSupported</code>. Each array replaces the entire list,
-         * including keyterms set with the <code>keyterm</code> query parameter. Send an empty array to clear all keyterms. Omit
-         * the field, or set it to <code>null</code>, to keep the current keyterms.</p>
+         * models the server returns a <code>ConfigureFailure</code> with code <code>CONFIGURE_KEYTERMS_NOT_SUPPORTED</code>. Each array
+         * replaces the entire list, including keyterms set with the <code>keyterm</code> query parameter. Send an empty array to
+         * clear all keyterms. Omit the field, or set it to <code>null</code>, to keep the current keyterms.</p>
          * <p>Each entry is a plain term or phrase with no weights or intensifiers. The 500-token keyterm limit that
-         * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update currently stops
-         * transcription without an <code>Error</code>; after about 30 seconds, the server closes the stream with <code>1011</code>
-         * (<code>NET-0000</code>). Keep each list under the limit and check its size before sending.</p>
+         * applies to the <code>keyterm</code> query parameter also applies to each update. An over-limit update returns a
+         * <code>ConfigureFailure</code> with code <code>CONFIGURE_KEYTERM_LIMIT_EXCEEDED</code>.</p>
          */
         @JsonSetter(value = "keyterms", nulls = Nulls.SKIP)
         public Builder keyterms(Optional<List<String>> keyterms) {

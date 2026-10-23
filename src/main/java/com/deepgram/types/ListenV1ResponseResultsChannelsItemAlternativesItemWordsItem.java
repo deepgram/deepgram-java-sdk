@@ -28,6 +28,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
 
     private final Optional<Float> confidence;
 
+    private final Optional<String> language;
+
     private final Optional<Integer> speaker;
 
     private final Optional<Float> speakerConfidence;
@@ -39,6 +41,7 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
             Optional<Float> start,
             Optional<Float> end,
             Optional<Float> confidence,
+            Optional<String> language,
             Optional<Integer> speaker,
             Optional<Float> speakerConfidence,
             Map<String, Object> additionalProperties) {
@@ -46,6 +49,7 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
         this.start = start;
         this.end = end;
         this.confidence = confidence;
+        this.language = language;
         this.speaker = speaker;
         this.speakerConfidence = speakerConfidence;
         this.additionalProperties = additionalProperties;
@@ -69,6 +73,14 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
     @JsonProperty("confidence")
     public Optional<Float> getConfidence() {
         return confidence;
+    }
+
+    /**
+     * @return <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.
+     */
+    @JsonProperty("language")
+    public Optional<String> getLanguage() {
+        return language;
     }
 
     /**
@@ -104,13 +116,15 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
                 && start.equals(other.start)
                 && end.equals(other.end)
                 && confidence.equals(other.confidence)
+                && language.equals(other.language)
                 && speaker.equals(other.speaker)
                 && speakerConfidence.equals(other.speakerConfidence);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.word, this.start, this.end, this.confidence, this.speaker, this.speakerConfidence);
+        return Objects.hash(
+                this.word, this.start, this.end, this.confidence, this.language, this.speaker, this.speakerConfidence);
     }
 
     @java.lang.Override
@@ -132,6 +146,8 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
 
         private Optional<Float> confidence = Optional.empty();
 
+        private Optional<String> language = Optional.empty();
+
         private Optional<Integer> speaker = Optional.empty();
 
         private Optional<Float> speakerConfidence = Optional.empty();
@@ -146,6 +162,7 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
             start(other.getStart());
             end(other.getEnd());
             confidence(other.getConfidence());
+            language(other.getLanguage());
             speaker(other.getSpeaker());
             speakerConfidence(other.getSpeakerConfidence());
             return this;
@@ -196,6 +213,20 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
         }
 
         /**
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
+         */
+        @JsonSetter(value = "language", nulls = Nulls.SKIP)
+        public Builder language(Optional<String> language) {
+            this.language = language;
+            return this;
+        }
+
+        public Builder language(String language) {
+            this.language = Optional.ofNullable(language);
+            return this;
+        }
+
+        /**
          * <p>The speaker of the word, present when diarization is enabled</p>
          */
         @JsonSetter(value = "speaker", nulls = Nulls.SKIP)
@@ -225,7 +256,7 @@ public final class ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem 
 
         public ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem build() {
             return new ListenV1ResponseResultsChannelsItemAlternativesItemWordsItem(
-                    word, start, end, confidence, speaker, speakerConfidence, additionalProperties);
+                    word, start, end, confidence, language, speaker, speakerConfidence, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

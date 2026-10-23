@@ -43,6 +43,8 @@ public final class MediaTranscribeRequestOctetStream {
 
     private final Optional<List<String>> keywords;
 
+    private final Optional<List<String>> languageHint;
+
     private final Optional<List<String>> replace;
 
     private final Optional<List<String>> search;
@@ -116,6 +118,7 @@ public final class MediaTranscribeRequestOctetStream {
             Optional<List<String>> customIntent,
             Optional<List<String>> keyterm,
             Optional<List<String>> keywords,
+            Optional<List<String>> languageHint,
             Optional<List<String>> replace,
             Optional<List<String>> search,
             Optional<String> callback,
@@ -155,6 +158,7 @@ public final class MediaTranscribeRequestOctetStream {
         this.customIntent = customIntent;
         this.keyterm = keyterm;
         this.keywords = keywords;
+        this.languageHint = languageHint;
         this.replace = replace;
         this.search = search;
         this.callback = callback;
@@ -238,6 +242,14 @@ public final class MediaTranscribeRequestOctetStream {
     @JsonProperty("keywords")
     public Optional<List<String>> getKeywords() {
         return keywords;
+    }
+
+    /**
+     * @return Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Repeat the parameter to pass several codes, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> fails the request with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.
+     */
+    @JsonProperty("language_hint")
+    public Optional<List<String>> getLanguageHint() {
+        return languageHint;
     }
 
     /**
@@ -511,6 +523,7 @@ public final class MediaTranscribeRequestOctetStream {
                 && customIntent.equals(other.customIntent)
                 && keyterm.equals(other.keyterm)
                 && keywords.equals(other.keywords)
+                && languageHint.equals(other.languageHint)
                 && replace.equals(other.replace)
                 && search.equals(other.search)
                 && callback.equals(other.callback)
@@ -554,6 +567,7 @@ public final class MediaTranscribeRequestOctetStream {
                 this.customIntent,
                 this.keyterm,
                 this.keywords,
+                this.languageHint,
                 this.replace,
                 this.search,
                 this.callback,
@@ -665,6 +679,15 @@ public final class MediaTranscribeRequestOctetStream {
         _FinalStage keywords(List<String> keywords);
 
         _FinalStage keywords(String keywords);
+
+        /**
+         * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Repeat the parameter to pass several codes, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> fails the request with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
+         */
+        _FinalStage languageHint(Optional<List<String>> languageHint);
+
+        _FinalStage languageHint(List<String> languageHint);
+
+        _FinalStage languageHint(String languageHint);
 
         /**
          * <p>Search for terms or phrases in submitted audio and replaces them</p>
@@ -954,6 +977,8 @@ public final class MediaTranscribeRequestOctetStream {
 
         private Optional<List<String>> replace = Optional.empty();
 
+        private Optional<List<String>> languageHint = Optional.empty();
+
         private Optional<List<String>> keywords = Optional.empty();
 
         private Optional<List<String>> keyterm = Optional.empty();
@@ -979,6 +1004,7 @@ public final class MediaTranscribeRequestOctetStream {
             customIntent(other.getCustomIntent());
             keyterm(other.getKeyterm());
             keywords(other.getKeywords());
+            languageHint(other.getLanguageHint());
             replace(other.getReplace());
             search(other.getSearch());
             callback(other.getCallback());
@@ -1654,6 +1680,32 @@ public final class MediaTranscribeRequestOctetStream {
         }
 
         @java.lang.Override
+        public _FinalStage languageHint(String languageHint) {
+            this.languageHint = Optional.of(Collections.singletonList(languageHint));
+            return this;
+        }
+
+        /**
+         * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Repeat the parameter to pass several codes, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> fails the request with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage languageHint(List<String> languageHint) {
+            this.languageHint = Optional.ofNullable(languageHint);
+            return this;
+        }
+
+        /**
+         * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Repeat the parameter to pass several codes, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> fails the request with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "language_hint", nulls = Nulls.SKIP)
+        public _FinalStage languageHint(Optional<List<String>> languageHint) {
+            this.languageHint = languageHint;
+            return this;
+        }
+
+        @java.lang.Override
         public _FinalStage keywords(String keywords) {
             this.keywords = Optional.of(Collections.singletonList(keywords));
             return this;
@@ -1822,6 +1874,7 @@ public final class MediaTranscribeRequestOctetStream {
                     customIntent,
                     keyterm,
                     keywords,
+                    languageHint,
                     replace,
                     search,
                     callback,

@@ -89,7 +89,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
     }
 
     /**
-     * @return The language of the word
+     * @return <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.
      */
     @JsonProperty("language")
     public Optional<String> getLanguage() {
@@ -187,7 +187,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
-         * <p>The language of the word</p>
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
          */
         _FinalStage language(Optional<String> language);
 
@@ -326,7 +326,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         }
 
         /**
-         * <p>The language of the word</p>
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -336,7 +336,7 @@ public final class ListenV1ResultsChannelAlternativesItemWordsItem {
         }
 
         /**
-         * <p>The language of the word</p>
+         * <p><a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tag of the word's detected language. Only present when <code>language=multi</code>. Can be absent on audio that switches languages.</p>
          */
         @java.lang.Override
         @JsonSetter(value = "language", nulls = Nulls.SKIP)

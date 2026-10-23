@@ -36,11 +36,6 @@ public final class SpeakV2Flush {
         return other instanceof SpeakV2Flush;
     }
 
-    @java.lang.Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

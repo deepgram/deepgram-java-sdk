@@ -18,6 +18,7 @@ import com.deepgram.types.ListenV1InterimResults;
 import com.deepgram.types.ListenV1Keyterm;
 import com.deepgram.types.ListenV1Keywords;
 import com.deepgram.types.ListenV1Language;
+import com.deepgram.types.ListenV1LanguageHint;
 import com.deepgram.types.ListenV1MipOptOut;
 import com.deepgram.types.ListenV1Model;
 import com.deepgram.types.ListenV1Multichannel;
@@ -78,6 +79,8 @@ public final class V1ConnectOptions {
 
     private final Optional<ListenV1Language> language;
 
+    private final Optional<ListenV1LanguageHint> languageHint;
+
     private final Optional<ListenV1MipOptOut> mipOptOut;
 
     private final ListenV1Model model;
@@ -125,6 +128,7 @@ public final class V1ConnectOptions {
             Optional<ListenV1Keyterm> keyterm,
             Optional<ListenV1Keywords> keywords,
             Optional<ListenV1Language> language,
+            Optional<ListenV1LanguageHint> languageHint,
             Optional<ListenV1MipOptOut> mipOptOut,
             ListenV1Model model,
             Optional<ListenV1Multichannel> multichannel,
@@ -155,6 +159,7 @@ public final class V1ConnectOptions {
         this.keyterm = keyterm;
         this.keywords = keywords;
         this.language = language;
+        this.languageHint = languageHint;
         this.mipOptOut = mipOptOut;
         this.model = model;
         this.multichannel = multichannel;
@@ -247,6 +252,11 @@ public final class V1ConnectOptions {
     @JsonProperty("language")
     public Optional<ListenV1Language> getLanguage() {
         return language;
+    }
+
+    @JsonProperty("language_hint")
+    public Optional<ListenV1LanguageHint> getLanguageHint() {
+        return languageHint;
     }
 
     @JsonProperty("mip_opt_out")
@@ -353,6 +363,7 @@ public final class V1ConnectOptions {
                 && keyterm.equals(other.keyterm)
                 && keywords.equals(other.keywords)
                 && language.equals(other.language)
+                && languageHint.equals(other.languageHint)
                 && mipOptOut.equals(other.mipOptOut)
                 && model.equals(other.model)
                 && multichannel.equals(other.multichannel)
@@ -387,6 +398,7 @@ public final class V1ConnectOptions {
                 this.keyterm,
                 this.keywords,
                 this.language,
+                this.languageHint,
                 this.mipOptOut,
                 this.model,
                 this.multichannel,
@@ -491,6 +503,10 @@ public final class V1ConnectOptions {
 
         _FinalStage language(ListenV1Language language);
 
+        _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint);
+
+        _FinalStage languageHint(ListenV1LanguageHint languageHint);
+
         _FinalStage mipOptOut(Optional<ListenV1MipOptOut> mipOptOut);
 
         _FinalStage mipOptOut(ListenV1MipOptOut mipOptOut);
@@ -580,6 +596,8 @@ public final class V1ConnectOptions {
 
         private Optional<ListenV1MipOptOut> mipOptOut = Optional.empty();
 
+        private Optional<ListenV1LanguageHint> languageHint = Optional.empty();
+
         private Optional<ListenV1Language> language = Optional.empty();
 
         private Optional<ListenV1Keywords> keywords = Optional.empty();
@@ -629,6 +647,7 @@ public final class V1ConnectOptions {
             keyterm(other.getKeyterm());
             keywords(other.getKeywords());
             language(other.getLanguage());
+            languageHint(other.getLanguageHint());
             mipOptOut(other.getMipOptOut());
             model(other.getModel());
             multichannel(other.getMultichannel());
@@ -837,6 +856,19 @@ public final class V1ConnectOptions {
         @JsonSetter(value = "mip_opt_out", nulls = Nulls.SKIP)
         public _FinalStage mipOptOut(Optional<ListenV1MipOptOut> mipOptOut) {
             this.mipOptOut = mipOptOut;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage languageHint(ListenV1LanguageHint languageHint) {
+            this.languageHint = Optional.ofNullable(languageHint);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "language_hint", nulls = Nulls.SKIP)
+        public _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint) {
+            this.languageHint = languageHint;
             return this;
         }
 
@@ -1053,6 +1085,7 @@ public final class V1ConnectOptions {
                     keyterm,
                     keywords,
                     language,
+                    languageHint,
                     mipOptOut,
                     model,
                     multichannel,
