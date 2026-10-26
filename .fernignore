@@ -58,7 +58,8 @@ src/main/java/com/deepgram/resources/listen/v2/websocket/V2WebSocketClient.java
 src/main/java/com/deepgram/resources/listen/v1/websocket/V1WebSocketClient.java
 src/main/java/com/deepgram/resources/speak/v1/websocket/V1WebSocketClient.java
 
-# Agent V1 forwards raw frames through onMessage(String); unknown control frames must not be errors.
+# Agent V1 forwards raw frames through onMessage(String); suppress generic errors only when a raw
+# handler is registered, otherwise retain legacy onError delivery for unknown control frames.
 src/main/java/com/deepgram/resources/agent/v1/websocket/V1WebSocketClient.java
 
 # Source and binary compatibility for third-party implementations of generated builder stages.
