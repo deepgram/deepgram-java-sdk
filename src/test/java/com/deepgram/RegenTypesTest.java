@@ -211,6 +211,11 @@ public class RegenTypesTest {
                     .content("hello")
                     .conversationalBehavior(Optional.of(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL))
                     .build();
+            AgentV1ConversationText fromEmpty = AgentV1ConversationText.builder()
+                    .role(AgentV1ConversationTextRole.ASSISTANT)
+                    .content("hello")
+                    .conversationalBehavior(Optional.empty())
+                    .build();
 
             assertThat(legacy.getConversationalBehavior())
                     .contains(AgentV1ConversationTextConversationalBehavior.DEFAULT);
@@ -218,6 +223,10 @@ public class RegenTypesTest {
                     .contains(AgentV1ConversationTextConversationalBehavior.FILLER);
             assertThat(fromOptional.getConversationalBehavior())
                     .contains(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL);
+            assertThat(fromEmpty.getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.DEFAULT);
+            assertThat(MAPPER.writeValueAsString(fromEmpty))
+                    .contains("\"conversational_behavior\":\"default\"");
         }
     }
 
