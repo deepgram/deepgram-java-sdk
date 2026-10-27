@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.11.3](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.2...v0.11.3) (2026-10-27)
+
+
+### Features
+
+* **regen:** add think live and flux tts support ([#134](https://github.com/deepgram/deepgram-java-sdk/issues/134)) ([a2ec8a4](https://github.com/deepgram/deepgram-java-sdk/commit/a2ec8a43b06b2184356e3986f2cd67f743df60c8))
+
+
+### Bug Fixes
+
+* **agent:** conversation text always carries conversational_behavior ([#136](https://github.com/deepgram/deepgram-java-sdk/issues/136)) ([359681d](https://github.com/deepgram/deepgram-java-sdk/commit/359681ddeadb4120e0c2d18a27125d432a81b44f))
+
 ## [0.11.2](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.1...v0.11.2) (2026-10-23)
 
 
