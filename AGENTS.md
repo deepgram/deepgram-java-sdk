@@ -32,8 +32,9 @@ Current permanently frozen files:
 - `src/test/` - manually maintained tests
 - `examples/` - manually maintained examples
 - `.editorconfig`, `.githooks/`, `.github/`, `.gitignore` - repo and CI configuration
+- `context7.json` - generated-documentation context configuration maintained outside Fern
 - `target/` - build output
-- `CLAUDE.md`, `AGENTS.md`, `.claude/` - agent files
+- `CLAUDE.md`, `AGENTS.md`, `.claude/`, `.agents/` - agent files and agent-agnostic skills
 
 Note: `.fernignore` also includes flat-path variants such as `src/main/java/DeepgramClient.java` as defensive entries for alternate local generation layouts. Those files do not currently exist in this repo checkout and should not be treated as current maintained source files.
 
