@@ -151,7 +151,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.
+     * @return Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted.
      */
     @JsonIgnore
     public String getModel() {
@@ -183,7 +183,7 @@ public final class SpeakV2Request {
     }
 
     /**
-     * @return The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.
+     * @return The text content to be converted to speech. For English, German, Dutch, French, Hindi, Italian, Japanese, Portuguese, Russian and Spanish, the server normalizes the text (numbers, dates, abbreviations) before synthesis; the other languages are in Early Access without text normalization, so write numbers and dates out in words. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.
      */
     @JsonProperty("text")
     public String getText() {
@@ -246,7 +246,7 @@ public final class SpeakV2Request {
 
     public interface ModelStage {
         /**
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
+         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted.</p>
          */
         TextStage model(@NotNull String model);
 
@@ -255,7 +255,7 @@ public final class SpeakV2Request {
 
     public interface TextStage {
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
+         * <p>The text content to be converted to speech. For English, German, Dutch, French, Hindi, Italian, Japanese, Portuguese, Russian and Spanish, the server normalizes the text (numbers, dates, abbreviations) before synthesis; the other languages are in Early Access without text normalization, so write numbers and dates out in words. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
          */
         _FinalStage text(@NotNull String text);
     }
@@ -399,7 +399,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted. English-only at launch.</p>
+         * <p>Flux TTS model used to synthesize the submitted text, in the form <code>flux-{voice}-{language}</code> (for example, <code>flux-alexis-en</code>). Required; unlike the v1 (Aura) endpoint there is no default and only flux models are accepted.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
@@ -410,7 +410,7 @@ public final class SpeakV2Request {
         }
 
         /**
-         * <p>The text content to be converted to speech. The server normalizes and preprocesses the text before synthesis. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
+         * <p>The text content to be converted to speech. For English, German, Dutch, French, Hindi, Italian, Japanese, Portuguese, Russian and Spanish, the server normalizes the text (numbers, dates, abbreviations) before synthesis; the other languages are in Early Access without text normalization, so write numbers and dates out in words. May contain inline pause controls (<code>\{pause:500ms\}</code>, 500-3000 ms in 100 ms steps, at most 8 per request) and inline pronunciation controls (<code>\{&quot;word&quot;: &quot;...&quot;, &quot;pronounce&quot;: &quot;&lt;IPA&gt;&quot;\}</code>, Early Access). Pronunciation cannot be combined with pause or with a <code>speed</code> other than <code>1.0</code>, and <code>speed</code> is capped at <code>1.15</code> when a pause is present. See <a href="/docs/tts-voice-controls">Speed, Pause, Pronunciation</a>.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
