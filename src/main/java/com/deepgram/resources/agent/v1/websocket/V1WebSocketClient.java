@@ -664,6 +664,22 @@ public class V1WebSocketClient implements AutoCloseable {
             if (node == null || node.isNull()) {
                 throw new IllegalArgumentException("Received null or invalid JSON message");
             }
+            if (node.has("role")
+                    && node.has("content")
+                    && node.has("conversational_behavior")
+                    && "ConversationText".equals(node.path("type").asText())) {
+                AgentV1ConversationText conversationTextHandlerEvent = null;
+                try {
+                    conversationTextHandlerEvent = objectMapper.treeToValue(node, AgentV1ConversationText.class);
+                } catch (Exception e) {
+                }
+                if (conversationTextHandlerEvent != null) {
+                    if (conversationTextHandler != null) {
+                        conversationTextHandler.accept(conversationTextHandlerEvent);
+                    }
+                    return;
+                }
+            }
             if (node.has("total_latency")
                     && node.has("tts_latency")
                     && node.has("ttt_latency")
@@ -708,21 +724,6 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (onFunctionCallResponseHandlerEvent != null) {
                     if (onFunctionCallResponseHandler != null) {
                         onFunctionCallResponseHandler.accept(onFunctionCallResponseHandlerEvent);
-                    }
-                    return;
-                }
-            }
-            if (node.has("role")
-                    && node.has("content")
-                    && "ConversationText".equals(node.path("type").asText())) {
-                AgentV1ConversationText conversationTextHandlerEvent = null;
-                try {
-                    conversationTextHandlerEvent = objectMapper.treeToValue(node, AgentV1ConversationText.class);
-                } catch (Exception e) {
-                }
-                if (conversationTextHandlerEvent != null) {
-                    if (conversationTextHandler != null) {
-                        conversationTextHandler.accept(conversationTextHandlerEvent);
                     }
                     return;
                 }
@@ -969,7 +970,7 @@ public class V1WebSocketClient implements AutoCloseable {
                 }
                 return;
             }
-            if (onMessageHandler == null && onErrorHandler != null) {
+            if (onErrorHandler != null) {
                 onErrorHandler.accept(new RuntimeException(
                         "Unrecognized WebSocket message: " + json.substring(0, Math.min(200, json.length()))
                                 + "... Update your SDK version to support new message types."));
