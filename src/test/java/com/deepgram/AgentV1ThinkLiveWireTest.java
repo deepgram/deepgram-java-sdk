@@ -276,6 +276,39 @@ class AgentV1ThinkLiveWireTest {
     }
 
     @Test
+    void dispatchesConversationTextWithNullBehaviorAsDefault() throws Exception {
+        CountDownLatch received = new CountDownLatch(1);
+        AtomicReference<AgentV1ConversationText> conversationText = new AtomicReference<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send("{\"type\":\"ConversationText\",\"role\":\"assistant\","
+                        + "\"content\":\"Hello\",\"conversational_behavior\":null}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onConversationText(event -> {
+            conversationText.set(event);
+            received.countDown();
+        });
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+
+            assertThat(received.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(conversationText.get().getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.DEFAULT);
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
     void ignoresUnknownFramesAfterDeliveringThemRaw() throws Exception {
         String unknownFrame = "{\"type\":\"FutureAgentControl\",\"feature\":true}";
         CountDownLatch rawFrameReceived = new CountDownLatch(1);

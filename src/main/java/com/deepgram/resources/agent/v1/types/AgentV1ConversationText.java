@@ -241,7 +241,7 @@ public final class AgentV1ConversationText {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        @JsonSetter("conversational_behavior")
+        @JsonSetter(value = "conversational_behavior", nulls = Nulls.SKIP)
         public _FinalStage conversationalBehavior(
                 @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
             this.conversationalBehavior =
