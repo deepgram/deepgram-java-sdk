@@ -185,11 +185,11 @@ public class RegenTypesTest {
     class AgentV1ConversationTextBuilderCompatibility {
 
         @Test
-        void conversationalBehaviorMethodsRemainDefaultForExistingBuilderImplementations() throws Exception {
-            assertThat(AgentV1ConversationText._FinalStage.class
-                            .getMethod("conversationalBehavior", Optional.class)
-                            .isDefault())
-                    .isTrue();
+        void conversationalBehaviorPreservesExistingBuilderStage() throws Exception {
+            assertThat(AgentV1ConversationText.ContentStage.class
+                            .getMethod("content", String.class)
+                            .getReturnType())
+                    .isEqualTo(AgentV1ConversationText._FinalStage.class);
             assertThat(AgentV1ConversationText._FinalStage.class
                             .getMethod(
                                     "conversationalBehavior",
@@ -197,6 +197,10 @@ public class RegenTypesTest {
                             .isDefault())
                     .isTrue();
 
+            AgentV1ConversationText legacy = AgentV1ConversationText.builder()
+                    .role(AgentV1ConversationTextRole.ASSISTANT)
+                    .content("hello")
+                    .build();
             AgentV1ConversationText fromValue = AgentV1ConversationText.builder()
                     .role(AgentV1ConversationTextRole.ASSISTANT)
                     .content("hello")
@@ -207,11 +211,22 @@ public class RegenTypesTest {
                     .content("hello")
                     .conversationalBehavior(Optional.of(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL))
                     .build();
+            AgentV1ConversationText fromEmpty = AgentV1ConversationText.builder()
+                    .role(AgentV1ConversationTextRole.ASSISTANT)
+                    .content("hello")
+                    .conversationalBehavior(Optional.empty())
+                    .build();
 
+            assertThat(legacy.getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.DEFAULT);
             assertThat(fromValue.getConversationalBehavior())
                     .contains(AgentV1ConversationTextConversationalBehavior.FILLER);
             assertThat(fromOptional.getConversationalBehavior())
                     .contains(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL);
+            assertThat(fromEmpty.getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.DEFAULT);
+            assertThat(MAPPER.writeValueAsString(fromEmpty))
+                    .contains("\"conversational_behavior\":\"default\"");
         }
     }
 

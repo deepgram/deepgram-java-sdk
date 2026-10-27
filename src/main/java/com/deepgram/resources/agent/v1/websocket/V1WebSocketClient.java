@@ -664,6 +664,19 @@ public class V1WebSocketClient implements AutoCloseable {
             if (node == null || node.isNull()) {
                 throw new IllegalArgumentException("Received null or invalid JSON message");
             }
+            if (node.has("role") && node.has("content") && "ConversationText".equals(node.path("type").asText())) {
+                AgentV1ConversationText conversationTextHandlerEvent = null;
+                try {
+                    conversationTextHandlerEvent = objectMapper.treeToValue(node, AgentV1ConversationText.class);
+                } catch (Exception e) {
+                }
+                if (conversationTextHandlerEvent != null) {
+                    if (conversationTextHandler != null) {
+                        conversationTextHandler.accept(conversationTextHandlerEvent);
+                    }
+                    return;
+                }
+            }
             if (node.has("total_latency")
                     && node.has("tts_latency")
                     && node.has("ttt_latency")
@@ -708,21 +721,6 @@ public class V1WebSocketClient implements AutoCloseable {
                 if (onFunctionCallResponseHandlerEvent != null) {
                     if (onFunctionCallResponseHandler != null) {
                         onFunctionCallResponseHandler.accept(onFunctionCallResponseHandlerEvent);
-                    }
-                    return;
-                }
-            }
-            if (node.has("role")
-                    && node.has("content")
-                    && "ConversationText".equals(node.path("type").asText())) {
-                AgentV1ConversationText conversationTextHandlerEvent = null;
-                try {
-                    conversationTextHandlerEvent = objectMapper.treeToValue(node, AgentV1ConversationText.class);
-                } catch (Exception e) {
-                }
-                if (conversationTextHandlerEvent != null) {
-                    if (conversationTextHandler != null) {
-                        conversationTextHandler.accept(conversationTextHandlerEvent);
                     }
                     return;
                 }

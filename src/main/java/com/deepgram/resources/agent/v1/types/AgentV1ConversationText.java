@@ -26,7 +26,7 @@ public final class AgentV1ConversationText {
 
     private final String content;
 
-    private final Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior;
+    private final AgentV1ConversationTextConversationalBehavior conversationalBehavior;
 
     private final Optional<List<String>> languagesHinted;
 
@@ -37,7 +37,7 @@ public final class AgentV1ConversationText {
     private AgentV1ConversationText(
             AgentV1ConversationTextRole role,
             String content,
-            Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior,
+            AgentV1ConversationTextConversationalBehavior conversationalBehavior,
             Optional<List<String>> languagesHinted,
             Optional<List<String>> languages,
             Map<String, Object> additionalProperties) {
@@ -78,7 +78,7 @@ public final class AgentV1ConversationText {
      */
     @JsonProperty("conversational_behavior")
     public Optional<AgentV1ConversationTextConversationalBehavior> getConversationalBehavior() {
-        return conversationalBehavior;
+        return Optional.of(conversationalBehavior);
     }
 
     /**
@@ -146,6 +146,14 @@ public final class AgentV1ConversationText {
         _FinalStage content(@NotNull String content);
     }
 
+    public interface ConversationalBehaviorStage {
+        /**
+         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off</p>
+         */
+        _FinalStage conversationalBehavior(
+                @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior);
+    }
+
     public interface _FinalStage {
         AgentV1ConversationText build();
 
@@ -153,15 +161,13 @@ public final class AgentV1ConversationText {
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
-        /**
-         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off</p>
-         */
         default _FinalStage conversationalBehavior(
-                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
+                @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
             return this;
         }
 
-        default _FinalStage conversationalBehavior(AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
+        default _FinalStage conversationalBehavior(
+                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
             return this;
         }
 
@@ -181,16 +187,17 @@ public final class AgentV1ConversationText {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements RoleStage, ContentStage, _FinalStage {
+    public static final class Builder implements RoleStage, ContentStage, ConversationalBehaviorStage, _FinalStage {
         private AgentV1ConversationTextRole role;
 
         private String content;
 
+        private AgentV1ConversationTextConversationalBehavior conversationalBehavior =
+                AgentV1ConversationTextConversationalBehavior.DEFAULT;
+
         private Optional<List<String>> languages = Optional.empty();
 
         private Optional<List<String>> languagesHinted = Optional.empty();
-
-        private Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -226,6 +233,26 @@ public final class AgentV1ConversationText {
         @JsonSetter("content")
         public _FinalStage content(@NotNull String content) {
             this.content = Objects.requireNonNull(content, "content must not be null");
+            return this;
+        }
+
+        /**
+         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter(value = "conversational_behavior", nulls = Nulls.SKIP)
+        public _FinalStage conversationalBehavior(
+                @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
+            this.conversationalBehavior =
+                    Objects.requireNonNull(conversationalBehavior, "conversationalBehavior must not be null");
+            return this;
+        }
+
+        public _FinalStage conversationalBehavior(
+                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
+            this.conversationalBehavior = conversationalBehavior.orElse(
+                    AgentV1ConversationTextConversationalBehavior.DEFAULT);
             return this;
         }
 
@@ -266,28 +293,6 @@ public final class AgentV1ConversationText {
         @JsonSetter(value = "languages_hinted", nulls = Nulls.SKIP)
         public _FinalStage languagesHinted(Optional<List<String>> languagesHinted) {
             this.languagesHinted = languagesHinted;
-            return this;
-        }
-
-        /**
-         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off</p>
-         * @return Reference to {@code this} so that method calls can be chained together.
-         */
-        @java.lang.Override
-        public _FinalStage conversationalBehavior(
-                AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
-            this.conversationalBehavior = Optional.ofNullable(conversationalBehavior);
-            return this;
-        }
-
-        /**
-         * <p>Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off</p>
-         */
-        @java.lang.Override
-        @JsonSetter(value = "conversational_behavior", nulls = Nulls.SKIP)
-        public _FinalStage conversationalBehavior(
-                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
-            this.conversationalBehavior = conversationalBehavior;
             return this;
         }
 
