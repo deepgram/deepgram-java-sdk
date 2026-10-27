@@ -684,11 +684,17 @@ public final class ListenV1RequestUrl {
         /**
          * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Repeat the parameter to pass several codes, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> fails the request with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
          */
-        _FinalStage languageHint(Optional<List<String>> languageHint);
+        default _FinalStage languageHint(Optional<List<String>> languageHint) {
+            return this;
+        }
 
-        _FinalStage languageHint(List<String> languageHint);
+        default _FinalStage languageHint(List<String> languageHint) {
+            return this;
+        }
 
-        _FinalStage languageHint(String languageHint);
+        default _FinalStage languageHint(String languageHint) {
+            return this;
+        }
 
         /**
          * <p>Search for terms or phrases in submitted audio and replaces them</p>

@@ -236,7 +236,7 @@ class AgentV1ThinkLiveWireTest {
             assertThat(frustration.get().getEscalated()).isTrue();
             assertThat(conversationText.get().getContent()).isEqualTo("Let me check that.");
             assertThat(conversationText.get().getConversationalBehavior())
-                    .contains(AgentV1ConversationTextConversationalBehavior.FILLER);
+                    .isEqualTo(AgentV1ConversationTextConversationalBehavior.FILLER);
             assertThat(genericErrorCount).hasValue(0);
         } finally {
             ws.disconnect();

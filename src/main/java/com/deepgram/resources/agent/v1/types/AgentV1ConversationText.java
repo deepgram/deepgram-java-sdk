@@ -143,7 +143,7 @@ public final class AgentV1ConversationText {
         /**
          * <p>The actual statement that was spoken</p>
          */
-        ConversationalBehaviorStage content(@NotNull String content);
+        _FinalStage content(@NotNull String content);
     }
 
     public interface ConversationalBehaviorStage {
@@ -160,6 +160,11 @@ public final class AgentV1ConversationText {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        default _FinalStage conversationalBehavior(
+                @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
+            return this;
+        }
 
         /**
          * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
@@ -182,7 +187,8 @@ public final class AgentV1ConversationText {
 
         private String content;
 
-        private AgentV1ConversationTextConversationalBehavior conversationalBehavior;
+        private AgentV1ConversationTextConversationalBehavior conversationalBehavior =
+                AgentV1ConversationTextConversationalBehavior.DEFAULT;
 
         private Optional<List<String>> languages = Optional.empty();
 
@@ -220,7 +226,7 @@ public final class AgentV1ConversationText {
          */
         @java.lang.Override
         @JsonSetter("content")
-        public ConversationalBehaviorStage content(@NotNull String content) {
+        public _FinalStage content(@NotNull String content) {
             this.content = Objects.requireNonNull(content, "content must not be null");
             return this;
         }

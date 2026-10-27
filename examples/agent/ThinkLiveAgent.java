@@ -49,10 +49,7 @@ public class ThinkLiveAgent {
                         .build());
             });
             wsClient.onConversationText(text -> System.out.printf(
-                    "[%s, %s] %s%n",
-                    text.getRole(),
-                    text.getConversationalBehavior().map(Object::toString).orElse("default"),
-                    text.getContent()));
+                    "[%s, %s] %s%n", text.getRole(), text.getConversationalBehavior(), text.getContent()));
             wsClient.onFrustrationDetected(event -> System.out.printf(
                     "Frustration detected: count=%d, escalated=%s%n", event.getCount(), event.getEscalated()));
             wsClient.onInjectionRefused(event -> System.out.println("Dynamic injection refused: " + event));
