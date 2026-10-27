@@ -664,10 +664,7 @@ public class V1WebSocketClient implements AutoCloseable {
             if (node == null || node.isNull()) {
                 throw new IllegalArgumentException("Received null or invalid JSON message");
             }
-            if (node.has("role")
-                    && node.has("content")
-                    && node.has("conversational_behavior")
-                    && "ConversationText".equals(node.path("type").asText())) {
+            if (node.has("role") && node.has("content") && "ConversationText".equals(node.path("type").asText())) {
                 AgentV1ConversationText conversationTextHandlerEvent = null;
                 try {
                     conversationTextHandlerEvent = objectMapper.treeToValue(node, AgentV1ConversationText.class);

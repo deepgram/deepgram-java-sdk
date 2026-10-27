@@ -236,8 +236,40 @@ class AgentV1ThinkLiveWireTest {
             assertThat(frustration.get().getEscalated()).isTrue();
             assertThat(conversationText.get().getContent()).isEqualTo("Let me check that.");
             assertThat(conversationText.get().getConversationalBehavior())
-                    .isEqualTo(AgentV1ConversationTextConversationalBehavior.FILLER);
+                    .contains(AgentV1ConversationTextConversationalBehavior.FILLER);
             assertThat(genericErrorCount).hasValue(0);
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void dispatchesConversationTextWithoutBehaviorAsDefault() throws Exception {
+        CountDownLatch received = new CountDownLatch(1);
+        AtomicReference<AgentV1ConversationText> conversationText = new AtomicReference<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send("{\"type\":\"ConversationText\",\"role\":\"assistant\",\"content\":\"Hello\"}");
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onConversationText(event -> {
+            conversationText.set(event);
+            received.countDown();
+        });
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+
+            assertThat(received.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(conversationText.get().getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.DEFAULT);
         } finally {
             ws.disconnect();
         }

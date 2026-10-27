@@ -206,11 +206,18 @@ public class RegenTypesTest {
                     .content("hello")
                     .conversationalBehavior(AgentV1ConversationTextConversationalBehavior.FILLER)
                     .build();
+            AgentV1ConversationText fromOptional = AgentV1ConversationText.builder()
+                    .role(AgentV1ConversationTextRole.ASSISTANT)
+                    .content("hello")
+                    .conversationalBehavior(Optional.of(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL))
+                    .build();
 
             assertThat(legacy.getConversationalBehavior())
-                    .isEqualTo(AgentV1ConversationTextConversationalBehavior.DEFAULT);
+                    .contains(AgentV1ConversationTextConversationalBehavior.DEFAULT);
             assertThat(fromValue.getConversationalBehavior())
-                    .isEqualTo(AgentV1ConversationTextConversationalBehavior.FILLER);
+                    .contains(AgentV1ConversationTextConversationalBehavior.FILLER);
+            assertThat(fromOptional.getConversationalBehavior())
+                    .contains(AgentV1ConversationTextConversationalBehavior.BACKCHANNEL);
         }
     }
 

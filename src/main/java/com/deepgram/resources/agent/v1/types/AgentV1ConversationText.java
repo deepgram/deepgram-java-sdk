@@ -77,8 +77,8 @@ public final class AgentV1ConversationText {
      * @return Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off
      */
     @JsonProperty("conversational_behavior")
-    public AgentV1ConversationTextConversationalBehavior getConversationalBehavior() {
-        return conversationalBehavior;
+    public Optional<AgentV1ConversationTextConversationalBehavior> getConversationalBehavior() {
+        return Optional.of(conversationalBehavior);
     }
 
     /**
@@ -166,6 +166,11 @@ public final class AgentV1ConversationText {
             return this;
         }
 
+        default _FinalStage conversationalBehavior(
+                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
+            return this;
+        }
+
         /**
          * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
          */
@@ -241,6 +246,13 @@ public final class AgentV1ConversationText {
                 @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
             this.conversationalBehavior =
                     Objects.requireNonNull(conversationalBehavior, "conversationalBehavior must not be null");
+            return this;
+        }
+
+        public _FinalStage conversationalBehavior(
+                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
+            this.conversationalBehavior = conversationalBehavior.orElse(
+                    AgentV1ConversationTextConversationalBehavior.DEFAULT);
             return this;
         }
 
