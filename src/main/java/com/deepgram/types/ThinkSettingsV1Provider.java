@@ -159,7 +159,9 @@ public final class ThinkSettingsV1Provider {
 
         T visitGroq(Groq groq);
 
-        T visitDeepgram(Deepgram deepgram);
+        default T visitDeepgram(Deepgram deepgram) {
+            return _visitUnknown(deepgram);
+        }
 
         T _visitUnknown(Object unknownType);
     }

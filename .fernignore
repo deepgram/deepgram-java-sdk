@@ -71,6 +71,9 @@ src/main/java/com/deepgram/resources/listen/v1/media/requests/MediaTranscribeReq
 # Preserve existing AgentV1ConversationText builder implementations after adding conversationalBehavior.
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ConversationText.java
 
+# Preserve existing ThinkSettingsV1Provider Visitor implementations after adding the Deepgram variant.
+src/main/java/com/deepgram/types/ThinkSettingsV1Provider.java
+
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the
 # server's model registry (an invented flux-* name is rejected with INVALID_QUERY_PARAMETER), so the
