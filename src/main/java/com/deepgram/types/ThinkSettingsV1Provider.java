@@ -46,6 +46,10 @@ public final class ThinkSettingsV1Provider {
         return new ThinkSettingsV1Provider(new GroqValue(value));
     }
 
+    public static ThinkSettingsV1Provider deepgram(Deepgram value) {
+        return new ThinkSettingsV1Provider(new DeepgramValue(value));
+    }
+
     public boolean isOpenAi() {
         return value instanceof OpenAiValue;
     }
@@ -64,6 +68,10 @@ public final class ThinkSettingsV1Provider {
 
     public boolean isGroq() {
         return value instanceof GroqValue;
+    }
+
+    public boolean isDeepgram() {
+        return value instanceof DeepgramValue;
     }
 
     public boolean _isUnknown() {
@@ -101,6 +109,13 @@ public final class ThinkSettingsV1Provider {
     public Optional<Groq> getGroq() {
         if (isGroq()) {
             return Optional.of(((GroqValue) value).value);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Deepgram> getDeepgram() {
+        if (isDeepgram()) {
+            return Optional.of(((DeepgramValue) value).value);
         }
         return Optional.empty();
     }
@@ -144,6 +159,8 @@ public final class ThinkSettingsV1Provider {
 
         T visitGroq(Groq groq);
 
+        T visitDeepgram(Deepgram deepgram);
+
         T _visitUnknown(Object unknownType);
     }
 
@@ -153,7 +170,8 @@ public final class ThinkSettingsV1Provider {
         @JsonSubTypes.Type(AwsBedrockValue.class),
         @JsonSubTypes.Type(AnthropicValue.class),
         @JsonSubTypes.Type(GoogleValue.class),
-        @JsonSubTypes.Type(GroqValue.class)
+        @JsonSubTypes.Type(GroqValue.class),
+        @JsonSubTypes.Type(DeepgramValue.class)
     })
     @JsonIgnoreProperties(ignoreUnknown = true)
     private interface Value {
@@ -346,6 +364,46 @@ public final class ThinkSettingsV1Provider {
         }
 
         private boolean equalTo(GroqValue other) {
+            return value.equals(other.value);
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            return Objects.hash(this.value);
+        }
+
+        @java.lang.Override
+        public String toString() {
+            return "ThinkSettingsV1Provider{" + "value: " + value + "}";
+        }
+    }
+
+    @JsonTypeName("deepgram")
+    @JsonIgnoreProperties("type")
+    private static final class DeepgramValue implements Value {
+        @JsonUnwrapped
+        @JsonIgnoreProperties(value = "type", allowSetters = true)
+        private Deepgram value;
+
+        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+        private DeepgramValue() {}
+
+        private DeepgramValue(Deepgram value) {
+            this.value = value;
+        }
+
+        @java.lang.Override
+        public <T> T visit(Visitor<T> visitor) {
+            return visitor.visitDeepgram(value);
+        }
+
+        @java.lang.Override
+        public boolean equals(Object other) {
+            if (this == other) return true;
+            return other instanceof DeepgramValue && equalTo((DeepgramValue) other);
+        }
+
+        private boolean equalTo(DeepgramValue other) {
             return value.equals(other.value);
         }
 
