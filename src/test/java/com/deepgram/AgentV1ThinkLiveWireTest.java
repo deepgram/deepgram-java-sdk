@@ -17,6 +17,8 @@ import com.deepgram.resources.agent.v1.types.AgentV1SettingsAudio;
 import com.deepgram.resources.agent.v1.types.AgentV1ThinkLiveUpdated;
 import com.deepgram.resources.agent.v1.types.AgentV1UpdateThinkLive;
 import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
+import com.deepgram.types.Deepgram;
+import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.DeepgramThinkLiveProviderV1;
 import com.deepgram.types.OpenAiThinkProvider;
 import com.deepgram.types.OpenAiThinkProviderModel;
@@ -186,6 +188,57 @@ class AgentV1ThinkLiveWireTest {
             assertThat(fillers.path("initial_agent_filler").asBoolean()).isTrue();
             assertThat(fillers.path("agent_filler_max_count").asInt()).isEqualTo(2);
             assertThat(fillers.path("agent_filler_interval_ms").asInt()).isEqualTo(1_500);
+        } finally {
+            ws.disconnect();
+        }
+    }
+
+    @Test
+    void sendsDeepgramThinkProviderInSettings() throws Exception {
+        BlockingQueue<String> received = new LinkedBlockingQueue<>();
+        server.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                webSocket.send("{\"type\":\"Welcome\",\"request_id\":\"req-1\"}");
+            }
+
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                received.add(text);
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(code, reason);
+            }
+        }));
+
+        Deepgram provider = Deepgram.builder()
+                .model(DeepgramModel.FLUX_KELSEY_EN)
+                .version("v2")
+                .build();
+        AgentV1Settings settings = AgentV1Settings.builder()
+                .audio(AgentV1SettingsAudio.builder().build())
+                .agent(AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
+                        .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
+                                .provider(ThinkSettingsV1Provider.deepgram(provider))
+                                .build()))
+                        .build()))
+                .build();
+
+        V1WebSocketClient ws = client.agent().v1().v1WebSocket();
+        ws.onWelcome(welcome -> ws.sendSettings(settings));
+        try {
+            ws.connect().get(5, TimeUnit.SECONDS);
+
+            com.fasterxml.jackson.databind.JsonNode frame =
+                    ObjectMappers.JSON_MAPPER.readTree(received.poll(5, TimeUnit.SECONDS));
+            com.fasterxml.jackson.databind.JsonNode providerFrame =
+                    frame.path("agent").path("think").path("provider");
+            assertThat(frame.path("type").asText()).isEqualTo("Settings");
+            assertThat(providerFrame.path("type").asText()).isEqualTo("deepgram");
+            assertThat(providerFrame.path("model").asText()).isEqualTo("flux-kelsey-en");
+            assertThat(providerFrame.path("version").asText()).isEqualTo("v2");
         } finally {
             ws.disconnect();
         }

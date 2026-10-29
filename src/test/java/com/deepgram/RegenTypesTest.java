@@ -44,6 +44,7 @@ import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWor
 import com.deepgram.types.ListenV2Redact;
 import com.deepgram.types.SharedIntents;
 import com.deepgram.types.SharedTopics;
+import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1FunctionsItem;
 import com.deepgram.types.ThinkSettingsV1Provider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -265,6 +266,30 @@ public class RegenTypesTest {
                     .build();
 
             assertThat(MAPPER.writeValueAsString(provider)).contains("\"expressivity\":1");
+        }
+    }
+
+    @Nested
+    @DisplayName("Deepgram think provider")
+    class DeepgramThinkProvider {
+
+        @Test
+        @DisplayName("round-trips as a typed think provider")
+        void roundTrips() throws Exception {
+            Deepgram provider = Deepgram.builder()
+                    .model(DeepgramModel.FLUX_KELSEY_EN)
+                    .version("v2")
+                    .build();
+            ThinkSettingsV1 settings = ThinkSettingsV1.builder()
+                    .provider(ThinkSettingsV1Provider.deepgram(provider))
+                    .build();
+
+            String json = MAPPER.writeValueAsString(settings);
+            ThinkSettingsV1 parsed = MAPPER.readValue(json, ThinkSettingsV1.class);
+
+            assertThat(json).contains("\"provider\":{\"type\":\"deepgram\"");
+            assertThat(parsed.getProvider().isDeepgram()).isTrue();
+            assertThat(parsed.getProvider().getDeepgram()).contains(provider);
         }
     }
 
