@@ -34,6 +34,9 @@ import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.deepgram.types.DeepgramModel;
+import com.deepgram.types.DeepgramReasoningMode;
+import com.deepgram.types.DeepgramThinkProvider;
+import com.deepgram.types.DeepgramThinkProviderModel;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.GoogleVersion;
@@ -44,7 +47,9 @@ import com.deepgram.types.ListenV1ResponseResultsChannelsItemAlternativesItemWor
 import com.deepgram.types.ListenV2Redact;
 import com.deepgram.types.SharedIntents;
 import com.deepgram.types.SharedTopics;
+import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1FunctionsItem;
+import com.deepgram.types.ThinkSettingsV1Provider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.List;
@@ -264,6 +269,59 @@ public class RegenTypesTest {
                     .build();
 
             assertThat(MAPPER.writeValueAsString(provider)).contains("\"expressivity\":1");
+        }
+    }
+
+    @Nested
+    @DisplayName("Deepgram think provider")
+    class DeepgramThinkProviderShape {
+
+        @Test
+        @DisplayName("PhoneLLM round-trips its supported settings")
+        void phoneLlmRoundTrips() throws Exception {
+            DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
+                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                    .version("v1")
+                    .temperature(0.4)
+                    .reasoningMode(DeepgramReasoningMode.NONE)
+                    .build();
+            ThinkSettingsV1 settings = ThinkSettingsV1.builder()
+                    .provider(ThinkSettingsV1Provider.deepgram(provider))
+                    .build();
+
+            String json = MAPPER.writeValueAsString(settings);
+            ThinkSettingsV1 parsed = MAPPER.readValue(json, ThinkSettingsV1.class);
+
+            assertThat(json).contains("\"provider\":{\"type\":\"deepgram\"");
+            assertThat(json).contains("\"model\":\"phonellm-mini-alpha-2-fp8\"");
+            assertThat(json).contains("\"temperature\":0.4");
+            assertThat(json).contains("\"reasoning_mode\":\"none\"");
+            assertThat(json).doesNotContain("voice_prompt_opt_out");
+            assertThat(parsed.getProvider().isDeepgram()).isTrue();
+            assertThat(parsed.getProvider().getDeepgram()).contains(provider);
+        }
+
+        @Test
+        @DisplayName("Think Fast round-trips voice prompt opt out")
+        void thinkFastRoundTrips() throws Exception {
+            DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
+                    .model(DeepgramThinkProviderModel.THINK_FAST)
+                    .version("v1")
+                    .temperature(0.7)
+                    .reasoningMode(DeepgramReasoningMode.LOW)
+                    .voicePromptOptOut(true)
+                    .build();
+
+            String json = MAPPER.writeValueAsString(ThinkSettingsV1.builder()
+                    .provider(ThinkSettingsV1Provider.deepgram(provider))
+                    .build());
+            ThinkSettingsV1 parsed = MAPPER.readValue(json, ThinkSettingsV1.class);
+
+            assertThat(json).contains("\"model\":\"think-fast\"");
+            assertThat(json).contains("\"temperature\":0.7");
+            assertThat(json).contains("\"reasoning_mode\":\"low\"");
+            assertThat(json).contains("\"voice_prompt_opt_out\":true");
+            assertThat(parsed.getProvider().getDeepgram()).contains(provider);
         }
     }
 
@@ -570,6 +628,58 @@ public class RegenTypesTest {
 
             assertThat(SpeakV2ConfigureFailureCode.CONTROL_COMBINATION_INVALID.visit(visitor))
                     .isEqualTo("unknown:CONTROL_COMBINATION_INVALID");
+        }
+    }
+
+    @Nested
+    @DisplayName("ThinkSettingsV1Provider visitor compatibility")
+    class ThinkSettingsVisitorCompatibility {
+
+        @Test
+        @DisplayName("Deepgram provider uses _visitUnknown when an older visitor omits it")
+        void deepgramUsesUnknownVisitorMethod() throws Exception {
+            ThinkSettingsV1Provider.Visitor<String> visitor = new ThinkSettingsV1Provider.Visitor<>() {
+                @Override
+                public String visitOpenAi(com.deepgram.types.OpenAiThinkProvider openAi) {
+                    return "open-ai";
+                }
+
+                @Override
+                public String visitAwsBedrock(com.deepgram.types.AwsBedrockThinkProvider awsBedrock) {
+                    return "aws-bedrock";
+                }
+
+                @Override
+                public String visitAnthropic(com.deepgram.types.Anthropic anthropic) {
+                    return "anthropic";
+                }
+
+                @Override
+                public String visitGoogle(Google google) {
+                    return "google";
+                }
+
+                @Override
+                public String visitGroq(com.deepgram.types.Groq groq) {
+                    return "groq";
+                }
+
+                @Override
+                public String _visitUnknown(Object unknownType) {
+                    return "unknown:" + unknownType.getClass().getSimpleName();
+                }
+            };
+
+            DeepgramThinkProvider deepgram = DeepgramThinkProvider.builder()
+                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                    .build();
+
+            assertThat(ThinkSettingsV1Provider.deepgram(deepgram).visit(visitor))
+                    .isEqualTo("unknown:DeepgramThinkProvider");
+            assertThat(ThinkSettingsV1Provider.Visitor.class
+                            .getMethod("visitDeepgram", DeepgramThinkProvider.class)
+                            .isDefault())
+                    .isTrue();
         }
     }
 
