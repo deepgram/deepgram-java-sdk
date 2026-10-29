@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.4](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.3...v0.11.4) (2026-10-29)
+
+
+### Features
+
+* **agent:** add Deepgram Think provider ([#137](https://github.com/deepgram/deepgram-java-sdk/issues/137)) ([f03fe53](https://github.com/deepgram/deepgram-java-sdk/commit/f03fe5385d7bfe0c64b840babaa1db744763b33c))
+
 ## [0.11.3](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.2...v0.11.3) (2026-10-27)
 
 
