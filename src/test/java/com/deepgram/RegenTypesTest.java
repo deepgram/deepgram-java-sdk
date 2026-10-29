@@ -277,13 +277,13 @@ public class RegenTypesTest {
     class DeepgramThinkProviderShape {
 
         @Test
-        @DisplayName("round-trips as a typed think provider")
-        void roundTrips() throws Exception {
+        @DisplayName("PhoneLLM round-trips its supported settings")
+        void phoneLlmRoundTrips() throws Exception {
             DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
                     .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
                     .version("v1")
+                    .temperature(0.4)
                     .reasoningMode(DeepgramReasoningMode.NONE)
-                    .voicePromptOptOut(true)
                     .build();
             ThinkSettingsV1 settings = ThinkSettingsV1.builder()
                     .provider(ThinkSettingsV1Provider.deepgram(provider))
@@ -294,9 +294,33 @@ public class RegenTypesTest {
 
             assertThat(json).contains("\"provider\":{\"type\":\"deepgram\"");
             assertThat(json).contains("\"model\":\"phonellm-mini-alpha-2-fp8\"");
+            assertThat(json).contains("\"temperature\":0.4");
             assertThat(json).contains("\"reasoning_mode\":\"none\"");
-            assertThat(json).contains("\"voice_prompt_opt_out\":true");
+            assertThat(json).doesNotContain("voice_prompt_opt_out");
             assertThat(parsed.getProvider().isDeepgram()).isTrue();
+            assertThat(parsed.getProvider().getDeepgram()).contains(provider);
+        }
+
+        @Test
+        @DisplayName("Think Fast round-trips voice prompt opt out")
+        void thinkFastRoundTrips() throws Exception {
+            DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
+                    .model(DeepgramThinkProviderModel.THINK_FAST)
+                    .version("v1")
+                    .temperature(0.7)
+                    .reasoningMode(DeepgramReasoningMode.LOW)
+                    .voicePromptOptOut(true)
+                    .build();
+
+            String json = MAPPER.writeValueAsString(ThinkSettingsV1.builder()
+                    .provider(ThinkSettingsV1Provider.deepgram(provider))
+                    .build());
+            ThinkSettingsV1 parsed = MAPPER.readValue(json, ThinkSettingsV1.class);
+
+            assertThat(json).contains("\"model\":\"think-fast\"");
+            assertThat(json).contains("\"temperature\":0.7");
+            assertThat(json).contains("\"reasoning_mode\":\"low\"");
+            assertThat(json).contains("\"voice_prompt_opt_out\":true");
             assertThat(parsed.getProvider().getDeepgram()).contains(provider);
         }
     }

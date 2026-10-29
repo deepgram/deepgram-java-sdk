@@ -217,9 +217,10 @@ class AgentV1ThinkLiveWireTest {
         }));
 
         DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
-                .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                .model(DeepgramThinkProviderModel.THINK_FAST)
                 .version("v1")
-                .reasoningMode(DeepgramReasoningMode.NONE)
+                .temperature(0.7)
+                .reasoningMode(DeepgramReasoningMode.LOW)
                 .voicePromptOptOut(true)
                 .build();
         AgentV1Settings settings = AgentV1Settings.builder()
@@ -242,9 +243,10 @@ class AgentV1ThinkLiveWireTest {
                     frame.path("agent").path("think").path("provider");
             assertThat(frame.path("type").asText()).isEqualTo("Settings");
             assertThat(providerFrame.path("type").asText()).isEqualTo("deepgram");
-            assertThat(providerFrame.path("model").asText()).isEqualTo("phonellm-mini-alpha-2-fp8");
+            assertThat(providerFrame.path("model").asText()).isEqualTo("think-fast");
             assertThat(providerFrame.path("version").asText()).isEqualTo("v1");
-            assertThat(providerFrame.path("reasoning_mode").asText()).isEqualTo("none");
+            assertThat(providerFrame.path("temperature").asDouble()).isEqualTo(0.7);
+            assertThat(providerFrame.path("reasoning_mode").asText()).isEqualTo("low");
             assertThat(providerFrame.path("voice_prompt_opt_out").asBoolean()).isTrue();
         } finally {
             ws.disconnect();

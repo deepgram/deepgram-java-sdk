@@ -97,7 +97,6 @@ public class ProviderCombinations {
         DeepgramThinkProvider deepgramThinkProvider = DeepgramThinkProvider.builder()
                 .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
                 .reasoningMode(DeepgramReasoningMode.NONE)
-                .voicePromptOptOut(true)
                 .build();
 
         AgentV1SettingsAgent deepgramConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
