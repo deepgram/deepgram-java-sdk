@@ -6,6 +6,9 @@ import com.deepgram.types.Anthropic;
 import com.deepgram.types.AnthropicModel;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramModel;
+import com.deepgram.types.DeepgramReasoningMode;
+import com.deepgram.types.DeepgramThinkProvider;
+import com.deepgram.types.DeepgramThinkProviderModel;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.OpenAiThinkProvider;
@@ -17,7 +20,7 @@ import com.deepgram.types.ThinkSettingsV1Provider;
 
 /**
  * Demonstrates building different provider combination configurations for comparison. Shows how to configure OpenAI,
- * Anthropic, and Google as think providers, each paired with Deepgram as the speak provider.
+ * Anthropic, Google, and Deepgram as think providers, each paired with Deepgram as the speak provider.
  *
  * <p>Usage: java ProviderCombinations
  */
@@ -89,7 +92,28 @@ public class ProviderCombinations {
         System.out.println("  Config built successfully.");
         System.out.println();
 
-        System.out.println("All three provider combinations built successfully.");
+        // Combination 4: Deepgram Think + Deepgram Speak
+        System.out.println("=== Combination 4: Deepgram Think + Deepgram ===");
+        DeepgramThinkProvider deepgramThinkProvider = DeepgramThinkProvider.builder()
+                .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                .reasoningMode(DeepgramReasoningMode.NONE)
+                .voicePromptOptOut(true)
+                .build();
+
+        AgentV1SettingsAgent deepgramConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
+                .think(AgentV1SettingsAgentContextThink.of(ThinkSettingsV1.builder()
+                        .provider(ThinkSettingsV1Provider.deepgram(deepgramThinkProvider))
+                        .prompt("You are a helpful assistant powered by Deepgram.")
+                        .build()))
+                .speak(speakSettings)
+                .greeting("Hello! I'm powered by a Deepgram-hosted language model.")
+                .build());
+        System.out.println("  Think: Deepgram PhoneLLM Mini");
+        System.out.println("  Speak: Deepgram Aura 2 Asteria");
+        System.out.println("  Config built successfully.");
+        System.out.println();
+
+        System.out.println("All four provider combinations built successfully.");
         System.out.println("In a real application, you would pass these configurations");
         System.out.println("to wsClient.sendSettings() after connecting to the Agent WebSocket.");
     }

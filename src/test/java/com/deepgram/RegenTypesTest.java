@@ -34,6 +34,9 @@ import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.deepgram.types.DeepgramModel;
+import com.deepgram.types.DeepgramReasoningMode;
+import com.deepgram.types.DeepgramThinkProvider;
+import com.deepgram.types.DeepgramThinkProviderModel;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.GoogleVersion;
@@ -271,14 +274,16 @@ public class RegenTypesTest {
 
     @Nested
     @DisplayName("Deepgram think provider")
-    class DeepgramThinkProvider {
+    class DeepgramThinkProviderShape {
 
         @Test
         @DisplayName("round-trips as a typed think provider")
         void roundTrips() throws Exception {
-            Deepgram provider = Deepgram.builder()
-                    .model(DeepgramModel.FLUX_KELSEY_EN)
-                    .version("v2")
+            DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
+                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                    .version("v1")
+                    .reasoningMode(DeepgramReasoningMode.NONE)
+                    .voicePromptOptOut(true)
                     .build();
             ThinkSettingsV1 settings = ThinkSettingsV1.builder()
                     .provider(ThinkSettingsV1Provider.deepgram(provider))
@@ -288,6 +293,9 @@ public class RegenTypesTest {
             ThinkSettingsV1 parsed = MAPPER.readValue(json, ThinkSettingsV1.class);
 
             assertThat(json).contains("\"provider\":{\"type\":\"deepgram\"");
+            assertThat(json).contains("\"model\":\"phonellm-mini-alpha-2-fp8\"");
+            assertThat(json).contains("\"reasoning_mode\":\"none\"");
+            assertThat(json).contains("\"voice_prompt_opt_out\":true");
             assertThat(parsed.getProvider().isDeepgram()).isTrue();
             assertThat(parsed.getProvider().getDeepgram()).contains(provider);
         }
@@ -638,14 +646,14 @@ public class RegenTypesTest {
                 }
             };
 
-            Deepgram deepgram = Deepgram.builder()
-                    .model(DeepgramModel.FLUX_KELSEY_EN)
-                    .version("v1")
+            DeepgramThinkProvider deepgram = DeepgramThinkProvider.builder()
+                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
                     .build();
 
-            assertThat(ThinkSettingsV1Provider.deepgram(deepgram).visit(visitor)).isEqualTo("unknown:Deepgram");
+            assertThat(ThinkSettingsV1Provider.deepgram(deepgram).visit(visitor))
+                    .isEqualTo("unknown:DeepgramThinkProvider");
             assertThat(ThinkSettingsV1Provider.Visitor.class
-                            .getMethod("visitDeepgram", Deepgram.class)
+                            .getMethod("visitDeepgram", DeepgramThinkProvider.class)
                             .isDefault())
                     .isTrue();
         }

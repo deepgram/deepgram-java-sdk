@@ -20,6 +20,9 @@ import com.deepgram.resources.agent.v1.websocket.V1WebSocketClient;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.DeepgramThinkLiveProviderV1;
+import com.deepgram.types.DeepgramThinkProvider;
+import com.deepgram.types.DeepgramThinkProviderModel;
+import com.deepgram.types.DeepgramReasoningMode;
 import com.deepgram.types.OpenAiThinkProvider;
 import com.deepgram.types.OpenAiThinkProviderModel;
 import com.deepgram.types.ThinkLiveSettingsV1;
@@ -213,9 +216,11 @@ class AgentV1ThinkLiveWireTest {
             }
         }));
 
-        Deepgram provider = Deepgram.builder()
-                .model(DeepgramModel.FLUX_KELSEY_EN)
-                .version("v2")
+        DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
+                .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                .version("v1")
+                .reasoningMode(DeepgramReasoningMode.NONE)
+                .voicePromptOptOut(true)
                 .build();
         AgentV1Settings settings = AgentV1Settings.builder()
                 .audio(AgentV1SettingsAudio.builder().build())
@@ -237,8 +242,10 @@ class AgentV1ThinkLiveWireTest {
                     frame.path("agent").path("think").path("provider");
             assertThat(frame.path("type").asText()).isEqualTo("Settings");
             assertThat(providerFrame.path("type").asText()).isEqualTo("deepgram");
-            assertThat(providerFrame.path("model").asText()).isEqualTo("flux-kelsey-en");
-            assertThat(providerFrame.path("version").asText()).isEqualTo("v2");
+            assertThat(providerFrame.path("model").asText()).isEqualTo("phonellm-mini-alpha-2-fp8");
+            assertThat(providerFrame.path("version").asText()).isEqualTo("v1");
+            assertThat(providerFrame.path("reasoning_mode").asText()).isEqualTo("none");
+            assertThat(providerFrame.path("voice_prompt_opt_out").asBoolean()).isTrue();
         } finally {
             ws.disconnect();
         }

@@ -46,7 +46,7 @@ public final class ThinkSettingsV1Provider {
         return new ThinkSettingsV1Provider(new GroqValue(value));
     }
 
-    public static ThinkSettingsV1Provider deepgram(Deepgram value) {
+    public static ThinkSettingsV1Provider deepgram(DeepgramThinkProvider value) {
         return new ThinkSettingsV1Provider(new DeepgramValue(value));
     }
 
@@ -113,7 +113,7 @@ public final class ThinkSettingsV1Provider {
         return Optional.empty();
     }
 
-    public Optional<Deepgram> getDeepgram() {
+    public Optional<DeepgramThinkProvider> getDeepgram() {
         if (isDeepgram()) {
             return Optional.of(((DeepgramValue) value).value);
         }
@@ -159,7 +159,7 @@ public final class ThinkSettingsV1Provider {
 
         T visitGroq(Groq groq);
 
-        default T visitDeepgram(Deepgram deepgram) {
+        default T visitDeepgram(DeepgramThinkProvider deepgram) {
             return _visitUnknown(deepgram);
         }
 
@@ -385,12 +385,12 @@ public final class ThinkSettingsV1Provider {
     private static final class DeepgramValue implements Value {
         @JsonUnwrapped
         @JsonIgnoreProperties(value = "type", allowSetters = true)
-        private Deepgram value;
+        private DeepgramThinkProvider value;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         private DeepgramValue() {}
 
-        private DeepgramValue(Deepgram value) {
+        private DeepgramValue(DeepgramThinkProvider value) {
             this.value = value;
         }
 
