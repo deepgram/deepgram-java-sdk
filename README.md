@@ -1,6 +1,7 @@
-<img src="./.github/images/dg_logo.png" width="80" height="80" alt="Deepgram">
-
-# Deepgram Java SDK
+<h1>
+  <img src="./.github/images/dg_logo.png" width="44" height="44" align="absmiddle" alt="">
+  Deepgram Java SDK
+</h1>
 
 [![Built with Fern](https://img.shields.io/badge/Built%20with-Fern-brightgreen)](https://buildwithfern.com)
 [![Java Version](https://img.shields.io/badge/java-%3E%3D11-blue)](https://adoptium.net/)
