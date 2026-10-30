@@ -27,7 +27,7 @@ public final class DeepgramThinkProvider {
 
     private final Optional<Double> temperature;
 
-    private final Optional<DeepgramReasoningMode> reasoningMode;
+    private final Optional<DeepgramThinkProviderReasoningMode> reasoningMode;
 
     private final Optional<Boolean> voicePromptOptOut;
 
@@ -37,7 +37,7 @@ public final class DeepgramThinkProvider {
             Optional<String> version,
             DeepgramThinkProviderModel model,
             Optional<Double> temperature,
-            Optional<DeepgramReasoningMode> reasoningMode,
+            Optional<DeepgramThinkProviderReasoningMode> reasoningMode,
             Optional<Boolean> voicePromptOptOut,
             Map<String, Object> additionalProperties) {
         this.version = version;
@@ -69,7 +69,7 @@ public final class DeepgramThinkProvider {
     }
 
     @JsonProperty("reasoning_mode")
-    public Optional<DeepgramReasoningMode> getReasoningMode() {
+    public Optional<DeepgramThinkProviderReasoningMode> getReasoningMode() {
         return reasoningMode;
     }
 
@@ -132,9 +132,9 @@ public final class DeepgramThinkProvider {
 
         _FinalStage temperature(Double temperature);
 
-        _FinalStage reasoningMode(Optional<DeepgramReasoningMode> reasoningMode);
+        _FinalStage reasoningMode(Optional<DeepgramThinkProviderReasoningMode> reasoningMode);
 
-        _FinalStage reasoningMode(DeepgramReasoningMode reasoningMode);
+        _FinalStage reasoningMode(DeepgramThinkProviderReasoningMode reasoningMode);
 
         _FinalStage voicePromptOptOut(Optional<Boolean> voicePromptOptOut);
 
@@ -147,7 +147,7 @@ public final class DeepgramThinkProvider {
 
         private Optional<Boolean> voicePromptOptOut = Optional.empty();
 
-        private Optional<DeepgramReasoningMode> reasoningMode = Optional.empty();
+        private Optional<DeepgramThinkProviderReasoningMode> reasoningMode = Optional.empty();
 
         private Optional<Double> temperature = Optional.empty();
 
@@ -189,14 +189,14 @@ public final class DeepgramThinkProvider {
         }
 
         @java.lang.Override
-        public _FinalStage reasoningMode(DeepgramReasoningMode reasoningMode) {
+        public _FinalStage reasoningMode(DeepgramThinkProviderReasoningMode reasoningMode) {
             this.reasoningMode = Optional.ofNullable(reasoningMode);
             return this;
         }
 
         @java.lang.Override
         @JsonSetter(value = "reasoning_mode", nulls = Nulls.SKIP)
-        public _FinalStage reasoningMode(Optional<DeepgramReasoningMode> reasoningMode) {
+        public _FinalStage reasoningMode(Optional<DeepgramThinkProviderReasoningMode> reasoningMode) {
             this.reasoningMode = reasoningMode;
             return this;
         }
