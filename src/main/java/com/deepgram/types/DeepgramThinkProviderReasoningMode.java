@@ -6,22 +6,27 @@ package com.deepgram.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class DeepgramReasoningMode {
-    public static final DeepgramReasoningMode MEDIUM = new DeepgramReasoningMode(Value.MEDIUM, "medium");
+public final class DeepgramThinkProviderReasoningMode {
+    public static final DeepgramThinkProviderReasoningMode MEDIUM =
+            new DeepgramThinkProviderReasoningMode(Value.MEDIUM, "medium");
 
-    public static final DeepgramReasoningMode LOW = new DeepgramReasoningMode(Value.LOW, "low");
+    public static final DeepgramThinkProviderReasoningMode LOW =
+            new DeepgramThinkProviderReasoningMode(Value.LOW, "low");
 
-    public static final DeepgramReasoningMode MINIMAL = new DeepgramReasoningMode(Value.MINIMAL, "minimal");
+    public static final DeepgramThinkProviderReasoningMode MINIMAL =
+            new DeepgramThinkProviderReasoningMode(Value.MINIMAL, "minimal");
 
-    public static final DeepgramReasoningMode HIGH = new DeepgramReasoningMode(Value.HIGH, "high");
+    public static final DeepgramThinkProviderReasoningMode HIGH =
+            new DeepgramThinkProviderReasoningMode(Value.HIGH, "high");
 
-    public static final DeepgramReasoningMode NONE = new DeepgramReasoningMode(Value.NONE, "none");
+    public static final DeepgramThinkProviderReasoningMode NONE =
+            new DeepgramThinkProviderReasoningMode(Value.NONE, "none");
 
     private final Value value;
 
     private final String string;
 
-    DeepgramReasoningMode(Value value, String string) {
+    DeepgramThinkProviderReasoningMode(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -39,8 +44,8 @@ public final class DeepgramReasoningMode {
     @java.lang.Override
     public boolean equals(Object other) {
         return (this == other)
-                || (other instanceof DeepgramReasoningMode
-                        && this.string.equals(((DeepgramReasoningMode) other).string));
+                || (other instanceof DeepgramThinkProviderReasoningMode
+                        && this.string.equals(((DeepgramThinkProviderReasoningMode) other).string));
     }
 
     @java.lang.Override
@@ -67,7 +72,7 @@ public final class DeepgramReasoningMode {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static DeepgramReasoningMode valueOf(String value) {
+    public static DeepgramThinkProviderReasoningMode valueOf(String value) {
         switch (value) {
             case "medium":
                 return MEDIUM;
@@ -80,7 +85,7 @@ public final class DeepgramReasoningMode {
             case "none":
                 return NONE;
             default:
-                return new DeepgramReasoningMode(Value.UNKNOWN, value);
+                return new DeepgramThinkProviderReasoningMode(Value.UNKNOWN, value);
         }
     }
 
