@@ -323,6 +323,21 @@ public class RegenTypesTest {
             assertThat(json).contains("\"voice_prompt_opt_out\":true");
             assertThat(parsed.getProvider().getDeepgram()).contains(provider);
         }
+
+        @Test
+        @DisplayName("all reasoning modes round-trip their wire values")
+        void reasoningModesRoundTrip() throws Exception {
+            for (DeepgramThinkProviderReasoningMode reasoningMode : List.of(
+                    DeepgramThinkProviderReasoningMode.NONE,
+                    DeepgramThinkProviderReasoningMode.MINIMAL,
+                    DeepgramThinkProviderReasoningMode.LOW,
+                    DeepgramThinkProviderReasoningMode.MEDIUM,
+                    DeepgramThinkProviderReasoningMode.HIGH)) {
+                String json = MAPPER.writeValueAsString(reasoningMode);
+
+                assertThat(MAPPER.readValue(json, DeepgramThinkProviderReasoningMode.class)).isEqualTo(reasoningMode);
+            }
+        }
     }
 
     @Nested
