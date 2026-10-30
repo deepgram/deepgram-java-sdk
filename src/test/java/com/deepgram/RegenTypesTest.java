@@ -34,7 +34,7 @@ import com.deepgram.resources.speak.v2.types.SpeakV2Flush;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramListenProviderV2;
 import com.deepgram.types.DeepgramModel;
-import com.deepgram.types.DeepgramReasoningMode;
+import com.deepgram.types.DeepgramThinkProviderReasoningMode;
 import com.deepgram.types.DeepgramThinkProvider;
 import com.deepgram.types.DeepgramThinkProviderModel;
 import com.deepgram.types.Google;
@@ -283,7 +283,7 @@ public class RegenTypesTest {
                     .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
                     .version("v1")
                     .temperature(0.4)
-                    .reasoningMode(DeepgramReasoningMode.NONE)
+                    .reasoningMode(DeepgramThinkProviderReasoningMode.NONE)
                     .build();
             ThinkSettingsV1 settings = ThinkSettingsV1.builder()
                     .provider(ThinkSettingsV1Provider.deepgram(provider))
@@ -308,7 +308,7 @@ public class RegenTypesTest {
                     .model(DeepgramThinkProviderModel.THINK_FAST)
                     .version("v1")
                     .temperature(0.7)
-                    .reasoningMode(DeepgramReasoningMode.LOW)
+                    .reasoningMode(DeepgramThinkProviderReasoningMode.LOW)
                     .voicePromptOptOut(true)
                     .build();
 
@@ -322,6 +322,21 @@ public class RegenTypesTest {
             assertThat(json).contains("\"reasoning_mode\":\"low\"");
             assertThat(json).contains("\"voice_prompt_opt_out\":true");
             assertThat(parsed.getProvider().getDeepgram()).contains(provider);
+        }
+
+        @Test
+        @DisplayName("all reasoning modes round-trip their wire values")
+        void reasoningModesRoundTrip() throws Exception {
+            for (DeepgramThinkProviderReasoningMode reasoningMode : List.of(
+                    DeepgramThinkProviderReasoningMode.NONE,
+                    DeepgramThinkProviderReasoningMode.MINIMAL,
+                    DeepgramThinkProviderReasoningMode.LOW,
+                    DeepgramThinkProviderReasoningMode.MEDIUM,
+                    DeepgramThinkProviderReasoningMode.HIGH)) {
+                String json = MAPPER.writeValueAsString(reasoningMode);
+
+                assertThat(MAPPER.readValue(json, DeepgramThinkProviderReasoningMode.class)).isEqualTo(reasoningMode);
+            }
         }
     }
 
