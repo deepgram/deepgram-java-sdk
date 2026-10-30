@@ -13,6 +13,7 @@ import com.deepgram.types.DeepgramThinkProviderModel;
 import com.deepgram.types.DeepgramThinkProviderReasoningMode;
 import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1Provider;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -36,14 +37,20 @@ class IntegrationTestAgentThinkProvider {
     }
 
     @Test
-    @DisplayName("Deepgram Think accepts Think Fast and PhoneLLM settings")
-    void appliesSettingsForBothDeepgramThinkModels() throws Exception {
-        assertSettingsApplied(
-                DeepgramThinkProviderModel.THINK_FAST, DeepgramThinkProviderReasoningMode.LOW, true);
-        assertSettingsApplied(
-                DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8,
+    @DisplayName("Deepgram Think accepts every model and reasoning mode")
+    void appliesSettingsForEveryDeepgramThinkModelAndReasoningMode() throws Exception {
+        List<DeepgramThinkProviderReasoningMode> reasoningModes = List.of(
                 DeepgramThinkProviderReasoningMode.NONE,
-                false);
+                DeepgramThinkProviderReasoningMode.MINIMAL,
+                DeepgramThinkProviderReasoningMode.LOW,
+                DeepgramThinkProviderReasoningMode.MEDIUM,
+                DeepgramThinkProviderReasoningMode.HIGH);
+        for (DeepgramThinkProviderModel model : List.of(
+                DeepgramThinkProviderModel.THINK_FAST, DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)) {
+            for (DeepgramThinkProviderReasoningMode reasoningMode : reasoningModes) {
+                assertSettingsApplied(model, reasoningMode, model.equals(DeepgramThinkProviderModel.THINK_FAST));
+            }
+        }
     }
 
     private void assertSettingsApplied(
