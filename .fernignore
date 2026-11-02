@@ -71,11 +71,9 @@ src/main/java/com/deepgram/resources/listen/v1/media/requests/MediaTranscribeReq
 # Preserve existing AgentV1ConversationText builder implementations after adding conversationalBehavior.
 src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ConversationText.java
 
-# The spec's Deepgram Think/Speak title collision makes Fern use the TTS-shaped Deepgram type for Think.
-# Restore the distinct Think provider/model types until the spec produces them; retain the Visitor default until Fern does.
+# Fern now generates the distinct Deepgram Think provider and model types. Keep the union frozen only to preserve the
+# default Visitor method for source and binary compatibility with callers compiled before the Deepgram provider existed.
 src/main/java/com/deepgram/types/ThinkSettingsV1Provider.java
-src/main/java/com/deepgram/types/DeepgramThinkProvider.java
-src/main/java/com/deepgram/types/DeepgramThinkProviderModel.java
 
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the
