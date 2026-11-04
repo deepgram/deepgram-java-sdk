@@ -22,7 +22,7 @@ import com.deepgram.types.DeepgramModel;
 import com.deepgram.types.DeepgramThinkLiveProviderV1;
 import com.deepgram.types.DeepgramThinkProvider;
 import com.deepgram.types.DeepgramThinkProviderModel;
-import com.deepgram.types.DeepgramReasoningMode;
+import com.deepgram.types.DeepgramThinkProviderReasoningMode;
 import com.deepgram.types.OpenAiThinkProvider;
 import com.deepgram.types.OpenAiThinkProviderModel;
 import com.deepgram.types.ThinkLiveSettingsV1;
@@ -220,7 +220,7 @@ class AgentV1ThinkLiveWireTest {
                 .model(DeepgramThinkProviderModel.THINK_FAST)
                 .version("v1")
                 .temperature(0.7)
-                .reasoningMode(DeepgramReasoningMode.LOW)
+                .reasoningMode(DeepgramThinkProviderReasoningMode.LOW)
                 .voicePromptOptOut(true)
                 .build();
         AgentV1Settings settings = AgentV1Settings.builder()

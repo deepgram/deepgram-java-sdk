@@ -6,9 +6,9 @@ import com.deepgram.types.Anthropic;
 import com.deepgram.types.AnthropicModel;
 import com.deepgram.types.Deepgram;
 import com.deepgram.types.DeepgramModel;
-import com.deepgram.types.DeepgramReasoningMode;
 import com.deepgram.types.DeepgramThinkProvider;
 import com.deepgram.types.DeepgramThinkProviderModel;
+import com.deepgram.types.DeepgramThinkProviderReasoningMode;
 import com.deepgram.types.Google;
 import com.deepgram.types.GoogleModel;
 import com.deepgram.types.OpenAiThinkProvider;
@@ -96,7 +96,7 @@ public class ProviderCombinations {
         System.out.println("=== Combination 4: Deepgram Think + Deepgram ===");
         DeepgramThinkProvider deepgramThinkProvider = DeepgramThinkProvider.builder()
                 .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
-                .reasoningMode(DeepgramReasoningMode.NONE)
+                .reasoningMode(DeepgramThinkProviderReasoningMode.NONE)
                 .build();
 
         AgentV1SettingsAgent deepgramConfig = AgentV1SettingsAgent.of(AgentV1SettingsAgentContext.builder()
