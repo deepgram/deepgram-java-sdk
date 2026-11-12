@@ -11,7 +11,7 @@ public final class DeepgramThinkProviderModel {
             new DeepgramThinkProviderModel(Value.THINK_FAST, "think-fast");
 
     public static final DeepgramThinkProviderModel PHONELLM_MINI_ALPHA2FP8 =
-            new DeepgramThinkProviderModel(Value.PHONELLM_MINI_ALPHA_2_FP8, "phonellm-mini-alpha-2-fp8");
+            new DeepgramThinkProviderModel(Value.PHONELLM_MINI_ALPHA2FP8, "phonellm-mini-alpha-2-fp8");
 
     /**
      * @deprecated Use {@link #PHONELLM_MINI_ALPHA2FP8}. Retained for source compatibility with
@@ -55,7 +55,7 @@ public final class DeepgramThinkProviderModel {
         switch (value) {
             case THINK_FAST:
                 return visitor.visitThinkFast();
-            case PHONELLM_MINI_ALPHA_2_FP8:
+            case PHONELLM_MINI_ALPHA2FP8:
                 return visitor.visitPhonellmMiniAlpha2Fp8();
             case UNKNOWN:
             default:
@@ -78,7 +78,7 @@ public final class DeepgramThinkProviderModel {
     public enum Value {
         THINK_FAST,
 
-        PHONELLM_MINI_ALPHA_2_FP8,
+        PHONELLM_MINI_ALPHA2FP8,
 
         UNKNOWN
     }
