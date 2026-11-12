@@ -26,6 +26,7 @@ import com.deepgram.types.ListenV1Numerals;
 import com.deepgram.types.ListenV1ProfanityFilter;
 import com.deepgram.types.ListenV1Punctuate;
 import com.deepgram.types.ListenV1Redact;
+import com.deepgram.types.ListenV1RedactUsage;
 import com.deepgram.types.ListenV1Replace;
 import com.deepgram.types.ListenV1SampleRate;
 import com.deepgram.types.ListenV1Search;
@@ -95,6 +96,8 @@ public final class V1ConnectOptions {
 
     private final Optional<ListenV1Redact> redact;
 
+    private final Optional<ListenV1RedactUsage> redactUsage;
+
     private final Optional<ListenV1Replace> replace;
 
     private final Optional<ListenV1SampleRate> sampleRate;
@@ -136,6 +139,7 @@ public final class V1ConnectOptions {
             Optional<ListenV1ProfanityFilter> profanityFilter,
             Optional<ListenV1Punctuate> punctuate,
             Optional<ListenV1Redact> redact,
+            Optional<ListenV1RedactUsage> redactUsage,
             Optional<ListenV1Replace> replace,
             Optional<ListenV1SampleRate> sampleRate,
             Optional<ListenV1Search> search,
@@ -167,6 +171,7 @@ public final class V1ConnectOptions {
         this.profanityFilter = profanityFilter;
         this.punctuate = punctuate;
         this.redact = redact;
+        this.redactUsage = redactUsage;
         this.replace = replace;
         this.sampleRate = sampleRate;
         this.search = search;
@@ -297,6 +302,11 @@ public final class V1ConnectOptions {
         return redact;
     }
 
+    @JsonProperty("redact_usage")
+    public Optional<ListenV1RedactUsage> getRedactUsage() {
+        return redactUsage;
+    }
+
     @JsonProperty("replace")
     public Optional<ListenV1Replace> getReplace() {
         return replace;
@@ -371,6 +381,7 @@ public final class V1ConnectOptions {
                 && profanityFilter.equals(other.profanityFilter)
                 && punctuate.equals(other.punctuate)
                 && redact.equals(other.redact)
+                && redactUsage.equals(other.redactUsage)
                 && replace.equals(other.replace)
                 && sampleRate.equals(other.sampleRate)
                 && search.equals(other.search)
@@ -406,6 +417,7 @@ public final class V1ConnectOptions {
                 this.profanityFilter,
                 this.punctuate,
                 this.redact,
+                this.redactUsage,
                 this.replace,
                 this.sampleRate,
                 this.search,
@@ -503,19 +515,9 @@ public final class V1ConnectOptions {
 
         _FinalStage language(ListenV1Language language);
 
-        /**
-         * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Hints bias detection and do not restrict it. A list is sent as repeated <code>language_hint</code> query parameters, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> rejects the WebSocket connection with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
-         */
-        default _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint) {
-            return this;
-        }
+        _FinalStage languageHint(Optional<ListenV1LanguageHint> languageHint);
 
-        /**
-         * <p>Biases language detection toward one or more languages on Nova-3 multilingual (<code>model=nova-3&amp;language=multi</code>); ignored with any other <code>language</code>. Hints bias detection and do not restrict it. A list is sent as repeated <code>language_hint</code> query parameters, for example <code>language_hint=en&amp;language_hint=es</code>. A code that is not in the <a href="/docs/models-languages-overview#nova-3">Nova-3 multilingual list</a> rejects the WebSocket connection with HTTP 400. See <a href="/docs/nova-3-language-prompting">Nova-3 Language Prompting</a>.</p>
-         */
-        default _FinalStage languageHint(ListenV1LanguageHint languageHint) {
-            return this;
-        }
+        _FinalStage languageHint(ListenV1LanguageHint languageHint);
 
         _FinalStage mipOptOut(Optional<ListenV1MipOptOut> mipOptOut);
 
@@ -540,6 +542,10 @@ public final class V1ConnectOptions {
         _FinalStage redact(Optional<ListenV1Redact> redact);
 
         _FinalStage redact(ListenV1Redact redact);
+
+        _FinalStage redactUsage(Optional<ListenV1RedactUsage> redactUsage);
+
+        _FinalStage redactUsage(ListenV1RedactUsage redactUsage);
 
         _FinalStage replace(Optional<ListenV1Replace> replace);
 
@@ -593,6 +599,8 @@ public final class V1ConnectOptions {
         private Optional<ListenV1SampleRate> sampleRate = Optional.empty();
 
         private Optional<ListenV1Replace> replace = Optional.empty();
+
+        private Optional<ListenV1RedactUsage> redactUsage = Optional.empty();
 
         private Optional<ListenV1Redact> redact = Optional.empty();
 
@@ -665,6 +673,7 @@ public final class V1ConnectOptions {
             profanityFilter(other.getProfanityFilter());
             punctuate(other.getPunctuate());
             redact(other.getRedact());
+            redactUsage(other.getRedactUsage());
             replace(other.getReplace());
             sampleRate(other.getSampleRate());
             search(other.getSearch());
@@ -788,6 +797,19 @@ public final class V1ConnectOptions {
         @JsonSetter(value = "replace", nulls = Nulls.SKIP)
         public _FinalStage replace(Optional<ListenV1Replace> replace) {
             this.replace = replace;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage redactUsage(ListenV1RedactUsage redactUsage) {
+            this.redactUsage = Optional.ofNullable(redactUsage);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "redact_usage", nulls = Nulls.SKIP)
+        public _FinalStage redactUsage(Optional<ListenV1RedactUsage> redactUsage) {
+            this.redactUsage = redactUsage;
             return this;
         }
 
@@ -1103,6 +1125,7 @@ public final class V1ConnectOptions {
                     profanityFilter,
                     punctuate,
                     redact,
+                    redactUsage,
                     replace,
                     sampleRate,
                     search,

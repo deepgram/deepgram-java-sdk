@@ -21,9 +21,9 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = DeepgramThinkProvider.Builder.class)
 public final class DeepgramThinkProvider {
-    private final Optional<String> version;
-
     private final DeepgramThinkProviderModel model;
+
+    private final Optional<String> version;
 
     private final Optional<Double> temperature;
 
@@ -34,45 +34,63 @@ public final class DeepgramThinkProvider {
     private final Map<String, Object> additionalProperties;
 
     private DeepgramThinkProvider(
-            Optional<String> version,
             DeepgramThinkProviderModel model,
+            Optional<String> version,
             Optional<Double> temperature,
             Optional<DeepgramThinkProviderReasoningMode> reasoningMode,
             Optional<Boolean> voicePromptOptOut,
             Map<String, Object> additionalProperties) {
-        this.version = version;
         this.model = model;
+        this.version = version;
         this.temperature = temperature;
         this.reasoningMode = reasoningMode;
         this.voicePromptOptOut = voicePromptOptOut;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Provider type for Deepgram-hosted language models. Must be <code>deepgram</code>.
+     */
     @JsonProperty("type")
     public String getType() {
         return "deepgram";
     }
 
-    @JsonProperty("version")
-    public Optional<String> getVersion() {
-        return version;
-    }
-
+    /**
+     * @return Deepgram language model to use. Early Access. think-fast requires the Model Improvement Program: a session with mip_opt_out set to true is rejected with INVALID_SETTINGS. Use phonellm-mini-alpha-2-fp8 for sessions that opt out.
+     */
     @JsonProperty("model")
     public DeepgramThinkProviderModel getModel() {
         return model;
     }
 
+    /**
+     * @return API version for the Deepgram think provider. Defaults to <code>v1</code>.
+     */
+    @JsonProperty("version")
+    public Optional<String> getVersion() {
+        return version;
+    }
+
+    /**
+     * @return Deepgram temperature (0-2).
+     */
     @JsonProperty("temperature")
     public Optional<Double> getTemperature() {
         return temperature;
     }
 
+    /**
+     * @return Reasoning effort. For phonellm-mini-alpha-2-fp8, use none or omit it; other values put reasoning text in the reply, which the agent speaks.
+     */
     @JsonProperty("reasoning_mode")
     public Optional<DeepgramThinkProviderReasoningMode> getReasoningMode() {
         return reasoningMode;
     }
 
+    /**
+     * @return With think-fast, Deepgram places spoken-style instructions ahead of your prompt and sends a VOICE_PROMPT_ADDED warning. Set to true to send your prompt unchanged.
+     */
     @JsonProperty("voice_prompt_opt_out")
     public Optional<Boolean> getVoicePromptOptOut() {
         return voicePromptOptOut;
@@ -90,8 +108,8 @@ public final class DeepgramThinkProvider {
     }
 
     private boolean equalTo(DeepgramThinkProvider other) {
-        return version.equals(other.version)
-                && model.equals(other.model)
+        return model.equals(other.model)
+                && version.equals(other.version)
                 && temperature.equals(other.temperature)
                 && reasoningMode.equals(other.reasoningMode)
                 && voicePromptOptOut.equals(other.voicePromptOptOut);
@@ -99,7 +117,7 @@ public final class DeepgramThinkProvider {
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.version, this.model, this.temperature, this.reasoningMode, this.voicePromptOptOut);
+        return Objects.hash(this.model, this.version, this.temperature, this.reasoningMode, this.voicePromptOptOut);
     }
 
     @java.lang.Override
@@ -112,6 +130,9 @@ public final class DeepgramThinkProvider {
     }
 
     public interface ModelStage {
+        /**
+         * <p>Deepgram language model to use. Early Access. think-fast requires the Model Improvement Program: a session with mip_opt_out set to true is rejected with INVALID_SETTINGS. Use phonellm-mini-alpha-2-fp8 for sessions that opt out.</p>
+         */
         _FinalStage model(@NotNull DeepgramThinkProviderModel model);
 
         Builder from(DeepgramThinkProvider other);
@@ -124,18 +145,30 @@ public final class DeepgramThinkProvider {
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
+        /**
+         * <p>API version for the Deepgram think provider. Defaults to <code>v1</code>.</p>
+         */
         _FinalStage version(Optional<String> version);
 
         _FinalStage version(String version);
 
+        /**
+         * <p>Deepgram temperature (0-2).</p>
+         */
         _FinalStage temperature(Optional<Double> temperature);
 
         _FinalStage temperature(Double temperature);
 
+        /**
+         * <p>Reasoning effort. For phonellm-mini-alpha-2-fp8, use none or omit it; other values put reasoning text in the reply, which the agent speaks.</p>
+         */
         _FinalStage reasoningMode(Optional<DeepgramThinkProviderReasoningMode> reasoningMode);
 
         _FinalStage reasoningMode(DeepgramThinkProviderReasoningMode reasoningMode);
 
+        /**
+         * <p>With think-fast, Deepgram places spoken-style instructions ahead of your prompt and sends a VOICE_PROMPT_ADDED warning. Set to true to send your prompt unchanged.</p>
+         */
         _FinalStage voicePromptOptOut(Optional<Boolean> voicePromptOptOut);
 
         _FinalStage voicePromptOptOut(Boolean voicePromptOptOut);
@@ -160,14 +193,18 @@ public final class DeepgramThinkProvider {
 
         @java.lang.Override
         public Builder from(DeepgramThinkProvider other) {
-            version(other.getVersion());
             model(other.getModel());
+            version(other.getVersion());
             temperature(other.getTemperature());
             reasoningMode(other.getReasoningMode());
             voicePromptOptOut(other.getVoicePromptOptOut());
             return this;
         }
 
+        /**
+         * <p>Deepgram language model to use. Early Access. think-fast requires the Model Improvement Program: a session with mip_opt_out set to true is rejected with INVALID_SETTINGS. Use phonellm-mini-alpha-2-fp8 for sessions that opt out.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @java.lang.Override
         @JsonSetter("model")
         public _FinalStage model(@NotNull DeepgramThinkProviderModel model) {
@@ -175,12 +212,19 @@ public final class DeepgramThinkProvider {
             return this;
         }
 
+        /**
+         * <p>With think-fast, Deepgram places spoken-style instructions ahead of your prompt and sends a VOICE_PROMPT_ADDED warning. Set to true to send your prompt unchanged.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @java.lang.Override
         public _FinalStage voicePromptOptOut(Boolean voicePromptOptOut) {
             this.voicePromptOptOut = Optional.ofNullable(voicePromptOptOut);
             return this;
         }
 
+        /**
+         * <p>With think-fast, Deepgram places spoken-style instructions ahead of your prompt and sends a VOICE_PROMPT_ADDED warning. Set to true to send your prompt unchanged.</p>
+         */
         @java.lang.Override
         @JsonSetter(value = "voice_prompt_opt_out", nulls = Nulls.SKIP)
         public _FinalStage voicePromptOptOut(Optional<Boolean> voicePromptOptOut) {
@@ -188,12 +232,19 @@ public final class DeepgramThinkProvider {
             return this;
         }
 
+        /**
+         * <p>Reasoning effort. For phonellm-mini-alpha-2-fp8, use none or omit it; other values put reasoning text in the reply, which the agent speaks.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @java.lang.Override
         public _FinalStage reasoningMode(DeepgramThinkProviderReasoningMode reasoningMode) {
             this.reasoningMode = Optional.ofNullable(reasoningMode);
             return this;
         }
 
+        /**
+         * <p>Reasoning effort. For phonellm-mini-alpha-2-fp8, use none or omit it; other values put reasoning text in the reply, which the agent speaks.</p>
+         */
         @java.lang.Override
         @JsonSetter(value = "reasoning_mode", nulls = Nulls.SKIP)
         public _FinalStage reasoningMode(Optional<DeepgramThinkProviderReasoningMode> reasoningMode) {
@@ -201,12 +252,19 @@ public final class DeepgramThinkProvider {
             return this;
         }
 
+        /**
+         * <p>Deepgram temperature (0-2).</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @java.lang.Override
         public _FinalStage temperature(Double temperature) {
             this.temperature = Optional.ofNullable(temperature);
             return this;
         }
 
+        /**
+         * <p>Deepgram temperature (0-2).</p>
+         */
         @java.lang.Override
         @JsonSetter(value = "temperature", nulls = Nulls.SKIP)
         public _FinalStage temperature(Optional<Double> temperature) {
@@ -214,12 +272,19 @@ public final class DeepgramThinkProvider {
             return this;
         }
 
+        /**
+         * <p>API version for the Deepgram think provider. Defaults to <code>v1</code>.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @java.lang.Override
         public _FinalStage version(String version) {
             this.version = Optional.ofNullable(version);
             return this;
         }
 
+        /**
+         * <p>API version for the Deepgram think provider. Defaults to <code>v1</code>.</p>
+         */
         @java.lang.Override
         @JsonSetter(value = "version", nulls = Nulls.SKIP)
         public _FinalStage version(Optional<String> version) {
@@ -230,7 +295,7 @@ public final class DeepgramThinkProvider {
         @java.lang.Override
         public DeepgramThinkProvider build() {
             return new DeepgramThinkProvider(
-                    version, model, temperature, reasoningMode, voicePromptOptOut, additionalProperties);
+                    model, version, temperature, reasoningMode, voicePromptOptOut, additionalProperties);
         }
 
         @java.lang.Override

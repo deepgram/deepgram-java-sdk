@@ -30,6 +30,8 @@ public final class ListenV2Configure {
 
     private final Optional<Boolean> numerals;
 
+    private final Optional<Boolean> redactUsage;
+
     private final Map<String, Object> additionalProperties;
 
     private ListenV2Configure(
@@ -37,11 +39,13 @@ public final class ListenV2Configure {
             Optional<ListenV2Keyterm> keyterms,
             Optional<List<String>> languageHints,
             Optional<Boolean> numerals,
+            Optional<Boolean> redactUsage,
             Map<String, Object> additionalProperties) {
         this.thresholds = thresholds;
         this.keyterms = keyterms;
         this.languageHints = languageHints;
         this.numerals = numerals;
+        this.redactUsage = redactUsage;
         this.additionalProperties = additionalProperties;
     }
 
@@ -82,6 +86,11 @@ public final class ListenV2Configure {
         return numerals;
     }
 
+    @JsonProperty("redact_usage")
+    public Optional<Boolean> getRedactUsage() {
+        return redactUsage;
+    }
+
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -97,12 +106,13 @@ public final class ListenV2Configure {
         return thresholds.equals(other.thresholds)
                 && keyterms.equals(other.keyterms)
                 && languageHints.equals(other.languageHints)
-                && numerals.equals(other.numerals);
+                && numerals.equals(other.numerals)
+                && redactUsage.equals(other.redactUsage);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.thresholds, this.keyterms, this.languageHints, this.numerals);
+        return Objects.hash(this.thresholds, this.keyterms, this.languageHints, this.numerals, this.redactUsage);
     }
 
     @java.lang.Override
@@ -124,6 +134,8 @@ public final class ListenV2Configure {
 
         private Optional<Boolean> numerals = Optional.empty();
 
+        private Optional<Boolean> redactUsage = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -134,6 +146,7 @@ public final class ListenV2Configure {
             keyterms(other.getKeyterms());
             languageHints(other.getLanguageHints());
             numerals(other.getNumerals());
+            redactUsage(other.getRedactUsage());
             return this;
         }
 
@@ -190,8 +203,20 @@ public final class ListenV2Configure {
             return this;
         }
 
+        @JsonSetter(value = "redact_usage", nulls = Nulls.SKIP)
+        public Builder redactUsage(Optional<Boolean> redactUsage) {
+            this.redactUsage = redactUsage;
+            return this;
+        }
+
+        public Builder redactUsage(Boolean redactUsage) {
+            this.redactUsage = Optional.ofNullable(redactUsage);
+            return this;
+        }
+
         public ListenV2Configure build() {
-            return new ListenV2Configure(thresholds, keyterms, languageHints, numerals, additionalProperties);
+            return new ListenV2Configure(
+                    thresholds, keyterms, languageHints, numerals, redactUsage, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

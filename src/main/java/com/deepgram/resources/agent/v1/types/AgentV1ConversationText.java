@@ -77,8 +77,8 @@ public final class AgentV1ConversationText {
      * @return Annotates what kind of utterance the message represents: <code>default</code> (a standard turn), <code>backchannel</code> (a short acknowledgement while the user held the floor), <code>presence_check</code> (a prompt after extended silence), or <code>filler</code> (a line covering a wait on a function call or a dynamic InjectAgentMessage). Always sent; it is <code>default</code> for every message while Think Live is off
      */
     @JsonProperty("conversational_behavior")
-    public Optional<AgentV1ConversationTextConversationalBehavior> getConversationalBehavior() {
-        return Optional.of(conversationalBehavior);
+    public AgentV1ConversationTextConversationalBehavior getConversationalBehavior() {
+        return conversationalBehavior;
     }
 
     /**
@@ -143,7 +143,7 @@ public final class AgentV1ConversationText {
         /**
          * <p>The actual statement that was spoken</p>
          */
-        _FinalStage content(@NotNull String content);
+        ConversationalBehaviorStage content(@NotNull String content);
     }
 
     public interface ConversationalBehaviorStage {
@@ -160,16 +160,6 @@ public final class AgentV1ConversationText {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
-
-        default _FinalStage conversationalBehavior(
-                @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
-            return this;
-        }
-
-        default _FinalStage conversationalBehavior(
-                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
-            return this;
-        }
 
         /**
          * <p>The language hints that were active at the time of the turn. Only present on user-role messages when the listen model is flux-general-multi.</p>
@@ -192,8 +182,7 @@ public final class AgentV1ConversationText {
 
         private String content;
 
-        private AgentV1ConversationTextConversationalBehavior conversationalBehavior =
-                AgentV1ConversationTextConversationalBehavior.DEFAULT;
+        private AgentV1ConversationTextConversationalBehavior conversationalBehavior;
 
         private Optional<List<String>> languages = Optional.empty();
 
@@ -231,7 +220,7 @@ public final class AgentV1ConversationText {
          */
         @java.lang.Override
         @JsonSetter("content")
-        public _FinalStage content(@NotNull String content) {
+        public ConversationalBehaviorStage content(@NotNull String content) {
             this.content = Objects.requireNonNull(content, "content must not be null");
             return this;
         }
@@ -241,18 +230,11 @@ public final class AgentV1ConversationText {
          * @return Reference to {@code this} so that method calls can be chained together.
          */
         @java.lang.Override
-        @JsonSetter(value = "conversational_behavior", nulls = Nulls.SKIP)
+        @JsonSetter("conversational_behavior")
         public _FinalStage conversationalBehavior(
                 @NotNull AgentV1ConversationTextConversationalBehavior conversationalBehavior) {
             this.conversationalBehavior =
                     Objects.requireNonNull(conversationalBehavior, "conversationalBehavior must not be null");
-            return this;
-        }
-
-        public _FinalStage conversationalBehavior(
-                Optional<AgentV1ConversationTextConversationalBehavior> conversationalBehavior) {
-            this.conversationalBehavior = conversationalBehavior.orElse(
-                    AgentV1ConversationTextConversationalBehavior.DEFAULT);
             return this;
         }
 

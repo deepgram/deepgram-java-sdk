@@ -6,6 +6,7 @@ package com.deepgram.resources.speak.v2.websocket;
 import com.deepgram.core.ObjectMappers;
 import com.deepgram.types.SpeakV2Encoding;
 import com.deepgram.types.SpeakV2MipOptOut;
+import com.deepgram.types.SpeakV2NormalizeVolume;
 import com.deepgram.types.SpeakV2SampleRate;
 import com.deepgram.types.SpeakV2Tag;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -35,6 +36,8 @@ public final class V2ConnectOptions {
 
     private final Optional<Integer> expressivity;
 
+    private final Optional<SpeakV2NormalizeVolume> normalizeVolume;
+
     private final Optional<SpeakV2MipOptOut> mipOptOut;
 
     private final Optional<SpeakV2Tag> tag;
@@ -47,6 +50,7 @@ public final class V2ConnectOptions {
             Optional<SpeakV2SampleRate> sampleRate,
             Optional<Double> speed,
             Optional<Integer> expressivity,
+            Optional<SpeakV2NormalizeVolume> normalizeVolume,
             Optional<SpeakV2MipOptOut> mipOptOut,
             Optional<SpeakV2Tag> tag,
             Map<String, Object> additionalProperties) {
@@ -55,6 +59,7 @@ public final class V2ConnectOptions {
         this.sampleRate = sampleRate;
         this.speed = speed;
         this.expressivity = expressivity;
+        this.normalizeVolume = normalizeVolume;
         this.mipOptOut = mipOptOut;
         this.tag = tag;
         this.additionalProperties = additionalProperties;
@@ -85,6 +90,11 @@ public final class V2ConnectOptions {
         return expressivity;
     }
 
+    @JsonProperty("normalize_volume")
+    public Optional<SpeakV2NormalizeVolume> getNormalizeVolume() {
+        return normalizeVolume;
+    }
+
     @JsonProperty("mip_opt_out")
     public Optional<SpeakV2MipOptOut> getMipOptOut() {
         return mipOptOut;
@@ -112,6 +122,7 @@ public final class V2ConnectOptions {
                 && sampleRate.equals(other.sampleRate)
                 && speed.equals(other.speed)
                 && expressivity.equals(other.expressivity)
+                && normalizeVolume.equals(other.normalizeVolume)
                 && mipOptOut.equals(other.mipOptOut)
                 && tag.equals(other.tag);
     }
@@ -119,7 +130,14 @@ public final class V2ConnectOptions {
     @java.lang.Override
     public int hashCode() {
         return Objects.hash(
-                this.model, this.encoding, this.sampleRate, this.speed, this.expressivity, this.mipOptOut, this.tag);
+                this.model,
+                this.encoding,
+                this.sampleRate,
+                this.speed,
+                this.expressivity,
+                this.normalizeVolume,
+                this.mipOptOut,
+                this.tag);
     }
 
     @java.lang.Override
@@ -160,6 +178,10 @@ public final class V2ConnectOptions {
 
         _FinalStage expressivity(Integer expressivity);
 
+        _FinalStage normalizeVolume(Optional<SpeakV2NormalizeVolume> normalizeVolume);
+
+        _FinalStage normalizeVolume(SpeakV2NormalizeVolume normalizeVolume);
+
         _FinalStage mipOptOut(Optional<SpeakV2MipOptOut> mipOptOut);
 
         _FinalStage mipOptOut(SpeakV2MipOptOut mipOptOut);
@@ -176,6 +198,8 @@ public final class V2ConnectOptions {
         private Optional<SpeakV2Tag> tag = Optional.empty();
 
         private Optional<SpeakV2MipOptOut> mipOptOut = Optional.empty();
+
+        private Optional<SpeakV2NormalizeVolume> normalizeVolume = Optional.empty();
 
         private Optional<Integer> expressivity = Optional.empty();
 
@@ -197,6 +221,7 @@ public final class V2ConnectOptions {
             sampleRate(other.getSampleRate());
             speed(other.getSpeed());
             expressivity(other.getExpressivity());
+            normalizeVolume(other.getNormalizeVolume());
             mipOptOut(other.getMipOptOut());
             tag(other.getTag());
             return this;
@@ -232,6 +257,19 @@ public final class V2ConnectOptions {
         @JsonSetter(value = "mip_opt_out", nulls = Nulls.SKIP)
         public _FinalStage mipOptOut(Optional<SpeakV2MipOptOut> mipOptOut) {
             this.mipOptOut = mipOptOut;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage normalizeVolume(SpeakV2NormalizeVolume normalizeVolume) {
+            this.normalizeVolume = Optional.ofNullable(normalizeVolume);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "normalize_volume", nulls = Nulls.SKIP)
+        public _FinalStage normalizeVolume(Optional<SpeakV2NormalizeVolume> normalizeVolume) {
+            this.normalizeVolume = normalizeVolume;
             return this;
         }
 
@@ -290,7 +328,15 @@ public final class V2ConnectOptions {
         @java.lang.Override
         public V2ConnectOptions build() {
             return new V2ConnectOptions(
-                    model, encoding, sampleRate, speed, expressivity, mipOptOut, tag, additionalProperties);
+                    model,
+                    encoding,
+                    sampleRate,
+                    speed,
+                    expressivity,
+                    normalizeVolume,
+                    mipOptOut,
+                    tag,
+                    additionalProperties);
         }
 
         @java.lang.Override

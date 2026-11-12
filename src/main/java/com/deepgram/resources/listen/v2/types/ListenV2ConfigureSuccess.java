@@ -33,6 +33,8 @@ public final class ListenV2ConfigureSuccess {
 
     private final Optional<Boolean> numerals;
 
+    private final Optional<Boolean> redactUsage;
+
     private final int sequenceId;
 
     private final Map<String, Object> additionalProperties;
@@ -43,6 +45,7 @@ public final class ListenV2ConfigureSuccess {
             ListenV2Keyterm keyterms,
             Optional<List<String>> languageHints,
             Optional<Boolean> numerals,
+            Optional<Boolean> redactUsage,
             int sequenceId,
             Map<String, Object> additionalProperties) {
         this.requestId = requestId;
@@ -50,6 +53,7 @@ public final class ListenV2ConfigureSuccess {
         this.keyterms = keyterms;
         this.languageHints = languageHints;
         this.numerals = numerals;
+        this.redactUsage = redactUsage;
         this.sequenceId = sequenceId;
         this.additionalProperties = additionalProperties;
     }
@@ -101,6 +105,14 @@ public final class ListenV2ConfigureSuccess {
     }
 
     /**
+     * @return Whether usage redaction is on for this connection.
+     */
+    @JsonProperty("redact_usage")
+    public Optional<Boolean> getRedactUsage() {
+        return redactUsage;
+    }
+
+    /**
      * @return Starts at <code>0</code> and increments for each message the server sends
      * to the client.  This includes messages of other types, like
      * <code>TurnInfo</code> messages.
@@ -127,13 +139,20 @@ public final class ListenV2ConfigureSuccess {
                 && keyterms.equals(other.keyterms)
                 && languageHints.equals(other.languageHints)
                 && numerals.equals(other.numerals)
+                && redactUsage.equals(other.redactUsage)
                 && sequenceId == other.sequenceId;
     }
 
     @java.lang.Override
     public int hashCode() {
         return Objects.hash(
-                this.requestId, this.thresholds, this.keyterms, this.languageHints, this.numerals, this.sequenceId);
+                this.requestId,
+                this.thresholds,
+                this.keyterms,
+                this.languageHints,
+                this.numerals,
+                this.redactUsage,
+                this.sequenceId);
     }
 
     @java.lang.Override
@@ -195,6 +214,13 @@ public final class ListenV2ConfigureSuccess {
         _FinalStage numerals(Optional<Boolean> numerals);
 
         _FinalStage numerals(Boolean numerals);
+
+        /**
+         * <p>Whether usage redaction is on for this connection.</p>
+         */
+        _FinalStage redactUsage(Optional<Boolean> redactUsage);
+
+        _FinalStage redactUsage(Boolean redactUsage);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -207,6 +233,8 @@ public final class ListenV2ConfigureSuccess {
         private ListenV2Keyterm keyterms;
 
         private int sequenceId;
+
+        private Optional<Boolean> redactUsage = Optional.empty();
 
         private Optional<Boolean> numerals = Optional.empty();
 
@@ -224,6 +252,7 @@ public final class ListenV2ConfigureSuccess {
             keyterms(other.getKeyterms());
             languageHints(other.getLanguageHints());
             numerals(other.getNumerals());
+            redactUsage(other.getRedactUsage());
             sequenceId(other.getSequenceId());
             return this;
         }
@@ -272,6 +301,26 @@ public final class ListenV2ConfigureSuccess {
         }
 
         /**
+         * <p>Whether usage redaction is on for this connection.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage redactUsage(Boolean redactUsage) {
+            this.redactUsage = Optional.ofNullable(redactUsage);
+            return this;
+        }
+
+        /**
+         * <p>Whether usage redaction is on for this connection.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "redact_usage", nulls = Nulls.SKIP)
+        public _FinalStage redactUsage(Optional<Boolean> redactUsage) {
+            this.redactUsage = redactUsage;
+            return this;
+        }
+
+        /**
          * <p>Whether numeral formatting is enabled for transcripts Flux STT sends after it processes the update.</p>
          * @return Reference to {@code this} so that method calls can be chained together.
          */
@@ -314,7 +363,14 @@ public final class ListenV2ConfigureSuccess {
         @java.lang.Override
         public ListenV2ConfigureSuccess build() {
             return new ListenV2ConfigureSuccess(
-                    requestId, thresholds, keyterms, languageHints, numerals, sequenceId, additionalProperties);
+                    requestId,
+                    thresholds,
+                    keyterms,
+                    languageHints,
+                    numerals,
+                    redactUsage,
+                    sequenceId,
+                    additionalProperties);
         }
 
         @java.lang.Override

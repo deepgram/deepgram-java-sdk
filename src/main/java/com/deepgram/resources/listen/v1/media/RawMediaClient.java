@@ -147,6 +147,10 @@ public class RawMediaClient {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "redact", request.getRedact().get(), false);
         }
+        if (request.getRedactUsage().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "redact_usage", request.getRedactUsage().get(), false);
+        }
         if (request.getSmartFormat().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "smart_format", request.getSmartFormat().get(), false);
@@ -386,6 +390,10 @@ public class RawMediaClient {
         if (request.getRedact().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "redact", request.getRedact().get(), false);
+        }
+        if (request.getRedactUsage().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "redact_usage", request.getRedactUsage().get(), false);
         }
         if (request.getSmartFormat().isPresent()) {
             QueryStringMapper.addQueryParameter(
