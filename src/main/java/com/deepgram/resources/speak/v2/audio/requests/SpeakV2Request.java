@@ -45,6 +45,8 @@ public final class SpeakV2Request {
 
     private final String model;
 
+    private final Optional<Boolean> normalizeVolume;
+
     private final Optional<Integer> sampleRate;
 
     private final Optional<Double> speed;
@@ -65,6 +67,7 @@ public final class SpeakV2Request {
             Optional<AudioGenerateRequestEncoding> encoding,
             Optional<Integer> expressivity,
             String model,
+            Optional<Boolean> normalizeVolume,
             Optional<Integer> sampleRate,
             Optional<Double> speed,
             Optional<String> priority,
@@ -79,6 +82,7 @@ public final class SpeakV2Request {
         this.encoding = encoding;
         this.expressivity = expressivity;
         this.model = model;
+        this.normalizeVolume = normalizeVolume;
         this.sampleRate = sampleRate;
         this.speed = speed;
         this.priority = priority;
@@ -159,6 +163,14 @@ public final class SpeakV2Request {
     }
 
     /**
+     * @return Normalizes the loudness of the generated speech to a consistent level across voices and requests. On by default; set to <code>false</code> to opt out. Peak limiting is applied either way.
+     */
+    @JsonIgnore
+    public Optional<Boolean> getNormalizeVolume() {
+        return normalizeVolume;
+    }
+
+    /**
      * @return Sample Rate specifies the sample rate for the output audio. Based on the encoding, different sample rates are supported. For some encodings, the sample rate is not configurable
      */
     @JsonIgnore
@@ -211,6 +223,7 @@ public final class SpeakV2Request {
                 && encoding.equals(other.encoding)
                 && expressivity.equals(other.expressivity)
                 && model.equals(other.model)
+                && normalizeVolume.equals(other.normalizeVolume)
                 && sampleRate.equals(other.sampleRate)
                 && speed.equals(other.speed)
                 && priority.equals(other.priority)
@@ -229,6 +242,7 @@ public final class SpeakV2Request {
                 this.encoding,
                 this.expressivity,
                 this.model,
+                this.normalizeVolume,
                 this.sampleRate,
                 this.speed,
                 this.priority,
@@ -326,6 +340,13 @@ public final class SpeakV2Request {
         _FinalStage expressivity(Integer expressivity);
 
         /**
+         * <p>Normalizes the loudness of the generated speech to a consistent level across voices and requests. On by default; set to <code>false</code> to opt out. Peak limiting is applied either way.</p>
+         */
+        _FinalStage normalizeVolume(Optional<Boolean> normalizeVolume);
+
+        _FinalStage normalizeVolume(Boolean normalizeVolume);
+
+        /**
          * <p>Sample Rate specifies the sample rate for the output audio. Based on the encoding, different sample rates are supported. For some encodings, the sample rate is not configurable</p>
          */
         _FinalStage sampleRate(Optional<Integer> sampleRate);
@@ -359,6 +380,8 @@ public final class SpeakV2Request {
 
         private Optional<Integer> sampleRate = Optional.empty();
 
+        private Optional<Boolean> normalizeVolume = Optional.empty();
+
         private Optional<Integer> expressivity = Optional.empty();
 
         private Optional<AudioGenerateRequestEncoding> encoding = Optional.empty();
@@ -391,6 +414,7 @@ public final class SpeakV2Request {
             encoding(other.getEncoding());
             expressivity(other.getExpressivity());
             model(other.getModel());
+            normalizeVolume(other.getNormalizeVolume());
             sampleRate(other.getSampleRate());
             speed(other.getSpeed());
             priority(other.getPriority());
@@ -477,6 +501,26 @@ public final class SpeakV2Request {
         @JsonSetter(value = "sample_rate", nulls = Nulls.SKIP)
         public _FinalStage sampleRate(Optional<Integer> sampleRate) {
             this.sampleRate = sampleRate;
+            return this;
+        }
+
+        /**
+         * <p>Normalizes the loudness of the generated speech to a consistent level across voices and requests. On by default; set to <code>false</code> to opt out. Peak limiting is applied either way.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage normalizeVolume(Boolean normalizeVolume) {
+            this.normalizeVolume = Optional.ofNullable(normalizeVolume);
+            return this;
+        }
+
+        /**
+         * <p>Normalizes the loudness of the generated speech to a consistent level across voices and requests. On by default; set to <code>false</code> to opt out. Peak limiting is applied either way.</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "normalize_volume", nulls = Nulls.SKIP)
+        public _FinalStage normalizeVolume(Optional<Boolean> normalizeVolume) {
+            this.normalizeVolume = normalizeVolume;
             return this;
         }
 
@@ -658,6 +702,7 @@ public final class SpeakV2Request {
                     encoding,
                     expressivity,
                     model,
+                    normalizeVolume,
                     sampleRate,
                     speed,
                     priority,

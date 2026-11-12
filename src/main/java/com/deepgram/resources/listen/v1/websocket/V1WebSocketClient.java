@@ -196,6 +196,10 @@ public class V1WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "redact", String.valueOf(options.getRedact().get()));
         }
+        if (options.getRedactUsage() != null && options.getRedactUsage().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "redact_usage", String.valueOf(options.getRedactUsage().get()));
+        }
         if (options.getReplace() != null && options.getReplace().isPresent()) {
             QueryStringMapper.addQueryParameter(urlBuilder, "replace", options.getReplace().get().get(), true);
         }

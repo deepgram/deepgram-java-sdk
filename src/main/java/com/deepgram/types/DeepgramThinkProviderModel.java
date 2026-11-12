@@ -10,8 +10,15 @@ public final class DeepgramThinkProviderModel {
     public static final DeepgramThinkProviderModel THINK_FAST =
             new DeepgramThinkProviderModel(Value.THINK_FAST, "think-fast");
 
-    public static final DeepgramThinkProviderModel PHONELLM_MINI_ALPHA_2_FP8 =
+    public static final DeepgramThinkProviderModel PHONELLM_MINI_ALPHA2FP8 =
             new DeepgramThinkProviderModel(Value.PHONELLM_MINI_ALPHA_2_FP8, "phonellm-mini-alpha-2-fp8");
+
+    /**
+     * @deprecated Use {@link #PHONELLM_MINI_ALPHA2FP8}. Retained for source compatibility with
+     *     SDK versions that used an underscore before {@code 2}.
+     */
+    @Deprecated
+    public static final DeepgramThinkProviderModel PHONELLM_MINI_ALPHA_2_FP8 = PHONELLM_MINI_ALPHA2FP8;
 
     private final Value value;
 
@@ -62,7 +69,7 @@ public final class DeepgramThinkProviderModel {
             case "think-fast":
                 return THINK_FAST;
             case "phonellm-mini-alpha-2-fp8":
-                return PHONELLM_MINI_ALPHA_2_FP8;
+                return PHONELLM_MINI_ALPHA2FP8;
             default:
                 return new DeepgramThinkProviderModel(Value.UNKNOWN, value);
         }

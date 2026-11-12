@@ -95,7 +95,7 @@ public class ProviderCombinations {
         // Combination 4: Deepgram Think + Deepgram Speak
         System.out.println("=== Combination 4: Deepgram Think + Deepgram ===");
         DeepgramThinkProvider deepgramThinkProvider = DeepgramThinkProvider.builder()
-                .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA2FP8)
                 .reasoningMode(DeepgramThinkProviderReasoningMode.NONE)
                 .build();
 

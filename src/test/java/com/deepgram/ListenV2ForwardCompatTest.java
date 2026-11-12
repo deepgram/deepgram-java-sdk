@@ -3,9 +3,11 @@ package com.deepgram;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.deepgram.core.ClientOptions;
+import com.deepgram.resources.listen.v2.types.ListenV2ConfigureSuccess;
 import com.deepgram.resources.listen.v2.types.ListenV2Warning;
 import com.deepgram.resources.listen.v2.websocket.V2WebSocketClient;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.DisplayName;
@@ -64,5 +66,24 @@ public class ListenV2ForwardCompatTest {
         assertThat(warning.get()).isNotNull();
         assertThat(warning.get().getCode()).isEqualTo("FORCE_END_TURN_NO_ACTIVE_TURN");
         assertThat(errorCount).hasValue(0);
+    }
+
+    @Test
+    @DisplayName("ConfigureSuccess redact_usage reaches the typed handler")
+    void configureSuccessRedactUsageReachesTypedHandler() throws Exception {
+        V2WebSocketClient client = new V2WebSocketClient(ClientOptions.builder().build());
+
+        AtomicReference<ListenV2ConfigureSuccess> configureSuccess = new AtomicReference<>();
+        client.onConfigureSuccess(configureSuccess::set);
+
+        Method handle = V2WebSocketClient.class.getDeclaredMethod("handleIncomingMessage", String.class);
+        handle.setAccessible(true);
+        handle.invoke(
+                client,
+                "{\"type\":\"ConfigureSuccess\",\"request_id\":\"request-123\",\"thresholds\":{},"
+                        + "\"keyterms\":[\"Deepgram\"],\"redact_usage\":true,\"sequence_id\":1}");
+
+        assertThat(configureSuccess.get()).isNotNull();
+        assertThat(configureSuccess.get().getRedactUsage()).isEqualTo(Optional.of(true));
     }
 }

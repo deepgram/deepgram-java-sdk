@@ -98,6 +98,8 @@ public final class ListenV1RequestUrl {
 
     private final Optional<String> redact;
 
+    private final Optional<Boolean> redactUsage;
+
     private final Optional<Boolean> smartFormat;
 
     private final Optional<Boolean> utterances;
@@ -146,6 +148,7 @@ public final class ListenV1RequestUrl {
             Optional<Boolean> profanityFilter,
             Optional<Boolean> punctuate,
             Optional<String> redact,
+            Optional<Boolean> redactUsage,
             Optional<Boolean> smartFormat,
             Optional<Boolean> utterances,
             Optional<Double> uttSplit,
@@ -186,6 +189,7 @@ public final class ListenV1RequestUrl {
         this.profanityFilter = profanityFilter;
         this.punctuate = punctuate;
         this.redact = redact;
+        this.redactUsage = redactUsage;
         this.smartFormat = smartFormat;
         this.utterances = utterances;
         this.uttSplit = uttSplit;
@@ -462,6 +466,14 @@ public final class ListenV1RequestUrl {
     }
 
     /**
+     * @return Replaces the values of user-supplied text parameters (<code>keyterm</code>, <code>keywords</code>, <code>replace</code>, <code>search</code>, <code>extra</code>, <code>custom_topic</code>, and <code>custom_intent</code>) with <code>[REDACTED]</code> in this request's usage records. Does not affect transcription, the response, <code>tag</code>, or <code>callback</code>. Independent of <code>mip_opt_out</code>. https://developers.deepgram.com/docs/redact-usage
+     */
+    @JsonIgnore
+    public Optional<Boolean> getRedactUsage() {
+        return redactUsage;
+    }
+
+    /**
      * @return Apply formatting to transcript output. When set to true, additional formatting will be applied to transcripts to improve readability
      */
     @JsonIgnore
@@ -551,6 +563,7 @@ public final class ListenV1RequestUrl {
                 && profanityFilter.equals(other.profanityFilter)
                 && punctuate.equals(other.punctuate)
                 && redact.equals(other.redact)
+                && redactUsage.equals(other.redactUsage)
                 && smartFormat.equals(other.smartFormat)
                 && utterances.equals(other.utterances)
                 && uttSplit.equals(other.uttSplit)
@@ -595,6 +608,7 @@ public final class ListenV1RequestUrl {
                 this.profanityFilter,
                 this.punctuate,
                 this.redact,
+                this.redactUsage,
                 this.smartFormat,
                 this.utterances,
                 this.uttSplit,
@@ -883,6 +897,13 @@ public final class ListenV1RequestUrl {
         _FinalStage redact(String redact);
 
         /**
+         * <p>Replaces the values of user-supplied text parameters (<code>keyterm</code>, <code>keywords</code>, <code>replace</code>, <code>search</code>, <code>extra</code>, <code>custom_topic</code>, and <code>custom_intent</code>) with <code>[REDACTED]</code> in this request's usage records. Does not affect transcription, the response, <code>tag</code>, or <code>callback</code>. Independent of <code>mip_opt_out</code>. https://developers.deepgram.com/docs/redact-usage</p>
+         */
+        _FinalStage redactUsage(Optional<Boolean> redactUsage);
+
+        _FinalStage redactUsage(Boolean redactUsage);
+
+        /**
          * <p>Apply formatting to transcript output. When set to true, additional formatting will be applied to transcripts to improve readability</p>
          */
         _FinalStage smartFormat(Optional<Boolean> smartFormat);
@@ -931,6 +952,8 @@ public final class ListenV1RequestUrl {
         private Optional<Boolean> utterances = Optional.empty();
 
         private Optional<Boolean> smartFormat = Optional.empty();
+
+        private Optional<Boolean> redactUsage = Optional.empty();
 
         private Optional<String> redact = Optional.empty();
 
@@ -1038,6 +1061,7 @@ public final class ListenV1RequestUrl {
             profanityFilter(other.getProfanityFilter());
             punctuate(other.getPunctuate());
             redact(other.getRedact());
+            redactUsage(other.getRedactUsage());
             smartFormat(other.getSmartFormat());
             utterances(other.getUtterances());
             uttSplit(other.getUttSplit());
@@ -1151,6 +1175,26 @@ public final class ListenV1RequestUrl {
         @JsonSetter(value = "smart_format", nulls = Nulls.SKIP)
         public _FinalStage smartFormat(Optional<Boolean> smartFormat) {
             this.smartFormat = smartFormat;
+            return this;
+        }
+
+        /**
+         * <p>Replaces the values of user-supplied text parameters (<code>keyterm</code>, <code>keywords</code>, <code>replace</code>, <code>search</code>, <code>extra</code>, <code>custom_topic</code>, and <code>custom_intent</code>) with <code>[REDACTED]</code> in this request's usage records. Does not affect transcription, the response, <code>tag</code>, or <code>callback</code>. Independent of <code>mip_opt_out</code>. https://developers.deepgram.com/docs/redact-usage</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage redactUsage(Boolean redactUsage) {
+            this.redactUsage = Optional.ofNullable(redactUsage);
+            return this;
+        }
+
+        /**
+         * <p>Replaces the values of user-supplied text parameters (<code>keyterm</code>, <code>keywords</code>, <code>replace</code>, <code>search</code>, <code>extra</code>, <code>custom_topic</code>, and <code>custom_intent</code>) with <code>[REDACTED]</code> in this request's usage records. Does not affect transcription, the response, <code>tag</code>, or <code>callback</code>. Independent of <code>mip_opt_out</code>. https://developers.deepgram.com/docs/redact-usage</p>
+         */
+        @java.lang.Override
+        @JsonSetter(value = "redact_usage", nulls = Nulls.SKIP)
+        public _FinalStage redactUsage(Optional<Boolean> redactUsage) {
+            this.redactUsage = redactUsage;
             return this;
         }
 
@@ -1908,6 +1952,7 @@ public final class ListenV1RequestUrl {
                     profanityFilter,
                     punctuate,
                     redact,
+                    redactUsage,
                     smartFormat,
                     utterances,
                     uttSplit,

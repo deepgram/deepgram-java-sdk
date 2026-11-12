@@ -76,6 +76,9 @@ src/main/java/com/deepgram/resources/agent/v1/types/AgentV1ConversationText.java
 # default Visitor method for source and binary compatibility with callers compiled before the Deepgram provider existed.
 src/main/java/com/deepgram/types/ThinkSettingsV1Provider.java
 
+# Retains the previous public PhoneLLM constant spelling after Fern removed the underscore before 2.
+src/main/java/com/deepgram/types/DeepgramThinkProviderModel.java
+
 # Restores the FLUX_RENEE_EN constant that generator 4.18.0 dropped. The voice is live:
 # POST /v2/speak?model=flux-renee-en returns 200 with valid audio, and the name resolves in the
 # server's model registry (an invented flux-* name is rejected with INVALID_QUERY_PARAMETER), so the

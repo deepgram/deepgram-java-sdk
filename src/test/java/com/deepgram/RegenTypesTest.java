@@ -51,6 +51,8 @@ import com.deepgram.types.ThinkSettingsV1;
 import com.deepgram.types.ThinkSettingsV1FunctionsItem;
 import com.deepgram.types.ThinkSettingsV1Provider;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -280,7 +282,7 @@ public class RegenTypesTest {
         @DisplayName("PhoneLLM round-trips its supported settings")
         void phoneLlmRoundTrips() throws Exception {
             DeepgramThinkProvider provider = DeepgramThinkProvider.builder()
-                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA2FP8)
                     .version("v1")
                     .temperature(0.4)
                     .reasoningMode(DeepgramThinkProviderReasoningMode.NONE)
@@ -336,6 +338,61 @@ public class RegenTypesTest {
                 String json = MAPPER.writeValueAsString(reasoningMode);
 
                 assertThat(MAPPER.readValue(json, DeepgramThinkProviderReasoningMode.class)).isEqualTo(reasoningMode);
+            }
+        }
+
+        @Test
+        @DisplayName("canonical PhoneLLM constant and deprecated alias share the wire value")
+        void phoneLlmCanonicalConstantAndAliasRoundTrip() throws Exception {
+            DeepgramThinkProviderModel canonical = DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA2FP8;
+            DeepgramThinkProviderModel deprecated = DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8;
+
+            assertThat(canonical).isSameAs(deprecated);
+            assertThat(canonical.getEnumValue())
+                    .isEqualTo(DeepgramThinkProviderModel.Value.PHONELLM_MINI_ALPHA_2_FP8);
+            assertThat(DeepgramThinkProviderModel.valueOf(canonical.toString())).isSameAs(canonical);
+            assertThat(DeepgramThinkProviderModel.valueOf(deprecated.toString())).isSameAs(canonical);
+            assertThat(MAPPER.writeValueAsString(canonical)).isEqualTo("\"phonellm-mini-alpha-2-fp8\"");
+            assertThat(MAPPER.writeValueAsString(deprecated)).isEqualTo("\"phonellm-mini-alpha-2-fp8\"");
+            assertThat(MAPPER.readValue("\"phonellm-mini-alpha-2-fp8\"", DeepgramThinkProviderModel.class))
+                    .isSameAs(canonical);
+        }
+
+        @Test
+        @DisplayName("canonical PhoneLLM constant matches legacy enum switch cases")
+        void phoneLlmMatchesLegacyEnumSwitchCase() {
+            DeepgramThinkProviderModel model = DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA2FP8;
+
+            String result;
+            switch (model.getEnumValue()) {
+                case PHONELLM_MINI_ALPHA_2_FP8:
+                    result = "phonellm";
+                    break;
+                default:
+                    result = "unknown";
+            }
+
+            assertThat(result).isEqualTo("phonellm");
+        }
+    }
+
+    @Nested
+    @DisplayName("DeepgramModel public constants")
+    class DeepgramModelConstants {
+
+        @Test
+        @DisplayName("all public constants parse and JSON round-trip as known values")
+        void publicConstantsRoundTrip() throws Exception {
+            for (Field field : DeepgramModel.class.getFields()) {
+                if (field.getType() != DeepgramModel.class || !Modifier.isStatic(field.getModifiers())) {
+                    continue;
+                }
+                DeepgramModel model = (DeepgramModel) field.get(null);
+
+                assertThat(model.getEnumValue()).as(field.getName()).isNotEqualTo(DeepgramModel.Value.UNKNOWN);
+                assertThat(DeepgramModel.valueOf(model.toString())).as(field.getName()).isEqualTo(model);
+                String json = MAPPER.writeValueAsString(model);
+                assertThat(MAPPER.readValue(json, DeepgramModel.class)).as(field.getName()).isEqualTo(model);
             }
         }
     }
@@ -686,7 +743,7 @@ public class RegenTypesTest {
             };
 
             DeepgramThinkProvider deepgram = DeepgramThinkProvider.builder()
-                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)
+                    .model(DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA2FP8)
                     .build();
 
             assertThat(ThinkSettingsV1Provider.deepgram(deepgram).visit(visitor))

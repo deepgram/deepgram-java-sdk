@@ -81,6 +81,10 @@ public class AsyncRawAudioClient {
                     httpUrl, "expressivity", request.getExpressivity().get(), false);
         }
         QueryStringMapper.addQueryParameter(httpUrl, "model", request.getModel(), false);
+        if (request.getNormalizeVolume().isPresent()) {
+            QueryStringMapper.addQueryParameter(
+                    httpUrl, "normalize_volume", request.getNormalizeVolume().get(), false);
+        }
         if (request.getSampleRate().isPresent()) {
             QueryStringMapper.addQueryParameter(
                     httpUrl, "sample_rate", request.getSampleRate().get(), false);

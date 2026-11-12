@@ -15,6 +15,7 @@ import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2Numerals;
 import com.deepgram.types.ListenV2ProfanityFilter;
 import com.deepgram.types.ListenV2Redact;
+import com.deepgram.types.ListenV2RedactUsage;
 import com.deepgram.types.ListenV2SampleRate;
 import com.deepgram.types.ListenV2Tag;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -56,6 +57,8 @@ public final class V2ConnectOptions {
 
     private final Optional<ListenV2Redact> redact;
 
+    private final Optional<ListenV2RedactUsage> redactUsage;
+
     private final Optional<ListenV2MipOptOut> mipOptOut;
 
     private final Optional<ListenV2Tag> tag;
@@ -74,6 +77,7 @@ public final class V2ConnectOptions {
             Optional<ListenV2ProfanityFilter> profanityFilter,
             Optional<ListenV2Numerals> numerals,
             Optional<ListenV2Redact> redact,
+            Optional<ListenV2RedactUsage> redactUsage,
             Optional<ListenV2MipOptOut> mipOptOut,
             Optional<ListenV2Tag> tag,
             Map<String, Object> additionalProperties) {
@@ -88,6 +92,7 @@ public final class V2ConnectOptions {
         this.profanityFilter = profanityFilter;
         this.numerals = numerals;
         this.redact = redact;
+        this.redactUsage = redactUsage;
         this.mipOptOut = mipOptOut;
         this.tag = tag;
         this.additionalProperties = additionalProperties;
@@ -148,6 +153,11 @@ public final class V2ConnectOptions {
         return redact;
     }
 
+    @JsonProperty("redact_usage")
+    public Optional<ListenV2RedactUsage> getRedactUsage() {
+        return redactUsage;
+    }
+
     @JsonProperty("mip_opt_out")
     public Optional<ListenV2MipOptOut> getMipOptOut() {
         return mipOptOut;
@@ -181,6 +191,7 @@ public final class V2ConnectOptions {
                 && profanityFilter.equals(other.profanityFilter)
                 && numerals.equals(other.numerals)
                 && redact.equals(other.redact)
+                && redactUsage.equals(other.redactUsage)
                 && mipOptOut.equals(other.mipOptOut)
                 && tag.equals(other.tag);
     }
@@ -199,6 +210,7 @@ public final class V2ConnectOptions {
                 this.profanityFilter,
                 this.numerals,
                 this.redact,
+                this.redactUsage,
                 this.mipOptOut,
                 this.tag);
     }
@@ -265,6 +277,10 @@ public final class V2ConnectOptions {
 
         _FinalStage redact(ListenV2Redact redact);
 
+        _FinalStage redactUsage(Optional<ListenV2RedactUsage> redactUsage);
+
+        _FinalStage redactUsage(ListenV2RedactUsage redactUsage);
+
         _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut);
 
         _FinalStage mipOptOut(ListenV2MipOptOut mipOptOut);
@@ -281,6 +297,8 @@ public final class V2ConnectOptions {
         private Optional<ListenV2Tag> tag = Optional.empty();
 
         private Optional<ListenV2MipOptOut> mipOptOut = Optional.empty();
+
+        private Optional<ListenV2RedactUsage> redactUsage = Optional.empty();
 
         private Optional<ListenV2Redact> redact = Optional.empty();
 
@@ -320,6 +338,7 @@ public final class V2ConnectOptions {
             profanityFilter(other.getProfanityFilter());
             numerals(other.getNumerals());
             redact(other.getRedact());
+            redactUsage(other.getRedactUsage());
             mipOptOut(other.getMipOptOut());
             tag(other.getTag());
             return this;
@@ -355,6 +374,19 @@ public final class V2ConnectOptions {
         @JsonSetter(value = "mip_opt_out", nulls = Nulls.SKIP)
         public _FinalStage mipOptOut(Optional<ListenV2MipOptOut> mipOptOut) {
             this.mipOptOut = mipOptOut;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage redactUsage(ListenV2RedactUsage redactUsage) {
+            this.redactUsage = Optional.ofNullable(redactUsage);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "redact_usage", nulls = Nulls.SKIP)
+        public _FinalStage redactUsage(Optional<ListenV2RedactUsage> redactUsage) {
+            this.redactUsage = redactUsage;
             return this;
         }
 
@@ -502,6 +534,7 @@ public final class V2ConnectOptions {
                     profanityFilter,
                     numerals,
                     redact,
+                    redactUsage,
                     mipOptOut,
                     tag,
                     additionalProperties);

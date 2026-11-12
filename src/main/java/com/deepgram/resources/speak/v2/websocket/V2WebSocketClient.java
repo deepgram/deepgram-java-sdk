@@ -139,6 +139,11 @@ public class V2WebSocketClient implements AutoCloseable {
             urlBuilder.addQueryParameter(
                     "expressivity", String.valueOf(options.getExpressivity().get()));
         }
+        if (options.getNormalizeVolume() != null && options.getNormalizeVolume().isPresent()) {
+            urlBuilder.addQueryParameter(
+                    "normalize_volume",
+                    String.valueOf(options.getNormalizeVolume().get()));
+        }
         if (options.getMipOptOut() != null && options.getMipOptOut().isPresent()) {
             urlBuilder.addQueryParameter(
                     "mip_opt_out", String.valueOf(options.getMipOptOut().get()));
