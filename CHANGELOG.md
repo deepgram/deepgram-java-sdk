@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.5](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.4...v0.11.5) (2026-11-12)
+
+
+### Features
+
+* **regen:** add redaction, normalization, and model updates ([#143](https://github.com/deepgram/deepgram-java-sdk/issues/143)) ([71aa65a](https://github.com/deepgram/deepgram-java-sdk/commit/71aa65a9ffa27215d2eba0518d0ab7ec80d28797))
+
 ## [0.11.4](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.3...v0.11.4) (2026-11-04)
 
 
