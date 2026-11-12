@@ -99,7 +99,7 @@ public final class AgentV1UpdateListenListenProvider {
         T _visitUnknown(Object unknownType);
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = _UnknownValue.class)
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "version", visible = true, defaultImpl = V2Value.class)
     @JsonSubTypes({@JsonSubTypes.Type(V1Value.class), @JsonSubTypes.Type(V2Value.class)})
     @JsonIgnoreProperties(ignoreUnknown = true)
     private interface Value {
