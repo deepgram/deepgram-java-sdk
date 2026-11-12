@@ -32,6 +32,7 @@ class SpeakV2BatchTest {
 
     private MockWebServer server;
     private DeepgramClient client;
+    private AsyncDeepgramClient asyncClient;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -40,6 +41,7 @@ class SpeakV2BatchTest {
         String base = server.url("/").toString().replaceAll("/$", "");
         Environment env = Environment.custom().base(base).production(base).agent(base).agentRest(base).build();
         client = DeepgramClient.builder().apiKey("test").environment(env).build();
+        asyncClient = AsyncDeepgramClient.builder().apiKey("test").environment(env).build();
     }
 
     @AfterEach
@@ -102,5 +104,35 @@ class SpeakV2BatchTest {
         // Must NOT be "24000.0" — stem rejects a non-integer with "expected a nonzero u32".
         assertThat(url.queryParameter("sample_rate")).doesNotContain(".");
         assertThat(url.queryParameter("bit_rate")).doesNotContain(".");
+    }
+
+    @Test
+    @DisplayName("sync and async batch generation serialize normalize_volume false")
+    void normalizeVolumeFalse() throws Exception {
+        enqueueAudio();
+        client.speak()
+                .v2()
+                .audio()
+                .generate(SpeakV2Request.builder()
+                        .model("flux-alexis-en")
+                        .text("sync")
+                        .normalizeVolume(false)
+                        .build())
+                .readAllBytes();
+
+        enqueueAudio();
+        asyncClient.speak()
+                .v2()
+                .audio()
+                .generate(SpeakV2Request.builder()
+                        .model("flux-alexis-en")
+                        .text("async")
+                        .normalizeVolume(false)
+                        .build())
+                .get()
+                .readAllBytes();
+
+        assertThat(server.takeRequest().getRequestUrl().queryParameter("normalize_volume")).isEqualTo("false");
+        assertThat(server.takeRequest().getRequestUrl().queryParameter("normalize_volume")).isEqualTo("false");
     }
 }

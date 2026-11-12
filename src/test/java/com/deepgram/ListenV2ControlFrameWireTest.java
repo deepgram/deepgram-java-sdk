@@ -135,6 +135,15 @@ class ListenV2ControlFrameWireTest {
     }
 
     @Test
+    @DisplayName("sendConfigure serializes redact_usage false")
+    void sendConfigureRedactUsageFalseFrame() throws Exception {
+        String frame = connectAndCaptureSentFrame(ws -> ws.sendConfigure(
+                ListenV2Configure.builder().redactUsage(false).build()));
+
+        assertThat(frame).isEqualTo("{\"redact_usage\":false,\"type\":\"Configure\"}");
+    }
+
+    @Test
     @DisplayName("sendConfigure serializes no unconfigured fields")
     void sendConfigureWithoutFieldsFrame() throws Exception {
         String frame = connectAndCaptureSentFrame(ws -> ws.sendConfigure(ListenV2Configure.builder().build()));

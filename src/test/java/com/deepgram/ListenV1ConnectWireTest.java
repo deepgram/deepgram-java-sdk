@@ -11,6 +11,7 @@ import com.deepgram.types.ListenV1Language;
 import com.deepgram.types.ListenV1LanguageHint;
 import com.deepgram.types.ListenV1Model;
 import com.deepgram.types.ListenV1Replace;
+import com.deepgram.types.ListenV1RedactUsage;
 import com.deepgram.types.ListenV1Search;
 import com.deepgram.types.ListenV1Tag;
 import java.util.List;
@@ -174,5 +175,16 @@ class ListenV1ConnectWireTest {
                 .build());
 
         assertThat(url.queryParameterValues("extra")).containsExactly("a:1", "b:2");
+    }
+
+    @Test
+    @DisplayName("redact_usage is sent on the connect URL as its wire value when set")
+    void redactUsagePresentWhenSet() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V1ConnectOptions.builder()
+                .model(ListenV1Model.NOVA3)
+                .redactUsage(ListenV1RedactUsage.FALSE)
+                .build());
+
+        assertThat(url.queryParameterValues("redact_usage")).containsExactly("false");
     }
 }

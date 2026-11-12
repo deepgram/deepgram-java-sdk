@@ -41,18 +41,19 @@ class ListenV1LanguageHintRestWireTest {
     }
 
     @Test
-    void sendsRepeatedHintsForEveryUrlAndFileRequestPath() throws Exception {
+    void sendsLanguageHintsAndRedactUsageForEveryUrlAndFileRequestPath() throws Exception {
         server.enqueue(new MockResponse().setResponseCode(500).setBody("{}"));
         try {
             client.listen().v1().media().transcribeUrl(ListenV1RequestUrl.builder()
                     .url("https://example.com/audio.wav")
                     .model(MediaTranscribeRequestModel.NOVA3)
                     .languageHint(List.of("en", "es"))
+                    .redactUsage(false)
                     .build());
         } catch (RuntimeException ignored) {
             // The response is intentionally an error; this test only captures the outbound URL.
         }
-        assertLanguageHints(server.takeRequest(5, TimeUnit.SECONDS));
+        assertQueryParameters(server.takeRequest(5, TimeUnit.SECONDS));
 
         server.enqueue(new MockResponse().setResponseCode(500).setBody("{}"));
         try {
@@ -60,11 +61,12 @@ class ListenV1LanguageHintRestWireTest {
                     .body(new byte[] {1, 2, 3})
                     .model(MediaTranscribeRequestModel.NOVA3)
                     .languageHint(List.of("en", "es"))
+                    .redactUsage(false)
                     .build());
         } catch (RuntimeException ignored) {
             // The response is intentionally an error; this test only captures the outbound URL.
         }
-        assertLanguageHints(server.takeRequest(5, TimeUnit.SECONDS));
+        assertQueryParameters(server.takeRequest(5, TimeUnit.SECONDS));
 
         server.enqueue(new MockResponse().setResponseCode(500).setBody("{}"));
         try {
@@ -72,12 +74,13 @@ class ListenV1LanguageHintRestWireTest {
                             .url("https://example.com/audio.wav")
                             .model(MediaTranscribeRequestModel.NOVA3)
                             .languageHint(List.of("en", "es"))
+                            .redactUsage(false)
                             .build())
                     .get(5, TimeUnit.SECONDS);
         } catch (Exception ignored) {
             // The response is intentionally an error; this test only captures the outbound URL.
         }
-        assertLanguageHints(server.takeRequest(5, TimeUnit.SECONDS));
+        assertQueryParameters(server.takeRequest(5, TimeUnit.SECONDS));
 
         server.enqueue(new MockResponse().setResponseCode(500).setBody("{}"));
         try {
@@ -85,16 +88,18 @@ class ListenV1LanguageHintRestWireTest {
                             .body(new byte[] {1, 2, 3})
                             .model(MediaTranscribeRequestModel.NOVA3)
                             .languageHint(List.of("en", "es"))
+                            .redactUsage(false)
                             .build())
                     .get(5, TimeUnit.SECONDS);
         } catch (Exception ignored) {
             // The response is intentionally an error; this test only captures the outbound URL.
         }
-        assertLanguageHints(server.takeRequest(5, TimeUnit.SECONDS));
+        assertQueryParameters(server.takeRequest(5, TimeUnit.SECONDS));
     }
 
-    private void assertLanguageHints(RecordedRequest request) {
+    private void assertQueryParameters(RecordedRequest request) {
         assertThat(request).isNotNull();
         assertThat(request.getRequestUrl().queryParameterValues("language_hint")).containsExactly("en", "es");
+        assertThat(request.getRequestUrl().queryParameterValues("redact_usage")).containsExactly("false");
     }
 }

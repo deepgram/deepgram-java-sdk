@@ -9,6 +9,7 @@ import com.deepgram.types.ListenV2LanguageHint;
 import com.deepgram.types.ListenV2Model;
 import com.deepgram.types.ListenV2Numerals;
 import com.deepgram.types.ListenV2Redact;
+import com.deepgram.types.ListenV2RedactUsage;
 import com.deepgram.types.ListenV2Tag;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -171,5 +172,16 @@ class ListenV2ConnectWireTest {
                 V2ConnectOptions.builder().model(ListenV2Model.FLUX_GENERAL_EN).build());
 
         assertThat(url.queryParameterNames()).doesNotContain("redact");
+    }
+
+    @Test
+    @DisplayName("redact_usage is sent on the connect URL as its wire value when set")
+    void redactUsagePresentWhenSet() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model(ListenV2Model.FLUX_GENERAL_EN)
+                .redactUsage(ListenV2RedactUsage.FALSE)
+                .build());
+
+        assertThat(url.queryParameterValues("redact_usage")).containsExactly("false");
     }
 }

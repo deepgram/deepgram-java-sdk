@@ -8,6 +8,7 @@ import com.deepgram.resources.speak.v2.types.SpeakV2Interrupt;
 import com.deepgram.resources.speak.v2.types.SpeakV2InterruptPlaybackOffset;
 import com.deepgram.resources.speak.v2.websocket.V2ConnectOptions;
 import com.deepgram.resources.speak.v2.websocket.V2WebSocketClient;
+import com.deepgram.types.SpeakV2NormalizeVolume;
 import com.deepgram.types.SpeakV2Tag;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -116,12 +117,23 @@ class SpeakV2ConnectWireTest {
     }
 
     @Test
-    @DisplayName("speed/expressivity are omitted from the connect URL when not set")
-    void speedExpressivityOmittedWhenAbsent() throws Exception {
+    @DisplayName("speed, expressivity, and normalize_volume are omitted from the connect URL when not set")
+    void optionalParametersOmittedWhenAbsent() throws Exception {
         HttpUrl url = connectAndCaptureUrl(
                 V2ConnectOptions.builder().model("flux-alexis-en").build());
 
-        assertThat(url.queryParameterNames()).doesNotContain("speed", "expressivity");
+        assertThat(url.queryParameterNames()).doesNotContain("speed", "expressivity", "normalize_volume");
+    }
+
+    @Test
+    @DisplayName("normalize_volume is sent on the connect URL as its wire value when set")
+    void normalizeVolumePresentWhenSet() throws Exception {
+        HttpUrl url = connectAndCaptureUrl(V2ConnectOptions.builder()
+                .model("flux-alexis-en")
+                .normalizeVolume(SpeakV2NormalizeVolume.FALSE)
+                .build());
+
+        assertThat(url.queryParameter("normalize_volume")).isEqualTo("false");
     }
 
     /** Connects, keeps the socket open, runs {@code action}, and returns the first frame the server received. */

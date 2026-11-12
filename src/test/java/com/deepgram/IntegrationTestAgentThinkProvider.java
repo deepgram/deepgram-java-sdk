@@ -46,7 +46,7 @@ class IntegrationTestAgentThinkProvider {
                 DeepgramThinkProviderReasoningMode.MEDIUM,
                 DeepgramThinkProviderReasoningMode.HIGH);
         for (DeepgramThinkProviderModel model : List.of(
-                DeepgramThinkProviderModel.THINK_FAST, DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8)) {
+                DeepgramThinkProviderModel.THINK_FAST, DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA2FP8)) {
             for (DeepgramThinkProviderReasoningMode reasoningMode : reasoningModes) {
                 assertSettingsApplied(model, reasoningMode, model.equals(DeepgramThinkProviderModel.THINK_FAST));
             }
