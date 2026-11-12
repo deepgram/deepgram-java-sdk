@@ -348,12 +348,31 @@ public class RegenTypesTest {
             DeepgramThinkProviderModel deprecated = DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA_2_FP8;
 
             assertThat(canonical).isSameAs(deprecated);
+            assertThat(canonical.getEnumValue())
+                    .isEqualTo(DeepgramThinkProviderModel.Value.PHONELLM_MINI_ALPHA_2_FP8);
             assertThat(DeepgramThinkProviderModel.valueOf(canonical.toString())).isSameAs(canonical);
             assertThat(DeepgramThinkProviderModel.valueOf(deprecated.toString())).isSameAs(canonical);
             assertThat(MAPPER.writeValueAsString(canonical)).isEqualTo("\"phonellm-mini-alpha-2-fp8\"");
             assertThat(MAPPER.writeValueAsString(deprecated)).isEqualTo("\"phonellm-mini-alpha-2-fp8\"");
             assertThat(MAPPER.readValue("\"phonellm-mini-alpha-2-fp8\"", DeepgramThinkProviderModel.class))
                     .isSameAs(canonical);
+        }
+
+        @Test
+        @DisplayName("canonical PhoneLLM constant matches legacy enum switch cases")
+        void phoneLlmMatchesLegacyEnumSwitchCase() {
+            DeepgramThinkProviderModel model = DeepgramThinkProviderModel.PHONELLM_MINI_ALPHA2FP8;
+
+            String result;
+            switch (model.getEnumValue()) {
+                case PHONELLM_MINI_ALPHA_2_FP8:
+                    result = "phonellm";
+                    break;
+                default:
+                    result = "unknown";
+            }
+
+            assertThat(result).isEqualTo("phonellm");
         }
     }
 
