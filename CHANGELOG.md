@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.5](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.4...v0.11.5) (2026-11-12)
+
+
+### Features
+
+* **Listen / Speak:** add `redact_usage` to Listen V1 REST and WebSocket requests and Listen V2 connection and Configure messages, and add `normalize_volume` to Speak V2 REST and WebSocket requests. This release also expands the Deepgram model catalog and adds the canonical Think-provider PhoneLLM constant, `PHONELLM_MINI_ALPHA2FP8`; the prior `PHONELLM_MINI_ALPHA_2_FP8` name remains available for compatibility. ([#143](https://github.com/deepgram/deepgram-java-sdk/issues/143)) ([71aa65a](https://github.com/deepgram/deepgram-java-sdk/commit/71aa65a9ffa27215d2eba0518d0ab7ec80d28797))
+
 ## [0.11.4](https://github.com/deepgram/deepgram-java-sdk/compare/v0.11.3...v0.11.4) (2026-11-04)
 
 
